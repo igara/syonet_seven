@@ -1,0 +1,16 @@
+.sidebar_wrap_div {
+	background: rgba(45,45,45, 0.5);
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+}
+
+.sidebar_link_wrap_div {
+	background: #ddff00;
+	opacity: 1.0;
+	height: 100vh;
+	width: 10vw;
+	z-index: 1000;
+}

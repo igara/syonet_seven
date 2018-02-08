@@ -1,0 +1,64 @@
+version: '2'
+
+services:
+  www:
+    build:
+      context: ./nodejs/www
+      dockerfile: www.Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./nodejs/www:/www
+    environment:
+      WWW_ENV: ${WWW_ENV}
+      DB_DOMAIN: ${DB_DOMAIN}
+    links:
+      - mongodb:${DB_DOMAIN}
+    networks:
+      - frontend
+      - backend
+
+  mongodb:
+    image: mongo:3.7.1
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - frontend
+      - backend
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - www:www
+    restart: always
+    environment:
+      DOMAINS: '${WWW_DOMAIN} -> http://www:3000'
+      STAGE: '${WWW_ENV}'
+      RESOLVER: '127.0.0.11 ipv6=off valid=60s'
+      DYNAMIC_UPSTREAM: 'true'
+      WEBSOCKET: 'true'
+      CLIENT_MAX_BODY_SIZE: 0
+    volumes:
+      - /data/ssl_certs:/var/lib/https-portal
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    driver: 'bridge'
+  backend:
+    driver: 'bridge'
+
+volumes:
+  mongodb-data: {}

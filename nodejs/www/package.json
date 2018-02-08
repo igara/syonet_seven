@@ -1,0 +1,36 @@
+{
+	"name": "www",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"start": "pm2 --no-daemon start ./bin/www.js",
+		"stop": "pm2 stop www",
+		"pm2": "pm2",
+		"build": "parcel build mithril/syonet/index.html -d dist/syonet",
+		"lint": "eslint ./*",
+		"local_sev_start": "pm2 --no-daemon start ./bin/www.js --watch",
+		"local_front_start": "parcel mithril/syonet/index.html -d local/syonet"
+	},
+	"dependencies": {
+		"body-parser": "~1.18.2",
+		"cookie-parser": "~1.4.3",
+		"debug": "~2.6.9",
+		"express": "~4.15.5",
+		"mithril": "^1.1.6",
+		"morgan": "~1.9.0",
+		"pm2": "^2.9.3",
+		"postcss-modules": "^1.1.0",
+		"serve-favicon": "~2.4.5"
+	},
+	"devDependencies": {
+		"@types/mithril": "^1.1.12",
+		"autoprefixer": "^7.2.5",
+		"babel-eslint": "^8.2.1",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-stage-0": "^6.24.1",
+		"eslint": "^4.16.0",
+		"node-sass": "^4.7.2",
+		"parcel-bundler": "^1.5.1"
+	}
+}
