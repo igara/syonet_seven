@@ -6,10 +6,10 @@
 		"start": "pm2 --no-daemon start ./bin/www.js",
 		"stop": "pm2 stop www",
 		"pm2": "pm2",
-		"build": "parcel build mithril/syonet/index.html -d dist/syonet",
+		"build": "parcel build mithril/syonet/index.html -d dist/prod/syonet",
 		"lint": "eslint ./*",
 		"local_sev_start": "pm2 --no-daemon start ./bin/www.js --watch",
-		"local_front_start": "parcel mithril/syonet/index.html -d local/syonet"
+		"local_front_start": "parcel mithril/syonet/index.html -d dist/local/syonet"
 	},
 	"dependencies": {
 		"body-parser": "~1.18.2",

@@ -10,8 +10,8 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
-const syonetStaticDir = path.join(__dirname, 'dist/syonet')
-const staticDir = path.join(__dirname, 'dist')
+const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
+const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
 app.use((req, res, next) => {
