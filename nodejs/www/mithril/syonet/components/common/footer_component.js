@@ -10,12 +10,12 @@ export default class FooterComponent {
 	/**
 	 * @type {SidebarStore} SidebarStore
 	 */
-	SidebarStore;
+	SidebarStore
 
 	/**
 	 * @type {FooterAction} FooterAction
 	 */
-	FooterAction;
+	FooterAction
 
 	/**
 	 * @constructor

@@ -10,12 +10,12 @@ export default class SidebarComponent {
 	/**
 	 * @type {SidebarStore} SidebarStore
 	 */
-	SidebarStore;
+	SidebarStore
 
 	/**
 	 * @type {SidebarAction} SidebarAction
 	 */
-	SidebarAction;
+	SidebarAction
 
 	/**
 	 * @constructor

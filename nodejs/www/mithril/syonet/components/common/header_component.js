@@ -9,7 +9,7 @@ export default class HeaderComponent {
 	/**
 	 * @type {HeaderStore} HeaderStore
 	 */
-	HeaderStore;
+	HeaderStore
 
 	/**
 	 * @constructor

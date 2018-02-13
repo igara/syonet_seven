@@ -1,14 +1,19 @@
-import {m} from '../../vendor'
+import {m} from '../vendor'
 
 /**
- * ファイルのアップロード
+ * Routing URL: //login/
  */
-export default class InputFileComponent {
+export default class LoginComponent {
 
 	/**
 	 * @type {HeaderStore} HeaderStore
 	 */
-	HeaderStore;
+	HeaderStore
+
+	/**
+	 * @type {SidebarStore} SidebarStore
+	 */
+	SidebarStore
 
 	/**
 	 * @constructor
@@ -16,6 +21,7 @@ export default class InputFileComponent {
 	 */
 	constructor(vnode) {
 		this.HeaderStore = vnode.attrs.HeaderStore
+		this.SidebarStore = vnode.attrs.SidebarStore
 	}
 
 	/**
@@ -31,9 +37,7 @@ export default class InputFileComponent {
 	view() {
 		return (
 			<div>
-				<a href="/analyzeimage" oncreate={m.route.link}>sub</a>
-				{this.HeaderStore.s_stream}
-				<input type="file" name="datafile" />
+				ログイン画面です
 			</div>
 		)
 	}

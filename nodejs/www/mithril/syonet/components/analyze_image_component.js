@@ -1,5 +1,4 @@
 import {m} from '../vendor'
-import HeaderComponent from './common/header_component'
 
 /**
  * Routing URL: //analyzeimage/
@@ -9,14 +8,20 @@ export default class AnalyzeImageComponent {
 	/**
 	 * @type {HeaderStore} HeaderStore
 	 */
-	HeaderStore;
+	HeaderStore
+
+	/**
+	 * @type {SidebarStore} SidebarStore
+	 */
+	SidebarStore
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	constructor(vnode) {
-		this.HeaderStore = vnode.HeaderStore
+		this.HeaderStore = vnode.attrs.HeaderStore
+		this.SidebarStore = vnode.attrs.SidebarStore
 	}
 
 	/**
@@ -24,8 +29,6 @@ export default class AnalyzeImageComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	oninit(vnode) {
-		this.HeaderStore.header_title_stream('AnalyzeImage')
-		this.HeaderStore.s_stream('sasa')
 	}
 
 	/**
@@ -34,11 +37,7 @@ export default class AnalyzeImageComponent {
 	view() {
 		return (
 			<div>
-				<HeaderComponent
-					HeaderStore={this.HeaderStore}
-				/>
 				<a href="/" oncreate={m.route.link}>index</a>
-				{this.HeaderStore.s_stream}
 			</div>
 		)
 	}
