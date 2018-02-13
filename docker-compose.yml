@@ -13,7 +13,7 @@ services:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
     links:
-      - mongodb:${DB_DOMAIN}
+      - mongodb
     networks:
       - frontend
       - backend

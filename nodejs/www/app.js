@@ -5,9 +5,6 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
-// const index = require('./routes/index')
-// const users = require('./routes/users')
-
 const app = express()
 
 const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
@@ -46,8 +43,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(staticDir))
 
-// app.use('/', index);
-// app.use('/users', users);
+// API
+const userApi = require('./routes/api/user')
+app.use('/api/user', userApi)
 
 // send all requests to index.html so browserHistory in React Router works
 app.get('*', (req, res) => {

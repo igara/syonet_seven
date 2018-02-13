@@ -17,9 +17,11 @@
 		"debug": "~2.6.9",
 		"express": "~4.15.5",
 		"mithril": "^1.1.6",
+		"mongoose": "^5.0.4",
 		"morgan": "~1.9.0",
+		"passport": "^0.4.0",
+		"passport-google-oauth": "^1.0.0",
 		"pm2": "^2.9.3",
-		"postcss-modules": "^1.1.0",
 		"serve-favicon": "~2.4.5"
 	},
 	"devDependencies": {
@@ -31,6 +33,7 @@
 		"babel-preset-stage-0": "^6.24.1",
 		"eslint": "^4.16.0",
 		"node-sass": "^4.7.2",
-		"parcel-bundler": "^1.5.1"
+		"parcel-bundler": "^1.5.1",
+		"postcss-modules": "^1.1.0"
 	}
 }
