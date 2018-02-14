@@ -1,3 +1,16 @@
+.sidebar_exit {
+	animation: sidebar_exit_slider 1s;
+}
+
+@keyframes sidebar_exit_slider {
+	0% {
+		transform: translateY(0vh);
+	}
+	100% {
+		transform: translateY(100vh);
+	}
+}
+
 .sidebar_wrap_div {
 	background: rgba(45, 45, 45, 0.5);
 	height: 100vh;

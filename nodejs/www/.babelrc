@@ -6,7 +6,8 @@
 	"plugins": [
 		["transform-react-jsx", {
 			"pragma": "m"
-		}]
+		}],
+		["babel-plugin-transform-runtime"]
 	]
 }
  
