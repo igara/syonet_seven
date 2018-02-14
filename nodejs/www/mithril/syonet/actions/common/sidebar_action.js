@@ -1,3 +1,5 @@
+import time from '../../../../libs/time'
+
 /**
  * サイドバーのアクション
  */
@@ -20,5 +22,16 @@ export default class SidebarAction {
 	 */
 	onClickClose() {
 		this.SidebarStore.sidebar_disp_flag(false)
+	}
+
+	/**
+	 * ログインを押下したときの処理
+	 * @param {Mithril} m
+	 */
+	async onClickLogin(m) {
+		const pathname = '/login'
+		this.SidebarStore.sidebar_disp_flag(false)
+		await time.sleep(1000)
+		m.route.set(pathname)
 	}
 }

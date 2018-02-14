@@ -45,9 +45,8 @@ export default class SidebarComponent {
 				<div class={sidebar_style.sidebar_wrap_div} />
 				<div class={sidebar_style.sidebar_link_wrap_div}>
 					<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
-					<a href="/login"
-						oncreate={m.route.link}
-						onclick={() => this.SidebarAction.onClickClose()}
+					<a
+						onclick={() => this.SidebarAction.onClickLogin(m)}
 					>
 						ログイン
 					</a>
