@@ -45,7 +45,7 @@ export default class WrapperComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	oninit(vnode) {
-		this.HeaderStore.header_title_stream(this.header_title)
+		this.HeaderStore.header_title(this.header_title)
 	}
 
 	/**
@@ -57,7 +57,7 @@ export default class WrapperComponent {
 				<HeaderComponent
 					HeaderStore={this.HeaderStore}
 				/>
-				{this.SidebarStore.sidebar_disp_flag_stream() ?
+				{this.SidebarStore.sidebar_disp_flag() ?
 					<SidebarComponent
 						SidebarStore={this.SidebarStore}
 					/> :

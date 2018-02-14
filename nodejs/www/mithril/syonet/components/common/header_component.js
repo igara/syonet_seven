@@ -25,7 +25,7 @@ export default class HeaderComponent {
 	view() {
 		return (
 			<div class={header_style.header_wrap_div}>
-				{this.HeaderStore.header_title_stream}
+				{this.HeaderStore.header_title}
 			</div>
 		)
 	}

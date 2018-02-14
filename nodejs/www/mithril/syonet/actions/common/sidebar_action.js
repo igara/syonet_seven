@@ -19,6 +19,6 @@ export default class SidebarAction {
 	 * 閉じるを押下したときの処理
 	 */
 	onClickClose() {
-		this.SidebarStore.sidebar_disp_flag_stream(false)
+		this.SidebarStore.sidebar_disp_flag(false)
 	}
 }
