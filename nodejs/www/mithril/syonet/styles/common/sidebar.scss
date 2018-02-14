@@ -1,16 +1,81 @@
 .sidebar_wrap_div {
-	background: rgba(45,45,45, 0.5);
+	background: rgba(45, 45, 45, 0.5);
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
 	top: 0;
-	z-index: 999;
+	animation: sidebar_wrap_div_slider 1s;
+}
+
+@keyframes sidebar_wrap_div_slider {
+	0% {
+		transform: translateX(100vw);
+	}
+	100% {
+		transform: translateX(0vw);
+	}
 }
 
 .sidebar_link_wrap_div {
-	background: #ddff00;
+	background: #ebffe7;
+	position: fixed;
 	opacity: 1.0;
+	top: 0;
 	height: 100vh;
-	width: 10vw;
+	width: 40vw;
 	z-index: 1000;
+	animation: sidebar_link_wrap_div_slider 1s;
+}
+
+@keyframes sidebar_link_wrap_div_slider {
+	0% {
+		transform: translateX(-40vw);
+	}
+	100% {
+		transform: translateX(0vw);
+	}
+}
+
+.sidebar_close_button {
+	background: rgb(0, 0, 0);
+	border-radius: 50%;
+	z-index: 1000;
+	position: fixed;
+	top: 0;
+	right: 1;
+	width: 10vw;
+	height: 10vw;
+	max-width: 80px;
+	max-height: 80px;
+	border: none;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	transition: background-color 1s;
+}
+
+.sidebar_close_button:hover {
+	background: rgb(255, 255, 255);
+}
+
+.sidebar_close_button:hover > .sidebar_close {
+	background: rgb(0, 0, 0);
+}
+
+.sidebar_close {
+	width: 10vw;
+	height: 10px;
+	max-width: 80px;
+	background-color: rgb(255, 255, 255);
+	transform: rotate(45deg);
+	transition: background-color 1s;
+}
+
+.sidebar_close::after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: inherit;
+	transform: rotate(90deg);
 }

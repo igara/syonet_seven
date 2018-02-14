@@ -31,10 +31,16 @@ export default class SidebarComponent {
 	 */
 	view() {
 		return (
-			<div class={sidebar_style.sidebar_wrap_div}>
+			<div>
+				<div class={sidebar_style.sidebar_wrap_div} />
 				<div class={sidebar_style.sidebar_link_wrap_div}>
-					<a onclick={() => this.SidebarAction.onClickClose()}>aaaa</a>
+					<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
 				</div>
+				<button
+					class={sidebar_style.sidebar_close_button}
+					onclick={() => this.SidebarAction.onClickClose()}>
+					<div class={sidebar_style.sidebar_close} />
+				</button>
 			</div>
 		)
 	}
