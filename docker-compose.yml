@@ -12,6 +12,9 @@ services:
     environment:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK: ${GOOGLE_CALLBACK}
     links:
       - mongodb
     networks:
@@ -31,7 +34,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
-      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
 
   https-portal:
     image: steveltn/https-portal:1

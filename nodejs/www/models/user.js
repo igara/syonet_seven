@@ -1,7 +1,7 @@
 const mongo = require('./index')
 
 const UserSchema = mongo.Schema({
-	name: String,
+	auth: mongo.Schema.Types.Mixed,
 })
 
 const User = mongo.model('User', UserSchema)

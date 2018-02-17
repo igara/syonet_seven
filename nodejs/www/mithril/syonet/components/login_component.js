@@ -39,6 +39,7 @@ export default class LoginComponent {
 		return (
 			<div>
 				ログイン画面です
+				<button>facebook</button>
 			</div>
 		)
 	}

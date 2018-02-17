@@ -4,6 +4,7 @@ const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const passport = require('passport')
 
 const app = express()
 
@@ -46,6 +47,11 @@ app.use(express.static(staticDir))
 // API
 const userApi = require('./routes/api/user')
 app.use('/api/user', userApi)
+
+// Auth
+app.use(passport.initialize())
+const authGoogle = require('./routes/auth/google')
+app.use('/auth/google', authGoogle)
 
 // send all requests to index.html so browserHistory in React Router works
 app.get('*', (req, res) => {
