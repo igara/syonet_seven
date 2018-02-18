@@ -10,18 +10,18 @@ passport.use(new GoogleStrategy({
 	callbackURL: process.env.GOOGLE_CALLBACK,
 	accessType: 'offline',
 }, (accessToken, refreshToken, profile, done) => {
-	// console.log(profile)
 	done(null, profile)
 }))
 
 passport.serializeUser(async(user, done) => {
-	const userModel = new User()	
-	userModel.auth = user
-	await userModel.save()
+	await User.update(
+		{'auth.id': user.id, 'auth.provider': user.provider},
+		{$set: {auth: user}},
+		{upsert: true}
+	)
 	done(null, user)
 })
 passport.deserializeUser((obj, done) => {
-	console.log(obj)
 	done(null, obj)
 })
 
