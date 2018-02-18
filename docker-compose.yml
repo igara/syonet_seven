@@ -9,12 +9,14 @@ services:
       - 3000:3000
     volumes:
       - ./nodejs/www:/www
+      - /etc/localtime:/etc/localtime:ro
     environment:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       GOOGLE_CALLBACK: ${GOOGLE_CALLBACK}
+      TZ: Asia/Tokyo
     links:
       - mongodb
     networks:
@@ -28,12 +30,14 @@ services:
     command: mongod --smallfiles
     volumes:
       - mongodb-data:/data/db
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - frontend
       - backend
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
+      TZ: Asia/Tokyo
 
   https-portal:
     image: steveltn/https-portal:1
@@ -50,8 +54,10 @@ services:
       DYNAMIC_UPSTREAM: 'true'
       WEBSOCKET: 'true'
       CLIENT_MAX_BODY_SIZE: 0
+      TZ: Asia/Tokyo
     volumes:
       - /data/ssl_certs:/var/lib/https-portal
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - frontend
       - backend
