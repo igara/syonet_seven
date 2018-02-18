@@ -12,7 +12,7 @@ router.post('/check', async(req, res, next) => {
 		const bodyData = req.body
 		const token = bodyData.token ? bodyData.token : ''
 		const user = await User.find({token})
-		if (user) {
+		if (user.length === 1) {
 			res.status(200)
 			res.send({
 				status: 200,

@@ -3,6 +3,7 @@ import WrapperComponent from '../components/common/wrapper_component'
 import IndexComponent from '../components/index_component'
 import AnalyzeImageComponent from '../components/analyze_image_component'
 import LoginComponent from '../components/login_component'
+import LoginCheckComponent from '../components/login_check_component'
 
 // Stores
 import HeaderStore from '../stores/common/header_store'
@@ -26,6 +27,12 @@ const routes = {
 		SidebarStore,
 		ChildComponent: LoginComponent,
 		header_title: 'Login',
+	}),
+	'/login/check/:token': new WrapperComponent({
+		HeaderStore,
+		SidebarStore,
+		ChildComponent: LoginCheckComponent,
+		header_title: 'LoginCheck',
 	}),
 }
 
