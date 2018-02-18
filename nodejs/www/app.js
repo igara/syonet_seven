@@ -45,6 +45,8 @@ app.use(cookieParser())
 app.use(express.static(staticDir))
 
 // API
+const authApi = require('./routes/api/auth')
+app.use('/api/auth', authApi)
 const userApi = require('./routes/api/user')
 app.use('/api/user', userApi)
 

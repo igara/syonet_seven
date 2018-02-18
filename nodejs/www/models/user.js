@@ -1,11 +1,18 @@
 const mongo = require('./index')
 const token = require('../libs/token')
+const datetime = require('../libs/datetime')
 
 const UserSchema = mongo.Schema({
 	auth: mongo.Schema.Types.Mixed,
 	token: String,
+	date: Date,
 })
 
+/**
+ * 認証したユーザの情報を更新もしくは新規作成する
+ * @param {{}} user
+ * @return {String} tokenValue
+ */
 UserSchema.methods.upsertByAuthUser = async(user) => {
 	await User.update(
 		{'auth.id': user.id, 'auth.provider': user.provider},
@@ -16,6 +23,7 @@ UserSchema.methods.upsertByAuthUser = async(user) => {
 		'auth.id': user.id,
 		'auth.provider': user.provider,
 	}).exec()
+	const tokenValue = token.getUserToken(findResult._id)
 	await User.update(
 		{
 			'auth.id': user.id,
@@ -23,10 +31,12 @@ UserSchema.methods.upsertByAuthUser = async(user) => {
 		},
 		{$set: {
 			auth: user,
-			token: token.getUserToken(findResult._id),
+			token: tokenValue,
+			date: datetime.getMultiFormatDateTime(),
 		}},
 		{upsert: true}
 	)
+	return tokenValue
 }
 
 const User = mongo.model('User', UserSchema)

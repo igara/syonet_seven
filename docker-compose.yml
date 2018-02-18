@@ -9,7 +9,6 @@ services:
       - 3000:3000
     volumes:
       - ./nodejs/www:/www
-      - /etc/localtime:/etc/localtime:ro
     environment:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
@@ -30,7 +29,6 @@ services:
     command: mongod --smallfiles
     volumes:
       - mongodb-data:/data/db
-      - /etc/localtime:/etc/localtime:ro
     networks:
       - frontend
       - backend
@@ -57,7 +55,6 @@ services:
       TZ: Asia/Tokyo
     volumes:
       - /data/ssl_certs:/var/lib/https-portal
-      - /etc/localtime:/etc/localtime:ro
     networks:
       - frontend
       - backend

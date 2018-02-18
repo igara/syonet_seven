@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const passport = require('passport')
+const datetime = require('../../libs/datetime')
 const User = require('../../models/user')
 
 /**
@@ -19,9 +20,7 @@ passport.use(new GoogleStrategy({
 /**
  * Googleの認証に成功した時ユーザの情報を保存する
  */
-passport.serializeUser(async(user, done) => {
-	const userModel = new User()
-	await userModel.upsertByAuthUser(user)
+passport.serializeUser((user, done) => {
 	done(null, user)
 })
 passport.deserializeUser((obj, done) => {
@@ -40,7 +39,9 @@ router.get('/', passport.authenticate('google', {
  * 認証完了画面
  */
 router.get('/callback', passport.authenticate('google'), async(req, res, next) => {
-	res.send('1111')
+	const userModel = new User()
+	const token = await userModel.upsertByAuthUser(req.user)
+	res.redirect(`/login/check/${token}`)
 })
 
 module.exports = router
