@@ -1,7 +1,7 @@
 import {m} from '../../vendor'
 import sidebar_style from '../../styles/common/sidebar.scss'
 import SidebarAction from '../../actions/common/sidebar_action'
-import time from '../../../../libs/time'
+import sleep from '../../../../libs/sleep'
 
 /**
  * サイドバーを表示するコンポーネント
@@ -33,7 +33,7 @@ export default class SidebarComponent {
 	 */
 	async onbeforeremove(vnode) {
 		vnode.dom.classList.add(sidebar_style.sidebar_exit)
-		return await time.sleep(1000)
+		return await sleep(1000)
 	}
 
 	/**

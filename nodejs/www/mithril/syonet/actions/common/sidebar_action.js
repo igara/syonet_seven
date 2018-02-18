@@ -1,4 +1,4 @@
-import time from '../../../../libs/time'
+import sleep from '../../../../libs/sleep'
 
 /**
  * サイドバーのアクション
@@ -31,7 +31,7 @@ export default class SidebarAction {
 	async onClickLogin(m) {
 		const pathname = '/login'
 		this.SidebarStore.sidebar_disp_flag(false)
-		await time.sleep(1000)
+		await sleep(1000)
 		m.route.set(pathname)
 	}
 }

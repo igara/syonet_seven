@@ -39,7 +39,7 @@ export default class LoginComponent {
 		return (
 			<div>
 				ログイン画面です
-				<button>facebook</button>
+				<a href="http://127.0.0.1:3000/auth/google">Google</a>
 			</div>
 		)
 	}
