@@ -13,10 +13,13 @@ router.post('/check', async(req, res) => {
 		const token = headers.token ? headers.token : ''
 		const user = await User.find({token})
 		if (user.length === 1) {
+			const userModel = new User()
+			const userInfo = userModel.getUserInfo(user[0])
 			res.status(200)
 			res.send({
 				status: 200,
 				message: 'OK',
+				user: userInfo,
 			})
 		} else {
 			res.status(405)
@@ -35,7 +38,7 @@ router.post('/check', async(req, res) => {
 })
 
 /**
- * tokenの値をリクエストし認証の確認をする
+ * tokenの削除を行う
  * @param {Request} req
  * @param {Response} res
  */

@@ -46,6 +46,7 @@ export default class SidebarAction {
 		const pathname = '/'
 		this.Stores.SidebarStore.sidebar_disp_flag(false)
 		this.Stores.LoginStore.token('')
+		this.Stores.LoginStore.user('')
 		Cookies.remove('auth_token')
 		await sleep(1000)
 		m.route.set(pathname)

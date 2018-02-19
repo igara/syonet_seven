@@ -34,6 +34,7 @@ export default class LoginCheckAction {
 		const json = await FetchLogin.callLoginCheck(this.LoginStore.token())
 		this.LoginStore.status(json.status)
 		if (json.status === 200) {
+			this.LoginStore.user(json.user)
 			Token.setTokenCookie(this.LoginStore.token())
 		}
 	}

@@ -10,7 +10,13 @@ const status = stream('')
  */
 const token = stream('')
 
+/**
+ * ログインユーザ情報
+ */
+const user = stream('')
+
 export default {
 	status,
 	token,
+	user,
 }

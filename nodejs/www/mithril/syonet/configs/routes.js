@@ -31,6 +31,7 @@ if (!location.pathname.match(/^\/login\/check\//)) {
 			if (json.status === 200) {
 				Token.setTokenCookie(token)
 				LoginStore.token(token)
+				LoginStore.user(json.user)
 			} else {
 				Cookies.remove('auth_token')
 				location.href = '/login'
