@@ -1,7 +1,7 @@
 import {m} from './mithril'
 import routes from './configs/routes'
 
-window.onload = () => {
+window.onload = async() => {
 	m.route.prefix('')
-	m.route(document.body, '/', routes)
+	m.route(document.body, '/', await routes())
 }

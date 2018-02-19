@@ -26,6 +26,10 @@ export default class HeaderComponent {
 		return (
 			<div class={header_style.header_wrap_div}>
 				{this.Stores.HeaderStore.header_title}
+				{this.Stores.LoginStore.user().image ?
+					<img src={this.Stores.LoginStore.user().image} /> :
+					null
+				}
 			</div>
 		)
 	}
