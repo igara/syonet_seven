@@ -1,3 +1,5 @@
+import Cookies from '../js_cookie'
+
 // Components
 import WrapperComponent from '../components/common/wrapper_component'
 import IndexComponent from '../components/index_component'
@@ -21,14 +23,20 @@ import FetchLogin from '../fetchs/login'
 if (!location.pathname.match(/^\/login\/check\//)) {
 	// ログインチェック
 	const token = Token.getTokenCookie()
-	const loginCheck = async() => {
-		const json = await FetchLogin.callLoginCheck(token)
-		LoginStore.status(json.status)
-		if (json.status === 200) {
-			Token.setTokenCookie(token)
+	if (token) {
+		const loginCheck = async() => {
+			const json = await FetchLogin.callLoginCheck(token)
+			LoginStore.status(json.status)
+			if (json.status === 200) {
+				Token.setTokenCookie(token)
+				LoginStore.token(token)
+			} else {
+				Cookies.remove('auth_token')
+				location.href = '/login'
+			}
 		}
+		loginCheck()
 	}
-	loginCheck()
 }
 
 const routes = {
