@@ -11,5 +11,5 @@
 	"attr-no-duplication": true,
 	"title-require": true,
 	"doctype-html5": true,
-	"space-tab-mixed-disabled": "space"
+	"space-tab-mixed-disabled": "tab"
 }

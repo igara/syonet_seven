@@ -1,4 +1,4 @@
-import {m} from '../../vendor'
+import {m} from '../../mithril'
 import sidebar_style from '../../styles/common/sidebar.scss'
 import SidebarAction from '../../actions/common/sidebar_action'
 import sleep from '../../../../libs/sleep'

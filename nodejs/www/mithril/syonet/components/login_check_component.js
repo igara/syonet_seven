@@ -1,4 +1,4 @@
-import {m} from '../vendor'
+import {m} from '../mithril'
 import LoginCheckAction from '../actions/login_check_action'
 
 /**

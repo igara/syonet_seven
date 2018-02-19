@@ -1,4 +1,4 @@
-import {m} from '../../vendor'
+import {m} from '../../mithril'
 import FooterAction from '../../actions/common/footer_action'
 import footer_style from '../../styles/common/footer.scss'
 

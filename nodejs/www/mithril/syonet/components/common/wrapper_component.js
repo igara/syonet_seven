@@ -1,4 +1,4 @@
-import {m} from '../../vendor'
+import {m} from '../../mithril'
 import HeaderComponent from './header_component'
 import FooterComponent from './footer_component'
 import SidebarComponent from './sidebar_component'

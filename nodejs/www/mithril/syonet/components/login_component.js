@@ -1,4 +1,4 @@
-import {m} from '../vendor'
+import {m} from '../mithril'
 
 /**
  * Routing URL: //login/

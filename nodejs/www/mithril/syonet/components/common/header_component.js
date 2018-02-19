@@ -1,4 +1,4 @@
-import {m} from '../../vendor'
+import {m} from '../../mithril'
 import header_style from '../../styles/common/header.scss'
 
 /**

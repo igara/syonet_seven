@@ -1,5 +1,4 @@
-const format = require('date-fns/format')
-const isDate = require('date-fns/is_date')
+const dateFns = require('../mithril/syonet/date_fns')
 
 /**
  * タイムスタンプ値を取得
@@ -30,7 +29,7 @@ const getMultiFormatDateTime = (options) => {
 	dt.setDate(dt.getDate() + o.day)
 	dt.setMonth(dt.getMonth() + o.month)
 	dt.setFullYear(dt.getFullYear() + o.year)
-	return format(dt, o.format)
+	return dateFns.format(dt, o.format)
 }
 
 module.exports = {
@@ -52,7 +51,7 @@ module.exports = {
  * @returns {} options
  */
 const _getMultiFormatDateTimeOptions = (options = {}) => {
-	options.Date = isDate(options.Date) ? options.Date : new Date()
+	options.Date = dateFns.isDate(options.Date) ? options.Date : new Date()
 	options.seconds = isFinite(options.seconds) ? options.seconds : 0
 	options.minutes = isFinite(options.minutes) ? options.minutes : 0
 	options.hours = isFinite(options.hours) ? options.hours : 0

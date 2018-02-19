@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const datetime = require('./datetime')
-const Cookies = require('js-cookie')
+const Cookies = require('../mithril/syonet/js_cookie')
 
 /**
  * 認証に用いるTokenを取得する
