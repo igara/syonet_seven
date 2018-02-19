@@ -34,4 +34,29 @@ router.post('/check', async(req, res) => {
 	}
 })
 
+/**
+ * tokenの値をリクエストし認証の確認をする
+ * @param {Request} req
+ * @param {Response} res
+ */
+router.delete('/delete', async(req, res) => {
+	try {
+		const headers = req.headers
+		const token = headers.token ? headers.token : ''
+		const userModel = new User()
+		await userModel.deleteToken(token)
+		res.status(200)
+		res.send({
+			status: 200,
+			message: 'OK',
+		})
+	} catch (error) {
+		res.status(500)
+		res.send({
+			status: 500,
+			message: 'NG',
+		})
+	}
+})
+
 module.exports = router

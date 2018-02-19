@@ -19,7 +19,7 @@ export default class SidebarComponent {
 	 */
 	constructor(vnode) {
 		this.Stores = vnode.attrs.Stores
-		this.SidebarAction = new SidebarAction(this.Stores.SidebarStore)
+		this.SidebarAction = new SidebarAction(this.Stores)
 	}
 
 	/**
@@ -40,11 +40,14 @@ export default class SidebarComponent {
 				<div class={sidebar_style.sidebar_wrap_div} />
 				<div class={sidebar_style.sidebar_link_wrap_div}>
 					<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
-					<a
-						onclick={() => this.SidebarAction.onClickLogin(m)}
-					>
-						ログイン
-					</a>
+					{this.Stores.LoginStore.token() ?
+						<a onclick={() => this.SidebarAction.onClickLogout(m)}>
+							ログアウト
+						</a> :
+						<a onclick={() => this.SidebarAction.onClickLogin(m)}>
+							ログイン
+						</a>						
+					}
 				</div>
 				<button
 					class={sidebar_style.sidebar_close_button}

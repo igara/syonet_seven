@@ -1,4 +1,6 @@
 import sleep from '../../../../libs/sleep'
+import Cookies from '../../js_cookie'
+import FetchLogin from '../../fetchs/login'
 
 /**
  * サイドバーのアクション
@@ -6,22 +8,22 @@ import sleep from '../../../../libs/sleep'
 export default class SidebarAction {
 
 	/**
-	 * @type {SidebarStore} SidebarStore
+	 * @type {Stores} Stores
 	 */
-	SidebarStore
+	Stores
 
 	/**
 	 * @constructor
 	 */
-	constructor(SidebarStore) {
-		this.SidebarStore = SidebarStore
+	constructor(Stores) {
+		this.Stores = Stores
 	}
 
 	/**
 	 * 閉じるを押下したときの処理
 	 */
 	onClickClose() {
-		this.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.sidebar_disp_flag(false)
 	}
 
 	/**
@@ -30,7 +32,21 @@ export default class SidebarAction {
 	 */
 	async onClickLogin(m) {
 		const pathname = '/login'
-		this.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		await sleep(1000)
+		m.route.set(pathname)
+	}
+
+	/**
+	 * ログアウトを押下したときの処理
+	 * @param {Mithril} m
+	 */
+	async onClickLogout(m) {
+		await FetchLogin.callLogout(this.Stores.LoginStore.token())
+		const pathname = '/'
+		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.LoginStore.token('')
+		Cookies.remove('auth_token')
 		await sleep(1000)
 		m.route.set(pathname)
 	}

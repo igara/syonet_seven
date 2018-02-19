@@ -39,6 +39,23 @@ UserSchema.methods.upsertByAuthUser = async(user) => {
 	return tokenValue
 }
 
+/**
+ * 認証したユーザのtokenを削除する
+ * @param {{}} user
+ * @return {String} tokenValue
+ */
+UserSchema.methods.deleteToken = async(token) => {
+	await User.update(
+		{
+			token,
+		},
+		{$set: {
+			token: '',
+		}},
+		{upsert: true}
+	)
+}
+
 const User = mongo.model('User', UserSchema)
 
 module.exports = User
