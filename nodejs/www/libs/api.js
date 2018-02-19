@@ -16,10 +16,12 @@ const getApiHost = () => {
  * @param {String} option.url
  * @param {{}} option.body
  * @param {String} option.method
+ * @param {String} option.token
  * @return {fetch}
  */
 const call = async(option) => {
 	option.method = option.method ? option.method : 'POST'
+	option.token = option.token ? option.token : ''
 	return await fetch(option.url, {
 		body: JSON.stringify(option.body),
 		cache: 'no-cache',
@@ -27,6 +29,7 @@ const call = async(option) => {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
+			'Token': option.token,
 		},
 		method: option.method,
 		mode: 'cors',

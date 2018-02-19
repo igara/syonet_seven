@@ -9,8 +9,8 @@ const User = require('../../models/user')
  */
 router.post('/check', async(req, res) => {
 	try {
-		const bodyData = req.body
-		const token = bodyData.token ? bodyData.token : ''
+		const headers = req.headers
+		const token = headers.token ? headers.token : ''
 		const user = await User.find({token})
 		if (user.length === 1) {
 			res.status(200)
