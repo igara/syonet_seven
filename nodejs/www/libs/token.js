@@ -16,6 +16,14 @@ const getUserToken = (userId) => {
 }
 
 /**
+ * 認証に用いるTokenをクッキーから取得する
+ * @return {String}
+ */
+const getTokenCookie = () => {
+	return Cookies.get('auth_token')
+}
+
+/**
  * Tokenの値を保存する
  * @param {String} token
  */
@@ -28,4 +36,5 @@ const setTokenCookie = (token) => {
 module.exports = {
 	getUserToken,
 	setTokenCookie,
+	getTokenCookie,
 }

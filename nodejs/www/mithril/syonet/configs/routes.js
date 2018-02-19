@@ -16,6 +16,19 @@ const Stores = {
 	LoginStore,
 }
 
+// ログインチェック
+import Token from '../../../libs/token'
+const token = Token.getTokenCookie()
+import FetchLogin from '../fetchs/login'
+const loginCheck = async() => {
+	const json = await FetchLogin.callLoginCheck(token)
+	LoginStore.status(json.status)
+	if (json.status === 200) {
+		Token.setTokenCookie(token)
+	}
+}
+loginCheck()
+
 const routes = {
 	'/': new WrapperComponent({
 		Stores,

@@ -1,5 +1,6 @@
 import Api from '../../../libs/api'
 import Token from '../../../libs/token'
+import FetchLogin from '../fetchs/login'
 
 /**
  * ログインチェックのアクション
@@ -30,14 +31,7 @@ export default class LoginCheckAction {
 	 * ログインチェックAPIを呼び出したときの処理
 	 */
 	async callLoginCheckApi() {
-		const result = await Api.call({
-			url: `${Api.getApiHost()}/api/auth/check`,
-			body: {
-				token: this.LoginStore.token(),
-			},
-			method: 'POST',
-		})
-		const json = await result.json()
+		const json = await FetchLogin.callLoginCheck(this.LoginStore.token())
 		this.LoginStore.status(json.status)
 		if (json.status === 200) {
 			Token.setTokenCookie(this.LoginStore.token())
