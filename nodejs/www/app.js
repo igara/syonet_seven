@@ -7,6 +7,13 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 
 const app = express()
+const compression = require('compression');
+
+app.use(compression({
+	threshold: 0,
+	level: 9,
+	memLevel: 9,
+}))
 
 const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
 const staticDir = path.join(__dirname, 'dist/prod')
