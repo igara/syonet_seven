@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const passport = require('passport')
-const datetime = require('../../libs/datetime')
 const User = require('../../models/user')
 
 /**
@@ -17,9 +16,6 @@ passport.use(new GoogleStrategy({
 	done(null, profile)
 }))
 
-/**
- * Googleの認証に成功した時ユーザの情報を保存する
- */
 passport.serializeUser((user, done) => {
 	done(null, user)
 })
@@ -37,8 +33,10 @@ router.get('/', passport.authenticate('google', {
 
 /**
  * 認証完了画面
+ * @param {Request} req
+ * @param {Response} res
  */
-router.get('/callback', passport.authenticate('google'), async(req, res, next) => {
+router.get('/callback', passport.authenticate('google'), async(req, res) => {
 	const userModel = new User()
 	const token = await userModel.upsertByAuthUser(req.user)
 	res.redirect(`/login/check/${token}`)

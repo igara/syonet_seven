@@ -7,7 +7,7 @@ const User = require('../../models/user')
  * @param {Request} req
  * @param {Response} res
  */
-router.post('/check', async(req, res, next) => {
+router.post('/check', async(req, res) => {
 	try {
 		const bodyData = req.body
 		const token = bodyData.token ? bodyData.token : ''

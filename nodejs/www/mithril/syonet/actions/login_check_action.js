@@ -1,4 +1,5 @@
 import Api from '../../../libs/api'
+import Token from '../../../libs/token'
 
 /**
  * ログインチェックのアクション
@@ -38,5 +39,8 @@ export default class LoginCheckAction {
 		})
 		const json = await result.json()
 		this.LoginCheckStore.status(json.status)
+		if (json.status === 200) {
+			Token.setTokenCookie(this.LoginCheckStore.token())
+		}
 	}
 }

@@ -5,7 +5,7 @@ const isDate = require('date-fns/is_date')
  * タイムスタンプ値を取得
  * @return {Number}
  */
-const getDateTime = () => {
+const getTimeStamp = () => {
 	return Math.round((new Date()).getTime() / 1000)
 }
 
@@ -34,7 +34,7 @@ const getMultiFormatDateTime = (options) => {
 }
 
 module.exports = {
-	getDateTime,
+	getTimeStamp,
 	getMultiFormatDateTime,
 }
 
