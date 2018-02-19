@@ -6,6 +6,7 @@ import IndexComponent from '../components/index_component'
 import AnalyzeImageComponent from '../components/analyze_image_component'
 import LoginComponent from '../components/login_component'
 import LoginCheckComponent from '../components/login_check_component'
+import NotFoundComponent from '../components/not_found_component'
 
 // Stores
 import HeaderStore from '../stores/common/header_store'
@@ -59,6 +60,11 @@ const routes = {
 		Stores,
 		ChildComponent: LoginCheckComponent,
 		header_title: 'LoginCheck',
+	}),
+	'/:any': new WrapperComponent({
+		Stores,
+		ChildComponent: NotFoundComponent,
+		header_title: 'Syonet',
 	}),
 }
 
