@@ -8,29 +8,32 @@ import LoginCheckComponent from '../components/login_check_component'
 // Stores
 import HeaderStore from '../stores/common/header_store'
 import SidebarStore from '../stores/common/sidebar_store'
+import LoginStore from '../stores/common/login_store'
+
+const Stores = {
+	HeaderStore,
+	SidebarStore,
+	LoginStore,
+}
 
 const routes = {
 	'/': new WrapperComponent({
-		HeaderStore,
-		SidebarStore,
+		Stores,
 		ChildComponent: IndexComponent,
 		header_title: 'Syonet',
 	}),
 	'/analyzeimage': new WrapperComponent({
-		HeaderStore,
-		SidebarStore,
+		Stores,
 		ChildComponent: AnalyzeImageComponent,
 		header_title: 'Analyze',
 	}),
 	'/login': new WrapperComponent({
-		HeaderStore,
-		SidebarStore,
+		Stores,
 		ChildComponent: LoginComponent,
 		header_title: 'Login',
 	}),
 	'/login/check/:token': new WrapperComponent({
-		HeaderStore,
-		SidebarStore,
+		Stores,
 		ChildComponent: LoginCheckComponent,
 		header_title: 'LoginCheck',
 	}),

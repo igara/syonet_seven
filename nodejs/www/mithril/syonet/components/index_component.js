@@ -6,22 +6,16 @@ import {m} from '../vendor'
 export default class IndexComponent {
 
 	/**
-	 * @type {HeaderStore} HeaderStore
+	 * @type {Stores} Stores
 	 */
-	HeaderStore
-
-	/**
-	 * @type {SidebarStore} SidebarStore
-	 */
-	SidebarStore
+	Stores
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	constructor(vnode) {
-		this.HeaderStore = vnode.attrs.HeaderStore
-		this.SidebarStore = vnode.attrs.SidebarStore
+		this.Stores = vnode.attrs.Stores
 	}
 
 	/**

@@ -8,9 +8,9 @@ import footer_style from '../../styles/common/footer.scss'
 export default class FooterComponent {
 
 	/**
-	 * @type {SidebarStore} SidebarStore
+	 * @type {Stores} Stores
 	 */
-	SidebarStore
+	Stores
 
 	/**
 	 * @type {FooterAction} FooterAction
@@ -22,8 +22,8 @@ export default class FooterComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	constructor(vnode) {
-		this.SidebarStore = vnode.attrs.SidebarStore
-		this.FooterAction = new FooterAction(this.SidebarStore)
+		this.Stores = vnode.attrs.Stores
+		this.FooterAction = new FooterAction(this.Stores.SidebarStore)
 	}
 
 	/**

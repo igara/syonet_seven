@@ -10,16 +10,6 @@ import content_style from '../../styles/common/content.scss'
 export default class WrapperComponent {
 
 	/**
-	 * @type {HeaderStore} HeaderStore
-	 */
-	HeaderStore
-
-	/**
-	 * @type {SidebarStore} SidebarStore
-	 */
-	SidebarStore
-
-	/**
 	 * @type {Mithril} ChildComponent
 	 */
 	ChildComponent
@@ -34,8 +24,7 @@ export default class WrapperComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	constructor(vnode) {
-		this.HeaderStore = vnode.HeaderStore
-		this.SidebarStore = vnode.SidebarStore
+		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
 		this.header_title = vnode.header_title
 	}
@@ -45,7 +34,7 @@ export default class WrapperComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	oninit(vnode) {
-		this.HeaderStore.header_title(this.header_title)
+		this.Stores.HeaderStore.header_title(this.header_title)
 	}
 
 	/**
@@ -55,22 +44,21 @@ export default class WrapperComponent {
 		return (
 			<div>
 				<HeaderComponent
-					HeaderStore={this.HeaderStore}
+					Stores={this.Stores}
 				/>
-				{this.SidebarStore.sidebar_disp_flag() ?
+				{this.Stores.SidebarStore.sidebar_disp_flag() ?
 					<SidebarComponent
-						SidebarStore={this.SidebarStore}
+						Stores={this.Stores}
 					/> :
 					null
 				}
 				<div className={content_style.content_wrap_div}>
 					<this.ChildComponent
-						HeaderStore={this.HeaderStore}
-						SidebarStore={this.SidebarStore}
+						Stores={this.Stores}
 					/>
 				</div>
 				<FooterComponent
-					SidebarStore={this.SidebarStore}
+					Stores={this.Stores}
 				/>
 			</div>
 		)

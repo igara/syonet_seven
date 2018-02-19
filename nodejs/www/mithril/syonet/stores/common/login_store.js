@@ -1,4 +1,4 @@
-import {stream} from '../vendor'
+import {stream} from '../../vendor'
 
 /**
  * ログイン状態を管理

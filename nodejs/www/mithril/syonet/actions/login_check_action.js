@@ -7,15 +7,15 @@ import Token from '../../../libs/token'
 export default class LoginCheckAction {
 
 	/**
-	 * {LoginCheckStore} LoginCheckStore
+	 * {LoginStore} LoginStore
 	 */
-	LoginCheckStore
+	LoginStore
 
 	/**
 	 * @constructor
 	 */
-	constructor(LoginCheckStore) {
-		this.LoginCheckStore = LoginCheckStore
+	constructor(LoginStore) {
+		this.LoginStore = LoginStore
 	}
 
 	/**
@@ -23,7 +23,7 @@ export default class LoginCheckAction {
 	 * @param {String} token 
 	 */
 	setToken(token) {
-		this.LoginCheckStore.token(token.replace('#', ''))
+		this.LoginStore.token(token.replace('#', ''))
 	}
 
 	/**
@@ -33,14 +33,14 @@ export default class LoginCheckAction {
 		const result = await Api.call({
 			url: `${Api.getApiHost()}/api/auth/check`,
 			body: {
-				token: this.LoginCheckStore.token(),
+				token: this.LoginStore.token(),
 			},
 			method: 'POST',
 		})
 		const json = await result.json()
-		this.LoginCheckStore.status(json.status)
+		this.LoginStore.status(json.status)
 		if (json.status === 200) {
-			Token.setTokenCookie(this.LoginCheckStore.token())
+			Token.setTokenCookie(this.LoginStore.token())
 		}
 	}
 }

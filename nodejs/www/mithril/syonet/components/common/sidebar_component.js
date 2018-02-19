@@ -9,11 +9,6 @@ import sleep from '../../../../libs/sleep'
 export default class SidebarComponent {
 
 	/**
-	 * @type {SidebarStore} SidebarStore
-	 */
-	SidebarStore
-
-	/**
 	 * @type {SidebarAction} SidebarAction
 	 */
 	SidebarAction
@@ -23,8 +18,8 @@ export default class SidebarComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	constructor(vnode) {
-		this.SidebarStore = vnode.attrs.SidebarStore
-		this.SidebarAction = new SidebarAction(this.SidebarStore)
+		this.Stores = vnode.attrs.Stores
+		this.SidebarAction = new SidebarAction(this.Stores.SidebarStore)
 	}
 
 	/**
