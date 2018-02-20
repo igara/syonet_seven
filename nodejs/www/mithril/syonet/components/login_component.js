@@ -34,6 +34,9 @@ export default class LoginComponent {
 			<div>
 				ログイン画面です
 				<a href="http://127.0.0.1:3000/auth/google">Google</a>
+				<a href="http://127.0.0.1:3000/auth/facebook">facebook</a>
+				<a href="http://127.0.0.1:3000/auth/twitter">twitter</a>
+				<a href="http://127.0.0.1:3000/auth/github">github</a>
 			</div>
 		)
 	}

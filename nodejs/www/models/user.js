@@ -61,9 +61,26 @@ UserSchema.methods.deleteToken = async(token) => {
  * @return {String} tokenValue
  */
 UserSchema.methods.getUserInfo = (user) => {
-	return {
-		displayName: user.auth.displayName,
-		image: user.auth._json.image.url,
+	if (user.auth.provider === 'google') {
+		return {
+			displayName: user.auth.displayName,
+			image: user.auth._json.image.url,
+		}
+	} else if (user.auth.provider === 'facebook') {
+		return {
+			displayName: user.auth.displayName,
+			image: user.auth.photos[0].value,
+		}
+	} else if (user.auth.provider === 'twitter') {
+		return {
+			displayName: user.auth.displayName,
+			image: user.auth.photos[0].value,
+		}
+	} else if (user.auth.provider === 'github') {
+		return {
+			displayName: user.auth.displayName,
+			image: user.auth.photos[0].value,
+		}
 	}
 }
 

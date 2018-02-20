@@ -24,7 +24,9 @@ export default class LoginCheckAction {
 	 * @param {String} token 
 	 */
 	setToken(token) {
-		this.LoginStore.token(token.replace('#', ''))
+		let t = token.replace('#_=_', '')
+		t = t.replace('#', '')
+		this.LoginStore.token(t)
 	}
 
 	/**

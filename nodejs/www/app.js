@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 
 const app = express()
-const compression = require('compression');
+const compression = require('compression')
 
 app.use(compression({
 	threshold: 0,
@@ -58,9 +58,19 @@ const userApi = require('./routes/api/user')
 app.use('/api/user', userApi)
 
 // Auth
+const session = require('express-session')
 app.use(passport.initialize())
+app.use(passport.session())
+app.use(session({secret: 'syonet'}))
+
+const authFacebook = require('./routes/auth/facebook')
+app.use('/auth/facebook', authFacebook)
+const authTwitter = require('./routes/auth/twitter')
+app.use('/auth/twitter', authTwitter)
 const authGoogle = require('./routes/auth/google')
 app.use('/auth/google', authGoogle)
+const authGithub = require('./routes/auth/github')
+app.use('/auth/github', authGithub)
 
 // send all requests to index.html so browserHistory in React Router works
 app.get('*', (req, res) => {
