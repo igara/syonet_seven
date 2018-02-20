@@ -2,7 +2,7 @@ import {m} from '../../mithril'
 import HeaderComponent from './header_component'
 import FooterComponent from './footer_component'
 import SidebarComponent from './sidebar_component'
-import content_style from '../../styles/common/content.scss'
+import {content_style} from '../../styles'
 
 /**
  * 共通のレイアウトを出力する

@@ -1,5 +1,5 @@
 import {m} from '../../mithril'
-import header_style from '../../styles/common/header.scss'
+import {header_style} from '../../styles'
 
 /**
  * ヘッダーを表示するコンポーネント
