@@ -25,7 +25,7 @@ export default class HeaderComponent {
 	view() {
 		return (
 			<div class={header_style.header_wrap_div}>
-				<div>
+				<div class={header_style.title}>
 					{this.Stores.HeaderStore.header_title}
 				</div>
 				{this.Stores.LoginStore.user().image ?
