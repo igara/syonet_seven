@@ -20,6 +20,11 @@ export default class WrapperComponent {
 	header_title
 
 	/**
+	 * @type {browser:{String}, device:{String}} device
+	 */
+	UserAgent
+
+	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
@@ -27,6 +32,7 @@ export default class WrapperComponent {
 		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
 		this.header_title = vnode.header_title
+		this.UserAgent = vnode.UserAgent
 	}
 
 	/**
@@ -49,14 +55,31 @@ export default class WrapperComponent {
 				{this.Stores.SidebarStore.sidebar_disp_flag() ?
 					<SidebarComponent
 						Stores={this.Stores}
+						UserAgent={this.UserAgent}
 					/> :
 					null
 				}
-				<div className={content_style.content_wrap_div}>
-					<this.ChildComponent
-						Stores={this.Stores}
-					/>
-				</div>
+				{(() => {
+					if (this.UserAgent.device === 'ipad' && this.UserAgent.browser === 'safari') {
+						return <div className={content_style.content_wrap_div}>
+							<this.ChildComponent
+								Stores={this.Stores}
+							/>
+						</div>
+					} else if (this.UserAgent.device === 'iphone' && this.UserAgent.browser === 'safari') {
+						return <div className={content_style.content_wrap_div_iphone_safari}>
+							<this.ChildComponent
+								Stores={this.Stores}
+							/>
+						</div>
+					} else  {
+						return <div className={content_style.content_wrap_div}>
+							<this.ChildComponent
+								Stores={this.Stores}
+							/>
+						</div>
+					}
+				})()}
 				<FooterComponent
 					Stores={this.Stores}
 				/>

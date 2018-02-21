@@ -38,6 +38,10 @@
 	width: 40vw;
 	z-index: 1000;
 	animation: sidebar_link_wrap_div_slider 1s;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 0px;
+	overflow: scroll;
 }
 
 @keyframes sidebar_link_wrap_div_slider {

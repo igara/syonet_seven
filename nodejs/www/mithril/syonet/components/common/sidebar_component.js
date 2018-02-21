@@ -38,17 +38,126 @@ export default class SidebarComponent {
 		return (
 			<div>
 				<div class={sidebar_style.sidebar_wrap_div} />
-				<div class={sidebar_style.sidebar_link_wrap_div}>
-					<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
-					{this.Stores.LoginStore.token() ?
-						<a onclick={() => this.SidebarAction.onClickLogout(m)}>
-							ログアウト
-						</a> :
-						<a onclick={() => this.SidebarAction.onClickLogin(m)}>
-							ログイン
-						</a>						
-					}
-				</div>
+				<ul class={sidebar_style.sidebar_link_wrap_div}>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						{this.Stores.LoginStore.token() ?
+							<a onclick={() => this.SidebarAction.onClickLogout(m)}>
+								ログアウト
+							</a> :
+							<a onclick={() => this.SidebarAction.onClickLogin(m)}>
+								ログイン
+							</a>
+						}
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+					<li>
+						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
+					</li>
+				</ul>
 				<button
 					class={sidebar_style.sidebar_close_button}
 					onclick={() => this.SidebarAction.onClickClose()}>

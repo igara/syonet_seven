@@ -1,4 +1,5 @@
 import Cookies from '../js_cookie'
+import {browser, device} from '../../../libs/useragent'
 
 // Components
 import WrapperComponent from '../components/common/wrapper_component'
@@ -43,29 +44,41 @@ export default async() => {
 		LoginStore,
 	}
 
+	const resultDevice = device()
+	const resultBrowser = browser()
+	const UserAgent = {
+		browser: resultBrowser,
+		device: resultDevice,
+	}
+
 	const routes = {
 		'/': new WrapperComponent({
 			Stores,
+			UserAgent,
 			ChildComponent: IndexComponent,
 			header_title: 'Syonet',
 		}),
 		'/analyzeimage': new WrapperComponent({
 			Stores,
+			UserAgent,
 			ChildComponent: AnalyzeImageComponent,
 			header_title: 'Analyze',
 		}),
 		'/login': new WrapperComponent({
 			Stores,
+			UserAgent,
 			ChildComponent: LoginComponent,
 			header_title: 'Login',
 		}),
 		'/login/check/:token': new WrapperComponent({
 			Stores,
+			UserAgent,
 			ChildComponent: LoginCheckComponent,
 			header_title: 'LoginCheck',
 		}),
 		'/:any': new WrapperComponent({
 			Stores,
+			UserAgent,
 			ChildComponent: NotFoundComponent,
 			header_title: 'Syonet',
 		}),
