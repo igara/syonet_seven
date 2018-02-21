@@ -54,8 +54,8 @@
 	background: rgb(0, 0, 0);
 	border-radius: 50%;
 	border: none;
-	width: 10vw;
-	height: 10vw;
+	width: 8vh;
+	height: 8vh;
 	max-width: 80px;
 	max-height: 80px;
 	padding: 0;
@@ -72,17 +72,17 @@
 }
 
 .sidebar_mark_top {
-	width: 5vw;
+	width: 5vh;
 	height: 3px;
 	max-width: 75px;
 	background-color: rgb(255, 255, 255);
 	transition: background-color 1s;
 	margin: auto;
-	margin-bottom: 1vw;
+	margin-bottom: 1vh;
 }
 
 .sidebar_mark {
-	width: 5vw;
+	width: 5vh;
 	height: 3px;
 	max-width: 75px;
 	background-color: rgb(255, 255, 255);
@@ -91,11 +91,11 @@
 }
 
 .sidebar_mark_bottom {
-	width: 5vw;
+	width: 5vh;
 	height: 3px;
 	max-width: 75px;
 	background-color: rgb(255, 255, 255);
 	transition: background-color 1s;
 	margin: auto;
-	margin-top: 1vw;
+	margin-top: 1vh;
 }
