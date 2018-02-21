@@ -12,15 +12,22 @@
 }
 
 .sidebar_wrap_div {
+	height: 100%;
+	widows: 100%;
+	position: fixed;
+	top: 0;
+}
+
+.sidebar_overlay_div {
 	background: rgba(45, 45, 45, 0.5);
-	height: 100vh;
+	height: 100%;
 	width: 100vw;
 	position: fixed;
 	top: 0;
-	animation: sidebar_wrap_div_slider 1s;
+	animation: sidebar_overlay_div_slider 1s;
 }
 
-@keyframes sidebar_wrap_div_slider {
+@keyframes sidebar_overlay_div_slider {
 	0% {
 		transform: translateX(100vw);
 	}
@@ -34,7 +41,7 @@
 	position: fixed;
 	opacity: 1.0;
 	top: 0;
-	height: 100vh;
+	height: 100%;
 	width: 40vw;
 	z-index: 1000;
 	animation: sidebar_link_wrap_div_slider 1s;

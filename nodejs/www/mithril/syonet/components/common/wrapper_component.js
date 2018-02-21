@@ -59,27 +59,11 @@ export default class WrapperComponent {
 					/> :
 					null
 				}
-				{(() => {
-					if (this.UserAgent.device === 'ipad' && this.UserAgent.browser === 'safari') {
-						return <div className={content_style.content_wrap_div}>
-							<this.ChildComponent
-								Stores={this.Stores}
-							/>
-						</div>
-					} else if (this.UserAgent.device === 'iphone' && this.UserAgent.browser === 'safari') {
-						return <div className={content_style.content_wrap_div_iphone_safari}>
-							<this.ChildComponent
-								Stores={this.Stores}
-							/>
-						</div>
-					} else  {
-						return <div className={content_style.content_wrap_div}>
-							<this.ChildComponent
-								Stores={this.Stores}
-							/>
-						</div>
-					}
-				})()}
+				<div className={content_style.content_wrap_div}>
+					<this.ChildComponent
+						Stores={this.Stores}
+					/>
+				</div>
 				<FooterComponent
 					Stores={this.Stores}
 				/>
