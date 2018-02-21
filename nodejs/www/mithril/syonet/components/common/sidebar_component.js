@@ -1,5 +1,5 @@
 import {m} from '../../mithril'
-import {sidebar_style} from '../../styles'
+import {sidebar_style, icon_style} from '../../styles'
 import SidebarAction from '../../actions/common/sidebar_action'
 import sleep from '../../../../libs/sleep'
 
@@ -159,9 +159,9 @@ export default class SidebarComponent {
 					</li>
 				</ul>
 				<button
-					class={sidebar_style.sidebar_close_button}
+					class={icon_style.sidebar_close_icon}
 					onclick={() => this.SidebarAction.onClickClose()}>
-					<div class={sidebar_style.sidebar_close} />
+					<div class={icon_style.sidebar_close} />
 				</button>
 			</div>
 		)

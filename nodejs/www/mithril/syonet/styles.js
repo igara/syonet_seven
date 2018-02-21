@@ -3,10 +3,12 @@ import content_style from './styles/common/content.scss'
 import sidebar_style from './styles/common/sidebar.scss'
 import header_style from './styles/common/header.scss'
 import footer_style from './styles/common/footer.scss'
+import icon_style from './styles/common/icon.scss'
 
 module.exports = {
 	content_style,
 	sidebar_style,
 	header_style,
 	footer_style,
+	icon_style,
 }

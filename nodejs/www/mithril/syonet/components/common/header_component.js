@@ -1,5 +1,5 @@
 import {m} from '../../mithril'
-import {header_style} from '../../styles'
+import {header_style, icon_style} from '../../styles'
 
 /**
  * ヘッダーを表示するコンポーネント
@@ -30,7 +30,7 @@ export default class HeaderComponent {
 				</li>
 				<li>
 					{this.Stores.LoginStore.user().image ?
-						<img class={header_style.login_user_icon}
+						<img class={icon_style.login_user_icon}
 							src={this.Stores.LoginStore.user().image} /> :
 						null
 					}
