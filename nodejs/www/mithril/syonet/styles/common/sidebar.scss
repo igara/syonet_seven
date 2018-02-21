@@ -36,7 +36,7 @@
 	}
 }
 
-.sidebar_link_wrap_div {
+.sidebar_link_wrap_ul {
 	background: #ebffe7;
 	position: fixed;
 	opacity: 1.0;
@@ -44,14 +44,15 @@
 	height: 100%;
 	width: 40vw;
 	z-index: 1000;
-	animation: sidebar_link_wrap_div_slider 1s;
+	animation: sidebar_link_wrap_ul_slider 1s;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-left: 0px;
 	overflow: scroll;
+	list-style: none;
 }
 
-@keyframes sidebar_link_wrap_div_slider {
+@keyframes sidebar_link_wrap_ul_slider {
 	0% {
 		transform: translateX(-40vw);
 	}

@@ -38,7 +38,7 @@ export default class SidebarComponent {
 		return (
 			<div class={sidebar_style.sidebar_wrap_div}>
 				<div class={sidebar_style.sidebar_overlay_div} />
-				<ul class={sidebar_style.sidebar_link_wrap_div}>
+				<ul class={sidebar_style.sidebar_link_wrap_ul}>
 					<li>
 						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
 					</li>
