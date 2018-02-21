@@ -43,7 +43,7 @@ export default class SidebarComponent {
 						<a onclick={() => this.SidebarAction.onClickClose()}>閉じる</a>
 					</li>
 					<li>
-						{this.Stores.LoginStore.token() ?
+						{this.Stores.LoginStore.user() ?
 							<a onclick={() => this.SidebarAction.onClickLogout(m)}>
 								ログアウト
 							</a> :
