@@ -24,16 +24,18 @@ export default class HeaderComponent {
 	 */
 	view() {
 		return (
-			<div class={header_style.header_wrap_div}>
-				<div class={header_style.title}>
+			<ul class={header_style.header_wrap_ul}>
+				<li>
 					{this.Stores.HeaderStore.header_title}
-				</div>
-				{this.Stores.LoginStore.user().image ?
-					<img  class={header_style.login_user_icon}
-						src={this.Stores.LoginStore.user().image} /> :
-					null
-				}
-			</div>
+				</li>
+				<li>
+					{this.Stores.LoginStore.user().image ?
+						<img class={header_style.login_user_icon}
+							src={this.Stores.LoginStore.user().image} /> :
+						null
+					}
+				</li>
+			</ul>
 		)
 	}
 }
