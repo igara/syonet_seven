@@ -1,3 +1,5 @@
+import 'isomorphic-fetch'
+
 const env = require('./env')
 
 /**
