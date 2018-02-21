@@ -9,6 +9,7 @@ services:
       - 3000:3000
     volumes:
       - ./nodejs/www:/www
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
