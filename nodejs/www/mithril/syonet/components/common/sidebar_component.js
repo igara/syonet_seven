@@ -161,7 +161,7 @@ export default class SidebarComponent {
 				<button
 					class={icon_style.sidebar_close_icon}
 					onclick={() => this.SidebarAction.onClickClose()}>
-					<div class={icon_style.sidebar_close} />
+					<div class={icon_style.sidebar_close_mark} />
 				</button>
 			</div>
 		)
