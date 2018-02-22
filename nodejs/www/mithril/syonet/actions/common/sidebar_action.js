@@ -27,6 +27,17 @@ export default class SidebarAction {
 	}
 
 	/**
+	 * ホームを押下したときの処理
+	 * @param {Mithril} m
+	 */
+	async onClickHome(m) {
+		const pathname = '/'
+		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		await sleep(1000)
+		m.route.set(pathname)
+	}
+
+	/**
 	 * ログインを押下したときの処理
 	 * @param {Mithril} m
 	 */
