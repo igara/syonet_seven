@@ -46,8 +46,6 @@ services:
       - frontend
       - backend
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
       TZ: Asia/Tokyo
 
   https-portal:
