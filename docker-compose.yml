@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   www:
@@ -8,8 +8,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./nodejs/www:/www
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./nodejs/www:/www:cached
+      - /var/run/docker.sock:/var/run/docker.sock:cached
     environment:
       WWW_ENV: ${WWW_ENV}
       DB_DOMAIN: ${DB_DOMAIN}
@@ -41,7 +41,7 @@ services:
       - 27017:27017
     command: mongod --smallfiles
     volumes:
-      - mongodb-data:/data/db
+      - ./data/mongo:/data/db:cached
     networks:
       - frontend
       - backend
@@ -67,7 +67,7 @@ services:
       CLIENT_MAX_BODY_SIZE: 0
       TZ: Asia/Tokyo
     volumes:
-      - /data/ssl_certs:/var/lib/https-portal
+      - ./data/ssl_certs:/var/lib/https-portal:cached
     networks:
       - frontend
       - backend
@@ -77,6 +77,3 @@ networks:
     driver: 'bridge'
   backend:
     driver: 'bridge'
-
-volumes:
-  mongodb-data: {}
