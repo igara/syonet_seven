@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  www:
+    build:
+      context: ./nodejs/www
+      dockerfile: www.Dockerfile
+    volumes:
+      - ./nodejs/www:/www:cached
+      - /var/run/docker.sock:/var/run/docker.sock:cached
+    environment:
+      WWW_ENV: ${WWW_ENV}
+      DB_DOMAIN: ${DB_DOMAIN}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASS: ${MONGODB_PASS}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK: ${GOOGLE_CALLBACK}
+      FACEBOOK_APP_ID: ${FACEBOOK_APP_ID}
+      FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET}
+      FACEBOOK_CALLBACK: ${FACEBOOK_CALLBACK}
+      TWITTER_CONSUMER_KEY: ${TWITTER_CONSUMER_KEY}
+      TWITTER_CONSUMER_SECRET: ${TWITTER_CONSUMER_SECRET}
+      TWITTER_CALLBACK: ${TWITTER_CALLBACK}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_CALLBACK: ${GITHUB_CALLBACK}
+      TZ: Asia/Tokyo
+    links:
+      - mongodb
+    networks:
+      - frontend
+      - backend
+
+  mongodb:
+    image: mongo:3.7.1
+    command: mongod --smallfiles
+    volumes:
+      - ./data/mongo:/data/db:cached
+    networks:
+      - frontend
+      - backend
+    environment:
+      TZ: Asia/Tokyo
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - www:www
+    restart: always
+    environment:
+      DOMAINS: '${WWW_DOMAIN} -> http://www:3000'
+      STAGE: '${WWW_ENV}'
+      RESOLVER: '127.0.0.11 ipv6=off valid=60s'
+      DYNAMIC_UPSTREAM: 'true'
+      WEBSOCKET: 'true'
+      CLIENT_MAX_BODY_SIZE: 0
+      TZ: Asia/Tokyo
+    volumes:
+      - ./data/ssl_certs:/var/lib/https-portal:cached
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    driver: 'bridge'
+  backend:
+    driver: 'bridge'
