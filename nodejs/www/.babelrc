@@ -2,16 +2,13 @@
 	"presets": [
 		"es2015",
 		"stage-0",
-		"stage-3",
-		"flow"
+		"stage-3"
 	],
 	"plugins": [
 		["transform-react-jsx", {
 			"pragma": "m"
 		}],
-		["transform-runtime"],
-		["transform-flow-strip-types"],
-		["transform-class-properties"]
+		["babel-plugin-transform-runtime"]
 	]
 }
  
