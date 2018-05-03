@@ -1,6 +1,6 @@
 import {m} from '../../mithril'
 import FooterAction from '../../actions/common/footer_action'
-import {footer, icon} from '../../styles'
+import {FooterStyle, IconStyle} from '../../styles'
 
 /**
  * フッダーを表示するコンポーネント
@@ -31,13 +31,13 @@ export default class FooterComponent {
 	 */
 	view() {
 		return (
-			<div class={footer.footer_wrap_div}>
+			<div class={FooterStyle.footer_wrap_div}>
 				<button
-					class={icon.hamburger.hamburger_icon}
+					class={IconStyle.Hamburger.hamburger_icon}
 					onclick={() => this.FooterAction.onClickLinkIcon()}>
-					<div class={icon.hamburger.hamburger_mark_top} />
-					<div class={icon.hamburger.hamburger_mark} />
-					<div class={icon.hamburger.hamburger_mark_bottom} />
+					<div class={IconStyle.Hamburger.hamburger_mark_top} />
+					<div class={IconStyle.Hamburger.hamburger_mark} />
+					<div class={IconStyle.Hamburger.hamburger_mark_bottom} />
 				</button>
 			</div>
 		)
