@@ -11,6 +11,8 @@ cd syonet_seven
 # 環境設定
 sh env.sh local
 docker-compose up -d
+# Webフロント開発サーバ起動
+(cd nodejs/www && yarn local_front_start)
 ```
 
 #### ホスト的な意味でVMを交わす時

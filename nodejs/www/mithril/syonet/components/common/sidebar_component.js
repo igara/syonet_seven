@@ -1,5 +1,5 @@
 import {m} from '../../mithril'
-import {sidebar_style, icon_style} from '../../styles'
+import {sidebar, icon} from '../../styles'
 import SidebarAction from '../../actions/common/sidebar_action'
 import sleep from '../../../../libs/sleep'
 
@@ -27,7 +27,7 @@ export default class SidebarComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	async onbeforeremove(vnode) {
-		vnode.dom.classList.add(sidebar_style.sidebar_exit)
+		vnode.dom.classList.add(sidebar.sidebar_exit)
 		return await sleep(1000)
 	}
 
@@ -36,32 +36,32 @@ export default class SidebarComponent {
 	 */
 	view() {
 		return (
-			<div class={sidebar_style.sidebar_wrap_div}>
-				<div class={sidebar_style.sidebar_overlay_div} />
-				<ul class={sidebar_style.sidebar_link_wrap_ul}>
-					<li class={sidebar_style.sidebar_link_list}
+			<div class={sidebar.sidebar_wrap_div}>
+				<div class={sidebar.sidebar_overlay_div} />
+				<ul class={sidebar.sidebar_link_wrap_ul}>
+					<li class={sidebar.sidebar_link_list}
 						onclick={() => this.SidebarAction.onClickClose()}>
 						閉じる
 					</li>
-					<li class={sidebar_style.sidebar_link_list}
+					<li class={sidebar.sidebar_link_list}
 						onclick={() => this.SidebarAction.onClickHome(m)}>
 						ホーム
 					</li>
 					{this.Stores.LoginStore.user() ?
-						<li class={sidebar_style.sidebar_link_list}
+						<li class={sidebar.sidebar_link_list}
 							onclick={() => this.SidebarAction.onClickLogout(m)}>
 							ログアウト
 						</li> :
-						<li class={sidebar_style.sidebar_link_list}
+						<li class={sidebar.sidebar_link_list}
 							onclick={() => this.SidebarAction.onClickLogin(m)}>
 							ログイン
 						</li>
 					}
 				</ul>
 				<button
-					class={icon_style.sidebar_close_icon}
+					class={icon.close.close_icon}
 					onclick={() => this.SidebarAction.onClickClose()}>
-					<div class={icon_style.sidebar_close_mark} />
+					<div class={icon.close.close_mark} />
 				</button>
 			</div>
 		)

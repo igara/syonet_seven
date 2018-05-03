@@ -2,7 +2,7 @@ import {m} from '../../mithril'
 import HeaderComponent from './header_component'
 import FooterComponent from './footer_component'
 import SidebarComponent from './sidebar_component'
-import {content_style} from '../../styles'
+import {content} from '../../styles'
 
 /**
  * 共通のレイアウトを出力する
@@ -59,7 +59,7 @@ export default class WrapperComponent {
 					/> :
 					null
 				}
-				<div className={content_style.content_wrap_div}>
+				<div className={content.content_wrap_div}>
 					<this.ChildComponent
 						Stores={this.Stores}
 					/>

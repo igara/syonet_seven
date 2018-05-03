@@ -1,7 +1,8 @@
 {
 	"modules": true,
 	"plugins": {
-		"autoprefixer": {
-		}
+		"postcss-import": {},
+		"autoprefixer": {},
+		"postcss-simple-vars": {}
 	}
 }
