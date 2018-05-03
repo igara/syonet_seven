@@ -3,20 +3,20 @@ import {stream} from '../../mithril'
 /**
  * ログイン状態を管理
  */
-const status = stream('')
+const Status = stream('')
 
 /**
  * ログインユーザが保有するtoken
  */
-const token = stream('')
+const Token = stream('')
 
 /**
  * ログインユーザ情報
  */
-const user = stream('')
+const User = stream('')
 
 export default {
-	status,
-	token,
-	user,
+	Status,
+	Token,
+	User,
 }

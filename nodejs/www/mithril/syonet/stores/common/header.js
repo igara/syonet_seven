@@ -3,8 +3,8 @@ import {stream} from '../../mithril'
 /**
  * ヘッダーに表示する文言
  */
-const header_title = stream('')
+const HeaderTitle = stream('')
 
 export default {
-	header_title,
+	HeaderTitle,
 }

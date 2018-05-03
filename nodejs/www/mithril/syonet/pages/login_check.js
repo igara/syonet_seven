@@ -1,5 +1,5 @@
 import {m} from '../mithril'
-import LoginCheckAction from '../actions/login_check_action'
+import LoginCheckAction from '../actions/login_check'
 
 /**
  * Routing URL: //login/check/:token
@@ -30,7 +30,7 @@ export default class LoginCheckComponent {
 	 * @param {Vnode<A, this>} vnode
 	 */
 	oninit(vnode) {
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.SidebarDispFlag(false)
 		this.LoginCheckAction.setToken(m.route.param('token'))
 	}
 
@@ -41,11 +41,11 @@ export default class LoginCheckComponent {
 		return (
 			<div>
 				{(() => {
-					if (this.Stores.LoginStore.status() === '') {
+					if (this.Stores.LoginStore.Status() === '') {
 						return <div>読み込み中</div>
-					} else if (this.Stores.LoginStore.status() === 200) {
+					} else if (this.Stores.LoginStore.Status() === 200) {
 						return <div>読み込みました</div>
-					} else if (this.Stores.LoginStore.status() !== 200) {
+					} else if (this.Stores.LoginStore.Status() !== 200) {
 						return <div>読み込みできませんでした</div>
 					}
 				})()}

@@ -26,18 +26,18 @@ export default class LoginCheckAction {
 	setToken(token) {
 		let t = token.replace('#_=_', '')
 		t = t.replace('#', '')
-		this.LoginStore.token(t)
+		this.LoginStore.Token(t)
 	}
 
 	/**
 	 * ログインチェックAPIを呼び出したときの処理
 	 */
 	async callLoginCheckApi() {
-		const json = await FetchLogin.callLoginCheck(this.LoginStore.token())
-		this.LoginStore.status(json.status)
+		const json = await FetchLogin.callLoginCheck(this.LoginStore.Token())
+		this.LoginStore.Status(json.status)
 		if (json.status === 200) {
-			this.LoginStore.user(json.user)
-			Token.setTokenCookie(this.LoginStore.token())
+			this.LoginStore.User(json.user)
+			Token.setTokenCookie(this.LoginStore.Token())
 		}
 	}
 }

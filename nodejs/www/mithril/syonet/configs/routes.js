@@ -2,7 +2,7 @@ import Cookies from '../js_cookie'
 import {browser, device} from '../../../libs/useragent'
 
 // Components
-import WrapperComponent from '../components/common/wrapper_component'
+import WrapperComponent from '../components/common/wrapper'
 
 // Pages
 import IndexPage from '../pages/index'
@@ -12,9 +12,9 @@ import LoginCheckPage from '../pages/login_check'
 import NotFoundPage from '../pages/not_found'
 
 // Stores
-import HeaderStore from '../stores/common/header_store'
-import SidebarStore from '../stores/common/sidebar_store'
-import LoginStore from '../stores/common/login_store'
+import HeaderStore from '../stores/common/header'
+import SidebarStore from '../stores/common/sidebar'
+import LoginStore from '../stores/common/login'
 
 import Token from '../../../libs/token'
 import FetchLogin from '../fetchs/login'
@@ -26,11 +26,11 @@ export default async() => {
 		if (token) {
 			const loginCheck = async() => {
 				const json = await FetchLogin.callLoginCheck(token)
-				LoginStore.status(json.status)
+				LoginStore.Status(json.status)
 				if (json.status === 200) {
 					Token.setTokenCookie(token)
-					LoginStore.token(token)
-					LoginStore.user(json.user)
+					LoginStore.Token(token)
+					LoginStore.User(json.user)
 				} else {
 					Cookies.remove('auth_token')
 					location.href = '/login'
@@ -58,31 +58,31 @@ export default async() => {
 			Stores,
 			UserAgent,
 			ChildComponent: IndexPage,
-			header_title: 'Syonet',
+			HeaderTitle: 'Syonet',
 		}),
 		'/analyzeimage': new WrapperComponent({
 			Stores,
 			UserAgent,
 			ChildComponent: AnalyzeImagePage,
-			header_title: 'Analyze',
+			HeaderTitle: 'Analyze',
 		}),
 		'/login': new WrapperComponent({
 			Stores,
 			UserAgent,
 			ChildComponent: LoginPage,
-			header_title: 'Login',
+			HeaderTitle: 'Login',
 		}),
 		'/login/check/:token': new WrapperComponent({
 			Stores,
 			UserAgent,
 			ChildComponent: LoginCheckPage,
-			header_title: 'LoginCheck',
+			HeaderTitle: 'LoginCheck',
 		}),
 		'/:any': new WrapperComponent({
 			Stores,
 			UserAgent,
 			ChildComponent: NotFoundPage,
-			header_title: 'Syonet',
+			HeaderTitle: 'Syonet',
 		}),
 	}
 	return routes

@@ -23,7 +23,7 @@ export default class SidebarAction {
 	 * 閉じるを押下したときの処理
 	 */
 	onClickClose() {
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.SidebarDispFlag(false)
 	}
 
 	/**
@@ -32,7 +32,7 @@ export default class SidebarAction {
 	 */
 	async onClickHome(m) {
 		const pathname = '/'
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
 		m.route.set(pathname)
 	}
@@ -43,7 +43,7 @@ export default class SidebarAction {
 	 */
 	async onClickLogin(m) {
 		const pathname = '/login'
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
 		m.route.set(pathname)
 	}
@@ -53,11 +53,11 @@ export default class SidebarAction {
 	 * @param {Mithril} m
 	 */
 	async onClickLogout(m) {
-		await FetchLogin.callLogout(this.Stores.LoginStore.token())
+		await FetchLogin.callLogout(this.Stores.LoginStore.Token())
 		const pathname = '/'
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
-		this.Stores.LoginStore.token('')
-		this.Stores.LoginStore.user('')
+		this.Stores.SidebarStore.SidebarDispFlag(false)
+		this.Stores.LoginStore.Token('')
+		this.Stores.LoginStore.User('')
 		Cookies.remove('auth_token')
 		await sleep(1000)
 		m.route.set(pathname)

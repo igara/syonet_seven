@@ -20,6 +20,6 @@ export default class FooterAction {
 	 * LinkIconを押下したときの処理
 	 */
 	onClickLinkIcon() {
-		this.SidebarStore.sidebar_disp_flag(true)
+		this.SidebarStore.SidebarDispFlag(true)
 	}
 }

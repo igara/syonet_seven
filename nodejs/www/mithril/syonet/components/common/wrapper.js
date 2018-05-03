@@ -1,7 +1,7 @@
 import {m} from '../../mithril'
-import HeaderComponent from './header_component'
-import FooterComponent from './footer_component'
-import SidebarComponent from './sidebar_component'
+import HeaderComponent from './header'
+import FooterComponent from './footer'
+import SidebarComponent from './sidebar'
 import {ContentStyle} from '../../styles'
 
 /**
@@ -15,9 +15,9 @@ export default class WrapperComponent {
 	ChildComponent
 
 	/**
-	 * @type {String} header_title
+	 * @type {String} HeaderTitle
 	 */
-	header_title
+	HeaderTitle
 
 	/**
 	 * @type {browser:{String}, device:{String}} device
@@ -31,7 +31,7 @@ export default class WrapperComponent {
 	constructor(vnode) {
 		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
-		this.header_title = vnode.header_title
+		this.HeaderTitle = vnode.HeaderTitle
 		this.UserAgent = vnode.UserAgent
 	}
 
@@ -40,7 +40,7 @@ export default class WrapperComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	oninit(vnode) {
-		this.Stores.HeaderStore.header_title(this.header_title)
+		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
 	}
 
 	/**
@@ -52,7 +52,7 @@ export default class WrapperComponent {
 				<HeaderComponent
 					Stores={this.Stores}
 				/>
-				{this.Stores.SidebarStore.sidebar_disp_flag() ?
+				{this.Stores.SidebarStore.SidebarDispFlag() ?
 					<SidebarComponent
 						Stores={this.Stores}
 						UserAgent={this.UserAgent}

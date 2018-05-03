@@ -1,5 +1,5 @@
 import {m} from '../../mithril'
-import FooterAction from '../../actions/common/footer_action'
+import FooterAction from '../../actions/common/footer'
 import {FooterStyle, IconStyle} from '../../styles'
 
 /**

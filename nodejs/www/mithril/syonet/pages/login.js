@@ -23,7 +23,7 @@ export default class LoginComponent {
 	 * @param {Vnode<A, this>} vnode 
 	 */
 	oninit(vnode) {
-		this.Stores.SidebarStore.sidebar_disp_flag(false)
+		this.Stores.SidebarStore.SidebarDispFlag(false)
 	}
 
 	/**

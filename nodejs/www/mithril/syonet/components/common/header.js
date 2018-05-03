@@ -26,12 +26,12 @@ export default class HeaderComponent {
 		return (
 			<ul class={HeaderStyle.header_wrap_ul}>
 				<li>
-					{this.Stores.HeaderStore.header_title}
+					{this.Stores.HeaderStore.HeaderTitle}
 				</li>
 				<li>
-					{this.Stores.LoginStore.user().image ?
+					{this.Stores.LoginStore.User().image ?
 						<img class={IconStyle.Icon.login_user_icon}
-							src={this.Stores.LoginStore.user().image} /> :
+							src={this.Stores.LoginStore.User().image} /> :
 						null
 					}
 				</li>

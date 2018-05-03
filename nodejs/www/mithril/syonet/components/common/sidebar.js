@@ -1,6 +1,6 @@
 import {m} from '../../mithril'
 import {SidebarStyle, IconStyle} from '../../styles'
-import SidebarAction from '../../actions/common/sidebar_action'
+import SidebarAction from '../../actions/common/sidebar'
 import sleep from '../../../../libs/sleep'
 
 /**
@@ -47,7 +47,7 @@ export default class SidebarComponent {
 						onclick={() => this.SidebarAction.onClickHome(m)}>
 						ホーム
 					</li>
-					{this.Stores.LoginStore.user() ?
+					{this.Stores.LoginStore.User() ?
 						<li class={SidebarStyle.sidebar_link_list}
 							onclick={() => this.SidebarAction.onClickLogout(m)}>
 							ログアウト
