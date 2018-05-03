@@ -3,11 +3,13 @@ import {browser, device} from '../../../libs/useragent'
 
 // Components
 import WrapperComponent from '../components/common/wrapper_component'
-import IndexComponent from '../components/index_component'
-import AnalyzeImageComponent from '../components/analyze_image_component'
-import LoginComponent from '../components/login_component'
-import LoginCheckComponent from '../components/login_check_component'
-import NotFoundComponent from '../components/not_found_component'
+
+// Pages
+import IndexPage from '../pages/index'
+import AnalyzeImagePage from '../pages/analyze_image'
+import LoginPage from '../pages/login'
+import LoginCheckPage from '../pages/login_check'
+import NotFoundPage from '../pages/not_found'
 
 // Stores
 import HeaderStore from '../stores/common/header_store'
@@ -55,31 +57,31 @@ export default async() => {
 		'/': new WrapperComponent({
 			Stores,
 			UserAgent,
-			ChildComponent: IndexComponent,
+			ChildComponent: IndexPage,
 			header_title: 'Syonet',
 		}),
 		'/analyzeimage': new WrapperComponent({
 			Stores,
 			UserAgent,
-			ChildComponent: AnalyzeImageComponent,
+			ChildComponent: AnalyzeImagePage,
 			header_title: 'Analyze',
 		}),
 		'/login': new WrapperComponent({
 			Stores,
 			UserAgent,
-			ChildComponent: LoginComponent,
+			ChildComponent: LoginPage,
 			header_title: 'Login',
 		}),
 		'/login/check/:token': new WrapperComponent({
 			Stores,
 			UserAgent,
-			ChildComponent: LoginCheckComponent,
+			ChildComponent: LoginCheckPage,
 			header_title: 'LoginCheck',
 		}),
 		'/:any': new WrapperComponent({
 			Stores,
 			UserAgent,
-			ChildComponent: NotFoundComponent,
+			ChildComponent: NotFoundPage,
 			header_title: 'Syonet',
 		}),
 	}
