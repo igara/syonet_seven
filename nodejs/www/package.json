@@ -8,7 +8,7 @@
 		"pm2": "pm2",
 		"build": "parcel build mithril/syonet/index.html -d dist/prod/syonet",
 		"lint": "eslint ./*",
-		"local_sev_start": "pm2 --no-daemon start ./bin/www.js --watch",
+		"local_dev_start": "pm2 --no-daemon start ./bin/www.js --watch",
 		"local_front_start": "parcel mithril/syonet/index.html -d dist/local/syonet"
 	},
 	"dependencies": {
