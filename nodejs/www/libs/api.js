@@ -6,7 +6,7 @@ const env = require('./env')
  * Apiを叩く時のホスト名を取得する
  */
 const getApiHost = () => {
-	let host = `${location.protocol}://${location.host}`
+	let host = `${location.protocol}//${location.host}`
 	if (env.getEnvByHostname(location.hostname) === 'local') {
 		host = 'http://localhost:3000'
 	}
