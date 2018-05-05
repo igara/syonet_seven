@@ -9,7 +9,7 @@ echo "localではbotを起動しません"
 # yarn start
 elif [ $WWW_ENV = "production" ]; then
 apk update
-apk add openssh sshpass
+apk add openssh sshpass curl
 npm install -g yarn
 yarn
 yarn start
