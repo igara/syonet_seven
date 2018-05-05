@@ -32,6 +32,8 @@ services:
 
   mongodb:
     image: mongo:3.7.1
+    ports:
+      - 27017:27017
     command: mongod --smallfiles
     volumes:
       - ./data/mongo:/data/db:cached
