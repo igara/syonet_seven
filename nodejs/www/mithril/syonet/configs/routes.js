@@ -12,9 +12,7 @@ import LoginCheckPage from '../pages/login_check'
 import NotFoundPage from '../pages/not_found'
 
 // Stores
-import HeaderStore from '../stores/common/header'
-import SidebarStore from '../stores/common/sidebar'
-import LoginStore from '../stores/common/login'
+import Stores from '../stores'
 
 import Token from '../../../libs/token'
 import FetchLogin from '../fetchs/login'
@@ -26,11 +24,11 @@ export default async() => {
 		if (token) {
 			const loginCheck = async() => {
 				const json = await FetchLogin.callLoginCheck(token)
-				LoginStore.Status(json.status)
+				Stores.LoginStore.Status(json.status)
 				if (json.status === 200) {
 					Token.setTokenCookie(token)
-					LoginStore.Token(token)
-					LoginStore.User(json.user)
+					Stores.LoginStore.Token(token)
+					Stores.LoginStore.User(json.user)
 				} else {
 					Cookies.remove('auth_token')
 					location.href = '/login'
@@ -38,12 +36,6 @@ export default async() => {
 			}
 			await loginCheck()
 		}
-	}
-
-	const Stores = {
-		HeaderStore,
-		SidebarStore,
-		LoginStore,
 	}
 
 	const resultDevice = device()

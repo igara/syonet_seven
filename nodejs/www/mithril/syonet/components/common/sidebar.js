@@ -2,6 +2,7 @@ import {m} from '../../mithril'
 import {SidebarStyle, IconStyle} from '../../styles'
 import SidebarAction from '../../actions/common/sidebar'
 import sleep from '../../../../libs/sleep'
+import TermComponent from './term'
 
 /**
  * サイドバーを表示するコンポーネント
@@ -57,11 +58,16 @@ export default class SidebarComponent {
 							ログイン
 						</li>
 					}
-					<li class={SidebarStyle.sidebar_link_list}>
+					<li class={SidebarStyle.sidebar_link_list}
+						onclick={() => this.SidebarAction.onClickTerm()}>
 						利用規約
 					</li>
 					<li class={SidebarStyle.sidebar_link_list}>
 						ライセンス
+					</li>
+					<li class={SidebarStyle.sidebar_link_list}
+						onclick={() => this.SidebarAction.onClickGitHub()}>
+						GitHub
 					</li>
 				</ul>
 				<button
@@ -69,6 +75,12 @@ export default class SidebarComponent {
 					onclick={() => this.SidebarAction.onClickClose()}>
 					<div class={IconStyle.Close.close_mark} />
 				</button>
+				{this.Stores.TermStore.TermDispFlag() ?
+					<TermComponent
+						Stores={this.Stores}
+					/> :
+					null
+				}
 			</div>
 		)
 	}

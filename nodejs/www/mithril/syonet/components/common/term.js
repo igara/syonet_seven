@@ -1,0 +1,55 @@
+import {m} from '../../mithril'
+import {TermStyle} from '../../styles'
+import TermAction from '../../actions/common/term'
+import sleep from '../../../../libs/sleep'
+import Button from './Button'
+
+/**
+ * 利用規約を表示するコンポーネント
+ */
+export default class TermComponent {
+
+	Stores
+
+	/**
+	 * @type {TermAction} TermAction
+	 */
+	TermAction
+
+	/**
+	 * @constructor
+	 * @param {Vnode<A, this>} vnode 
+	 */
+	constructor(vnode) {
+		this.Stores = vnode.attrs.Stores
+		this.TermAction = new TermAction(this.Stores)
+	}
+
+	/**
+	 * Lifecycle: The onbeforeupdate hook is called before a vnode is diffed in a update.
+	 * @param {Vnode<A, this>} vnode 
+	 */
+	async onbeforeremove(vnode) {
+		vnode.dom.classList.add(TermStyle.term_exit)
+		return await sleep(1000)
+	}
+
+	/**
+	 * Lifecycle: Creates a view out of virtual elements.
+	 */
+	view() {
+		return (
+			<div class={TermStyle.term_wrap_div}>
+				<div class={TermStyle.term_overlay_div}>
+					<div class={TermStyle.term_content}>
+						<Button
+							Stores={this.Stores}
+							OnClickHandler={this.TermAction.onClickClose}>
+							閉じる
+						</Button>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}

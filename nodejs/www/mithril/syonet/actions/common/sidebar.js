@@ -27,6 +27,13 @@ export default class SidebarAction {
 	}
 
 	/**
+	 * 利用規約を押下したときの処理
+	 */
+	onClickTerm() {
+		this.Stores.TermStore.TermDispFlag(true)
+	}
+
+	/**
 	 * ホームを押下したときの処理
 	 * @param {Mithril} m
 	 */
@@ -61,5 +68,12 @@ export default class SidebarAction {
 		Cookies.remove('auth_token')
 		await sleep(1000)
 		m.route.set(pathname)
+	}
+
+	/**
+	 * 利用規約を押下したときの処理
+	 */
+	onClickGitHub() {
+		window.open('https://github.com/igara/syonet_seven')
 	}
 }
