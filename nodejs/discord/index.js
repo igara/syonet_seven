@@ -37,7 +37,7 @@ client.on('message', message => {
 				console.log(`Sent message: ${sendText}`)
 				const result = child_process.execSync(REMOTE_DEPLOY_COMMAND)
 				console.log(result)
-			}))
+			})
 			.catch(console.error)
 		} else {
 			const sendText =
