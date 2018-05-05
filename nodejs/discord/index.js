@@ -29,7 +29,7 @@ client.on('message', message => {
 	// メッセージの文字列による条件分岐
 	if (message.content === '@bot deploy latest') {
 		const author = message.author
-		if (author.id in ADMIN_USER_ID) {
+		if (ADMIN_USER_ID.includes(+author.id)) {
 			const sendText =
 `今からsyonet.workを最新化します。`
 			message.reply(sendText)
