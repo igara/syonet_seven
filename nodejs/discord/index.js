@@ -14,8 +14,8 @@ const DISCORD_WEBHOCK = process.env.DISCORD_WEBHOCK
 // 準備完了イベントのconsole.logで通知黒い画面に出る。
 client.on('ready', () => {
 	const result = child_process.execSync(`
-curl -H "Accept: application/json"
--H "Content-type: application/json"
+curl -H "Accept: application/json" \
+-H "Content-type: application/json" \
 -X POST -d '{"username":"syonet.work","content":"syonet.workは再起動しました。"}' '${DISCORD_WEBHOCK}'`)
 	console.log(result)
 })
