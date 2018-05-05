@@ -1,5 +1,7 @@
 # syonet_seven
 
+[![Build Status](https://travis-ci.org/igara/syonet_seven.svg?branch=master)](https://travis-ci.org/igara/syonet_seven)
+
 ## 環境構築
 
 ### 初回起動時
