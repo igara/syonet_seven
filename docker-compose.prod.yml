@@ -29,6 +29,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
 
   mongodb:
     image: mongo:3.7.1
@@ -42,6 +43,7 @@ services:
       - backend
     environment:
       TZ: Asia/Tokyo
+    restart: always
 
   https-portal:
     image: steveltn/https-portal:1
@@ -64,6 +66,20 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
+
+  discord:
+    build:
+      context: ./nodejs/discord
+      dockerfile: discord.Dockerfile
+    volumes:
+      - ./nodejs/discord:/discord:cached
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      WWW_ENV: ${WWW_ENV}
+      DISCORD_ADMIN_USER_ID: ${DISCORD_ADMIN_USER_ID}
+      REMOTE_DEPLOY_COMMAND: ${REMOTE_DEPLOY_COMMAND}
+    restart: always
 
 networks:
   frontend:
