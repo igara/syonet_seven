@@ -1,4 +1,5 @@
 import {m} from '../mithril'
+import {getApiHost} from '../../../libs/api'
 
 /**
  * Routing URL: //login/
@@ -30,13 +31,14 @@ export default class LoginComponent {
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
 	view() {
+		const host = getApiHost()
 		return (
 			<div>
 				ログイン画面です
-				<a href="http://127.0.0.1:3000/auth/google">Google</a>
-				<a href="http://127.0.0.1:3000/auth/facebook">facebook</a>
-				<a href="http://127.0.0.1:3000/auth/twitter">twitter</a>
-				<a href="http://127.0.0.1:3000/auth/github">github</a>
+				<a href={`${host}/auth/google`}>Google</a>
+				<a href={`${host}/auth/facebook`}>facebook</a>
+				<a href={`${host}/auth/auth/twitter`}>twitter</a>
+				<a href={`${host}/auth/github`}>github</a>
 			</div>
 		)
 	}
