@@ -1,3 +1,4 @@
+// @flow
 const crypto = require('crypto')
 const datetime = require('./datetime')
 const Cookies = require('../mithril/syonet/js_cookie')
@@ -7,7 +8,7 @@ const Cookies = require('../mithril/syonet/js_cookie')
  * @param {String|Number} userId
  * @return {String} token
  */
-const getUserToken = (userId) => {
+const getUserToken = (userId: number | string): string => {
 	const value = `${userId}_${datetime.getTimeStamp()}`
 	const hash = crypto.createHmac('sha512', value)
 	hash.update(value)
@@ -27,7 +28,7 @@ const getTokenCookie = () => {
  * Tokenの値を保存する
  * @param {String} token
  */
-const setTokenCookie = (token) => {
+const setTokenCookie = (token: string) => {
 	Cookies.set('auth_token', token, {
 		expires: new Date(datetime.getMultiFormatDateTime({hours: 1})),
 	})

@@ -8,7 +8,9 @@
 		["transform-react-jsx", {
 			"pragma": "m"
 		}],
-		["babel-plugin-transform-runtime"]
+		["babel-plugin-transform-runtime"],
+		["transform-flow-strip-types"],
+		["transform-class-properties"]
 	]
 }
  

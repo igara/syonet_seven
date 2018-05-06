@@ -1,3 +1,4 @@
+// @flow
 const mongo = require('./index')
 const token = require('../libs/token')
 const datetime = require('../libs/datetime')
@@ -10,10 +11,10 @@ const UserSchema = mongo.Schema({
 
 /**
  * 認証したユーザの情報を更新もしくは新規作成する
- * @param {{}} user
+ * @param {UpsertByAuthUserParam} user
  * @return {String} tokenValue
  */
-UserSchema.methods.upsertByAuthUser = async(user) => {
+UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promise<string> => {
 	await User.update(
 		{'auth.id': user.id, 'auth.provider': user.provider},
 		{$set: {auth: user}},
@@ -41,9 +42,9 @@ UserSchema.methods.upsertByAuthUser = async(user) => {
 
 /**
  * 認証したユーザのtokenを削除する
- * @param {{}} user
+ * @param {String} token
  */
-UserSchema.methods.deleteToken = async(token) => {
+UserSchema.methods.deleteToken = async(token: string) => {
 	await User.update(
 		{
 			token,
@@ -57,10 +58,10 @@ UserSchema.methods.deleteToken = async(token) => {
 
 /**
  * 認証したユーザから厳選した情報を取得する
- * @param {{}} user
- * @return {String} tokenValue
+ * @param {GetUserInfoParam} user
+ * @return {GetUserInfoReturn}
  */
-UserSchema.methods.getUserInfo = (user) => {
+UserSchema.methods.getUserInfo = (user: GetUserInfoParam): GetUserInfoReturn | void => {
 	if (user.auth.provider === 'google') {
 		return {
 			displayName: user.auth.displayName,
@@ -84,6 +85,5 @@ UserSchema.methods.getUserInfo = (user) => {
 	}
 }
 
-const User = mongo.model('User', UserSchema)
-
+const User: UserModelType = mongo.model('User', UserSchema)
 module.exports = User
