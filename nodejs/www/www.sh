@@ -1,7 +1,5 @@
 #!/bin/sh
 
-npm install -g yarn
-yarn
 if [ $WWW_ENV = "local" ]; then
 yarn build
 yarn local_dev_start

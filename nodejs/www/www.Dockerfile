@@ -13,5 +13,8 @@ RUN apk --no-cache add openssl && \
     wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk && \
     apk add glibc-2.25-r0.apk
 
+RUN npm install -g yarn
+RUN yarn
+
 RUN chmod +x /www/www.sh
 CMD ["/www/www.sh"]
