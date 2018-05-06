@@ -14,6 +14,7 @@ RUN apk --no-cache add openssl && \
     apk add glibc-2.25-r0.apk
 
 RUN npm install -g yarn
+RUN chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
 RUN yarn
 
 RUN chmod +x /www/www.sh
