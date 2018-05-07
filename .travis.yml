@@ -19,8 +19,7 @@ before_script:
   - sh env.sh local
 
 script:
-  - docker-compose up -d
-  - docker-compose exec www yarn flow
+  - sh travis.sh
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
