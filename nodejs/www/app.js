@@ -1,12 +1,18 @@
+// @flow
+
 const express = require('express')
 const path = require('path')
+// $FlowFixMe
 const favicon = require('serve-favicon')
 const logger = require('morgan')
+// $FlowFixMe
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+// $FlowFixMe
 const passport = require('passport')
 
 const app = express()
+// $FlowFixMe
 const compression = require('compression')
 
 app.use(compression({
@@ -19,10 +25,10 @@ const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
 const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
-app.use((req, res, next) => {
+app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
 	res.set('Access-Control-Allow-Origin', '*')
 	res.set('Access-Control-Allow-Headers', 'Content-Type')
-  
+
 	if (req.method === 'OPTIONS') {
 		res.append('Access-Control-Allow-Headers', 'Token')
 		res.set('Access-Control-Allow-Methods', req.get('access-control-request-Method'))
@@ -33,7 +39,7 @@ app.use((req, res, next) => {
 })
 
 // HTTPの時HTTPSアクセスにリダイレクトする
-app.use((req, res, next) => {
+app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
 	if (isNotLocalEnv() && req.headers['x-forwarded-proto'] !== 'https') {
 		// request was via http, so redirect to https
 		res.redirect(`https://${req.hostname}${req.url}`)
@@ -58,6 +64,7 @@ const userApi = require('./routes/api/user')
 app.use('/api/user', userApi)
 
 // Auth
+// $FlowFixMe
 const session = require('express-session')
 app.use(passport.initialize())
 app.use(passport.session())
@@ -73,24 +80,26 @@ const authGithub = require('./routes/auth/github')
 app.use('/auth/github', authGithub)
 
 // send all requests to index.html so browserHistory in React Router works
-app.get('*', (req, res) => {
+app.get('*', (req: express$Request, res: express$Response) => {
 	res.sendFile(path.join(syonetStaticDir, 'index.html'))
 })
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-	const err = new Error('Not Found')
+app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
+	const err: Error = new Error('Not Found')
+	// $FlowFixMe
 	err.status = 404
 	next(err)
 })
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err: Error, req: express$Request, res: express$Response, next: express$NextFunction) => {
 	// set locals, only providing error in development
 	res.locals.message = err.message
 	res.locals.error = req.app.get('env') === 'local' ? err : {}
 
 	// render the error page
+	// $FlowFixMe
 	res.status(err.status || 500)
 	res.sendFile(path.join(syonetStaticDir, 'index.html'))
 })

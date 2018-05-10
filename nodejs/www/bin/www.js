@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * Module dependencies.
  */
@@ -9,7 +11,7 @@ const http = require('http')
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000')
+const port = process.env.PORT || '3000'
 app.set('port', port)
 
 /**
@@ -55,9 +57,7 @@ function onError(error) {
 		throw error
 	}
 
-	const bind = typeof port === 'string'
-		? 'Pipe ' + port
-		: 'Port ' + port
+	const bind = `Pipe ${port}`
 
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
