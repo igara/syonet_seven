@@ -1,9 +1,11 @@
+// @flow
+
 /**
  * アクセス中のHost名から環境変数値を取得する
  * @param {String} hostname
  * @return {String} env 
  */
-const getEnvByHostname = (hostname) => {
+const getEnvByHostname = (hostname: string) => {
 	let env = 'local'
 	if (hostname === 'syonet.work') {
 		env = 'prod'

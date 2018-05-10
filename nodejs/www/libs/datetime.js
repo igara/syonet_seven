@@ -1,3 +1,5 @@
+// @flow
+
 const dateFns = require('../mithril/syonet/date_fns')
 
 /**
@@ -20,7 +22,7 @@ const getTimeStamp = () => {
  * @param {String} options.format 日付表示書式 default:'YYYY-MM-DD HH:mm:ss'
  * @return {String} 日付
  */
-const getMultiFormatDateTime = (options) => {
+const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOption) => {
 	const o = _getMultiFormatDateTimeOptions(options)
 	const dt = o.Date
 	dt.setSeconds(dt.getSeconds() + o.seconds)
@@ -50,14 +52,42 @@ module.exports = {
  * @param {String} options.format 日付表示書式 default:'YYYY-MM-DD HH:mm:ss'
  * @returns {} options
  */
-const _getMultiFormatDateTimeOptions = (options = {}) => {
-	options.Date = dateFns.isDate(options.Date) ? options.Date : new Date()
-	options.seconds = isFinite(options.seconds) ? options.seconds : 0
-	options.minutes = isFinite(options.minutes) ? options.minutes : 0
-	options.hours = isFinite(options.hours) ? options.hours : 0
-	options.day = isFinite(options.day) ? options.day : 0
-	options.month = isFinite(options.month) ? options.month : 0
-	options.year = isFinite(options.year) ? options.year : 0
-	options.format = options.format ? options.format : 'YYYY-MM-DD HH:mm:ss'
-	return options
+const _getMultiFormatDateTimeOptions = (options: ?GetMultiFormatDateTimeParamOption): _GetMultiFormatDateTimeReturnOption => {
+	if (typeof options === 'undefined' || options === null) {
+		options = {
+			Date: new Date(),
+			seconds: 0,
+			minutes: 0,
+			hours: 0,
+			day: 0,
+			month: 0,
+			year: 0,
+			format: 'YYYY-MM-DD HH:mm:ss',
+		}
+	}
+	if (typeof options.Date === 'undefined' || options.Date === null) {
+		options.Date = new Date()
+	}
+	if (typeof options.seconds === 'undefined' || options.seconds === null) {
+		options.seconds = 0
+	}
+	if (typeof options.minutes === 'undefined' || options.minutes === null) {
+		options.minutes = 0
+	}
+	if (typeof options.hours === 'undefined' || options.hours === null) {
+		options.hours = 0
+	}
+	if (typeof options.day === 'undefined' || options.day === null) {
+		options.day = 0
+	}
+	if (typeof options.month === 'undefined' || options.month === null) {
+		options.month = 0
+	}
+	if (typeof options.year === 'undefined' || options.year === null) {
+		options.month = 0
+	}
+	if (typeof options.format === 'undefined' || options.format === null) {
+		options.format = 'YYYY-MM-DD HH:mm:ss'
+	}
+	return {...options}
 }

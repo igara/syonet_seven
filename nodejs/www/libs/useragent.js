@@ -1,3 +1,5 @@
+// @flow
+
 const userAgent = window.navigator.userAgent.toLowerCase()
 const ver = window.navigator.appVersion.toLowerCase()
 

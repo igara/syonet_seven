@@ -1,3 +1,5 @@
+// @flow
+
 import 'isomorphic-fetch'
 
 const env = require('./env')
@@ -21,7 +23,7 @@ const getApiHost = () => {
  * @param {String} option.token
  * @return {fetch}
  */
-const call = async(option) => {
+const call = async(option: APICallParamOption) => {
 	option.method = option.method ? option.method : 'POST'
 	option.token = option.token ? option.token : ''
 	return await fetch(option.url, {
