@@ -3,13 +3,12 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "pm2 --no-daemon start npm -- server",
+		"start": "pm2 --no-daemon start pm2.json",
 		"server": "node -r babel-register ./bin/www.js",
 		"stop": "pm2 stop www",
 		"pm2": "pm2",
 		"build": "parcel build mithril/syonet/index.html -d dist/prod/syonet",
 		"lint": "eslint ./*",
-		"local_dev_start": "pm2 --no-daemon start pm2_local.json",
 		"local_front_start": "parcel mithril/syonet/index.html -d dist/local/syonet",
 		"flow": "flow"
 	},
