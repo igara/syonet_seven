@@ -1,0 +1,10 @@
+{
+	"apps": [
+		{
+			"name": "www",
+			"script": "yarn",
+			"args" : "server",
+			"watch": false
+		}
+	]
+}
