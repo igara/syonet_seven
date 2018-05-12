@@ -1,6 +1,6 @@
 // @flow
 
-const dateFns = require('../mithril/syonet/date_fns')
+import dateFns from '../mithril/syonet/date_fns'
 
 /**
  * タイムスタンプ値を取得

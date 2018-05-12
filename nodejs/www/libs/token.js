@@ -1,7 +1,7 @@
 // @flow
-const crypto = require('crypto')
-const datetime = require('./datetime')
-const Cookies = require('../mithril/syonet/js_cookie')
+import crypto from 'crypto'
+import datetime from './datetime'
+import Cookies from '../mithril/syonet/js_cookie'
 
 /**
  * 認証に用いるTokenを取得する

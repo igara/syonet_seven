@@ -1,8 +1,7 @@
 // @flow
 
 import 'isomorphic-fetch'
-
-const env = require('./env')
+import env from './env'
 
 /**
  * Apiを叩く時のホスト名を取得する

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://mongodb/syonet')
 
-module.exports = mongoose
+export default mongoose

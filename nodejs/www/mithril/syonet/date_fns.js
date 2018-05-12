@@ -1,7 +1,7 @@
-const format = require('date-fns/format')
-const isDate = require('date-fns/is_date')
+import format from 'date-fns/format'
+import isDate from 'date-fns/is_date'
 
-module.exports = {
+export default {
 	format,
 	isDate,
 }

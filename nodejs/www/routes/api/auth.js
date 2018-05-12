@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
+import User from '../../models/user'
 const router = express.Router()
-const User = require('../../models/user')
 
 /**
  * tokenの値をリクエストし認証の確認をする
@@ -62,4 +62,4 @@ router.delete('/delete', async(req, res) => {
 	}
 })
 
-module.exports = router
+export default router

@@ -1,19 +1,29 @@
 // @flow
 
-const express = require('express')
-const path = require('path')
+import express from 'express'
+import path from 'path'
 // $FlowFixMe
-const favicon = require('serve-favicon')
-const logger = require('morgan')
+import favicon from 'serve-favicon'
+import logger from 'morgan'
 // $FlowFixMe
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
 // $FlowFixMe
-const passport = require('passport')
+import passport from 'passport'
+// $FlowFixMe
+import compression from 'compression'
+// $FlowFixMe
+import session from 'express-session'
+
+// API・Page Import
+import authApi from './routes/api/auth'
+import userApi from './routes/api/user'
+import authFacebook from './routes/auth/facebook'
+import authTwitter from './routes/auth/twitter'
+import authGoogle from './routes/auth/google'
+import authGithub from './routes/auth/github'
 
 const app = express()
-// $FlowFixMe
-const compression = require('compression')
 
 app.use(compression({
 	threshold: 0,
@@ -58,25 +68,17 @@ app.use(cookieParser())
 app.use(express.static(staticDir))
 
 // API
-const authApi = require('./routes/api/auth')
 app.use('/api/auth', authApi)
-const userApi = require('./routes/api/user')
 app.use('/api/user', userApi)
 
 // Auth
-// $FlowFixMe
-const session = require('express-session')
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(session({secret: 'syonet'}))
 
-const authFacebook = require('./routes/auth/facebook')
 app.use('/auth/facebook', authFacebook)
-const authTwitter = require('./routes/auth/twitter')
 app.use('/auth/twitter', authTwitter)
-const authGoogle = require('./routes/auth/google')
 app.use('/auth/google', authGoogle)
-const authGithub = require('./routes/auth/github')
 app.use('/auth/github', authGithub)
 
 // send all requests to index.html so browserHistory in React Router works
@@ -104,7 +106,7 @@ app.use((err: Error, req: express$Request, res: express$Response, next: express$
 	res.sendFile(path.join(syonetStaticDir, 'index.html'))
 })
 
-module.exports = app
+export default app
 
 /**
  * Local環境ではないかを判定する

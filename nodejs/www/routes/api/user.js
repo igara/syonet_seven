@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
+import User from '../../models/user'
 const router = express.Router()
-const User = require('../../models/user')
 
 /* GET users listing. */
 router.get('/', async(req, res, next) => {
@@ -17,4 +17,4 @@ router.post('/create', async(req, res, next) => {
 	res.send('respond with a resource')
 })
 
-module.exports = router
+export default router

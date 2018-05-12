@@ -1,3 +1,3 @@
-const Cookies = require('js-cookie')
+import Cookies from 'js-cookie'
 
-module.exports = Cookies
+export default Cookies

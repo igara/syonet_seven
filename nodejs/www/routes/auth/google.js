@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express'
+import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
+import passport from 'passport'
+import User from '../../models/user'
 const router = express.Router()
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-const passport = require('passport')
-const User = require('../../models/user')
 
 /**
  * Google API設定
@@ -42,4 +42,4 @@ router.get('/callback', passport.authenticate('google'), async(req, res) => {
 	res.redirect(`/login/check/${token}`)
 })
 
-module.exports = router
+export default router

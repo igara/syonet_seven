@@ -9,7 +9,7 @@ import Icon from './styles/common/icon.pcss'
 import Close from './styles/common/icon/close.pcss'
 import Hamburger from './styles/common/icon/hamburger.pcss'
 
-module.exports = {
+export default {
 	ContentStyle,
 	SidebarStyle,
 	HeaderStyle,

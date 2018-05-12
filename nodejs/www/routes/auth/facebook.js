@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express'
+import {Strategy as FacebookStrategy} from 'passport-facebook'
+import passport from 'passport'
+import User from '../../models/user'
 const router = express.Router()
-const FacebookStrategy = require('passport-facebook').Strategy
-const passport = require('passport')
-const User = require('../../models/user')
 
 /**
  * Facebook API設定
@@ -52,4 +52,4 @@ router.get('/callback', passport.authenticate('facebook'), async(req, res) => {
 	res.redirect(`/login/check/${token}`)
 })
 
-module.exports = router
+export default router

@@ -1,13 +1,14 @@
-const express = require('express')
+import express from 'express'
+import {Strategy as GithubStrategy} from 'passport-github'
+import passport from 'passport'
+import User from '../../models/user'
+
 const router = express.Router()
-const FacebookStrategy = require('passport-github').Strategy
-const passport = require('passport')
-const User = require('../../models/user')
 
 /**
  * Github API設定
  */
-passport.use(new FacebookStrategy({
+passport.use(new GithubStrategy({
 	clientID: process.env.GITHUB_CLIENT_ID,
 	clientSecret: process.env.GITHUB_CLIENT_SECRET,
 	callbackURL: process.env.GITHUB_CALLBACK,

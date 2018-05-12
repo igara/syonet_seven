@@ -1,7 +1,7 @@
 // @flow
-const mongo = require('./index')
-const token = require('../libs/token')
-const datetime = require('../libs/datetime')
+import mongo from './index'
+import token from '../libs/token'
+import datetime from '../libs/datetime'
 
 const UserSchema = mongo.Schema({
 	auth: mongo.Schema.Types.Mixed,
@@ -86,4 +86,4 @@ UserSchema.methods.getUserInfo = (user: GetUserInfoParam): GetUserInfoReturn | v
 }
 
 const User: UserModelType = mongo.model('User', UserSchema)
-module.exports = User
+export default User
