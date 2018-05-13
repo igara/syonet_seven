@@ -1,3 +1,5 @@
+// @flow
+
 import {m} from './mithril'
 import routes from './configs/routes'
 

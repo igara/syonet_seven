@@ -1,3 +1,5 @@
+// @flow
+
 import HeaderStore from '../stores/common/header'
 import SidebarStore from '../stores/common/sidebar'
 import LoginStore from '../stores/common/login'

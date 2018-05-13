@@ -1,3 +1,5 @@
+// @flow
+
 import './styles/common/body.pcss'
 import ContentStyle from './styles/common/content.pcss'
 import SidebarStyle from './styles/common/sidebar.pcss'

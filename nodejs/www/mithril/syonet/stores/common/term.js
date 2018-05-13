@@ -1,3 +1,5 @@
+// @flow
+
 import {stream} from '../../mithril'
 
 /**
