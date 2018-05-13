@@ -9,15 +9,17 @@ import Icon from './styles/common/icon.pcss'
 import Close from './styles/common/icon/close.pcss'
 import Hamburger from './styles/common/icon/hamburger.pcss'
 
-export default {
+const IconStyle = {
+	Icon,
+	Close,
+	Hamburger,
+}
+
+export {
 	ContentStyle,
 	SidebarStyle,
 	HeaderStyle,
 	FooterStyle,
 	TermStyle,
-	IconStyle: {
-		Icon,
-		Close,
-		Hamburger,
-	},
+	IconStyle,
 }

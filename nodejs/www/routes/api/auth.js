@@ -1,3 +1,5 @@
+// @flow
+
 import express from 'express'
 import User from '../../models/user'
 const router = express.Router()
@@ -7,7 +9,7 @@ const router = express.Router()
  * @param {Request} req
  * @param {Response} res
  */
-router.post('/check', async(req, res) => {
+router.post('/check', async(req: express$Request, res: express$Response) => {
 	try {
 		const headers = req.headers
 		const token = headers.token ? headers.token : ''
@@ -42,7 +44,7 @@ router.post('/check', async(req, res) => {
  * @param {Request} req
  * @param {Response} res
  */
-router.delete('/delete', async(req, res) => {
+router.delete('/delete', async(req: express$Request, res: express$Response) => {
 	try {
 		const headers = req.headers
 		const token = headers.token ? headers.token : ''
