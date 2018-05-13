@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../../mithril'
 import FooterAction from '../../actions/common/footer'
 import {FooterStyle, IconStyle} from '../../styles'
@@ -10,18 +15,18 @@ export default class FooterComponent {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @type {FooterAction} FooterAction
 	 */
-	FooterAction
+	FooterAction: FooterAction
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: FooterComponentVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.FooterAction = new FooterAction(this.Stores.SidebarStore)
 	}

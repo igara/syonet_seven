@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../../mithril'
 import HeaderComponent from './header'
 import FooterComponent from './footer'
@@ -9,26 +14,31 @@ import {ContentStyle} from '../../styles'
  */
 export default class WrapperComponent {
 
+	Stores: Stores
+
 	/**
 	 * @type {Mithril} ChildComponent
 	 */
-	ChildComponent
+	ChildComponent: string
 
 	/**
 	 * @type {String} HeaderTitle
 	 */
-	HeaderTitle
+	HeaderTitle: string
 
 	/**
 	 * @type {browser:{String}, device:{String}} device
 	 */
-	UserAgent
+	UserAgent: {
+		browser: ?string,
+		device: ?string,
+	}
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: WrapperComponentVnode) {
 		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
 		this.HeaderTitle = vnode.HeaderTitle
@@ -39,7 +49,7 @@ export default class WrapperComponent {
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	oninit(vnode) {
+	oninit(vnode: WrapperComponentVnode) {
 		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
 	}
 

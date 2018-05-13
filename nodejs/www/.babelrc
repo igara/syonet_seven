@@ -2,7 +2,8 @@
 	"presets": [
 		"es2015",
 		"stage-0",
-		"stage-3"
+		"stage-3",
+		"react"
 	],
 	"plugins": [
 		["transform-react-jsx", {

@@ -1,13 +1,17 @@
+// @flow
+
 /**
  * フッダーのアクション
  */
 export default class FooterAction {
 
+	Stores: Stores
+
 	/**
 	 * @constructor
 	 */
-	constructor(SidebarStore) {
-		this.SidebarStore = SidebarStore
+	constructor(Stores: Stores) {
+		this.Stores = Stores
 	}
 
 	/**
@@ -20,6 +24,6 @@ export default class FooterAction {
 	 * LinkIconを押下したときの処理
 	 */
 	onClickLinkIcon() {
-		this.SidebarStore.SidebarDispFlag(true)
+		this.Stores.SidebarStore.SidebarDispFlag(true)
 	}
 }

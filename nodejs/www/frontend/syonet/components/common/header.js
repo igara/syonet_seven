@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../../mithril'
 import {HeaderStyle, IconStyle} from '../../styles'
 
@@ -9,13 +14,13 @@ export default class HeaderComponent {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: HeaderComponentVnode) {
 		this.Stores = vnode.attrs.Stores
 	}
 

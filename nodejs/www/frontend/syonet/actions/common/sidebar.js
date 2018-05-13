@@ -1,3 +1,5 @@
+// @flow
+
 import sleep from '../../../../libs/sleep'
 import Cookies from '../../js_cookie'
 import FetchLogin from '../../fetchs/login'
@@ -10,12 +12,12 @@ export default class SidebarAction {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores) {
+	constructor(Stores: Stores) {
 		this.Stores = Stores
 	}
 
@@ -37,7 +39,7 @@ export default class SidebarAction {
 	 * ホームを押下したときの処理
 	 * @param {Mithril} m
 	 */
-	async onClickHome(m) {
+	async onClickHome(m: mithril) {
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
@@ -48,7 +50,7 @@ export default class SidebarAction {
 	 * ログインを押下したときの処理
 	 * @param {Mithril} m
 	 */
-	async onClickLogin(m) {
+	async onClickLogin(m: mithril) {
 		const pathname = '/login'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
@@ -59,7 +61,7 @@ export default class SidebarAction {
 	 * ログアウトを押下したときの処理
 	 * @param {Mithril} m
 	 */
-	async onClickLogout(m) {
+	async onClickLogout(m: mithril) {
 		await FetchLogin.callLogout(this.Stores.LoginStore.Token())
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
@@ -71,7 +73,7 @@ export default class SidebarAction {
 	}
 
 	/**
-	 * 利用規約を押下したときの処理
+	 * GitHubを押下したときの処理
 	 */
 	onClickGitHub() {
 		window.open('https://github.com/igara/syonet_seven')

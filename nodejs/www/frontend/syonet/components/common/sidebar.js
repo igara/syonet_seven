@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../../mithril'
 import {SidebarStyle, IconStyle} from '../../styles'
 import SidebarAction from '../../actions/common/sidebar'
@@ -9,16 +14,18 @@ import TermComponent from './term'
  */
 export default class SidebarComponent {
 
+	Stores: Stores
+
 	/**
 	 * @type {SidebarAction} SidebarAction
 	 */
-	SidebarAction
+	SidebarAction: SidebarAction
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: SidebarComponentVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.SidebarAction = new SidebarAction(this.Stores)
 	}
@@ -27,7 +34,7 @@ export default class SidebarComponent {
 	 * Lifecycle: The onbeforeupdate hook is called before a vnode is diffed in a update.
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	async onbeforeremove(vnode) {
+	async onbeforeremove(vnode: SidebarComponentVnode) {
 		vnode.dom.classList.add(SidebarStyle.sidebar_exit)
 		return await sleep(1000)
 	}
