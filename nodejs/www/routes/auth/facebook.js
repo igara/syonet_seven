@@ -1,5 +1,9 @@
+// @flow
+
 import express from 'express'
+// $FlowFixMe
 import {Strategy as FacebookStrategy} from 'passport-facebook'
+// $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
 const router = express.Router()
@@ -45,6 +49,7 @@ router.get('/', passport.authenticate('facebook'))
  * 認証完了画面
  * @param {Request} req
  * @param {Response} res
+ * $FlowFixMe
  */
 router.get('/callback', passport.authenticate('facebook'), async(req, res) => {
 	const userModel = new User()

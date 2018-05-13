@@ -1,5 +1,8 @@
+// @flow
 import express from 'express'
+// $FlowFixMe
 import {Strategy as GithubStrategy} from 'passport-github'
+// $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
 
@@ -32,6 +35,7 @@ router.get('/', passport.authenticate('github'))
  * 認証完了画面
  * @param {Request} req
  * @param {Response} res
+ * $FlowFixMe
  */
 router.get('/callback', passport.authenticate('github'), async(req, res) => {
 	const userModel = new User()

@@ -1,5 +1,8 @@
+// @flow
 import express from 'express'
+// $FlowFixMe
 import {Strategy as TwitterStrategy} from 'passport-twitter'
+// $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
 const router = express.Router()
@@ -32,6 +35,7 @@ router.get('/', passport.authenticate('twitter'))
  * 認証完了画面
  * @param {Request} req
  * @param {Response} res
+ * $FlowFixMe
  */
 router.get('/callback', passport.authenticate('twitter'), async(req, res) => {
 	const userModel = new User()

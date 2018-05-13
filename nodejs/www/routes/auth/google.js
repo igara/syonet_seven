@@ -1,5 +1,8 @@
+// @flow
 import express from 'express'
+// $FlowFixMe
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
+// $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
 const router = express.Router()
@@ -35,6 +38,7 @@ router.get('/', passport.authenticate('google', {
  * 認証完了画面
  * @param {Request} req
  * @param {Response} res
+ * $FlowFixMe
  */
 router.get('/callback', passport.authenticate('google'), async(req, res) => {
 	const userModel = new User()
