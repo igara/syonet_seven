@@ -3,7 +3,7 @@ import {m} from '../mithril'
 /**
  * Routing URL: //:any
  */
-export default class NotFoundComponent {
+export default class NotFoundPage {
 
 	/**
 	 * @type {Stores} Stores

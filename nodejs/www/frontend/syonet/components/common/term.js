@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../../mithril'
 import {TermStyle} from '../../styles'
 import TermAction from '../../actions/common/term'
@@ -9,18 +14,18 @@ import Button from './Button'
  */
 export default class TermComponent {
 
-	Stores
+	Stores: Stores
 
 	/**
 	 * @type {TermAction} TermAction
 	 */
-	TermAction
+	TermAction: TermAction
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: TermComponentVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.TermAction = new TermAction(this.Stores)
 	}
@@ -29,7 +34,7 @@ export default class TermComponent {
 	 * Lifecycle: The onbeforeupdate hook is called before a vnode is diffed in a update.
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	async onbeforeremove(vnode) {
+	async onbeforeremove(vnode: TermComponentVnode) {
 		vnode.dom.classList.add(TermStyle.term_exit)
 		return await sleep(1000)
 	}

@@ -2,7 +2,7 @@
 
 export type WrapperComponentVnode = {
 	Stores: Stores,
-	ChildComponent: string,
+	ChildComponent: Object,
 	HeaderTitle: string,
 	UserAgent: {
 		browser: ?string,

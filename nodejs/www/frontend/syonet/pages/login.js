@@ -1,21 +1,26 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../mithril'
 import {getApiHost} from '../../../libs/api'
 
 /**
  * Routing URL: //login/
  */
-export default class LoginComponent {
+export default class LoginPage {
 
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: LoginPageVnode) {
 		this.Stores = vnode.attrs.Stores
 	}
 
@@ -23,7 +28,7 @@ export default class LoginComponent {
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	oninit(vnode) {
+	oninit(vnode: LoginPageVnode) {
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 	}
 

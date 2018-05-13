@@ -1,6 +1,6 @@
 // @flow
 
-import Api from '../../../libs/api'
+import {call, getApiHost} from '../../../libs/api'
 
 /**
  * ログインチェックを行う
@@ -8,8 +8,8 @@ import Api from '../../../libs/api'
  * @param {{}} json
  */
 const callLoginCheck = async(token: string) => {
-	const result = await Api.call({
-		url: `${Api.getApiHost()}/api/auth/check`,
+	const result = await call({
+		url: `${getApiHost()}/api/auth/check`,
 		method: 'POST',
 		token,
 		body: {},
@@ -24,8 +24,8 @@ const callLoginCheck = async(token: string) => {
  * @param {{}} json
  */
 const callLogout = async(token: string) => {
-	const result = await Api.call({
-		url: `${Api.getApiHost()}/api/auth/delete`,
+	const result = await call({
+		url: `${getApiHost()}/api/auth/delete`,
 		method: 'DELETE',
 		token,
 		body: {},

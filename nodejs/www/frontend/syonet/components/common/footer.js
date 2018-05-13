@@ -28,7 +28,7 @@ export default class FooterComponent {
 	 */
 	constructor(vnode: FooterComponentVnode) {
 		this.Stores = vnode.attrs.Stores
-		this.FooterAction = new FooterAction(this.Stores.SidebarStore)
+		this.FooterAction = new FooterAction(this.Stores)
 	}
 
 	/**

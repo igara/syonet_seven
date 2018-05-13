@@ -1,3 +1,5 @@
+// @flow
+
 import sleep from '../../../../libs/sleep'
 
 /**
@@ -8,12 +10,12 @@ export default class TermAction {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores) {
+	constructor(Stores: Stores) {
 		this.Stores = Stores
 	}
 

@@ -3,8 +3,8 @@
 export type SidebarAction = {
 	onClickClose: () => void,
 	onClickTerm: () => void,
-	onClickHome: () => void,
-	onClickLogin: () => void,
-	onClickLogout: () => void,
+	onClickHome: (mithril) => void,
+	onClickLogin: (mithril) => void,
+	onClickLogout: (mithril) => void,
 	onClickGitHub: () => void,
 }

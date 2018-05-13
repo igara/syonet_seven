@@ -4,7 +4,7 @@ import LoginCheckAction from '../actions/login_check'
 /**
  * Routing URL: //login/check/:token
  */
-export default class LoginCheckComponent {
+export default class LoginCheckPage {
 
 	/**
 	 * @type {Stores} Stores
@@ -22,7 +22,7 @@ export default class LoginCheckComponent {
 	 */
 	constructor(vnode) {
 		this.Stores = vnode.attrs.Stores
-		this.LoginCheckAction = new LoginCheckAction(this.Stores.LoginStore)
+		this.LoginCheckAction = new LoginCheckAction(this.Stores)
 	}
 
 	/**

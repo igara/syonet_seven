@@ -19,7 +19,7 @@ export default class WrapperComponent {
 	/**
 	 * @type {Mithril} ChildComponent
 	 */
-	ChildComponent: string
+	ChildComponent: Object
 
 	/**
 	 * @type {String} HeaderTitle

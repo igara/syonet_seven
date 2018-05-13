@@ -6,7 +6,7 @@ import env from './env'
 /**
  * Apiを叩く時のホスト名を取得する
  */
-const getApiHost = () => {
+export const getApiHost = (): string => {
 	let host = `${location.protocol}//${location.host}`
 	if (env.getEnvByHostname(location.hostname) === 'local') {
 		host = 'http://localhost:3000'
@@ -22,7 +22,7 @@ const getApiHost = () => {
  * @param {String} option.token
  * @return {fetch}
  */
-const call = async(option: APICallParamOption) => {
+export const call = async(option: APICallParamOption) => {
 	option.method = option.method ? option.method : 'POST'
 	option.token = option.token ? option.token : ''
 	return await fetch(option.url, {
@@ -37,9 +37,4 @@ const call = async(option: APICallParamOption) => {
 		method: option.method,
 		mode: 'cors',
 	})
-}
-
-export default {
-	call,
-	getApiHost,
 }

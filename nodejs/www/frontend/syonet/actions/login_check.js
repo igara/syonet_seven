@@ -1,4 +1,5 @@
-import Api from '../../../libs/api'
+// @flow
+
 import Token from '../../../libs/token'
 import FetchLogin from '../fetchs/login'
 
@@ -7,37 +8,34 @@ import FetchLogin from '../fetchs/login'
  */
 export default class LoginCheckAction {
 
-	/**
-	 * {LoginStore} LoginStore
-	 */
-	LoginStore
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 */
-	constructor(LoginStore) {
-		this.LoginStore = LoginStore
+	constructor(Stores: Stores) {
+		this.Stores = Stores
 	}
 
 	/**
 	 * ユーザのtokenを設置する
 	 * @param {String} token 
 	 */
-	setToken(token) {
+	setToken(token: string) {
 		let t = token.replace('#_=_', '')
 		t = t.replace('#', '')
-		this.LoginStore.Token(t)
+		this.Stores.LoginStore.Token(t)
 	}
 
 	/**
 	 * ログインチェックAPIを呼び出したときの処理
 	 */
 	async callLoginCheckApi() {
-		const json = await FetchLogin.callLoginCheck(this.LoginStore.Token())
-		this.LoginStore.Status(json.status)
+		const json = await FetchLogin.callLoginCheck(this.Stores.LoginStore.Token())
+		this.Stores.LoginStore.Status(json.status)
 		if (json.status === 200) {
-			this.LoginStore.User(json.user)
-			Token.setTokenCookie(this.LoginStore.Token())
+			this.Stores.LoginStore.User(json.user)
+			Token.setTokenCookie(this.Stores.LoginStore.Token())
 		}
 	}
 }

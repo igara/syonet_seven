@@ -3,7 +3,7 @@ import {m} from '../mithril'
 /**
  * Routing URL: //analyzeimage/
  */
-export default class AnalyzeImageComponent {
+export default class AnalyzeImagePage {
 
 	/**
 	 * @type {HeaderStore} HeaderStore
