@@ -1,7 +1,7 @@
 // @flow
 import crypto from 'crypto'
 import datetime from './datetime'
-import Cookies from '../mithril/syonet/js_cookie'
+import Cookies from '../frontend/syonet/js_cookie'
 
 /**
  * 認証に用いるTokenを取得する

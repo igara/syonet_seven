@@ -1,3 +1,5 @@
+// @flow
+
 import Cookies from '../js_cookie'
 import {browser, device} from '../../../libs/useragent'
 

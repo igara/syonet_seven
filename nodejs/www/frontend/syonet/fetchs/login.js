@@ -1,3 +1,5 @@
+// @flow
+
 import Api from '../../../libs/api'
 
 /**
@@ -5,11 +7,12 @@ import Api from '../../../libs/api'
  * @param {String} token
  * @param {{}} json
  */
-const callLoginCheck = async(token) => {
+const callLoginCheck = async(token: string) => {
 	const result = await Api.call({
 		url: `${Api.getApiHost()}/api/auth/check`,
 		method: 'POST',
 		token,
+		body: {},
 	})
 	const json = await result.json()
 	return json
@@ -20,11 +23,12 @@ const callLoginCheck = async(token) => {
  * @param {String} token
  * @param {{}} json
  */
-const callLogout = async(token) => {
+const callLogout = async(token: string) => {
 	const result = await Api.call({
 		url: `${Api.getApiHost()}/api/auth/delete`,
 		method: 'DELETE',
 		token,
+		body: {},
 	})
 	const json = await result.json()
 	return json

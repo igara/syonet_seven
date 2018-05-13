@@ -39,7 +39,7 @@ const call = async(option: APICallParamOption) => {
 	})
 }
 
-module.exports = {
+export default {
 	call,
 	getApiHost,
 }

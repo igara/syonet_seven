@@ -1,6 +1,6 @@
 // @flow
 
-import dateFns from '../mithril/syonet/date_fns'
+import dateFns from '../frontend/syonet/date_fns'
 
 /**
  * タイムスタンプ値を取得
