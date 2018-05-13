@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import {m} from '../mithril'
 
 /**
@@ -8,21 +13,14 @@ export default class NotFoundPage {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
-	constructor(vnode) {
+	constructor(vnode: NotFoundPageVnode) {
 		this.Stores = vnode.attrs.Stores
-	}
-
-	/**
-	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
-	 * @param {Vnode<A, this>} vnode 
-	 */
-	oninit(vnode) {
 	}
 
 	/**
