@@ -3,7 +3,8 @@
 		"browser": true,
 		"commonjs": true,
 		"es6": true,
-		"node": true
+		"node": true,
+		"jest/globals": true
 	},
 	"globals": {
 		"m": true
@@ -21,7 +22,7 @@
 			"jsx": true
 		}
 	},
-	"plugins": ["flowtype"],
+	"plugins": ["flowtype", "jest"],
 	"rules": {
 		"flowtype/define-flow-type": 1,
 		"flowtype/use-flow-type": 1,

@@ -9,7 +9,7 @@ const router = express.Router()
  * @param {Request} req
  * @param {Response} res
  */
-router.post('/check', async(req: express$Request, res: express$Response) => {
+export const authCheck = async(req: express$Request, res: express$Response) => {
 	try {
 		const headers = req.headers
 		const token = headers.token ? headers.token : ''
@@ -37,14 +37,15 @@ router.post('/check', async(req: express$Request, res: express$Response) => {
 			message: 'NG',
 		})
 	}
-})
+}
+router.post('/check', authCheck)
 
 /**
  * tokenの削除を行う
  * @param {Request} req
  * @param {Response} res
  */
-router.delete('/delete', async(req: express$Request, res: express$Response) => {
+export const authDelete = router.delete('/delete', async(req: express$Request, res: express$Response) => {
 	try {
 		const headers = req.headers
 		const token = headers.token ? headers.token : ''
