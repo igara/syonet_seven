@@ -6,5 +6,5 @@ yarn start
 # yarn local_front_start
 elif [ $WWW_ENV = "production" ]; then
 yarn build
-yarn start
+yarn server_prod
 fi
