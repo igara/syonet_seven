@@ -52,7 +52,6 @@ services:
       - '443:443'
     links:
       - www:www
-    restart: always
     environment:
       DOMAINS: '${WWW_DOMAIN} -> http://www:3000'
       STAGE: '${WWW_ENV}'

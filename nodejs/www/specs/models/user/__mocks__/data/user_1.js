@@ -1,4 +1,6 @@
-export const Users = [
+// @flow
+
+export const Users: Array<UserInfoData> = [
 	{
 		_id: '5aed55de759258017268621c',
 		auth: {

@@ -51,10 +51,11 @@ router.get('/', passport.authenticate('facebook'))
  * @param {Response} res
  * $FlowFixMe
  */
-router.get('/callback', passport.authenticate('facebook'), async(req, res) => {
+export const facebook = async(req, res) => {
 	const userModel = new User()
 	const token = await userModel.upsertByAuthUser(req.user)
 	res.redirect(`/login/check/${token}`)
-})
+}
+router.get('/callback', passport.authenticate('facebook'), facebook)
 
 export default router

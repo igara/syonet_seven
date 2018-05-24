@@ -10,6 +10,16 @@
 			"name": "Jest Test",
 			"program": "${workspaceRoot}/nodejs/www/node_modules/jest/node_modules/.bin/jest",
 			"args": ["--runInBand", "--watch", "--config", "./nodejs/www/jest.config.js"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"protocol": "inspector",
+			"name": "Server Debug",
+			"localRoot": "${workspaceRoot}/nodejs/www/",
+			"remoteRoot": "/www/",
+			"port": 9229,
+			"address": "127.0.0.1"
 		}
 	]
 }

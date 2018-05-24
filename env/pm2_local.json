@@ -3,7 +3,7 @@
 		{
 			"name": "www",
 			"script": "yarn",
-			"args" : "server",
+			"args" : "server_debug",
 			"watch": true
 		}
 	]

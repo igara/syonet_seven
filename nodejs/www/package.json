@@ -5,6 +5,7 @@
 	"scripts": {
 		"start": "pm2 --no-daemon start pm2.json",
 		"server": "node -r babel-register ./bin/www.js",
+		"server_debug": "node --inspect=0.0.0.0:9229 -r babel-register ./bin/www.js",
 		"stop": "pm2 stop www",
 		"pm2": "pm2",
 		"build": "parcel build frontend/syonet/index.html -d dist/prod/syonet",

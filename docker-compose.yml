@@ -7,6 +7,7 @@ services:
       dockerfile: www.Dockerfile
     ports:
       - 3000:3000
+      - 9229:9229
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
@@ -52,7 +53,6 @@ services:
       - '443:443'
     links:
       - www:www
-    restart: always
     environment:
       DOMAINS: '${WWW_DOMAIN} -> http://www:3000'
       STAGE: '${WWW_ENV}'

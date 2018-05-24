@@ -34,8 +34,7 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
 			auth: user,
 			token: tokenValue,
 			date: datetime.getMultiFormatDateTime(),
-		}},
-		{upsert: true}
+		}}
 	)
 	return tokenValue
 }
@@ -58,14 +57,15 @@ UserSchema.methods.deleteToken = async(token: string) => {
 
 /**
  * 認証したユーザから厳選した情報を取得する
- * @param {GetUserInfoParam} user
- * @return {GetUserInfoReturn}
+ * @param {String} token
+ * @return {Promise<?GetUserInfoReturn>}
  */
-UserSchema.methods.getUserInfo = (user: GetUserInfoParam): GetUserInfoReturn | void => {
+UserSchema.methods.getUserInfo = async (token: string): Promise<?GetUserInfoReturn> => {
+	const user: UserInfoData = await User.findOne({token}).exec()
 	if (user.auth.provider === 'google') {
 		return {
 			displayName: user.auth.displayName,
-			image: user.auth._json.image.url,
+			image: user.auth.photos[0].value,
 		}
 	} else if (user.auth.provider === 'facebook') {
 		return {

@@ -6,21 +6,31 @@ export type UpsertByAuthUserParam = {
 	provider: string
 }
 
-export type GetUserInfoParam = {
-	id: string | number,
-	provider: string,
+export type UserInfoData = {
+	_id: string,
 	auth: {
+		id: string,
+		username?: ?string,
 		provider: string,
 		displayName: string,
+		name?: ?{
+			familyName: string,
+			givenName: string,
+		},
+		emails?: ?Array<{
+			value: string,
+			type?: ?string,
+		}>,
 		_json: {
-			image: {
+			image?: {
 				url: string
 			}
 		},
 		photos: Array<{
 			value: string
 		}>
-	}
+	},
+	token: string | null
 }
 
 export type GetUserInfoReturn = {
@@ -31,5 +41,5 @@ export type GetUserInfoReturn = {
 export type UserModelType = IndexModelType & {
 	upsertByAuthUser: (UpsertByAuthUserParam) => string,
 	deleteToken: (string) => void,
-	getUserInfo: (GetUserInfoParam) => GetUserInfoReturn
+	getUserInfo: (string) => GetUserInfoReturn
 }

@@ -37,10 +37,11 @@ router.get('/', passport.authenticate('twitter'))
  * @param {Response} res
  * $FlowFixMe
  */
-router.get('/callback', passport.authenticate('twitter'), async(req, res) => {
+export const twitter = async(req, res) => {
 	const userModel = new User()
 	const token = await userModel.upsertByAuthUser(req.user)
 	res.redirect(`/login/check/${token}`)
-})
+}
+router.get('/callback', passport.authenticate('twitter'), twitter)
 
 export default router

@@ -40,10 +40,11 @@ router.get('/', passport.authenticate('google', {
  * @param {Response} res
  * $FlowFixMe
  */
-router.get('/callback', passport.authenticate('google'), async(req, res) => {
+export const google = async(req, res) => {
 	const userModel = new User()
 	const token = await userModel.upsertByAuthUser(req.user)
 	res.redirect(`/login/check/${token}`)
-})
+}
+router.get('/callback', passport.authenticate('google'), google)
 
 export default router
