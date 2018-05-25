@@ -38,8 +38,15 @@ export type GetUserInfoReturn = {
 	image: string
 }
 
+export type DeleteTokenReturn = {
+	n: number,
+	nModified: number,
+	ok: number
+}
+
 export type UserModelType = IndexModelType & {
 	upsertByAuthUser: (UpsertByAuthUserParam) => string,
 	deleteToken: (string) => void,
-	getUserInfo: (string) => GetUserInfoReturn
+	getUserInfo: (string) => GetUserInfoReturn,
+	deleteToken: (string) => DeleteTokenReturn,
 }

@@ -43,8 +43,8 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
  * 認証したユーザのtokenを削除する
  * @param {String} token
  */
-UserSchema.methods.deleteToken = async(token: string) => {
-	await User.update(
+UserSchema.methods.deleteToken = async(token: string): Promise<?DeleteTokenReturn> => {
+	return await User.update(
 		{
 			token,
 		},
