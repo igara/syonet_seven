@@ -6,27 +6,27 @@ export const setUsers = (UsersData: Array<UserInfoData>) => {
 	Users = UsersData
 }
 
-export const getUserInfo = (token: string): ?GetUserInfoReturn => {
+export const getUserInfo = async (token: string): Promise<?GetUserInfoReturn> => {
 	const user = Users.find(user => user.token === token)
 	if (
 		typeof user !== 'undefined' && user !== null &&
 		typeof user.auth !== 'undefined' && user.auth !== null
 	) {
-		return {
+		return await {
 			displayName: user.auth.displayName,
 			image: user.auth.photos[0].value,
 		}
 	}
-	return null
+	return await null
 }
 
-export const deleteToken = (token: string): ?DeleteTokenReturn => {
+export const deleteToken = async (token: string): Promise<DeleteTokenReturn> => {
 	const user = Users.find(user => user.token === token)
 	if (
 		typeof user !== 'undefined' && user !== null &&
 		typeof user.auth !== 'undefined' && user.auth !== null
 	) {
-		return { n: 1, nModified: 1, ok: 1 }
+		return await { n: 1, nModified: 1, ok: 1 }
 	}
-	return { n: 0, nModified: 0, ok: 0 }
+	return await { n: 0, nModified: 0, ok: 0 }
 }

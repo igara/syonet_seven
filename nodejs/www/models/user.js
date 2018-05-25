@@ -43,7 +43,7 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
  * 認証したユーザのtokenを削除する
  * @param {String} token
  */
-UserSchema.methods.deleteToken = async(token: string): Promise<?DeleteTokenReturn> => {
+UserSchema.methods.deleteToken = async(token: string): Promise<DeleteTokenReturn> => {
 	return await User.update(
 		{
 			token,
@@ -83,6 +83,7 @@ UserSchema.methods.getUserInfo = async (token: string): Promise<?GetUserInfoRetu
 			image: user.auth.photos[0].value,
 		}
 	}
+	return null
 }
 
 const User: UserModelType = mongo.model('User', UserSchema)

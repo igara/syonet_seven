@@ -45,8 +45,7 @@ export type DeleteTokenReturn = {
 }
 
 export type UserModelType = IndexModelType & {
-	upsertByAuthUser: (UpsertByAuthUserParam) => string,
-	deleteToken: (string) => void,
-	getUserInfo: (string) => GetUserInfoReturn,
-	deleteToken: (string) => DeleteTokenReturn,
+	upsertByAuthUser: (UpsertByAuthUserParam) => Promise<string>,
+	getUserInfo: (string) => Promise<?GetUserInfoReturn>,
+	deleteToken: (string) => Promise<?DeleteTokenReturn>,
 }
