@@ -10,17 +10,13 @@ describe('getApiHost', () => {
 		expect(getApiHost()).toBe('http://localhost:3000')
 	})
 	test('host - https://syonet.work', async () => {
-		Object.defineProperty(location, 'protocol', {
+		Object.defineProperty(window, 'location', {
 			writable: true,
-			value: 'https:',
-		})
-		Object.defineProperty(location, 'host', {
-			writable: true,
-			value: 'syonet.work',
-		})
-		Object.defineProperty(location, 'hostname', {
-			writable: true,
-			value: 'syonet.work',
+			value: {
+				protocol: 'https:',
+				host: 'syonet.work',
+				hostname: 'syonet.work',
+			},
 		})
 		expect(getApiHost()).toBe('https://syonet.work')
 	})

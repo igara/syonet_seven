@@ -58,6 +58,8 @@
 		"flow-bin": "^0.71.0",
 		"flow-typed": "^2.4.0",
 		"jest": "^22.4.3",
+		"jest-environment-jsdom": "^23.0.1",
+		"jest-environment-jsdom-global": "^1.0.3",
 		"parcel-bundler": "^1.5.1",
 		"postcss-import": "^11.1.0",
 		"postcss-modules": "^1.1.0",

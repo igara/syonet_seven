@@ -4,4 +4,5 @@ module.exports = {
 	roots: ['./specs'],
 	notify: true,
 	moduleFileExtensions: ['js'],
+	testEnvironment: 'jest-environment-jsdom-global',
 }
