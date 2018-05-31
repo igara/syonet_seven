@@ -18,7 +18,7 @@ class MockDate extends DateInstance {
 	getSeconds() {
 		return this.dateInstance.getSeconds()
 	}
-	setSeconds(num: number) {
+	setSeconds(num) {
 		this.dateInstance.setSeconds(num)
 		return this.dateInstance.getSeconds()
 	}
@@ -58,10 +58,10 @@ class MockDate extends DateInstance {
 		return this.dateInstance.getFullYear()
 	}
 	getTime() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth()}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).getTime()
+		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).getTime()
 	}
 	valueOf() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth()}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).valueOf()
+		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).valueOf()
 	}
 }
 
@@ -86,7 +86,7 @@ describe('getMultiFormatDateTime', () => {
 	test('Date 2018-11-11 11:11:11', async () => {
 		global.Date = MockDate
 		global.dateFns = dateFns
-		expect(getMultiFormatDateTime()).toBe('2018-10-11 11:11:11')
+		expect(getMultiFormatDateTime()).toBe('2018-11-11 11:11:11')
 	})
 
 	test('Date 2018/11/11 11:11:11 format', async () => {
@@ -95,11 +95,11 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			format: 'YYYY/MM/DD HH:mm:ss',
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018/10/11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018/11/11 11:11:11')
 		option = {
 			format: 'YYYY年MM月DD日 HH時mm分ss秒',
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018年10月11日 11時11分11秒')
+		expect(getMultiFormatDateTime(option)).toBe('2018年11月11日 11時11分11秒')
 	})
 
 	test('Date 2018-11-11 11:11:11 seconds', async () => {
@@ -108,19 +108,19 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			seconds: -1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:11:10')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:11:10')
 		option = {
 			seconds: 1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:11:12')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:11:12')
 		option = {
 			seconds: -60,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:10:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:10:11')
 		option = {
 			seconds: 60,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:12:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:12:11')
 	})
 
 	test('Date 2018-11-11 11:11:11 minutes', async () => {
@@ -129,19 +129,19 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			minutes: -1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:10:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:10:11')
 		option = {
 			minutes: 1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:12:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:12:11')
 		option = {
 			minutes: -60,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 10:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 10:11:11')
 		option = {
 			minutes: 60,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 12:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 12:11:11')
 	})
 
 	test('Date 2018-11-11 11:11:11 hours', async () => {
@@ -150,19 +150,19 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			hours: -1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 10:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 10:11:11')
 		option = {
 			hours: 1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 12:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 12:11:11')
 		option = {
 			hours: -24,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-10 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-10 11:11:11')
 		option = {
 			hours: 24,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-12 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-12 11:11:11')
 	})
 
 	test('Date 2018-11-11 11:11:11 date', async () => {
@@ -171,19 +171,19 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			day: -1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-10 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-10 11:11:11')
 		option = {
 			day: 1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-10-12 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-11-12 11:11:11')
 		option = {
 			day: -30,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-09-12 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-10-12 11:11:11')
 		option = {
 			day: 30,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-12-11 11:11:11')
 	})
 
 	test('Date 2018-11-11 11:11:11 month', async () => {
@@ -192,18 +192,18 @@ describe('getMultiFormatDateTime', () => {
 		let option = {
 			month: -1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-09-11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-10-11 11:11:11')
 		option = {
 			month: 1,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2018-11-11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2018-12-11 11:11:11')
 		option = {
 			month: -12,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2017-10-11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2017-11-11 11:11:11')
 		option = {
 			month: 12,
 		}
-		expect(getMultiFormatDateTime(option)).toBe('2019-10-11 11:11:11')
+		expect(getMultiFormatDateTime(option)).toBe('2019-11-11 11:11:11')
 	})
 })
