@@ -84,7 +84,7 @@ const _getMultiFormatDateTimeOptions = (options: ?GetMultiFormatDateTimeParamOpt
 		options.month = 0
 	}
 	if (typeof options.year === 'undefined' || options.year === null) {
-		options.month = 0
+		options.year = 0
 	}
 	if (typeof options.format === 'undefined' || options.format === null) {
 		options.format = 'YYYY-MM-DD HH:mm:ss'

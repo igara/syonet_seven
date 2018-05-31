@@ -1,6 +1,6 @@
 // @flow
 
-import {getApiHost} from '../../../libs/api'
+import {getApiHost, call} from '../../../libs/api'
 
 describe('getApiHost', () => {
 	beforeEach(() => {
@@ -19,5 +19,38 @@ describe('getApiHost', () => {
 			},
 		})
 		expect(getApiHost()).toBe('https://syonet.work')
+	})
+})
+
+describe('call', () => {
+	beforeEach(() => {
+		jest.resetModules()
+	})
+	test('when success', async () => {
+		const option = {
+			body: {},
+			method: '',
+			token: '',
+			url: '',
+		}
+		global.fetch = jest.fn().mockImplementation(() => {
+			const p = new Promise((resolve, reject) => {
+				resolve({
+					ok: true,
+					status: 200,
+					json: () => { 
+						return new Promise((resolve, reject) => {
+							resolve({Id: 123})
+						})
+					},
+				})
+			})
+			return p
+		})
+		const result = await call(option)
+		expect(result.status).toBe(200)
+		expect(result.ok).toBe(true)
+		const json = await result.json()
+		expect(json.Id).toBe(123)
 	})
 })
