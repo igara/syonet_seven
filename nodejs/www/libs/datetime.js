@@ -6,7 +6,7 @@ import dateFns from '../frontend/syonet/date_fns'
  * タイムスタンプ値を取得
  * @return {Number}
  */
-const getTimeStamp = () => {
+export const getTimeStamp = () => {
 	return Math.round((new Date()).getTime() / 1000)
 }
 
@@ -22,7 +22,7 @@ const getTimeStamp = () => {
  * @param {String} options.format 日付表示書式 default:'YYYY-MM-DD HH:mm:ss'
  * @return {String} 日付
  */
-const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOption) => {
+export const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOption) => {
 	const o = _getMultiFormatDateTimeOptions(options)
 	const dt = o.Date
 	dt.setSeconds(dt.getSeconds() + o.seconds)
@@ -32,11 +32,6 @@ const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOption) => 
 	dt.setMonth(dt.getMonth() + o.month)
 	dt.setFullYear(dt.getFullYear() + o.year)
 	return dateFns.format(dt, o.format)
-}
-
-module.exports = {
-	getTimeStamp,
-	getMultiFormatDateTime,
 }
 
 /**

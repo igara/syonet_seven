@@ -5,8 +5,6 @@
  * @param {Number} msec
  * @return {Promise}
  */
-const sleep = (msec: number) => {
+export const sleep = (msec: number) => {
 	return new Promise(resolve => setTimeout(resolve, msec))
 }
-
-module.exports = sleep

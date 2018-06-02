@@ -6,7 +6,7 @@
 import {m} from '../../mithril'
 import {TermStyle} from '../../styles'
 import TermAction from '../../actions/common/term'
-import sleep from '../../../../libs/sleep'
+import {sleep} from '../../../../libs/sleep'
 import Button from './Button'
 
 /**

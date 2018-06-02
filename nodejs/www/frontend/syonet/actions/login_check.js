@@ -1,6 +1,6 @@
 // @flow
 
-import Token from '../../../libs/token'
+import {setTokenCookie} from '../../../libs/token'
 import FetchLogin from '../fetchs/login'
 
 /**
@@ -35,7 +35,7 @@ export default class LoginCheckAction {
 		this.Stores.LoginStore.Status(json.status)
 		if (json.status === 200) {
 			this.Stores.LoginStore.User(json.user)
-			Token.setTokenCookie(this.Stores.LoginStore.Token())
+			setTokenCookie(this.Stores.LoginStore.Token())
 		}
 	}
 }

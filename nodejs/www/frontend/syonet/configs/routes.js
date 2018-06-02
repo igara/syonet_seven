@@ -16,19 +16,19 @@ import NotFoundPage from '../pages/not_found'
 // Stores
 import Stores from '../stores'
 
-import Token from '../../../libs/token'
+import {getTokenCookie, setTokenCookie} from '../../../libs/token'
 import FetchLogin from '../fetchs/login'
 
 export default async() => {
 	if (!location.pathname.match(/^\/login\/check\//)) {
 		// ログインチェック
-		const token = Token.getTokenCookie()
+		const token = getTokenCookie()
 		if (token) {
 			const loginCheck = async() => {
 				const json = await FetchLogin.callLoginCheck(token)
 				Stores.LoginStore.Status(json.status)
 				if (json.status === 200) {
-					Token.setTokenCookie(token)
+					setTokenCookie(token)
 					Stores.LoginStore.Token(token)
 					Stores.LoginStore.User(json.user)
 				} else {

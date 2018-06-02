@@ -6,7 +6,7 @@
 import {m} from '../../mithril'
 import {SidebarStyle, IconStyle} from '../../styles'
 import SidebarAction from '../../actions/common/sidebar'
-import sleep from '../../../../libs/sleep'
+import {sleep} from '../../../../libs/sleep'
 import TermComponent from './term'
 
 /**

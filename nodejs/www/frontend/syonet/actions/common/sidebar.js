@@ -1,6 +1,6 @@
 // @flow
 
-import sleep from '../../../../libs/sleep'
+import {sleep} from '../../../../libs/sleep'
 import Cookies from '../../js_cookie'
 import FetchLogin from '../../fetchs/login'
 

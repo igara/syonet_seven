@@ -3,67 +3,7 @@
 import {getMultiFormatDateTime, getTimeStamp} from '../../../libs/datetime'
 import dateFns from '../../../frontend/syonet/date_fns'
 
-const DateInstance = Date
-
-class MockDate extends DateInstance {
-	dateInstance = new DateInstance()
-	constructor(arg) {
-		super()
-		if (arg) {
-			this.dateInstance = new DateInstance(arg)
-		} else {
-			this.dateInstance = new DateInstance('2018/11/11 11:11:11')
-		}
-	}
-	getSeconds() {
-		return this.dateInstance.getSeconds()
-	}
-	setSeconds(num) {
-		this.dateInstance.setSeconds(num)
-		return this.dateInstance.getSeconds()
-	}
-	getMinutes() {
-		return this.dateInstance.getMinutes()
-	}
-	setMinutes(num) {
-		this.dateInstance.setMinutes(num)
-		return this.dateInstance.getMinutes()
-	}
-	getHours() {
-		return this.dateInstance.getHours()
-	}
-	setHours(num) {
-		this.dateInstance.setHours(num)
-		return this.dateInstance.getHours()
-	}
-	getDate() {
-		return this.dateInstance.getDate()
-	}
-	setDate(num) {
-		this.dateInstance.setDate(num)
-		return this.dateInstance.getDate()
-	}
-	getMonth() {
-		return this.dateInstance.getMonth()
-	}
-	setMonth(num) {
-		this.dateInstance.setMonth(num)
-		return this.dateInstance.getMonth()
-	}
-	getFullYear() {
-		return this.dateInstance.getFullYear()
-	}
-	setFullYear(num) {
-		this.dateInstance.setFullYear(num)
-		return this.dateInstance.getFullYear()
-	}
-	getTime() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).getTime()
-	}
-	valueOf() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).valueOf()
-	}
-}
+import {DateInstance, MockDate} from '../../globals/date'
 
 describe('getTimeStamp', () => {
 	beforeEach(() => {

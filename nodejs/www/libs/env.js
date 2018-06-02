@@ -5,14 +5,10 @@
  * @param {String} hostname
  * @return {String} env 
  */
-const getEnvByHostname = (hostname: string) => {
+export const getEnvByHostname = (hostname: string) => {
 	let env = 'local'
 	if (hostname === 'syonet.work') {
 		env = 'prod'
 	}
 	return env
-}
-
-module.exports = {
-	getEnvByHostname,
 }

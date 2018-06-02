@@ -1,14 +1,14 @@
 // @flow
 
 import 'isomorphic-fetch'
-import env from './env'
+import {getEnvByHostname} from './env'
 
 /**
  * Apiを叩く時のホスト名を取得する
  */
 export const getApiHost = (): string => {
 	let host = `${location.protocol}//${location.host}`
-	if (env.getEnvByHostname(location.hostname) === 'local') {
+	if (getEnvByHostname(location.hostname) === 'local') {
 		host = 'http://localhost:3000'
 	}
 	return host

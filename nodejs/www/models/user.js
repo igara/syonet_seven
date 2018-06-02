@@ -1,7 +1,7 @@
 // @flow
 import mongo from './index'
-import token from '../libs/token'
-import datetime from '../libs/datetime'
+import {getUserToken} from '../libs/token'
+import {getMultiFormatDateTime} from '../libs/datetime'
 
 const UserSchema = mongo.Schema({
 	auth: mongo.Schema.Types.Mixed,
@@ -24,7 +24,7 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
 		'auth.id': user.id,
 		'auth.provider': user.provider,
 	}).exec()
-	const tokenValue = token.getUserToken(findResult._id)
+	const tokenValue = getUserToken(findResult._id)
 	await User.update(
 		{
 			'auth.id': user.id,
@@ -33,7 +33,7 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
 		{$set: {
 			auth: user,
 			token: tokenValue,
-			date: datetime.getMultiFormatDateTime(),
+			date: getMultiFormatDateTime(),
 		}}
 	)
 	return tokenValue
