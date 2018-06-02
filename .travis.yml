@@ -7,6 +7,7 @@ services:
 
 env:
   DOCKER_COMPOSE_VERSION: 1.21.2
+  LANG: ja_JP.utf-8
 
 before_install:
   - sudo apt-get update
