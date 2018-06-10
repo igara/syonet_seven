@@ -16,7 +16,7 @@ passport.use(new TwitterStrategy({
 	callbackURL: process.env.TWITTER_CALLBACK,
 	includeEmail: true,
 }, (accessToken, refreshToken, profile, done) => {
-	done(null, profile)
+	return done(null, profile)
 }))
 
 passport.serializeUser((user, done) => {
@@ -37,10 +37,10 @@ router.get('/', passport.authenticate('twitter'))
  * @param {Response} res
  * $FlowFixMe
  */
-export const twitter = async(req, res) => {
+export const twitter = async(req: express$Request, res: express$Response) => {
 	const userModel = new User()
-	const token = await userModel.upsertByAuthUser(req.user)
-	res.redirect(`/login/check/${token}`)
+	await userModel.upsertByAuthUser(req.user)
+	res.redirect('/login/check/')
 }
 router.get('/callback', passport.authenticate('twitter'), twitter)
 

@@ -6,8 +6,8 @@ describe('getApiHost', () => {
 	beforeEach(() => {
 		jest.resetModules()
 	})
-	test('host - http://localhost:3000', async () => {
-		expect(getApiHost()).toBe('http://localhost:3000')
+	test('host - http://127.0.0.1:3000', async () => {
+		expect(getApiHost()).toBe('http://127.0.0.1:3000')
 	})
 	test('host - https://syonet.work', async () => {
 		Object.defineProperty(window, 'location', {
@@ -30,7 +30,6 @@ describe('call', () => {
 		const option = {
 			body: {},
 			method: '',
-			token: '',
 			url: '',
 		}
 		global.fetch = jest.fn().mockImplementation(() => {

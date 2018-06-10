@@ -4,10 +4,11 @@
  */
 
 import {m} from '../mithril'
+import Cookies from '../js_cookie'
 import LoginCheckAction from '../actions/login_check'
 
 /**
- * Routing URL: //login/check/:token
+ * Routing URL: //login/check
  */
 export default class LoginCheckPage {
 
@@ -36,7 +37,6 @@ export default class LoginCheckPage {
 	 */
 	oninit(vnode: LoginCheckPageVnode) {
 		this.Stores.SidebarStore.SidebarDispFlag(false)
-		this.LoginCheckAction.setToken(m.route.param('token'))
 	}
 
 	/**

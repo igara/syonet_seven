@@ -37,10 +37,10 @@ router.get('/', passport.authenticate('github'))
  * @param {Response} res
  * $FlowFixMe
  */
-export const github = async(req, res) => {
+export const github = async(req: express$Request, res: express$Response) => {
 	const userModel = new User()
-	const token = await userModel.upsertByAuthUser(req.user)
-	res.redirect(`/login/check/${token}`)
+	await userModel.upsertByAuthUser(req.user)
+	res.redirect('/login/check/')
 }
 router.get('/callback', passport.authenticate('github'), github)
 

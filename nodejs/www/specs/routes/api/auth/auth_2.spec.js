@@ -3,10 +3,7 @@ import {authCheck, authDelete} from '../../../../routes/api/auth'
 
 jest.mock('../../../../models/user', (() => (
 	jest.fn(() => ({
-		getUserInfo: jest.fn().mockImplementation((token) => {
-			throw new Error('Invalid connection state: 500')
-		}),
-		deleteToken: jest.fn().mockImplementation((token) => {
+		getUserInfo: jest.fn().mockImplementation((sessionId, provider) => {
 			throw new Error('Invalid connection state: 500')
 		}),
 	}))
@@ -17,11 +14,7 @@ describe('/auth/check', () => {
 		jest.resetModules()
 	})
 	test('DBに接続ができない時', async () => {
-		const request = {
-			headers: {
-				token: 'aaaaaaaaaaaaaaaaaa',
-			},
-		}
+		const request = {}
 		const response = {
 			status: jest.fn(),
 			send: jest.fn(),
@@ -39,11 +32,7 @@ describe('/auth/delete', () => {
 		jest.resetModules()
 	})
 	test('DBに接続ができない時', async () => {
-		const request = {
-			headers: {
-				token: 'aaaaaaaaaaaaaaaaaa',
-			},
-		}
+		const request = {}
 		const response = {
 			status: jest.fn(),
 			send: jest.fn(),

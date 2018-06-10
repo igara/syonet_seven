@@ -3,17 +3,22 @@ import {authCheck, authDelete} from '../../../../routes/api/auth'
 
 jest.mock('../../../../models/user', (() => (
 	jest.fn(() => ({
-		getUserInfo: jest.fn().mockImplementation((token) => {
+		getUserInfo: jest.fn().mockImplementation(async(id, provider) => {
 			const {getUserInfo, setUsers} = require('../../../models/user/__mocks__/user')
 			const {Users} = require('../../../models/user/__mocks__/data/user_1')
 			setUsers(Users)
-			return getUserInfo(token)
+			return await getUserInfo(id, provider)
 		}),
-		deleteToken: jest.fn().mockImplementation((token) => {
-			const {deleteToken, setUsers} = require('../../../models/user/__mocks__/user')
-			const {Users} = require('../../../models/user/__mocks__/data/user_1')
-			setUsers(Users)
-			return deleteToken(token)
+	}))
+)))
+
+jest.mock('../../../../models/session', (() => (
+	jest.fn(() => ({
+		getSessionBySessionId: jest.fn().mockImplementation(async(sessionId) => {
+			const {getSessionBySessionId, setSessions} = require('../../../models/session/__mocks__/session')
+			const {Sessions} = require('../../../models/session/__mocks__/data/session_1')
+			setSessions(Sessions)
+			return await getSessionBySessionId(sessionId)
 		}),
 	}))
 )))
@@ -22,10 +27,22 @@ describe('/auth/check', () => {
 	beforeEach(() => {
 		jest.resetModules()
 	})
-	test('headerにtokenがない時', async () => {
+	test('Cookieがない時', async () => {
+		const request = {}
+		const response = {
+			status: jest.fn(),
+			send: jest.fn(),
+		}
+		// $FlowFixMe
+		await authCheck(request, response)
+		expect(response.status.mock.calls[0][0]).toBe(500)
+		expect(response.send.mock.calls[0][0].status).toBe(500)
+		expect(response.send.mock.calls[0][0].message).toBe('NG')
+	})
+	test('ログイン中のCookieではない場合', async () => {
 		const request = {
-			headers: {
-				token: null,
+			cookies: {
+				'connect.sid': '2222222222222',
 			},
 		}
 		const response = {
@@ -34,30 +51,15 @@ describe('/auth/check', () => {
 		}
 		// $FlowFixMe
 		await authCheck(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(405)
-		expect(response.send.mock.calls[0][0].status).toBe(405)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
+		expect(response.status.mock.calls[0][0]).toBe(200)
+		expect(response.send.mock.calls[0][0].status).toBe(200)
+		expect(response.send.mock.calls[0][0].message).toBe('OK')
+		expect(response.send.mock.calls[0][0].user).toBe('')
 	})
-	test('適切なtokenではない場合', async () => {
+	test('適切なログイン中のCookieである場合', async () => {
 		const request = {
-			headers: {
-				token: 'eeeeeeeeeeeeeeeeee',
-			},
-		}
-		const response = {
-			status: jest.fn(),
-			send: jest.fn(),
-		}
-		// $FlowFixMe
-		await authCheck(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(405)
-		expect(response.send.mock.calls[0][0].status).toBe(405)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
-	})
-	test('適切なtokenである場合', async () => {
-		const request = {
-			headers: {
-				token: 'aaaaaaaaaaaaaaaaaa',
+			cookies: {
+				'connect.sid': '1111111111111',
 			},
 		}
 		const response = {
@@ -78,26 +80,22 @@ describe('/auth/delete', () => {
 	beforeEach(() => {
 		jest.resetModules()
 	})
-	test('headerにtokenがない時', async () => {
-		const request = {
-			headers: {
-				token: null,
-			},
-		}
+	test('cookieがない時', async () => {
+		const request = {}
 		const response = {
 			status: jest.fn(),
 			send: jest.fn(),
 		}
 		// $FlowFixMe
 		await authDelete(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(405)
-		expect(response.send.mock.calls[0][0].status).toBe(405)
+		expect(response.status.mock.calls[0][0]).toBe(500)
+		expect(response.send.mock.calls[0][0].status).toBe(500)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
-	test('適切なtokenではない場合', async () => {
+	test('ログイン中のCookieではない場合', async () => {
 		const request = {
-			headers: {
-				token: 'eeeeeeeeeeeeeeeeee',
+			cookies: {
+				'connect.sid': '2222222222222',
 			},
 		}
 		const response = {
@@ -106,14 +104,14 @@ describe('/auth/delete', () => {
 		}
 		// $FlowFixMe
 		await authCheck(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(405)
-		expect(response.send.mock.calls[0][0].status).toBe(405)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
+		expect(response.status.mock.calls[0][0]).toBe(200)
+		expect(response.send.mock.calls[0][0].status).toBe(200)
+		expect(response.send.mock.calls[0][0].message).toBe('OK')
 	})
-	test('適切なtokenである場合', async () => {
+	test('適切なログイン中のCookieである場合', async () => {
 		const request = {
-			headers: {
-				token: 'aaaaaaaaaaaaaaaaaa',
+			cookies: {
+				'connect.sid': '1111111111111',
 			},
 		}
 		const response = {

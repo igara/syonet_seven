@@ -5,6 +5,7 @@ import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
 // $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
+import Session from '../../models/session'
 const router = express.Router()
 
 /**
@@ -40,10 +41,10 @@ router.get('/', passport.authenticate('google', {
  * @param {Response} res
  * $FlowFixMe
  */
-export const google = async(req, res) => {
+export const google = async(req: express$Request, res: express$Response) => {
 	const userModel = new User()
-	const token = await userModel.upsertByAuthUser(req.user)
-	res.redirect(`/login/check/${token}`)
+	await userModel.upsertByAuthUser(req.user)
+	res.redirect('/login/check/')
 }
 router.get('/callback', passport.authenticate('google'), google)
 

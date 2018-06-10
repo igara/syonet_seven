@@ -6,8 +6,8 @@ export const setUsers = (UsersData: Array<UserInfoData>) => {
 	Users = UsersData
 }
 
-export const getUserInfo = async (token: string): Promise<?GetUserInfoReturn> => {
-	const user = Users.find(user => user.token === token)
+export const getUserInfo = async (id: string, provider: string): Promise<?GetUserInfoReturn> => {
+	const user = Users.find(user => user.auth.id === id && user.auth.provider === provider)
 	if (
 		typeof user !== 'undefined' && user !== null &&
 		typeof user.auth !== 'undefined' && user.auth !== null
@@ -18,15 +18,4 @@ export const getUserInfo = async (token: string): Promise<?GetUserInfoReturn> =>
 		}
 	}
 	return await null
-}
-
-export const deleteToken = async (token: string): Promise<DeleteTokenReturn> => {
-	const user = Users.find(user => user.token === token)
-	if (
-		typeof user !== 'undefined' && user !== null &&
-		typeof user.auth !== 'undefined' && user.auth !== null
-	) {
-		return await { n: 1, nModified: 1, ok: 1 }
-	}
-	return await { n: 0, nModified: 0, ok: 0 }
 }

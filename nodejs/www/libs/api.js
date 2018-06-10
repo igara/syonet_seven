@@ -9,7 +9,7 @@ import {getEnvByHostname} from './env'
 export const getApiHost = (): string => {
 	let host = `${location.protocol}//${location.host}`
 	if (getEnvByHostname(location.hostname) === 'local') {
-		host = 'http://localhost:3000'
+		host = 'http://127.0.0.1:3000'
 	}
 	return host
 }
@@ -19,12 +19,11 @@ export const getApiHost = (): string => {
  * @param {String} option.url
  * @param {{}} option.body
  * @param {String} option.method
- * @param {String} option.token
+ * @param {String} option.sessionId
  * @return {fetch}
  */
 export const call = async(option: APICallParamOption) => {
 	option.method = option.method ? option.method : 'POST'
-	option.token = option.token ? option.token : ''
 	return await fetch(option.url, {
 		body: JSON.stringify(option.body),
 		cache: 'no-cache',
@@ -32,7 +31,6 @@ export const call = async(option: APICallParamOption) => {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
-			'Token': option.token,
 		},
 		method: option.method,
 		mode: 'cors',

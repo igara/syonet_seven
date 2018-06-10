@@ -27,14 +27,6 @@ export default class WrapperComponent {
 	HeaderTitle: string
 
 	/**
-	 * @type {browser:{String}, device:{String}} device
-	 */
-	UserAgent: {
-		browser: ?string,
-		device: ?string,
-	}
-
-	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode 
 	 */
@@ -42,7 +34,6 @@ export default class WrapperComponent {
 		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
 		this.HeaderTitle = vnode.HeaderTitle
-		this.UserAgent = vnode.UserAgent
 	}
 
 	/**
@@ -65,7 +56,6 @@ export default class WrapperComponent {
 				{this.Stores.SidebarStore.SidebarDispFlag() ?
 					<SidebarComponent
 						Stores={this.Stores}
-						UserAgent={this.UserAgent}
 					/> :
 					null
 				}
