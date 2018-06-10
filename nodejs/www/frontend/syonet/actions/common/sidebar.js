@@ -1,8 +1,8 @@
 // @flow
 
 import {sleep} from '../../../../libs/sleep'
-import Cookies from '../../js_cookie'
 import FetchLogin from '../../fetchs/login'
+import Cookies from '../../js_cookie'
 
 /**
  * サイドバーのアクション
@@ -62,12 +62,11 @@ export default class SidebarAction {
 	 * @param {Mithril} m
 	 */
 	async onClickLogout(m: mithril) {
-		await FetchLogin.callLogout(this.Stores.LoginStore.Token())
+		await FetchLogin.callLogout()
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
-		this.Stores.LoginStore.Token('')
 		this.Stores.LoginStore.User('')
-		Cookies.remove('auth_token')
+		Cookies.remove('connect.sid')
 		await sleep(1000)
 		m.route.set(pathname)
 	}

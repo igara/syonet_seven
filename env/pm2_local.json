@@ -2,8 +2,8 @@
 	"apps": [
 		{
 			"name": "www",
-			"script": "yarn",
-			"args" : "server_debug",
+			"script": "node",
+			"args" : "--inspect=0.0.0.0:9229 -r babel-register ./bin/www.js",
 			"watch": true
 		}
 	]

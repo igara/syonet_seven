@@ -1,20 +1,20 @@
 // @flow
 import mongo from './index'
-import {getUserToken} from '../libs/token'
-import {getMultiFormatDateTime} from '../libs/datetime'
 
-const UserSchema = mongo.Schema({
-	auth: mongo.Schema.Types.Mixed,
-	token: String,
-	date: Date,
-})
+const UserSchema = mongo.Schema(
+	{
+		auth: mongo.Schema.Types.Mixed,
+		date: Date,
+	},
+	{collection: 'users'}
+)
 
 /**
  * 認証したユーザの情報を更新もしくは新規作成する
  * @param {UpsertByAuthUserParam} user
- * @return {String} tokenValue
+ * @return {UpsertByAuthUserReturn} findResult
  */
-UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promise<string> => {
+UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promise<UpsertByAuthUserReturn> => {
 	await User.update(
 		{'auth.id': user.id, 'auth.provider': user.provider},
 		{$set: {auth: user}},
@@ -24,44 +24,20 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
 		'auth.id': user.id,
 		'auth.provider': user.provider,
 	}).exec()
-	const tokenValue = getUserToken(findResult._id)
-	await User.update(
-		{
-			'auth.id': user.id,
-			'auth.provider': user.provider,
-		},
-		{$set: {
-			auth: user,
-			token: tokenValue,
-			date: getMultiFormatDateTime(),
-		}}
-	)
-	return tokenValue
-}
-
-/**
- * 認証したユーザのtokenを削除する
- * @param {String} token
- */
-UserSchema.methods.deleteToken = async(token: string): Promise<DeleteTokenReturn> => {
-	return await User.update(
-		{
-			token,
-		},
-		{$set: {
-			token: '',
-		}},
-		{upsert: true}
-	)
+	return findResult
 }
 
 /**
  * 認証したユーザから厳選した情報を取得する
- * @param {String} token
+ * @param {String} id
+ * @param {String} provider
  * @return {Promise<?GetUserInfoReturn>}
  */
-UserSchema.methods.getUserInfo = async (token: string): Promise<?GetUserInfoReturn> => {
-	const user: UserInfoData = await User.findOne({token}).exec()
+UserSchema.methods.getUserInfo = async (id: string, provider: string): Promise<?GetUserInfoReturn> => {
+	const user: UserInfoData = await User.findOne({
+		'auth.id': id,
+		'auth.provider': provider,
+	}).exec()
 	if (user.auth.provider === 'google') {
 		return {
 			displayName: user.auth.displayName,

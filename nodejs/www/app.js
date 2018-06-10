@@ -14,6 +14,8 @@ import passport from 'passport'
 import compression from 'compression'
 // $FlowFixMe
 import session from 'express-session'
+import connectMongo from 'connect-mongo'
+import mongoose from './models'
 
 // API・Page Import
 import authApi from './routes/api/auth'
@@ -74,7 +76,22 @@ app.use('/api/user', userApi)
 // Auth
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(session({secret: 'syonet'}))
+
+const MongoStore = connectMongo(session)
+app.use(session({
+	secret: 'syonet',
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection,
+		db: 'session',
+		autoRemove: 'interval',
+		autoRemoveInterval: 60,
+		stringify: false,
+	}),
+	cookie: {
+		httpOnly: false,
+		maxAge: new Date(Date.now() + 60 * 60 * 1000),
+	},
+}))
 
 app.use('/auth/facebook', authFacebook)
 app.use('/auth/twitter', authTwitter)
@@ -99,7 +116,6 @@ app.use((err: Error, req: express$Request, res: express$Response, next: express$
 	// set locals, only providing error in development
 	res.locals.message = err.message
 	res.locals.error = req.app.get('env') === 'local' ? err : {}
-
 	// render the error page
 	// $FlowFixMe
 	res.status(err.status || 500)

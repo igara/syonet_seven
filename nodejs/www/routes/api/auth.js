@@ -2,26 +2,38 @@
 
 import express from 'express'
 import User from '../../models/user'
+import Session from '../../models/session'
+
 const router = express.Router()
 
 /**
- * tokenの値をリクエストし認証の確認をする
  * @param {Request} req
  * @param {Response} res
  */
 export const authCheck = async(req: express$Request, res: express$Response) => {
 	try {
-		const headers = req.headers
-		const token = headers.token ? headers.token : ''
-		if (typeof token === 'undefined' || token === null || token === '') {
+		const sessionId = req.cookies['connect.sid'].replace(/^s:/, '').replace(/\.\S*$/, '')
+		if (typeof sessionId === 'undefined' || sessionId === null || sessionId === '') {
 			res.status(405)
 			res.send({
 				status: 405,
 				message: 'NG',
 			})
 		}
+		const sessionModel = new Session()
+		const session = await sessionModel.getSessionBySessionId(sessionId)
+		if (typeof session.session.passport === 'undefined' || session.session.passport === null) {
+			res.status(200)
+			res.send({
+				status: 200,
+				message: 'OK',
+				user: '',
+			})
+		}
+		const id = session.session.passport.user.id
+		const provider = session.session.passport.user.provider
 		const userModel: UserModelType = new User()
-		const userInfo: GetUserInfoReturn = await userModel.getUserInfo(token)
+		const userInfo: GetUserInfoReturn = await userModel.getUserInfo(id, provider)
 		if (typeof userInfo !== 'undefined' && userInfo !== null) {
 			res.status(200)
 			res.send({
@@ -50,23 +62,21 @@ export const authCheck = async(req: express$Request, res: express$Response) => {
 router.post('/check', authCheck)
 
 /**
- * tokenの削除を行う
  * @param {Request} req
  * @param {Response} res
  */
 export const authDelete = async(req: express$Request, res: express$Response) => {
 	try {
-		const headers = req.headers
-		const token = headers.token ? headers.token : ''
-		if (typeof token === 'undefined' || token === null || token === '') {
+		const sessionId = req.cookies['connect.sid'].replace(/^s:/, '').replace(/\.\S*$/, '')
+		if (typeof sessionId === 'undefined' || sessionId === null || sessionId === '') {
 			res.status(405)
 			res.send({
 				status: 405,
 				message: 'NG',
 			})
 		}
-		const userModel: UserModelType = new User()
-		const result: DeleteTokenReturn = await userModel.deleteToken(token)
+		const sessionModel = new Session()
+		const result = await sessionModel.deleteSession(sessionId)
 		if (typeof result === 'undefined' || result === null ||
 			result.n === 0 || result.nModified === 0 || result.ok === 0
 		) {

@@ -42,7 +42,7 @@ export default class LoginPage {
 				ログイン画面です
 				<a href={`${host}/auth/google`}>Google</a>
 				<a href={`${host}/auth/facebook`}>facebook</a>
-				<a href={`${host}/auth/auth/twitter`}>twitter</a>
+				<a href={`${host}/auth/twitter`}>twitter</a>
 				<a href={`${host}/auth/github`}>github</a>
 			</div>
 		)
