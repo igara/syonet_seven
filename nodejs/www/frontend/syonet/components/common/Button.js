@@ -4,14 +4,16 @@ import {ButtonStyle} from '../../styles'
 /**
  * ボタンを表示するコンポーネント
  */
-export default class TermComponent {
+export default class ButtonComponent {
 
-	Stores;
+	Stores
 
 	/**
 	 * propsで渡されてきた押下時のイベントハンドラ
 	 */
 	OnClickHandler
+
+	Href
 
 	Children
 
@@ -22,6 +24,7 @@ export default class TermComponent {
 	constructor(vnode) {
 		this.Stores = vnode.attrs.Stores
 		this.OnClickHandler = vnode.attrs.OnClickHandler
+		this.Href = vnode.attrs.Href
 		this.Children = vnode.children.find(c => c.children)
 	}
 
@@ -30,8 +33,11 @@ export default class TermComponent {
 	 */
 	view() {
 		return (
-			<button onclick={() => this.OnClickHandler()}>
-				{this.Children}
+			<button class={ButtonStyle.button} onclick={() => this.OnClickHandler()}>
+				{this.Href ?
+					<a href={this.Href}>{this.Children}</a> :
+					<a>{this.Children}</a>
+				}
 			</button>
 		)
 	}

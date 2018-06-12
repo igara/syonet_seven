@@ -7,7 +7,7 @@ import {m} from '../../mithril'
 import {TermStyle} from '../../styles'
 import TermAction from '../../actions/common/term'
 import {sleep} from '../../../../libs/sleep'
-import Button from './Button'
+import Button from './button'
 
 /**
  * 利用規約を表示するコンポーネント

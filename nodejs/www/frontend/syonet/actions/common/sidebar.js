@@ -39,7 +39,8 @@ export default class SidebarAction {
 	 * ホームを押下したときの処理
 	 * @param {Mithril} m
 	 */
-	async onClickHome(m: mithril) {
+	async onClickHome(m: mithril, event: Event) {
+		event.preventDefault()
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
@@ -49,8 +50,10 @@ export default class SidebarAction {
 	/**
 	 * ログインを押下したときの処理
 	 * @param {Mithril} m
+	 * @param {Event} event
 	 */
-	async onClickLogin(m: mithril) {
+	async onClickLogin(m: mithril, event: Event) {
+		event.preventDefault()
 		const pathname = '/login'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
@@ -69,12 +72,5 @@ export default class SidebarAction {
 		Cookies.remove('connect.sid')
 		await sleep(1000)
 		m.route.set(pathname)
-	}
-
-	/**
-	 * GitHubを押下したときの処理
-	 */
-	onClickGitHub() {
-		window.open('https://github.com/igara/syonet_seven')
 	}
 }

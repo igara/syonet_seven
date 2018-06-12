@@ -6,5 +6,4 @@ export type SidebarAction = {
 	onClickHome: (mithril) => Promise<void>,
 	onClickLogin: (mithril) => Promise<void>,
 	onClickLogout: (mithril) => Promise<void>,
-	onClickGitHub: () => void,
 }

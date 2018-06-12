@@ -1,7 +1,7 @@
 // @flow
 
 import FetchLogin from '../fetchs/login'
-import Cookies from '../js_cookie'
+
 /**
  * ログインチェックのアクション
  */

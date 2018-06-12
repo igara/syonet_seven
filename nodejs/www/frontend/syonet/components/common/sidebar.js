@@ -49,32 +49,31 @@ export default class SidebarComponent {
 				<ul class={SidebarStyle.sidebar_link_wrap_ul}>
 					<li class={SidebarStyle.sidebar_link_list}
 						onclick={() => this.SidebarAction.onClickClose()}>
-						閉じる
+						<a>閉じる</a>
 					</li>
 					<li class={SidebarStyle.sidebar_link_list}
-						onclick={() => this.SidebarAction.onClickHome(m)}>
-						ホーム
+						onclick={(event: Event) => this.SidebarAction.onClickHome(m, event)}>
+						<a href="/">ホーム</a>
 					</li>
 					{this.Stores.LoginStore.User() ?
 						<li class={SidebarStyle.sidebar_link_list}
 							onclick={() => this.SidebarAction.onClickLogout(m)}>
-							ログアウト
+							<a>ログアウト</a>
 						</li> :
 						<li class={SidebarStyle.sidebar_link_list}
-							onclick={() => this.SidebarAction.onClickLogin(m)}>
-							ログイン
+							onclick={(event: Event) => this.SidebarAction.onClickLogin(m, event)}>
+							<a href="/login">ログイン</a>
 						</li>
 					}
 					<li class={SidebarStyle.sidebar_link_list}
 						onclick={() => this.SidebarAction.onClickTerm()}>
-						利用規約
+						<a>利用規約</a>
 					</li>
 					<li class={SidebarStyle.sidebar_link_list}>
-						ライセンス
+						<a>ライセンス</a>
 					</li>
-					<li class={SidebarStyle.sidebar_link_list}
-						onclick={() => this.SidebarAction.onClickGitHub()}>
-						GitHub
+					<li class={SidebarStyle.sidebar_link_list}>
+						<a href="https://github.com/igara/syonet_seven" target="_blank">GitHub</a>
 					</li>
 				</ul>
 				<button

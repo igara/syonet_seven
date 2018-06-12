@@ -5,6 +5,7 @@
 
 import {m} from '../mithril'
 import {getApiHost} from '../../../libs/api'
+import Button from '../components/common/button'
 
 /**
  * Routing URL: //login/
@@ -40,10 +41,10 @@ export default class LoginPage {
 		return (
 			<div>
 				ログイン画面です
-				<a href={`${host}/auth/google`}>Google</a>
-				<a href={`${host}/auth/facebook`}>facebook</a>
-				<a href={`${host}/auth/twitter`}>twitter</a>
-				<a href={`${host}/auth/github`}>github</a>
+				<Button Href={`${host}/auth/google`}>Google</Button>
+				<Button Href={`${host}/auth/facebook`}>facebook</Button>
+				<Button Href={`${host}/auth/twitter`}>twitter</Button>
+				<Button Href={`${host}/auth/github`}>github</Button>
 			</div>
 		)
 	}
