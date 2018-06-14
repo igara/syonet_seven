@@ -9,7 +9,13 @@
 	"globals": {
 		"m": true
 	},
-	"extends": ["eslint:recommended", "plugin:flowtype/recommended", "prettier", "plugin:prettier/recommended"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:flowtype/recommended",
+		"prettier",
+		"plugin:prettier/recommended",
+		"plugin:react/recommended"
+	],
 	"parser": "babel-eslint",
 	"parserOptions": {
 		"sourceType": "module",
@@ -31,9 +37,12 @@
 			1,
 			{
 				"vars": "all",
-				"args": "none"
+				"args": "none",
+				"varsIgnorePattern": "m"
 			}
 		],
+		"react/jsx-uses-vars": 2,
+		"react/react-in-jsx-scope": "off",
 		"prettier/prettier": [
 			"error",
 			{

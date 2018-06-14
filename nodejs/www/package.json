@@ -26,6 +26,7 @@
 		"cookie-parser": "~1.4.3",
 		"date-fns": "^1.29.0",
 		"debug": "~2.6.9",
+		"eslint-plugin-react": "^7.9.1",
 		"express": "~4.15.5",
 		"express-session": "^1.15.6",
 		"graphql": "^0.13.2",
