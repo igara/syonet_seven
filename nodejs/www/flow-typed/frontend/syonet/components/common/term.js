@@ -6,7 +6,7 @@ export type TermComponentVnode = {
 	},
 	dom: {
 		classList: {
-			add: (Object) => void
+			add: Object => void,
 		},
 	},
 }

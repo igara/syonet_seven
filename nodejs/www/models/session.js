@@ -7,7 +7,7 @@ const SessionSchema = mongo.Schema(
 		session: mongo.Schema.Types.Mixed,
 		expires: Date,
 	},
-	{collection: 'sessions'}
+	{ collection: 'sessions' },
 )
 
 /**
@@ -15,12 +15,12 @@ const SessionSchema = mongo.Schema(
  * @param {String} sessionId
  * @return {GetSessionBySessionIdReturn} result
  */
-SessionSchema.methods.getSessionBySessionId = async(sessionId: string): Promise<GetSessionBySessionIdReturn> => {
-	const result = await Session.findOne(
-		{
-			'_id': sessionId,
-		},
-	).exec()
+SessionSchema.methods.getSessionBySessionId = async (
+	sessionId: string,
+): Promise<GetSessionBySessionIdReturn> => {
+	const result = await Session.findOne({
+		_id: sessionId,
+	}).exec()
 	return result
 }
 
@@ -29,12 +29,12 @@ SessionSchema.methods.getSessionBySessionId = async(sessionId: string): Promise<
  * @param {String} sessionId
  * @return {GetSessionBySessionIdReturn} result
  */
-SessionSchema.methods.deleteSession = async(sessionId: string): Promise<Object> => {
-	const result = await Session.deleteOne(
-		{
-			'_id': sessionId,
-		},
-	)
+SessionSchema.methods.deleteSession = async (
+	sessionId: string,
+): Promise<Object> => {
+	const result = await Session.deleteOne({
+		_id: sessionId,
+	})
 	return result
 }
 

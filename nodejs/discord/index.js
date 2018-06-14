@@ -20,37 +20,35 @@ curl -H "Accept: application/json" \
 	console.log(result)
 })
 
-
 // メッセージがあったら何かをする
 client.on('message', message => {
 	if (CHANNEL_ID != message.channel.id) {
-		return;
+		return
 	}
 	// メッセージの文字列による条件分岐
 	if (message.content === '@bot deploy latest') {
 		const author = message.author
 		if (ADMIN_USER_ID.includes(+author.id)) {
-			const sendText =
-`今からsyonet.workを最新化します。`
-			message.reply(sendText)
-			.then(message => {
-				console.log(`Sent message: ${sendText}`)
-				const result = child_process.execSync(REMOTE_DEPLOY_COMMAND)
-				console.log(result)
-			})
-			.catch(console.error)
+			const sendText = `今からsyonet.workを最新化します。`
+			message
+				.reply(sendText)
+				.then(message => {
+					console.log(`Sent message: ${sendText}`)
+					const result = child_process.execSync(REMOTE_DEPLOY_COMMAND)
+					console.log(result)
+				})
+				.catch(console.error)
 		} else {
-			const sendText =
-`どうも。${author.username}さん。
+			const sendText = `どうも。${author.username}さん。
 このコマンドの実行権限はございません。`
-			message.reply(sendText)
-			.then(message => console.log(`Sent message: ${sendText}`))
-			.catch(console.error)
+			message
+				.reply(sendText)
+				.then(message => console.log(`Sent message: ${sendText}`))
+				.catch(console.error)
 		}
-		return;
+		return
 	}
-});
-
+})
 
 // Discordへの接続
 client.login(TOKEN)

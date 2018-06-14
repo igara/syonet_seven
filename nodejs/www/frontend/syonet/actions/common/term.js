@@ -1,12 +1,11 @@
 // @flow
 
-import {sleep} from '../../../../libs/sleep'
+import { sleep } from '../../../../libs/sleep'
 
 /**
  * 利用規約のアクション
  */
 export default class TermAction {
-
 	/**
 	 * @type {Stores} Stores
 	 */

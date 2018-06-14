@@ -1,7 +1,7 @@
 // @flow
 
 import 'isomorphic-fetch'
-import {getEnvByHostname} from './env'
+import { getEnvByHostname } from './env'
 
 /**
  * Apiを叩く時のホスト名を取得する
@@ -22,14 +22,14 @@ export const getApiHost = (): string => {
  * @param {String} option.sessionId
  * @return {fetch}
  */
-export const call = async(option: APICallParamOption) => {
+export const call = async (option: APICallParamOption) => {
 	option.method = option.method ? option.method : 'POST'
 	return await fetch(option.url, {
 		body: JSON.stringify(option.body),
 		cache: 'no-cache',
 		credentials: 'same-origin',
 		headers: {
-			'Accept': 'application/json',
+			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		},
 		method: option.method,

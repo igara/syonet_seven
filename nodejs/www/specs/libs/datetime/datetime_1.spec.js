@@ -1,9 +1,9 @@
 // @flow
 
-import {getMultiFormatDateTime, getTimeStamp} from '../../../libs/datetime'
+import { getMultiFormatDateTime, getTimeStamp } from '../../../libs/datetime'
 import dateFns from '../../../frontend/syonet/date_fns'
 
-import {DateInstance, MockDate} from '../../globals/date'
+import { DateInstance, MockDate } from '../../globals/date'
 
 describe('getTimeStamp', () => {
 	beforeEach(() => {
@@ -13,7 +13,7 @@ describe('getTimeStamp', () => {
 	test('Date 2018/11/11 11:11:11', async () => {
 		const date = new Date('2018/11/11 11:11:11')
 		global.Date = () => date
-		expect(getTimeStamp()).toBe(Math.round((date).getTime() / 1000))
+		expect(getTimeStamp()).toBe(Math.round(date.getTime() / 1000))
 	})
 })
 

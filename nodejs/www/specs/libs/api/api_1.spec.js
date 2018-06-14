@@ -1,6 +1,6 @@
 // @flow
 
-import {getApiHost, call} from '../../../libs/api'
+import { getApiHost, call } from '../../../libs/api'
 
 describe('getApiHost', () => {
 	beforeEach(() => {
@@ -59,9 +59,9 @@ describe('call', () => {
 				resolve({
 					ok: true,
 					status: 200,
-					json: () => { 
+					json: () => {
 						return new Promise((resolve, reject) => {
-							resolve({Id: 123})
+							resolve({ Id: 123 })
 						})
 					},
 				})

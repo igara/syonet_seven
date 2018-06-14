@@ -1,11 +1,10 @@
-import {m} from '../../mithril'
-import {ButtonStyle} from '../../styles'
+import { m } from '../../mithril'
+import { ButtonStyle } from '../../styles'
 
 /**
  * ボタンを表示するコンポーネント
  */
 export default class ButtonComponent {
-
 	Stores
 
 	/**
@@ -19,7 +18,7 @@ export default class ButtonComponent {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode) {
 		this.Stores = vnode.attrs.Stores
@@ -34,10 +33,11 @@ export default class ButtonComponent {
 	view() {
 		return (
 			<button class={ButtonStyle.button} onclick={() => this.OnClickHandler()}>
-				{this.Href ?
-					<a href={this.Href}>{this.Children}</a> :
+				{this.Href ? (
+					<a href={this.Href}>{this.Children}</a>
+				) : (
 					<a>{this.Children}</a>
-				}
+				)}
 			</button>
 		)
 	}

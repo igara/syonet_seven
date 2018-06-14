@@ -10,10 +10,19 @@ const router = express.Router()
  * @param {Request} req
  * @param {Response} res
  */
-export const authCheck = async(req: express$Request, res: express$Response) => {
+export const authCheck = async (
+	req: express$Request,
+	res: express$Response,
+) => {
 	try {
-		const sessionId = req.cookies['connect.sid'].replace(/^s:/, '').replace(/\.\S*$/, '')
-		if (typeof sessionId === 'undefined' || sessionId === null || sessionId === '') {
+		const sessionId = req.cookies['connect.sid']
+			.replace(/^s:/, '')
+			.replace(/\.\S*$/, '')
+		if (
+			typeof sessionId === 'undefined' ||
+			sessionId === null ||
+			sessionId === ''
+		) {
 			res.status(405)
 			res.send({
 				status: 405,
@@ -22,7 +31,10 @@ export const authCheck = async(req: express$Request, res: express$Response) => {
 		}
 		const sessionModel = new Session()
 		const session = await sessionModel.getSessionBySessionId(sessionId)
-		if (typeof session.session.passport === 'undefined' || session.session.passport === null) {
+		if (
+			typeof session.session.passport === 'undefined' ||
+			session.session.passport === null
+		) {
 			res.status(200)
 			res.send({
 				status: 200,
@@ -33,7 +45,10 @@ export const authCheck = async(req: express$Request, res: express$Response) => {
 		const id = session.session.passport.user.id
 		const provider = session.session.passport.user.provider
 		const userModel: UserModelType = new User()
-		const userInfo: GetUserInfoReturn = await userModel.getUserInfo(id, provider)
+		const userInfo: GetUserInfoReturn = await userModel.getUserInfo(
+			id,
+			provider,
+		)
 		if (typeof userInfo !== 'undefined' && userInfo !== null) {
 			res.status(200)
 			res.send({
@@ -65,10 +80,19 @@ router.post('/check', authCheck)
  * @param {Request} req
  * @param {Response} res
  */
-export const authDelete = async(req: express$Request, res: express$Response) => {
+export const authDelete = async (
+	req: express$Request,
+	res: express$Response,
+) => {
 	try {
-		const sessionId = req.cookies['connect.sid'].replace(/^s:/, '').replace(/\.\S*$/, '')
-		if (typeof sessionId === 'undefined' || sessionId === null || sessionId === '') {
+		const sessionId = req.cookies['connect.sid']
+			.replace(/^s:/, '')
+			.replace(/\.\S*$/, '')
+		if (
+			typeof sessionId === 'undefined' ||
+			sessionId === null ||
+			sessionId === ''
+		) {
 			res.status(405)
 			res.send({
 				status: 405,
@@ -77,8 +101,12 @@ export const authDelete = async(req: express$Request, res: express$Response) => 
 		}
 		const sessionModel = new Session()
 		const result = await sessionModel.deleteSession(sessionId)
-		if (typeof result === 'undefined' || result === null ||
-			result.n === 0 || result.nModified === 0 || result.ok === 0
+		if (
+			typeof result === 'undefined' ||
+			result === null ||
+			result.n === 0 ||
+			result.nModified === 0 ||
+			result.ok === 0
 		) {
 			res.status(405)
 			res.send({

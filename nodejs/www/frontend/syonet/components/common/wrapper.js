@@ -3,17 +3,16 @@
  * @jsx m
  */
 
-import {m} from '../../mithril'
+import { m } from '../../mithril'
 import HeaderComponent from './header'
 import FooterComponent from './footer'
 import SidebarComponent from './sidebar'
-import {ContentStyle} from '../../styles'
+import { ContentStyle } from '../../styles'
 
 /**
  * 共通のレイアウトを出力する
  */
 export default class WrapperComponent {
-
 	Stores: Stores
 
 	/**
@@ -28,7 +27,7 @@ export default class WrapperComponent {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode: WrapperComponentVnode) {
 		this.Stores = vnode.Stores
@@ -38,7 +37,7 @@ export default class WrapperComponent {
 
 	/**
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	oninit(vnode: WrapperComponentVnode) {
 		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
@@ -50,23 +49,14 @@ export default class WrapperComponent {
 	view() {
 		return (
 			<div>
-				<HeaderComponent
-					Stores={this.Stores}
-				/>
-				{this.Stores.SidebarStore.SidebarDispFlag() ?
-					<SidebarComponent
-						Stores={this.Stores}
-					/> :
-					null
-				}
+				<HeaderComponent Stores={this.Stores} />
+				{this.Stores.SidebarStore.SidebarDispFlag() ? (
+					<SidebarComponent Stores={this.Stores} />
+				) : null}
 				<div className={ContentStyle.content_wrap_div}>
-					<this.ChildComponent
-						Stores={this.Stores}
-					/>
+					<this.ChildComponent Stores={this.Stores} />
 				</div>
-				<FooterComponent
-					Stores={this.Stores}
-				/>
+				<FooterComponent Stores={this.Stores} />
 			</div>
 		)
 	}

@@ -3,17 +3,16 @@
  * @jsx m
  */
 
-import {m} from '../../mithril'
-import {TermStyle} from '../../styles'
+import { m } from '../../mithril'
+import { TermStyle } from '../../styles'
 import TermAction from '../../actions/common/term'
-import {sleep} from '../../../../libs/sleep'
+import { sleep } from '../../../../libs/sleep'
 import Button from './button'
 
 /**
  * 利用規約を表示するコンポーネント
  */
 export default class TermComponent {
-
 	Stores: Stores
 
 	/**
@@ -23,7 +22,7 @@ export default class TermComponent {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode: TermComponentVnode) {
 		this.Stores = vnode.attrs.Stores
@@ -32,7 +31,7 @@ export default class TermComponent {
 
 	/**
 	 * Lifecycle: The onbeforeupdate hook is called before a vnode is diffed in a update.
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	async onbeforeremove(vnode: TermComponentVnode) {
 		vnode.dom.classList.add(TermStyle.term_exit)
@@ -49,7 +48,8 @@ export default class TermComponent {
 					<div class={TermStyle.term_content}>
 						<Button
 							Stores={this.Stores}
-							OnClickHandler={this.TermAction.onClickClose}>
+							OnClickHandler={this.TermAction.onClickClose}
+						>
 							閉じる
 						</Button>
 					</div>

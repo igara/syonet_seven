@@ -2,7 +2,7 @@
 
 import express from 'express'
 // $FlowFixMe
-import {Strategy as FacebookStrategy} from 'passport-facebook'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 // $FlowFixMe
 import passport from 'passport'
 import User from '../../models/user'
@@ -11,27 +11,20 @@ const router = express.Router()
 /**
  * Facebook API設定
  */
-passport.use(new FacebookStrategy({
-	clientID: process.env.FACEBOOK_APP_ID,
-	clientSecret: process.env.FACEBOOK_APP_SECRET,
-	callbackURL: process.env.FACEBOOK_CALLBACK,
-	scope: [
-		'email',
-		'user_friends',
-		'user_birthday',
-		'user_location',
-	],
-	profileFields: [
-		'id',
-		'email',
-		'displayName',
-		'name',
-		'gender',
-		'photos',
-	],
-}, (accessToken, refreshToken, profile, done) => {
-	done(null, profile)
-}))
+passport.use(
+	new FacebookStrategy(
+		{
+			clientID: process.env.FACEBOOK_APP_ID,
+			clientSecret: process.env.FACEBOOK_APP_SECRET,
+			callbackURL: process.env.FACEBOOK_CALLBACK,
+			scope: ['email', 'user_friends', 'user_birthday', 'user_location'],
+			profileFields: ['id', 'email', 'displayName', 'name', 'gender', 'photos'],
+		},
+		(accessToken, refreshToken, profile, done) => {
+			done(null, profile)
+		},
+	),
+)
 
 passport.serializeUser((user, done) => {
 	done(null, user)
@@ -51,7 +44,7 @@ router.get('/', passport.authenticate('facebook'))
  * @param {Response} res
  * $FlowFixMe
  */
-export const facebook = async(req: express$Request, res: express$Response) => {
+export const facebook = async (req: express$Request, res: express$Response) => {
 	const userModel = new User()
 	await userModel.upsertByAuthUser(req.user)
 	res.redirect('/login/check/')

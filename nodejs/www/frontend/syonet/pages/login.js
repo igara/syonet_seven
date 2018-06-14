@@ -3,15 +3,14 @@
  * @jsx m
  */
 
-import {m} from '../mithril'
-import {getApiHost} from '../../../libs/api'
+import { m } from '../mithril'
+import { getApiHost } from '../../../libs/api'
 import Button from '../components/common/button'
 
 /**
  * Routing URL: //login/
  */
 export default class LoginPage {
-
 	/**
 	 * @type {Stores} Stores
 	 */
@@ -19,7 +18,7 @@ export default class LoginPage {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode: LoginPageVnode) {
 		this.Stores = vnode.attrs.Stores
@@ -27,7 +26,7 @@ export default class LoginPage {
 
 	/**
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	oninit(vnode: LoginPageVnode) {
 		this.Stores.SidebarStore.SidebarDispFlag(false)

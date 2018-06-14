@@ -6,7 +6,7 @@ const UserSchema = mongo.Schema(
 		auth: mongo.Schema.Types.Mixed,
 		date: Date,
 	},
-	{collection: 'users'}
+	{ collection: 'users' },
 )
 
 /**
@@ -14,11 +14,13 @@ const UserSchema = mongo.Schema(
  * @param {UpsertByAuthUserParam} user
  * @return {UpsertByAuthUserReturn} findResult
  */
-UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promise<UpsertByAuthUserReturn> => {
+UserSchema.methods.upsertByAuthUser = async (
+	user: UpsertByAuthUserParam,
+): Promise<UpsertByAuthUserReturn> => {
 	await User.update(
-		{'auth.id': user.id, 'auth.provider': user.provider},
-		{$set: {auth: user}},
-		{upsert: true}
+		{ 'auth.id': user.id, 'auth.provider': user.provider },
+		{ $set: { auth: user } },
+		{ upsert: true },
 	)
 	const findResult = await User.findOne({
 		'auth.id': user.id,
@@ -33,7 +35,10 @@ UserSchema.methods.upsertByAuthUser = async(user: UpsertByAuthUserParam): Promis
  * @param {String} provider
  * @return {Promise<?GetUserInfoReturn>}
  */
-UserSchema.methods.getUserInfo = async (id: string, provider: string): Promise<?GetUserInfoReturn> => {
+UserSchema.methods.getUserInfo = async (
+	id: string,
+	provider: string,
+): Promise<?GetUserInfoReturn> => {
 	const user: UserInfoData = await User.findOne({
 		'auth.id': id,
 		'auth.provider': provider,

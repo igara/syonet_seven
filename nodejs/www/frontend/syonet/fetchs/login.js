@@ -1,12 +1,12 @@
 // @flow
 
-import {call, getApiHost} from '../../../libs/api'
+import { call, getApiHost } from '../../../libs/api'
 
 /**
  * ログインチェックを行う
  * @param {{}} json
  */
-const callLoginCheck = async() => {
+const callLoginCheck = async () => {
 	const result = await call({
 		url: `${getApiHost()}/api/auth/check`,
 		method: 'POST',
@@ -20,7 +20,7 @@ const callLoginCheck = async() => {
  * ログアウトを行う
  * @param {{}} json
  */
-const callLogout = async() => {
+const callLogout = async () => {
 	const result = await call({
 		url: `${getApiHost()}/api/auth/delete`,
 		method: 'DELETE',

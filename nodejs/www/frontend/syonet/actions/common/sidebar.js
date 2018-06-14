@@ -1,6 +1,6 @@
 // @flow
 
-import {sleep} from '../../../../libs/sleep'
+import { sleep } from '../../../../libs/sleep'
 import FetchLogin from '../../fetchs/login'
 import Cookies from '../../js_cookie'
 
@@ -8,7 +8,6 @@ import Cookies from '../../js_cookie'
  * サイドバーのアクション
  */
 export default class SidebarAction {
-
 	/**
 	 * @type {Stores} Stores
 	 */

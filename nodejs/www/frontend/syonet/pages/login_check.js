@@ -3,7 +3,7 @@
  * @jsx m
  */
 
-import {m} from '../mithril'
+import { m } from '../mithril'
 import Cookies from '../js_cookie'
 import LoginCheckAction from '../actions/login_check'
 
@@ -11,7 +11,6 @@ import LoginCheckAction from '../actions/login_check'
  * Routing URL: //login/check
  */
 export default class LoginCheckPage {
-
 	/**
 	 * @type {Stores} Stores
 	 */

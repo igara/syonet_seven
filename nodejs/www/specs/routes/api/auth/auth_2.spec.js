@@ -1,13 +1,13 @@
 // @flow
-import {authCheck, authDelete} from '../../../../routes/api/auth'
+import { authCheck, authDelete } from '../../../../routes/api/auth'
 
-jest.mock('../../../../models/user', (() => (
+jest.mock('../../../../models/user', () =>
 	jest.fn(() => ({
 		getUserInfo: jest.fn().mockImplementation((sessionId, provider) => {
 			throw new Error('Invalid connection state: 500')
 		}),
-	}))
-)))
+	})),
+)
 
 describe('/auth/check', () => {
 	beforeEach(() => {

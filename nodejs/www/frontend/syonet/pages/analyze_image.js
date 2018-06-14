@@ -1,10 +1,9 @@
-import {m} from '../mithril'
+import { m } from '../mithril'
 
 /**
  * Routing URL: //analyzeimage/
  */
 export default class AnalyzeImagePage {
-
 	/**
 	 * @type {HeaderStore} HeaderStore
 	 */
@@ -17,7 +16,7 @@ export default class AnalyzeImagePage {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode) {
 		this.HeaderStore = vnode.attrs.HeaderStore
@@ -26,10 +25,9 @@ export default class AnalyzeImagePage {
 
 	/**
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
-	oninit(vnode) {
-	}
+	oninit(vnode) {}
 
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
@@ -37,7 +35,9 @@ export default class AnalyzeImagePage {
 	view() {
 		return (
 			<div>
-				<a href="/" oncreate={m.route.link}>index</a>
+				<a href="/" oncreate={m.route.link}>
+					index
+				</a>
 			</div>
 		)
 	}

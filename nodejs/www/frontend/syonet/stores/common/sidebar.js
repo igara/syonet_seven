@@ -1,6 +1,6 @@
 // @flow
 
-import {stream} from '../../mithril'
+import { stream } from '../../mithril'
 
 /**
  * サイドバーを表示するフラグを管理

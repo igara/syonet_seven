@@ -24,42 +24,51 @@ import authFacebook from './routes/auth/facebook'
 import authTwitter from './routes/auth/twitter'
 import authGoogle from './routes/auth/google'
 import authGithub from './routes/auth/github'
+import { graphql } from './routes/graphql'
 
 const app = express()
 
-app.use(compression({
-	threshold: 0,
-	level: 9,
-	memLevel: 9,
-}))
+app.use(
+	compression({
+		threshold: 0,
+		level: 9,
+		memLevel: 9,
+	}),
+)
 
 const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
 const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
-app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
-	res.set('Access-Control-Allow-Origin', '*')
-	res.set('Access-Control-Allow-Headers', 'Content-Type')
+app.use(
+	(req: express$Request, res: express$Response, next: express$NextFunction) => {
+		res.set('Access-Control-Allow-Origin', '*')
+		res.set('Access-Control-Allow-Headers', 'Content-Type')
 
-	if (req.method === 'OPTIONS') {
-		res.append('Access-Control-Allow-Headers', 'Token')
-		res.set('Access-Control-Allow-Methods', req.get('access-control-request-Method'))
-		res.send()
-		return
-	}
-	next()
-})
+		if (req.method === 'OPTIONS') {
+			res.append('Access-Control-Allow-Headers', 'Token')
+			res.set(
+				'Access-Control-Allow-Methods',
+				req.get('access-control-request-Method'),
+			)
+			res.send()
+			return
+		}
+		next()
+	},
+)
 
 // HTTPの時HTTPSアクセスにリダイレクトする
-app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
-	if (isNotLocalEnv() && req.headers['x-forwarded-proto'] !== 'https') {
-		// request was via http, so redirect to https
-		res.redirect(`https://${req.hostname}${req.url}`)
-	} else {
-		next()
-	}
-})
-
+app.use(
+	(req: express$Request, res: express$Response, next: express$NextFunction) => {
+		if (isNotLocalEnv() && req.headers['x-forwarded-proto'] !== 'https') {
+			// request was via http, so redirect to https
+			res.redirect(`https://${req.hostname}${req.url}`)
+		} else {
+			next()
+		}
+	},
+)
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -68,6 +77,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(staticDir))
+
+// graphql
+graphql(app)
 
 // API
 app.use('/api/auth', authApi)
@@ -78,20 +90,22 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 const MongoStore = connectMongo(session)
-app.use(session({
-	secret: 'syonet',
-	store: new MongoStore({
-		mongooseConnection: mongoose.connection,
-		db: 'session',
-		autoRemove: 'interval',
-		autoRemoveInterval: 60,
-		stringify: false,
+app.use(
+	session({
+		secret: 'syonet',
+		store: new MongoStore({
+			mongooseConnection: mongoose.connection,
+			db: 'session',
+			autoRemove: 'interval',
+			autoRemoveInterval: 60,
+			stringify: false,
+		}),
+		cookie: {
+			httpOnly: false,
+			maxAge: new Date(Date.now() + 60 * 60 * 1000),
+		},
 	}),
-	cookie: {
-		httpOnly: false,
-		maxAge: new Date(Date.now() + 60 * 60 * 1000),
-	},
-}))
+)
 
 app.use('/auth/facebook', authFacebook)
 app.use('/auth/twitter', authTwitter)
@@ -104,23 +118,32 @@ app.get('*', (req: express$Request, res: express$Response) => {
 })
 
 // catch 404 and forward to error handler
-app.use((req: express$Request, res: express$Response, next: express$NextFunction) => {
-	const err: Error = new Error('Not Found')
-	// $FlowFixMe
-	err.status = 404
-	next(err)
-})
+app.use(
+	(req: express$Request, res: express$Response, next: express$NextFunction) => {
+		const err: Error = new Error('Not Found')
+		// $FlowFixMe
+		err.status = 404
+		next(err)
+	},
+)
 
 // error handler
-app.use((err: Error, req: express$Request, res: express$Response, next: express$NextFunction) => {
-	// set locals, only providing error in development
-	res.locals.message = err.message
-	res.locals.error = req.app.get('env') === 'local' ? err : {}
-	// render the error page
-	// $FlowFixMe
-	res.status(err.status || 500)
-	res.sendFile(path.join(syonetStaticDir, 'index.html'))
-})
+app.use(
+	(
+		err: Error,
+		req: express$Request,
+		res: express$Response,
+		next: express$NextFunction,
+	) => {
+		// set locals, only providing error in development
+		res.locals.message = err.message
+		res.locals.error = req.app.get('env') === 'local' ? err : {}
+		// render the error page
+		// $FlowFixMe
+		res.status(err.status || 500)
+		res.sendFile(path.join(syonetStaticDir, 'index.html'))
+	},
+)
 
 export default app
 

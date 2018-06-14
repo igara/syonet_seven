@@ -1,5 +1,5 @@
 // @flow
-import type {IndexModelType} from './index'
+import type { IndexModelType } from './index'
 
 export type GetSessionBySessionIdReturn = {
 	_id: string,
@@ -11,7 +11,7 @@ export type GetSessionBySessionIdReturn = {
 			httpOnly: boolean,
 			domain: string,
 			path: string,
-			sameSite: string
+			sameSite: string,
 		},
 		passport?: {
 			user: {
@@ -26,7 +26,7 @@ export type GetSessionBySessionIdReturn = {
 					type: string,
 				}>,
 				photos: Array<{
-					value: string
+					value: string,
 				}>,
 				gender: string,
 				provider: string,
@@ -36,27 +36,27 @@ export type GetSessionBySessionIdReturn = {
 					etag: string,
 					emails: Array<{
 						value: string,
-						type: string
+						type: string,
 					}>,
 					objectType: string,
 					id: string,
 					displayName: string,
 					name: {
 						familyName: string,
-						givenName: string
+						givenName: string,
 					},
 					image: {
 						url: string,
-						isDefault: boolean
+						isDefault: boolean,
 					},
 					isPlusUser: boolean,
 					language: string,
 					verified: boolean,
-					domain: string
-				}
-			}
-		}
-	}
+					domain: string,
+				},
+			},
+		},
+	},
 }
 
 export type SessionInfoData = {
@@ -69,7 +69,7 @@ export type SessionInfoData = {
 			httpOnly: boolean,
 			domain: string,
 			path: string,
-			sameSite: string
+			sameSite: string,
 		},
 		passport?: {
 			user: {
@@ -84,7 +84,7 @@ export type SessionInfoData = {
 					type: string,
 				}>,
 				photos: Array<{
-					value: string
+					value: string,
 				}>,
 				gender: string,
 				provider: string,
@@ -94,30 +94,29 @@ export type SessionInfoData = {
 					etag: string,
 					emails: Array<{
 						value: string,
-						type: string
+						type: string,
 					}>,
 					objectType: string,
 					id: string,
 					displayName: string,
 					name: {
 						familyName: string,
-						givenName: string
+						givenName: string,
 					},
 					image: {
 						url: string,
-						isDefault: boolean
+						isDefault: boolean,
 					},
 					isPlusUser: boolean,
 					language: string,
 					verified: boolean,
-					domain: string
-				}
-			}
-		}
-	}
+					domain: string,
+				},
+			},
+		},
+	},
 }
 
 export type SessionModelType = IndexModelType & {
-	getSessionBySessionId: (string) => Promise<GetSessionBySessionIdReturn>
+	getSessionBySessionId: string => Promise<GetSessionBySessionIdReturn>,
 }
-

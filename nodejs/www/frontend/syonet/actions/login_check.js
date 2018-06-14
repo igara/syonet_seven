@@ -6,7 +6,6 @@ import FetchLogin from '../fetchs/login'
  * ログインチェックのアクション
  */
 export default class LoginCheckAction {
-
 	Stores: Stores
 
 	/**

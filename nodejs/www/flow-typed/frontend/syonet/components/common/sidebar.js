@@ -6,7 +6,7 @@ export type SidebarComponentVnode = {
 	},
 	dom: {
 		classList: {
-			add: (Object) => void
+			add: Object => void,
 		},
 	},
 }

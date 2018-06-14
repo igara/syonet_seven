@@ -3,7 +3,7 @@
 /**
  * アクセス中のHost名から環境変数値を取得する
  * @param {String} hostname
- * @return {String} env 
+ * @return {String} env
  */
 export const getEnvByHostname = (hostname: string) => {
 	let env = 'local'

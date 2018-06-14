@@ -17,12 +17,12 @@ import Stores from '../stores'
 
 import FetchLogin from '../fetchs/login'
 
-export default async() => {
+export default async () => {
 	if (!location.pathname.match(/^\/login\/check\//)) {
 		// ログインチェック
 		const sessionId = Cookies.get('connect.sid')
 		if (sessionId) {
-			const loginCheck = async() => {
+			const loginCheck = async () => {
 				const json = await FetchLogin.callLoginCheck()
 				Stores.LoginStore.Status(json.status)
 				if (json.status === 200) {

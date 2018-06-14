@@ -3,13 +3,12 @@
  * @jsx m
  */
 
-import {m} from '../mithril'
+import { m } from '../mithril'
 
 /**
  * Routing URL: //index/
  */
 export default class IndexPage {
-
 	/**
 	 * @type {Stores} Stores
 	 */
@@ -17,7 +16,7 @@ export default class IndexPage {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode: IndexPageVnode) {
 		this.Stores = vnode.attrs.Stores
@@ -27,9 +26,6 @@ export default class IndexPage {
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
 	view() {
-		return (
-			<div>
-			</div>
-		)
+		return <div />
 	}
 }

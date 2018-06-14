@@ -1,9 +1,9 @@
 // @flow
-import type {IndexModelType} from './index'
+import type { IndexModelType } from './index'
 
 export type UpsertByAuthUserParam = {
 	id: string | number,
-	provider: string
+	provider: string,
 }
 
 export type UpsertByAuthUserReturn = {
@@ -23,13 +23,13 @@ export type UpsertByAuthUserReturn = {
 		}>,
 		_json: {
 			image?: {
-				url: string
-			}
+				url: string,
+			},
 		},
 		photos: Array<{
-			value: string
-		}>
-	}
+			value: string,
+		}>,
+	},
 }
 
 export type UserInfoData = {
@@ -49,21 +49,21 @@ export type UserInfoData = {
 		}>,
 		_json: {
 			image?: {
-				url: string
-			}
+				url: string,
+			},
 		},
 		photos: Array<{
-			value: string
-		}>
-	}
+			value: string,
+		}>,
+	},
 }
 
 export type GetUserInfoReturn = {
 	displayName: string,
-	image: string
+	image: string,
 }
 
 export type UserModelType = IndexModelType & {
-	upsertByAuthUser: (UpsertByAuthUserParam) => Promise<UpsertByAuthUserReturn>,
+	upsertByAuthUser: UpsertByAuthUserParam => Promise<UpsertByAuthUserReturn>,
 	getUserInfo: (string, string) => Promise<GetUserInfoReturn>,
 }

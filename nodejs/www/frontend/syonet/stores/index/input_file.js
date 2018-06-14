@@ -1,6 +1,6 @@
 // @flow
 
-import {stream} from '../../mithril'
+import { stream } from '../../mithril'
 
 /**
  * ファイル

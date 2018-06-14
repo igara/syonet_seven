@@ -7,7 +7,7 @@ import dateFns from '../frontend/syonet/date_fns'
  * @return {Number}
  */
 export const getTimeStamp = () => {
-	return Math.round((new Date()).getTime() / 1000)
+	return Math.round(new Date().getTime() / 1000)
 }
 
 /**
@@ -22,7 +22,9 @@ export const getTimeStamp = () => {
  * @param {String} options.format 日付表示書式 default:'YYYY-MM-DD HH:mm:ss'
  * @return {String} 日付
  */
-export const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOption) => {
+export const getMultiFormatDateTime = (
+	options: ?GetMultiFormatDateTimeParamOption,
+) => {
 	const o = _getMultiFormatDateTimeOptions(options)
 	const dt = o.Date
 	dt.setSeconds(dt.getSeconds() + o.seconds)
@@ -47,7 +49,9 @@ export const getMultiFormatDateTime = (options: ?GetMultiFormatDateTimeParamOpti
  * @param {String} options.format 日付表示書式 default:'YYYY-MM-DD HH:mm:ss'
  * @returns {} options
  */
-const _getMultiFormatDateTimeOptions = (options: ?GetMultiFormatDateTimeParamOption): _GetMultiFormatDateTimeReturnOption => {
+const _getMultiFormatDateTimeOptions = (
+	options: ?GetMultiFormatDateTimeParamOption,
+): _GetMultiFormatDateTimeReturnOption => {
 	if (typeof options === 'undefined' || options === null) {
 		options = {
 			Date: new Date(),
@@ -84,5 +88,5 @@ const _getMultiFormatDateTimeOptions = (options: ?GetMultiFormatDateTimeParamOpt
 	if (typeof options.format === 'undefined' || options.format === null) {
 		options.format = 'YYYY-MM-DD HH:mm:ss'
 	}
-	return {...options}
+	return { ...options }
 }

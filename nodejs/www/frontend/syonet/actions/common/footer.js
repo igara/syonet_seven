@@ -4,7 +4,6 @@
  * フッダーのアクション
  */
 export default class FooterAction {
-
 	Stores: Stores
 
 	/**
@@ -17,8 +16,7 @@ export default class FooterAction {
 	/**
 	 * HomeIconを押下したときの処理
 	 */
-	onClickHomeIcon() {
-	}
+	onClickHomeIcon() {}
 
 	/**
 	 * LinkIconを押下したときの処理

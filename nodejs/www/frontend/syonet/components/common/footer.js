@@ -3,15 +3,14 @@
  * @jsx m
  */
 
-import {m} from '../../mithril'
+import { m } from '../../mithril'
 import FooterAction from '../../actions/common/footer'
-import {FooterStyle, IconStyle} from '../../styles'
+import { FooterStyle, IconStyle } from '../../styles'
 
 /**
  * フッダーを表示するコンポーネント
  */
 export default class FooterComponent {
-
 	/**
 	 * @type {Stores} Stores
 	 */
@@ -24,7 +23,7 @@ export default class FooterComponent {
 
 	/**
 	 * @constructor
-	 * @param {Vnode<A, this>} vnode 
+	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode: FooterComponentVnode) {
 		this.Stores = vnode.attrs.Stores
@@ -39,7 +38,8 @@ export default class FooterComponent {
 			<div class={FooterStyle.footer_wrap_div}>
 				<button
 					class={IconStyle.Hamburger.hamburger_icon}
-					onclick={() => this.FooterAction.onClickLinkIcon()}>
+					onclick={() => this.FooterAction.onClickLinkIcon()}
+				>
 					<div class={IconStyle.Hamburger.hamburger_mark_top} />
 					<div class={IconStyle.Hamburger.hamburger_mark} />
 					<div class={IconStyle.Hamburger.hamburger_mark_bottom} />

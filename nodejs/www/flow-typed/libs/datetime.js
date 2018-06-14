@@ -8,7 +8,7 @@ export type GetMultiFormatDateTimeParamOption = {
 	day?: number,
 	month?: number,
 	year?: number,
-	format?: string
+	format?: string,
 }
 
 export type _GetMultiFormatDateTimeReturnOption = {
@@ -19,5 +19,5 @@ export type _GetMultiFormatDateTimeReturnOption = {
 	day: number,
 	month: number,
 	year: number,
-	format: string
+	format: string,
 }

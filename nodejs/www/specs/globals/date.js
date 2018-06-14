@@ -55,9 +55,15 @@ export class MockDate extends DateInstance {
 		return this.dateInstance.getFullYear()
 	}
 	getTime() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).getTime()
+		return new DateInstance(
+			`${this.getFullYear()}-${this.getMonth() +
+				1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`,
+		).getTime()
 	}
 	valueOf() {
-		return new DateInstance(`${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`).valueOf()
+		return new DateInstance(
+			`${this.getFullYear()}-${this.getMonth() +
+				1}-${this.getDate()} ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`,
+		).valueOf()
 	}
 }
