@@ -9,7 +9,7 @@ import {getEnvByHostname} from './env'
 export const getApiHost = (): string => {
 	let host = `${location.protocol}//${location.host}`
 	if (getEnvByHostname(location.hostname) === 'local') {
-		host = 'http://127.0.0.1:3000'
+		host = host !== 'about://' ? host : 'http://127.0.0.1:3000'
 	}
 	return host
 }

@@ -9,6 +9,28 @@ describe('getApiHost', () => {
 	test('host - http://127.0.0.1:3000', async () => {
 		expect(getApiHost()).toBe('http://127.0.0.1:3000')
 	})
+	test('host - https://localhost', async () => {
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: {
+				protocol: 'https:',
+				host: 'localhost',
+				hostname: 'localhost',
+			},
+		})
+		expect(getApiHost()).toBe('https://localhost')
+	})
+	test('host - about://', async () => {
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: {
+				protocol: 'about:',
+				host: '',
+				hostname: '',
+			},
+		})
+		expect(getApiHost()).toBe('http://127.0.0.1:3000')
+	})
 	test('host - https://syonet.work', async () => {
 		Object.defineProperty(window, 'location', {
 			writable: true,
