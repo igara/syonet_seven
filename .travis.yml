@@ -1,6 +1,8 @@
 sudo: required
 
-language: generic
+language: node_js
+node_js:
+  - node
 
 services:
   - docker
@@ -21,11 +23,12 @@ before_install:
   - echo 'Canada/Pacific' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sh env.sh local
-  - docker-compose run www yarn
+  - docker-compose build
+  - (cd ./nodejs/www/ && yarn)
 
 script:
-  - docker-compose run www yarn flow
-  - docker-compose run www yarn jest
+  - (cd ./nodejs/www/ && yarn flow)
+  - (cd ./nodejs/www/ && yarn jest)
   - (cd ./nodejs/www/ && yarn jest --coverage)
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/coveralls/bin/coveralls.js --verbose
