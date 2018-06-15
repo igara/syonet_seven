@@ -9,6 +9,9 @@ env:
   DOCKER_COMPOSE_VERSION: 1.21.2
   LANG: ja_JP.utf-8
 
+cache: yarn
+dist: trusty
+
 before_install:
   - sudo apt-get update
   - sudo rm /usr/local/bin/docker-compose
@@ -19,16 +22,19 @@ before_install:
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sh env.sh local
   - docker-compose run www yarn
+
+script:
   - docker-compose run www yarn flow
   - docker-compose run www yarn jest
-  - docker-compose run www yarn jest --coverage 
+  - docker-compose run www yarn jest --coverage
+  - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
+  - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/coveralls/bin/coveralls.js --verbose
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
-  - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
-  - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/coveralls/bin/coveralls.js --verbose
+
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
