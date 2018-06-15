@@ -19,20 +19,18 @@ export const getApiHost = (): string => {
  * @param {String} option.url
  * @param {{}} option.body
  * @param {String} option.method
- * @param {String} option.sessionId
  * @return {fetch}
  */
-export const call = async (option: APICallParamOption) => {
-	option.method = option.method ? option.method : 'POST'
-	return await fetch(option.url, {
-		body: JSON.stringify(option.body),
+export const call = async ({ url, body, method }: APICallParamOption) => {
+	return await fetch(url, {
+		body: JSON.stringify(body),
 		cache: 'no-cache',
 		credentials: 'same-origin',
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		},
-		method: option.method,
+		method: method,
 		mode: 'cors',
 	})
 }

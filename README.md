@@ -1,12 +1,15 @@
 # syonet_seven
 
 [![Build Status](https://travis-ci.org/igara/syonet_seven.svg?branch=master)](https://travis-ci.org/igara/syonet_seven)
+[![Maintainability](https://api.codeclimate.com/v1/badges/03ee67318f7884556809/maintainability)](https://codeclimate.com/github/igara/syonet_seven/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/03ee67318f7884556809/test_coverage)](https://codeclimate.com/github/igara/syonet_seven/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/igara/syonet_seven/badge.svg)](https://coveralls.io/github/igara/syonet_seven)
 
 ## 環境構築
 
 ### 初回起動時
 
-#### 普通にdockerで起動する時
+#### 普通に docker で起動する時
 
 ```
 cd syonet_seven
@@ -17,7 +20,7 @@ docker-compose up -d
 (cd nodejs/www && yarn local_front_start)
 ```
 
-#### ホスト的な意味でVMを交わす時
+#### ホスト的な意味で VM を交わす時
 
 ```
 cd syonet_seven
@@ -27,7 +30,7 @@ sh env.sh local-vm
 vagrant up --provision
 ```
 
-vagrantのOSにSSHする
+vagrant の OS に SSH する
 
 ```
 cd syonet_seven
@@ -45,4 +48,4 @@ vagrant ssh
 (cd /vagrant/ && docker-compose exec www sh)
 ```
 
-こちらはlocal.syonet.workで入れる
+こちらは local.syonet.work で入れる
