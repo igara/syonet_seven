@@ -26,7 +26,7 @@ before_install:
 script:
   - docker-compose run www yarn flow
   - docker-compose run www yarn jest
-  - docker-compose run www yarn jest --coverage
+  - (cd ./nodejs/www/ && yarn jest --coverage)
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/coveralls/bin/coveralls.js --verbose
 
