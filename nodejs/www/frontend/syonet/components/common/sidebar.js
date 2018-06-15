@@ -85,7 +85,10 @@ export default class SidebarComponent {
 						<a>ライセンス</a>
 					</li>
 					<li class={SidebarStyle.sidebar_link_list}>
-						<a href="https://github.com/igara/syonet_seven" target="_blank">
+						<a
+							href="https://github.com/igara/syonet_seven"
+							rel="noopener noreferrer"
+						>
 							GitHub
 						</a>
 					</li>

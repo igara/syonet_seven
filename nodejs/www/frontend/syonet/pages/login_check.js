@@ -4,7 +4,6 @@
  */
 
 import { m } from '../mithril'
-import Cookies from '../js_cookie'
 import LoginCheckAction from '../actions/login_check'
 
 /**

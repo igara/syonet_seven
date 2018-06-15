@@ -43,6 +43,12 @@
 		],
 		"react/jsx-uses-vars": 2,
 		"react/react-in-jsx-scope": "off",
+		"react/no-unknown-property": [
+			2,
+			{
+				"ignore": ["class", "onclick"]
+			}
+		],
 		"prettier/prettier": [
 			"error",
 			{
