@@ -1,6 +1,6 @@
 // @flow
 
-import Cookies from '../js_cookie'
+import Cookies from '../statics/js_cookie'
 
 // Components
 import WrapperComponent from '../components/common/wrapper'

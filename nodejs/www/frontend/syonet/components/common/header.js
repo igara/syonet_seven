@@ -3,8 +3,8 @@
  * @jsx m
  */
 
-import { m } from '../../mithril'
-import { HeaderStyle, IconStyle } from '../../styles'
+import { m } from '../../statics/mithril'
+import { HeaderStyle, IconStyle } from '../../statics/styles'
 
 /**
  * ヘッダーを表示するコンポーネント

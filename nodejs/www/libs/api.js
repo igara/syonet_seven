@@ -7,9 +7,9 @@ import { getEnvByHostname } from './env'
  * Apiを叩く時のホスト名を取得する
  */
 export const getApiHost = (): string => {
-	let host = `${location.protocol}//${location.host}`
+	let host = `${location.protocol}//${location.hostname}`
 	if (getEnvByHostname(location.hostname) === 'local') {
-		host = host !== 'about://' ? host : 'http://127.0.0.1:3000'
+		host = host !== 'about://' ? `${host}:3000` : 'http://127.0.0.1:3000'
 	}
 	return host
 }

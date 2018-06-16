@@ -37,7 +37,6 @@ app.use(
 )
 
 const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
-const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
 app.use(
@@ -76,10 +75,10 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(staticDir))
+app.use(express.static(syonetStaticDir))
 
 // graphql
-graphql(app)
+// graphql(app)
 
 // API
 app.use('/api/auth', authApi)

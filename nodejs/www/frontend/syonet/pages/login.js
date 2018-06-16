@@ -3,7 +3,7 @@
  * @jsx m
  */
 
-import { m } from '../mithril'
+import { m } from '../statics/mithril'
 import { getApiHost } from '../../../libs/api'
 import Button from '../components/common/button'
 

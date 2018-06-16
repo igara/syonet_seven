@@ -3,7 +3,7 @@
  * @jsx m
  */
 
-import { m } from '../mithril'
+import { m } from '../statics/mithril'
 import LoginCheckAction from '../actions/login_check'
 
 /**

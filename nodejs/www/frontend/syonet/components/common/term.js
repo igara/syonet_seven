@@ -3,8 +3,8 @@
  * @jsx m
  */
 
-import { m } from '../../mithril'
-import { TermStyle } from '../../styles'
+import { m } from '../../statics/mithril'
+import { TermStyle } from '../../statics/styles'
 import TermAction from '../../actions/common/term'
 import { sleep } from '../../../../libs/sleep'
 import Button from './button'

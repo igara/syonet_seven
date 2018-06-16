@@ -3,8 +3,8 @@
  * @jsx m
  */
 
-import { m } from '../../mithril'
-import { SidebarStyle, IconStyle } from '../../styles'
+import { m } from '../../statics/mithril'
+import { SidebarStyle, IconStyle } from '../../statics/styles'
 import SidebarAction from '../../actions/common/sidebar'
 import { sleep } from '../../../../libs/sleep'
 import TermComponent from './term'

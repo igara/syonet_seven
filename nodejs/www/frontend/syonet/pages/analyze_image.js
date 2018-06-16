@@ -1,4 +1,4 @@
-import { m } from '../mithril'
+import { m } from '../statics/mithril'
 
 /**
  * Routing URL: //analyzeimage/

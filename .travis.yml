@@ -31,7 +31,6 @@ script:
   - (cd ./nodejs/www/ && yarn jest)
   - (cd ./nodejs/www/ && yarn jest --coverage)
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
-  - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/coveralls/bin/coveralls.js --verbose
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh

@@ -1,7 +1,7 @@
 // @flow
 
 import { getMultiFormatDateTime, getTimeStamp } from '../../../libs/datetime'
-import dateFns from '../../../frontend/syonet/date_fns'
+import dateFns from '../../../frontend/syonet/statics/date_fns'
 
 import { DateInstance, MockDate } from '../../globals/date'
 

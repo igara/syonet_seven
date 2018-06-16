@@ -2,7 +2,7 @@
 
 import { sleep } from '../../../../libs/sleep'
 import FetchLogin from '../../fetchs/login'
-import Cookies from '../../js_cookie'
+import Cookies from '../../statics/js_cookie'
 
 /**
  * サイドバーのアクション

@@ -1,5 +1,5 @@
-import { m } from '../../mithril'
-import { ButtonStyle } from '../../styles'
+import { m } from '../../statics/mithril'
+import { ButtonStyle } from '../../statics/styles'
 
 /**
  * ボタンを表示するコンポーネント

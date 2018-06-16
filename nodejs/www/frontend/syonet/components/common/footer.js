@@ -3,9 +3,9 @@
  * @jsx m
  */
 
-import { m } from '../../mithril'
+import { m } from '../../statics/mithril'
 import FooterAction from '../../actions/common/footer'
-import { FooterStyle, IconStyle } from '../../styles'
+import { FooterStyle, IconStyle } from '../../statics/styles'
 
 /**
  * フッダーを表示するコンポーネント

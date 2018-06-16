@@ -3,11 +3,11 @@
  * @jsx m
  */
 
-import { m } from '../../mithril'
+import { m } from '../../statics/mithril'
 import HeaderComponent from './header'
 import FooterComponent from './footer'
 import SidebarComponent from './sidebar'
-import { ContentStyle } from '../../styles'
+import { ContentStyle } from '../../statics/styles'
 
 /**
  * 共通のレイアウトを出力する

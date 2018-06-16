@@ -1,6 +1,6 @@
 // @flow
 
-import { stream } from '../../mithril'
+import { stream } from '../../statics/mithril'
 
 /**
  * 利用規約を表示するフラグを管理
