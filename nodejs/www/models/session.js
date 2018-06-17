@@ -10,12 +10,7 @@ const SessionSchema = mongo.Schema(
 	{ collection: 'sessions' },
 )
 
-/**
- * SessionIDからセッション情報を取得する
- * @param {String} sessionId
- * @return {GetSessionBySessionIdReturn} result
- */
-SessionSchema.methods.getSessionBySessionId = async (
+export const getSessionBySessionId = async (
 	sessionId: string,
 ): Promise<GetSessionBySessionIdReturn> => {
 	const result = await Session.findOne({
@@ -25,18 +20,27 @@ SessionSchema.methods.getSessionBySessionId = async (
 }
 
 /**
- * SessionIDからセッション情報を削除する
+ * SessionIDからセッション情報を取得する
  * @param {String} sessionId
  * @return {GetSessionBySessionIdReturn} result
  */
-SessionSchema.methods.deleteSession = async (
+SessionSchema.methods.getSessionBySessionId = getSessionBySessionId
+
+export const deleteSession = async (
 	sessionId: string,
-): Promise<Object> => {
+): Promise<DeleteSessionReturn> => {
 	const result = await Session.deleteOne({
 		_id: sessionId,
 	})
 	return result
 }
+
+/**
+ * SessionIDからセッション情報を削除する
+ * @param {String} sessionId
+ * @return {DeleteSessionReturn} result
+ */
+SessionSchema.methods.deleteSession = deleteSession
 
 const Session: SessionModelType = mongo.model('Session', SessionSchema)
 export default Session

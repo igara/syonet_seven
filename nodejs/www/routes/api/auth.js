@@ -49,24 +49,14 @@ export const authCheck = async (
 			id,
 			provider,
 		)
-		if (typeof userInfo !== 'undefined' && userInfo !== null) {
-			res.status(200)
-			res.send({
-				status: 200,
-				message: 'OK',
-				user: userInfo,
-			})
-		} else {
-			res.status(405)
-			res.send({
-				status: 405,
-				message: 'NG',
-			})
-		}
+		res.status(200)
+		res.send({
+			status: 200,
+			message: 'OK',
+			user: userInfo,
+		})
 	} catch (error) {
-		if (process.env.WWW_ENV) {
-			console.log(error)
-		}
+		console.error(error)
 		res.status(500)
 		res.send({
 			status: 500,
@@ -99,13 +89,12 @@ export const authDelete = async (
 				message: 'NG',
 			})
 		}
-		const sessionModel = new Session()
+		const sessionModel: SessionModelType = new Session()
 		const result = await sessionModel.deleteSession(sessionId)
 		if (
 			typeof result === 'undefined' ||
 			result === null ||
 			result.n === 0 ||
-			result.nModified === 0 ||
 			result.ok === 0
 		) {
 			res.status(405)
@@ -120,9 +109,7 @@ export const authDelete = async (
 			message: 'OK',
 		})
 	} catch (error) {
-		if (process.env.WWW_ENV) {
-			console.log(error)
-		}
+		console.error(error)
 		res.status(500)
 		res.send({
 			status: 500,

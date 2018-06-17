@@ -5,8 +5,6 @@ import { ButtonStyle } from '../../statics/styles'
  * ボタンを表示するコンポーネント
  */
 export default class ButtonComponent {
-	Stores
-
 	/**
 	 * propsで渡されてきた押下時のイベントハンドラ
 	 */
@@ -32,7 +30,10 @@ export default class ButtonComponent {
 	 */
 	view() {
 		return (
-			<button class={ButtonStyle.button} onclick={() => this.OnClickHandler()}>
+			<button
+				class={ButtonStyle.button}
+				onclick={() => (this.OnClickHandler ? this.OnClickHandler() : null)}
+			>
 				{this.Href ? (
 					<a href={this.Href}>{this.Children}</a>
 				) : (

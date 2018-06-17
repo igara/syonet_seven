@@ -117,6 +117,12 @@ export type SessionInfoData = {
 	},
 }
 
+export type DeleteSessionReturn = {
+	n: number,
+	ok: number,
+}
+
 export type SessionModelType = IndexModelType & {
 	getSessionBySessionId: string => Promise<GetSessionBySessionIdReturn>,
+	deleteSession: string => Promise<DeleteSessionReturn>,
 }
