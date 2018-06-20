@@ -4,7 +4,6 @@ import mongo from './index'
 const UserSchema = mongo.Schema(
 	{
 		auth: mongo.Schema.Types.Mixed,
-		date: Date,
 	},
 	{ collection: 'users' },
 )
@@ -14,7 +13,7 @@ const UserSchema = mongo.Schema(
  * @param {UpsertByAuthUserParam} user
  * @return {UpsertByAuthUserReturn} findResult
  */
-UserSchema.methods.upsertByAuthUser = async (
+export const upsertByAuthUser = async (
 	user: UpsertByAuthUserParam,
 ): Promise<UpsertByAuthUserReturn> => {
 	await User.update(
@@ -29,13 +28,15 @@ UserSchema.methods.upsertByAuthUser = async (
 	return findResult
 }
 
+UserSchema.methods.upsertByAuthUser = upsertByAuthUser
+
 /**
  * 認証したユーザから厳選した情報を取得する
  * @param {String} id
  * @param {String} provider
  * @return {Promise<?GetUserInfoReturn>}
  */
-UserSchema.methods.getUserInfo = async (
+export const getUserInfo = async (
 	id: string,
 	provider: string,
 ): Promise<?GetUserInfoReturn> => {
@@ -43,29 +44,21 @@ UserSchema.methods.getUserInfo = async (
 		'auth.id': id,
 		'auth.provider': provider,
 	}).exec()
-	if (user.auth.provider === 'google') {
-		return {
-			displayName: user.auth.displayName,
-			image: user.auth.photos[0].value,
-		}
-	} else if (user.auth.provider === 'facebook') {
-		return {
-			displayName: user.auth.displayName,
-			image: user.auth.photos[0].value,
-		}
-	} else if (user.auth.provider === 'twitter') {
-		return {
-			displayName: user.auth.displayName,
-			image: user.auth.photos[0].value,
-		}
-	} else if (user.auth.provider === 'github') {
-		return {
-			displayName: user.auth.displayName,
-			image: user.auth.photos[0].value,
-		}
+	if (
+		typeof user === 'undefined' ||
+		user === null ||
+		typeof user.auth === 'undefined' ||
+		user.auth === null
+	) {
+		return null
 	}
-	return null
+	return {
+		displayName: user.auth.displayName,
+		image: user.auth.photos[0].value,
+	}
 }
 
-const User: UserModelType = mongo.model('User', UserSchema)
+UserSchema.methods.getUserInfo = getUserInfo
+
+const User: UserModelType = mongo.model('User', UserSchema, null, true)
 export default User

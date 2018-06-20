@@ -1,4 +1,4 @@
-// flow-typed signature: 9c2daea1b6ad1c6d24007e27e01cc423
+// flow-typed signature: af46b8227c4ab434d04ef12126fd195c
 // flow-typed version: <<STUB>>/parcel-bundler_v^1.9.0/flow_v0.74.0
 
 /**
@@ -111,50 +111,6 @@ declare module 'parcel-bundler/lib/assets/YAMLAsset' {
 }
 
 declare module 'parcel-bundler/lib/builtins/_empty' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/_empty' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/bundle-loader' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/bundle-url' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/css-loader' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/hmr-runtime' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/index' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/css-loader' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/js-loader' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/wasm-loader' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/prelude' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/builtins/builtins/prelude.min' {
   declare module.exports: any;
 }
 
@@ -286,7 +242,7 @@ declare module 'parcel-bundler/lib/packagers/RawPackager' {
   declare module.exports: any;
 }
 
-declare module 'parcel-bundler/lib/packagers/SourceMapPackager' {
+declare module 'parcel-bundler/lib/packagers/SourcemapPackager' {
   declare module.exports: any;
 }
 
@@ -295,6 +251,10 @@ declare module 'parcel-bundler/lib/Parser' {
 }
 
 declare module 'parcel-bundler/lib/Pipeline' {
+  declare module.exports: any;
+}
+
+declare module 'parcel-bundler/lib/Profiler' {
   declare module.exports: any;
 }
 
@@ -327,6 +287,10 @@ declare module 'parcel-bundler/lib/Server' {
 }
 
 declare module 'parcel-bundler/lib/SourceMap' {
+  declare module.exports: any;
+}
+
+declare module 'parcel-bundler/lib/Trace' {
   declare module.exports: any;
 }
 
@@ -370,15 +334,15 @@ declare module 'parcel-bundler/lib/utils/customErrors' {
   declare module.exports: any;
 }
 
-declare module 'parcel-bundler/lib/utils/deferred' {
-  declare module.exports: any;
-}
-
 declare module 'parcel-bundler/lib/utils/emoji' {
   declare module.exports: any;
 }
 
 declare module 'parcel-bundler/lib/utils/env' {
+  declare module.exports: any;
+}
+
+declare module 'parcel-bundler/lib/utils/fileCounter' {
   declare module.exports: any;
 }
 
@@ -434,6 +398,10 @@ declare module 'parcel-bundler/lib/utils/openInBrowser' {
   declare module.exports: any;
 }
 
+declare module 'parcel-bundler/lib/utils/parseCSSImport' {
+  declare module.exports: any;
+}
+
 declare module 'parcel-bundler/lib/utils/pipeSpawn' {
   declare module.exports: any;
 }
@@ -459,6 +427,10 @@ declare module 'parcel-bundler/lib/utils/serializeObject' {
 }
 
 declare module 'parcel-bundler/lib/utils/syncPromise' {
+  declare module.exports: any;
+}
+
+declare module 'parcel-bundler/lib/utils/textUtils' {
   declare module.exports: any;
 }
 
@@ -511,14 +483,6 @@ declare module 'parcel-bundler/lib/workerfarm/child' {
 }
 
 declare module 'parcel-bundler/lib/workerfarm/errorUtils' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/workerfarm/fork' {
-  declare module.exports: any;
-}
-
-declare module 'parcel-bundler/lib/workerfarm/RPCManager' {
   declare module.exports: any;
 }
 
@@ -870,6 +834,10 @@ declare module 'parcel-bundler/src/utils/openInBrowser' {
   declare module.exports: any;
 }
 
+declare module 'parcel-bundler/src/utils/parseCSSImport' {
+  declare module.exports: any;
+}
+
 declare module 'parcel-bundler/src/utils/pipeSpawn' {
   declare module.exports: any;
 }
@@ -1022,39 +990,6 @@ declare module 'parcel-bundler/lib/assets/YAMLAsset.js' {
 declare module 'parcel-bundler/lib/builtins/_empty.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/builtins/_empty'>;
 }
-declare module 'parcel-bundler/lib/builtins/builtins/_empty.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/_empty'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/bundle-loader.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/bundle-loader'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/bundle-url.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/bundle-url'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/css-loader.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/css-loader'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/hmr-runtime.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/hmr-runtime'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/index.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/index'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/css-loader.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/loaders/css-loader'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/js-loader.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/loaders/js-loader'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/loaders/wasm-loader.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/loaders/wasm-loader'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/prelude.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/prelude'>;
-}
-declare module 'parcel-bundler/lib/builtins/builtins/prelude.min.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/builtins/builtins/prelude.min'>;
-}
 declare module 'parcel-bundler/lib/builtins/bundle-loader.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/builtins/bundle-loader'>;
 }
@@ -1151,14 +1086,17 @@ declare module 'parcel-bundler/lib/packagers/Packager.js' {
 declare module 'parcel-bundler/lib/packagers/RawPackager.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/packagers/RawPackager'>;
 }
-declare module 'parcel-bundler/lib/packagers/SourceMapPackager.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/packagers/SourceMapPackager'>;
+declare module 'parcel-bundler/lib/packagers/SourcemapPackager.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/packagers/SourcemapPackager'>;
 }
 declare module 'parcel-bundler/lib/Parser.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/Parser'>;
 }
 declare module 'parcel-bundler/lib/Pipeline.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/Pipeline'>;
+}
+declare module 'parcel-bundler/lib/Profiler.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/Profiler'>;
 }
 declare module 'parcel-bundler/lib/Resolver.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/Resolver'>;
@@ -1183,6 +1121,9 @@ declare module 'parcel-bundler/lib/Server.js' {
 }
 declare module 'parcel-bundler/lib/SourceMap.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/SourceMap'>;
+}
+declare module 'parcel-bundler/lib/Trace.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/Trace'>;
 }
 declare module 'parcel-bundler/lib/transforms/babel.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/transforms/babel'>;
@@ -1214,14 +1155,14 @@ declare module 'parcel-bundler/lib/utils/config.js' {
 declare module 'parcel-bundler/lib/utils/customErrors.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/customErrors'>;
 }
-declare module 'parcel-bundler/lib/utils/deferred.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/utils/deferred'>;
-}
 declare module 'parcel-bundler/lib/utils/emoji.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/emoji'>;
 }
 declare module 'parcel-bundler/lib/utils/env.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/env'>;
+}
+declare module 'parcel-bundler/lib/utils/fileCounter.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/utils/fileCounter'>;
 }
 declare module 'parcel-bundler/lib/utils/fs.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/fs'>;
@@ -1262,6 +1203,9 @@ declare module 'parcel-bundler/lib/utils/objectHash.js' {
 declare module 'parcel-bundler/lib/utils/openInBrowser.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/openInBrowser'>;
 }
+declare module 'parcel-bundler/lib/utils/parseCSSImport.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/utils/parseCSSImport'>;
+}
 declare module 'parcel-bundler/lib/utils/pipeSpawn.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/pipeSpawn'>;
 }
@@ -1282,6 +1226,9 @@ declare module 'parcel-bundler/lib/utils/serializeObject.js' {
 }
 declare module 'parcel-bundler/lib/utils/syncPromise.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/syncPromise'>;
+}
+declare module 'parcel-bundler/lib/utils/textUtils.js' {
+  declare module.exports: $Exports<'parcel-bundler/lib/utils/textUtils'>;
 }
 declare module 'parcel-bundler/lib/utils/urlJoin.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/utils/urlJoin'>;
@@ -1321,12 +1268,6 @@ declare module 'parcel-bundler/lib/workerfarm/child.js' {
 }
 declare module 'parcel-bundler/lib/workerfarm/errorUtils.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/workerfarm/errorUtils'>;
-}
-declare module 'parcel-bundler/lib/workerfarm/fork.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/workerfarm/fork'>;
-}
-declare module 'parcel-bundler/lib/workerfarm/RPCManager.js' {
-  declare module.exports: $Exports<'parcel-bundler/lib/workerfarm/RPCManager'>;
 }
 declare module 'parcel-bundler/lib/workerfarm/Worker.js' {
   declare module.exports: $Exports<'parcel-bundler/lib/workerfarm/Worker'>;
@@ -1588,6 +1529,9 @@ declare module 'parcel-bundler/src/utils/objectHash.js' {
 }
 declare module 'parcel-bundler/src/utils/openInBrowser.js' {
   declare module.exports: $Exports<'parcel-bundler/src/utils/openInBrowser'>;
+}
+declare module 'parcel-bundler/src/utils/parseCSSImport.js' {
+  declare module.exports: $Exports<'parcel-bundler/src/utils/parseCSSImport'>;
 }
 declare module 'parcel-bundler/src/utils/pipeSpawn.js' {
   declare module.exports: $Exports<'parcel-bundler/src/utils/pipeSpawn'>;

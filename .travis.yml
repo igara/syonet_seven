@@ -24,12 +24,14 @@ before_install:
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sh env.sh local
   - docker-compose build
+  - docker-compose up -d mongodb
   - (cd ./nodejs/www/ && yarn)
 
 script:
   - (cd ./nodejs/www/ && yarn flow)
-  - (cd ./nodejs/www/ && yarn jest)
-  - (cd ./nodejs/www/ && yarn jest --coverage)
+  - (cd ./nodejs/www/ && yarn testdata)
+  - (cd ./nodejs/www/ && yarn test)
+  - (cd ./nodejs/www/ && yarn coverage)
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
 
 after_success:

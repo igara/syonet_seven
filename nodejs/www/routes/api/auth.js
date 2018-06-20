@@ -1,6 +1,7 @@
 // @flow
 
 import express from 'express'
+import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
 import Session from '../../models/session'
 
@@ -29,6 +30,8 @@ export const authCheck = async (
 				message: 'NG',
 			})
 		}
+
+		await dbConnect()
 		const sessionModel = new Session()
 		const session = await sessionModel.getSessionBySessionId(sessionId)
 		if (
@@ -62,6 +65,8 @@ export const authCheck = async (
 			status: 500,
 			message: 'NG',
 		})
+	} finally {
+		await dbClose()
 	}
 }
 router.post('/check', authCheck)
@@ -89,6 +94,8 @@ export const authDelete = async (
 				message: 'NG',
 			})
 		}
+
+		await dbConnect()
 		const sessionModel: SessionModelType = new Session()
 		const result = await sessionModel.deleteSession(sessionId)
 		if (
@@ -115,6 +122,8 @@ export const authDelete = async (
 			status: 500,
 			message: 'NG',
 		})
+	} finally {
+		await dbClose()
 	}
 }
 router.delete('/delete', authDelete)
