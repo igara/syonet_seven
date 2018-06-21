@@ -60,5 +60,5 @@ export const getUserInfo = async (
 
 UserSchema.methods.getUserInfo = getUserInfo
 
-const User: UserModelType = mongo.model('User', UserSchema, null, true)
+const User: UserModelType = mongo.model('User', UserSchema)
 export default User

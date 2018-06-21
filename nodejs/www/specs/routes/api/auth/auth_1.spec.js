@@ -45,8 +45,6 @@ jest.mock('../../../../models/session', () =>
 describe('/auth/check', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		// $FlowFixMe
-		console.error = jest.fn(error => {})
 	})
 	test('Cookieがない時', async () => {
 		const request = {}
@@ -118,8 +116,6 @@ describe('/auth/check', () => {
 describe('/auth/delete', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		// $FlowFixMe
-		console.error = jest.fn(error => {})
 	})
 	test('cookieがない時', async () => {
 		const request = {}

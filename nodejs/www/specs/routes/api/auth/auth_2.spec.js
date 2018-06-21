@@ -12,8 +12,6 @@ jest.mock('../../../../models/user', () =>
 describe('/auth/check', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		// $FlowFixMe
-		console.error = jest.fn(error => {})
 	})
 	test('DBに接続ができない時', async () => {
 		const request = {}
@@ -32,8 +30,6 @@ describe('/auth/check', () => {
 describe('/auth/delete', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		// $FlowFixMe
-		console.error = jest.fn(error => {})
 	})
 	test('DBに接続ができない時', async () => {
 		const request = {}
