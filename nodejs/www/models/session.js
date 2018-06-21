@@ -42,10 +42,5 @@ export const deleteSession = async (
 
 SessionSchema.methods.deleteSession = deleteSession
 
-const Session: SessionModelType = mongo.model(
-	'Session',
-	SessionSchema,
-	'Session',
-	true,
-)
+const Session: SessionModelType = mongo.model('Session', SessionSchema)
 export default Session

@@ -15,7 +15,7 @@
 		"flow": "flow",
 		"test": "jest --detectOpenHandles --forceExit",
 		"coverage": "jest --coverage --detectOpenHandles --forceExit",
-		"testdata": "node -r babel-register libs/testdata.js"
+		"testdata": "TEST=test node -r babel-register libs/testdata.js"
 	},
 	"dependencies": {
 		"apollo-cache-inmemory": "^1.2.4",

@@ -7,4 +7,7 @@ module.exports = {
 	transform: {
 		'^.+\\.js$': 'babel-jest',
 	},
+	globals: {
+		TEST: 'test',
+	},
 }
