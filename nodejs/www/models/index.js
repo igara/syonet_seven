@@ -1,5 +1,9 @@
 import mongoose from 'mongoose'
 
+if (!global.TEST && !process.env.TEST && process.env.WWW_ENV) {
+	mongoose.connect('mongodb://mongodb/syonet')
+}
+
 export const dbConnect = async () => {
 	if (
 		(global.TEST === 'test' || process.env.TEST === 'test') &&
