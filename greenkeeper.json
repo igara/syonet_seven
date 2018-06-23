@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "nodejs/discord/package.json",
+        "nodejs/www/package.json"
+      ]
+    }
+  }
+}
