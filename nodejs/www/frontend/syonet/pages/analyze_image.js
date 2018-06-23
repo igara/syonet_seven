@@ -1,33 +1,29 @@
 import { m } from '../statics/mithril'
+import Button from '../components/common/button'
+import AnalyzeImageAction from '../actions/analyze_image'
 
 /**
  * Routing URL: //analyzeimage/
  */
 export default class AnalyzeImagePage {
 	/**
-	 * @type {HeaderStore} HeaderStore
+	 * @type {Stores} Stores
 	 */
-	HeaderStore
+	Stores
 
 	/**
-	 * @type {SidebarStore} SidebarStore
+	 * @type {AnalyzeImageAction} AnalyzeImageAction
 	 */
-	SidebarStore
+	AnalyzeImageAction
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode
 	 */
 	constructor(vnode) {
-		this.HeaderStore = vnode.attrs.HeaderStore
-		this.SidebarStore = vnode.attrs.SidebarStore
+		this.Stores = vnode.attrs.Stores
+		this.AnalyzeImageAction = new AnalyzeImageAction(this.Stores)
 	}
-
-	/**
-	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
-	 * @param {Vnode<A, this>} vnode
-	 */
-	oninit(vnode) {}
 
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
@@ -35,9 +31,10 @@ export default class AnalyzeImagePage {
 	view() {
 		return (
 			<div>
-				<a href="/" oncreate={m.route.link}>
-					index
-				</a>
+				<Button>カテゴリの追加</Button>
+				<Button onclick={() => this.AnalyzeImageAction.onClickSaveModel()}>
+					モデルの保存
+				</Button>
 			</div>
 		)
 	}

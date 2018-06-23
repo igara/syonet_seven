@@ -46,7 +46,7 @@ describe('/auth/check', () => {
 	beforeEach(() => {
 		jest.resetModules()
 	})
-	test('Cookieがない時', async () => {
+	test('tokenがない時', async () => {
 		const request = {}
 		const response = {
 			status: jest.fn(),
@@ -58,10 +58,10 @@ describe('/auth/check', () => {
 		expect(response.send.mock.calls[0][0].status).toBe(500)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
-	test('空なセッションのcookieの時', async () => {
+	test('空のtokenの時', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '',
+			headers: {
+				token: '',
 			},
 		}
 		const response = {
@@ -76,8 +76,8 @@ describe('/auth/check', () => {
 	})
 	test('ログイン中のCookieではない場合', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '2222222222222',
+			headers: {
+				token: 'connect.sid=s:2222222222222.abcdf',
 			},
 		}
 		const response = {
@@ -93,8 +93,8 @@ describe('/auth/check', () => {
 	})
 	test('適切なログイン中のCookieである場合', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '1111111111111',
+			headers: {
+				token: 'connect.sid=s:1111111111111.abcdf',
 			},
 		}
 		const response = {
@@ -117,7 +117,7 @@ describe('/auth/delete', () => {
 	beforeEach(() => {
 		jest.resetModules()
 	})
-	test('cookieがない時', async () => {
+	test('tokenがない時', async () => {
 		const request = {}
 		const response = {
 			status: jest.fn(),
@@ -129,10 +129,10 @@ describe('/auth/delete', () => {
 		expect(response.send.mock.calls[0][0].status).toBe(500)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
-	test('空なセッションのcookieの時', async () => {
+	test('空のtokenの時', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '',
+			headers: {
+				token: '',
 			},
 		}
 		const response = {
@@ -145,10 +145,10 @@ describe('/auth/delete', () => {
 		expect(response.send.mock.calls[0][0].status).toBe(405)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
-	test('存在しないセッションのcookieの時', async () => {
+	test('存在しないtokenの時', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '999999999',
+			headers: {
+				token: 'connect.sid=s:999999999.abcdf',
 			},
 		}
 		const response = {
@@ -161,10 +161,10 @@ describe('/auth/delete', () => {
 		expect(response.send.mock.calls[0][0].status).toBe(405)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
-	test('ログイン中のCookieではない場合', async () => {
+	test('ログイン中のtokenではない場合', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '2222222222222',
+			headers: {
+				token: 'connect.sid=s:2222222222222.abcdf',
 			},
 		}
 		const response = {
@@ -177,10 +177,10 @@ describe('/auth/delete', () => {
 		expect(response.send.mock.calls[0][0].status).toBe(200)
 		expect(response.send.mock.calls[0][0].message).toBe('OK')
 	})
-	test('適切なログイン中のCookieである場合', async () => {
+	test('適切なログイン中のtokenである場合', async () => {
 		const request = {
-			cookies: {
-				'connect.sid': '1111111111111',
+			headers: {
+				token: 'connect.sid=s:1111111111111.abcdf',
 			},
 		}
 		const response = {

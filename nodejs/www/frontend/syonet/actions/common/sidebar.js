@@ -69,8 +69,8 @@ export default class SidebarAction {
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		this.Stores.LoginStore.User('')
-		Cookies.remove('connect.sid')
 		await callLogout()
+		Cookies.remove('connect.sid')
 		await sleep(1000)
 		m.route.set(pathname)
 	}

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rm -rf dist/
+
 if [ $WWW_ENV = "local" ]; then
 yarn
 yarn build

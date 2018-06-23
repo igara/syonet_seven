@@ -16,9 +16,8 @@ export const authCheck = async (
 	res: express$Response,
 ) => {
 	try {
-		const sessionId = req.cookies['connect.sid']
-			.replace(/^s:/, '')
-			.replace(/\.\S*$/, '')
+		const token = req.headers['token']
+		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
 		if (
 			typeof sessionId === 'undefined' ||
 			sessionId === null ||
@@ -80,9 +79,8 @@ export const authDelete = async (
 	res: express$Response,
 ) => {
 	try {
-		const sessionId = req.cookies['connect.sid']
-			.replace(/^s:/, '')
-			.replace(/\.\S*$/, '')
+		const token = req.headers['token']
+		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
 		if (
 			typeof sessionId === 'undefined' ||
 			sessionId === null ||

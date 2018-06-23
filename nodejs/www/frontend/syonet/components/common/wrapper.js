@@ -67,9 +67,10 @@ export default class WrapperComponent {
 	 * Lifecycle: The oninit hook is called before a vnode is touched by the virtual DOM engine.
 	 * @param {Vnode<A, this>} vnode
 	 */
-	oninit(vnode: WrapperComponentVnode) {
+	async oninit(vnode: WrapperComponentVnode) {
 		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
-		this.checkAuth()
+		await this.checkAuth()
+		m.redraw()
 	}
 
 	/**

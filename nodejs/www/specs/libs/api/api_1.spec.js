@@ -9,16 +9,16 @@ describe('getApiHost', () => {
 	test('host - http://127.0.0.1:3000', async () => {
 		expect(getApiHost()).toBe('http://127.0.0.1:3000')
 	})
-	test('host - https://localhost:3000', async () => {
+	test('host - http://localhost:3000', async () => {
 		Object.defineProperty(window, 'location', {
 			writable: true,
 			value: {
-				protocol: 'https:',
+				protocol: 'http:',
 				host: 'localhost',
 				hostname: 'localhost',
 			},
 		})
-		expect(getApiHost()).toBe('https://localhost:3000')
+		expect(getApiHost()).toBe('http://localhost:3000')
 	})
 	test('host - about://', async () => {
 		Object.defineProperty(window, 'location', {
