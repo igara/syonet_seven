@@ -1,6 +1,7 @@
 // @flow
 
 import { getApiHost, call } from '../../../libs/api'
+import Cookies from '../../../frontend/syonet/statics/js_cookie'
 
 describe('getApiHost', () => {
 	beforeEach(() => {
@@ -47,8 +48,37 @@ describe('getApiHost', () => {
 describe('call', () => {
 	beforeEach(() => {
 		jest.resetModules()
+		Cookies.remove('connect.sid')
 	})
-	test('when success', async () => {
+	test('has token', async () => {
+		const option = {
+			body: {},
+			method: '',
+			url: '',
+		}
+		Cookies.set('connect.sid', '111111')
+		global.fetch = jest.fn().mockImplementation(() => {
+			const p = new Promise((resolve, reject) => {
+				resolve({
+					ok: true,
+					status: 200,
+					json: () => {
+						return new Promise((resolve, reject) => {
+							resolve({ Id: 123 })
+						})
+					},
+				})
+			})
+			return p
+		})
+		const result = await call(option)
+		expect(result.status).toBe(200)
+		expect(result.ok).toBe(true)
+		const json = await result.json()
+		expect(json.Id).toBe(123)
+	})
+
+	test('has not token', async () => {
 		const option = {
 			body: {},
 			method: '',
