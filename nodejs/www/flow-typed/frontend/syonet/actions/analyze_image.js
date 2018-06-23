@@ -1,5 +1,5 @@
 // @flow
 
-export type LoginCheckAction = {
+export type AnalyzeImageAction = {
 	onClickSaveModel: () => Promise<void>,
 }

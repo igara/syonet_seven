@@ -1,4 +1,4 @@
-// flow-typed signature: 84b3da9f4345dba92adb9cd16b171001
+// flow-typed signature: a279d4a76339f97033a5d1facdf51c45
 // flow-typed version: <<STUB>>/mongoose_v^5.1.5/flow_v0.74.0
 
 /**
@@ -170,6 +170,14 @@ declare module 'mongoose/lib/cast' {
   declare module.exports: any;
 }
 
+declare module 'mongoose/lib/cast/boolean' {
+  declare module.exports: any;
+}
+
+declare module 'mongoose/lib/cast/string' {
+  declare module.exports: any;
+}
+
 declare module 'mongoose/lib/collection' {
   declare module.exports: any;
 }
@@ -283,6 +291,10 @@ declare module 'mongoose/lib/error/messages' {
 }
 
 declare module 'mongoose/lib/error/missingSchema' {
+  declare module.exports: any;
+}
+
+declare module 'mongoose/lib/error/mongooseError' {
   declare module.exports: any;
 }
 
@@ -435,6 +447,10 @@ declare module 'mongoose/lib/schema/operators/geospatial' {
 }
 
 declare module 'mongoose/lib/schema/operators/helpers' {
+  declare module.exports: any;
+}
+
+declare module 'mongoose/lib/schema/operators/text' {
   declare module.exports: any;
 }
 
@@ -732,6 +748,12 @@ declare module 'mongoose/lib/browserDocument.js' {
 declare module 'mongoose/lib/cast.js' {
   declare module.exports: $Exports<'mongoose/lib/cast'>;
 }
+declare module 'mongoose/lib/cast/boolean.js' {
+  declare module.exports: $Exports<'mongoose/lib/cast/boolean'>;
+}
+declare module 'mongoose/lib/cast/string.js' {
+  declare module.exports: $Exports<'mongoose/lib/cast/string'>;
+}
 declare module 'mongoose/lib/collection.js' {
   declare module.exports: $Exports<'mongoose/lib/collection'>;
 }
@@ -818,6 +840,9 @@ declare module 'mongoose/lib/error/messages.js' {
 }
 declare module 'mongoose/lib/error/missingSchema.js' {
   declare module.exports: $Exports<'mongoose/lib/error/missingSchema'>;
+}
+declare module 'mongoose/lib/error/mongooseError.js' {
+  declare module.exports: $Exports<'mongoose/lib/error/mongooseError'>;
 }
 declare module 'mongoose/lib/error/notFound.js' {
   declare module.exports: $Exports<'mongoose/lib/error/notFound'>;
@@ -932,6 +957,9 @@ declare module 'mongoose/lib/schema/operators/geospatial.js' {
 }
 declare module 'mongoose/lib/schema/operators/helpers.js' {
   declare module.exports: $Exports<'mongoose/lib/schema/operators/helpers'>;
+}
+declare module 'mongoose/lib/schema/operators/text.js' {
+  declare module.exports: $Exports<'mongoose/lib/schema/operators/text'>;
 }
 declare module 'mongoose/lib/schema/operators/type.js' {
   declare module.exports: $Exports<'mongoose/lib/schema/operators/type'>;

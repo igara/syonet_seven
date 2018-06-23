@@ -5,7 +5,7 @@
 
 import { m } from '../statics/mithril'
 import { getApiHost } from '../../../libs/api'
-import Button from '../components/common/button'
+import Button from '../components/common/input/button'
 
 /**
  * Routing URL: //login/

@@ -1,24 +1,37 @@
-import { m } from '../../statics/mithril'
-import { ButtonStyle } from '../../statics/styles'
+import { m } from '../../../statics/mithril'
+import { ButtonStyle } from '../../../statics/styles'
 
 /**
  * ボタンを表示するコンポーネント
  */
 export default class ButtonComponent {
 	/**
-	 * propsで渡されてきた押下時のイベントハンドラ
+	 * @type {Stores} Stores
 	 */
-	OnClickHandler
+	Stores: Stores
 
-	Href
+	/**
+	 * propsで渡されてきた押下時のイベントハンドラ
+	 * @type {Function} OnClickHandler
+	 */
+	OnClickHandler: Function
 
-	Children
+	/**
+	 * リンクURL
+	 * @type {String} Href
+	 */
+	Href: string
+
+	/**
+	 * @type {HTMLElement} Children
+	 */
+	Children: HTMLElement
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode
 	 */
-	constructor(vnode) {
+	constructor(vnode: ButtonComponentVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.OnClickHandler = vnode.attrs.OnClickHandler
 		this.Href = vnode.attrs.Href
@@ -37,7 +50,7 @@ export default class ButtonComponent {
 				{this.Href ? (
 					<a href={this.Href}>{this.Children}</a>
 				) : (
-					<a>{this.Children}</a>
+					<span>{this.Children}</span>
 				)}
 			</button>
 		)

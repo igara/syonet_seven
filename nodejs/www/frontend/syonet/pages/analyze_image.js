@@ -1,5 +1,6 @@
 import { m } from '../statics/mithril'
-import Button from '../components/common/button'
+import Button from '../components/common/input/button'
+import Text from '../components/common/input/text'
 import AnalyzeImageAction from '../actions/analyze_image'
 
 /**
@@ -9,18 +10,18 @@ export default class AnalyzeImagePage {
 	/**
 	 * @type {Stores} Stores
 	 */
-	Stores
+	Stores: Stores
 
 	/**
 	 * @type {AnalyzeImageAction} AnalyzeImageAction
 	 */
-	AnalyzeImageAction
+	AnalyzeImageAction: AnalyzeImageAction
 
 	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode
 	 */
-	constructor(vnode) {
+	constructor(vnode: AnalyzeImagePageVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.AnalyzeImageAction = new AnalyzeImageAction(this.Stores)
 	}
@@ -32,9 +33,10 @@ export default class AnalyzeImagePage {
 		return (
 			<div>
 				<Button>カテゴリの追加</Button>
-				<Button onclick={() => this.AnalyzeImageAction.onClickSaveModel()}>
+				<Button OnClickHandler={this.AnalyzeImageAction.onClickSaveModel}>
 					モデルの保存
 				</Button>
+				<Text />
 			</div>
 		)
 	}

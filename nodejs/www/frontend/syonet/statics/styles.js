@@ -6,7 +6,8 @@ import SidebarStyle from '../styles/common/sidebar.pcss'
 import HeaderStyle from '../styles/common/header.pcss'
 import FooterStyle from '../styles/common/footer.pcss'
 import TermStyle from '../styles/common/term.pcss'
-import ButtonStyle from '../styles/common/button.pcss'
+import ButtonStyle from '../styles/common/input/button.pcss'
+import TextStyle from '../styles/common/input/text.pcss'
 
 import Icon from '../styles/common/icon.pcss'
 import Close from '../styles/common/icon/close.pcss'
@@ -26,4 +27,5 @@ export {
 	TermStyle,
 	IconStyle,
 	ButtonStyle,
+	TextStyle,
 }
