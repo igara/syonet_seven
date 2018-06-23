@@ -1,7 +1,5 @@
 // @flow
 
-import { sleep } from '../../../../libs/sleep'
-
 /**
  * 利用規約のアクション
  */

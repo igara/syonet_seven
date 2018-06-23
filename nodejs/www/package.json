@@ -14,6 +14,7 @@
 		"local_front_start": "parcel --https frontend/syonet/index.html -d dist/local/syonet",
 		"flow": "flow",
 		"test": "jest --detectOpenHandles --forceExit",
+		"clear": "jest --clearCache",
 		"coverage": "jest --coverage --detectOpenHandles --forceExit",
 		"testdata": "TEST=test node -r babel-register libs/testdata.js"
 	},
@@ -79,6 +80,7 @@
 		"postcss-import": "^11.1.0",
 		"postcss-modules": "^1.1.0",
 		"postcss-simple-vars": "^4.1.0",
-		"prettier": "^1.13.5"
+		"prettier": "^1.13.5",
+		"styled-components": "^3.3.3"
 	}
 }

@@ -22,18 +22,24 @@ describe('index', () => {
 		process.env.WWW_ENV = 'local'
 		jest.doMock('mongoose', () => ({
 			connect: jest.fn(),
+			connection: {
+				close: jest.fn(),
+			},
 		}))
 		const mongo = require('../../../models')
 		await mongo.dbConnect()
-		process.env.WWW_ENV = env
+		await mongo.dbClose()
 	})
 	test('test環境以外', async () => {
 		global.TEST = ''
 		jest.doMock('mongoose', () => ({
 			connect: jest.fn(),
+			connection: {
+				close: jest.fn(),
+			},
 		}))
 		const mongo = require('../../../models')
 		await mongo.dbConnect()
-		await dbClose()
+		await mongo.dbClose()
 	})
 })

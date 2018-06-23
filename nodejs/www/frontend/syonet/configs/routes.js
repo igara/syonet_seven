@@ -15,23 +15,21 @@ import NotFoundPage from '../pages/not_found'
 // Stores
 import Stores from '../stores'
 
-import FetchLogin from '../fetchs/login'
+import { callLoginCheck } from '../fetchs/login'
 
 export default async () => {
 	if (!location.pathname.match(/^\/login\/check\//)) {
 		// ログインチェック
 		const sessionId = Cookies.get('connect.sid')
 		if (sessionId) {
-			const loginCheck = async () => {
-				const json = await FetchLogin.callLoginCheck()
-				Stores.LoginStore.Status(json.status)
-				if (json.status === 200) {
-					Stores.LoginStore.User(json.user)
-				} else {
-					location.href = '/login'
-				}
+			const json = await callLoginCheck()
+			Stores.LoginStore.Status(json.status)
+			if (json.status === 200) {
+				Stores.LoginStore.User(json.user)
 			}
-			await loginCheck()
+			// } else {
+			// 	location.href = '/login'
+			// }
 		}
 	}
 

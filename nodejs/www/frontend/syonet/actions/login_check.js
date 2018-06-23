@@ -1,6 +1,6 @@
 // @flow
 
-import FetchLogin from '../fetchs/login'
+import { callLoginCheck } from '../fetchs/login'
 
 /**
  * ログインチェックのアクション
@@ -19,7 +19,7 @@ export default class LoginCheckAction {
 	 * ログインチェックAPIを呼び出したときの処理
 	 */
 	async callLoginCheckApi() {
-		const json = await FetchLogin.callLoginCheck()
+		const json = await callLoginCheck()
 		this.Stores.LoginStore.Status(json.status)
 		if (json.status === 200) {
 			this.Stores.LoginStore.User(json.user)

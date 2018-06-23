@@ -1,7 +1,7 @@
 // @flow
 
 import { sleep } from '../../../../libs/sleep'
-import FetchLogin from '../../fetchs/login'
+import { callLogout } from '../../fetchs/login'
 import Cookies from '../../statics/js_cookie'
 
 /**
@@ -15,6 +15,7 @@ export default class SidebarAction {
 
 	/**
 	 * @constructor
+	 * @param {Stores} Stores
 	 */
 	constructor(Stores: Stores) {
 		this.Stores = Stores
@@ -37,6 +38,7 @@ export default class SidebarAction {
 	/**
 	 * ホームを押下したときの処理
 	 * @param {Mithril} m
+	 * @param {Event} event
 	 */
 	async onClickHome(m: mithril, event: Event) {
 		event.preventDefault()
@@ -64,11 +66,11 @@ export default class SidebarAction {
 	 * @param {Mithril} m
 	 */
 	async onClickLogout(m: mithril) {
-		await FetchLogin.callLogout()
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		this.Stores.LoginStore.User('')
 		Cookies.remove('connect.sid')
+		await callLogout()
 		await sleep(1000)
 		m.route.set(pathname)
 	}

@@ -14,11 +14,6 @@ export default class FooterAction {
 	}
 
 	/**
-	 * HomeIconを押下したときの処理
-	 */
-	onClickHomeIcon() {}
-
-	/**
 	 * LinkIconを押下したときの処理
 	 */
 	onClickLinkIcon() {

@@ -5,8 +5,7 @@ export type Stores = {
 		HeaderTitle: (?string) => string,
 	},
 	LoginStore: {
-		Status: (?Object) => Object,
-		Token: (?string) => string,
+		Status: (?number) => number,
 		User: (?Object | ?string) => Object,
 	},
 	SidebarStore: {
