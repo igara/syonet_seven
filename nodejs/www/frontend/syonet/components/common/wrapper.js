@@ -9,6 +9,9 @@ import FooterComponent from './footer'
 import SidebarComponent from './sidebar'
 import { ContentStyle } from '../../statics/styles'
 
+import Cookies from '../../statics/js_cookie'
+import { callLoginCheck } from '../../fetchs/login'
+
 /**
  * 共通のレイアウトを出力する
  */
@@ -26,6 +29,11 @@ export default class WrapperComponent {
 	HeaderTitle: string
 
 	/**
+	 * @type {Boolean} Auth
+	 */
+	Auth: boolean
+
+	/**
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode
 	 */
@@ -33,6 +41,26 @@ export default class WrapperComponent {
 		this.Stores = vnode.Stores
 		this.ChildComponent = vnode.ChildComponent
 		this.HeaderTitle = vnode.HeaderTitle
+		this.Auth = typeof vnode.Auth === 'boolean' ? vnode.Auth : false
+	}
+
+	async checkAuth() {
+		// ログインチェック
+		const sessionId = Cookies.get('connect.sid')
+		if (sessionId) {
+			const json = await callLoginCheck()
+			this.Stores.LoginStore.Status(json.status)
+			if (json.status === 200) {
+				this.Stores.LoginStore.User(json.user)
+			}
+		}
+		const user = this.Stores.LoginStore.User()
+		if (
+			this.Auth &&
+			(typeof user === 'undefined' || user === null || user === '')
+		) {
+			m.route.set('/login')
+		}
 	}
 
 	/**
@@ -41,6 +69,7 @@ export default class WrapperComponent {
 	 */
 	oninit(vnode: WrapperComponentVnode) {
 		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
+		this.checkAuth()
 	}
 
 	/**

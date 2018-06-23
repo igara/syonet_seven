@@ -78,7 +78,7 @@ app.use(cookieParser())
 app.use(express.static(syonetStaticDir))
 
 // graphql
-// graphql(app)
+graphql(app)
 
 // API
 app.use('/api/auth', authApi)

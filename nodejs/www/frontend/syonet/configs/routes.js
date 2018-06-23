@@ -1,7 +1,5 @@
 // @flow
 
-import Cookies from '../statics/js_cookie'
-
 // Components
 import WrapperComponent from '../components/common/wrapper'
 
@@ -15,24 +13,7 @@ import NotFoundPage from '../pages/not_found'
 // Stores
 import Stores from '../stores'
 
-import { callLoginCheck } from '../fetchs/login'
-
 export default async () => {
-	if (!location.pathname.match(/^\/login\/check\//)) {
-		// ログインチェック
-		const sessionId = Cookies.get('connect.sid')
-		if (sessionId) {
-			const json = await callLoginCheck()
-			Stores.LoginStore.Status(json.status)
-			if (json.status === 200) {
-				Stores.LoginStore.User(json.user)
-			}
-			// } else {
-			// 	location.href = '/login'
-			// }
-		}
-	}
-
 	const routes = {
 		'/': new WrapperComponent({
 			Stores,
@@ -43,6 +24,7 @@ export default async () => {
 			Stores,
 			ChildComponent: AnalyzeImagePage,
 			HeaderTitle: 'Analyze',
+			Auth: true,
 		}),
 		'/login': new WrapperComponent({
 			Stores,
