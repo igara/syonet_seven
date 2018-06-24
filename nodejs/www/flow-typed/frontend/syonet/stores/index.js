@@ -14,4 +14,15 @@ export type Stores = {
 	TermStore: {
 		TermDispFlag: (?boolean) => boolean,
 	},
+	AnalyzeImageStore: {
+		Category: (
+			?Array<{
+				id: number,
+				name: string,
+			}>,
+		) => Array<{
+			id: number,
+			name: string,
+		}>,
+	},
 }

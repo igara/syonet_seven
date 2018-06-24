@@ -44,7 +44,7 @@ export default class LoginCheckPage {
 		return (
 			<div>
 				{(() => {
-					if (this.Stores.LoginStore.Status() === '') {
+					if (this.Stores.LoginStore.Status() === null) {
 						return <div>読み込み中</div>
 					} else if (this.Stores.LoginStore.Status() === 200) {
 						return <div>読み込みました</div>

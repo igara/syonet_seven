@@ -13,6 +13,9 @@ import Button from './input/button'
  * 利用規約を表示するコンポーネント
  */
 export default class TermComponent {
+	/**
+	 * @type {Stores} Stores
+	 */
 	Stores: Stores
 
 	/**

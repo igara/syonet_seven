@@ -68,7 +68,8 @@ export default class SidebarAction {
 	async onClickLogout(m: mithril) {
 		const pathname = '/'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
-		this.Stores.LoginStore.User('')
+		this.Stores.LoginStore.Status(null)
+		this.Stores.LoginStore.User(null)
 		await callLogout()
 		Cookies.remove('connect.sid')
 		await sleep(1000)

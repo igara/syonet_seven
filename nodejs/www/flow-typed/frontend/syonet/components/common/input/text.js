@@ -3,6 +3,8 @@
 export type TextComponentVnode = {
 	attrs: {
 		Stores: Stores,
-		OnChangeHandler: Function,
+		OnInputHandler: Function,
+		Placeholder: string,
+		DefalutValue: string,
 	},
 }

@@ -31,7 +31,7 @@ export default class HeaderComponent {
 			<ul class={HeaderStyle.header_wrap_ul}>
 				<li>{this.Stores.HeaderStore.HeaderTitle}</li>
 				<li>
-					{this.Stores.LoginStore.User().image ? (
+					{this.Stores.LoginStore.User() ? (
 						<img
 							class={IconStyle.Icon.login_user_icon}
 							src={this.Stores.LoginStore.User().image}

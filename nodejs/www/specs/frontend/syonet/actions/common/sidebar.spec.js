@@ -113,6 +113,6 @@ describe('onClickLogout', () => {
 		})
 		await buttonElement.dispatchEvent(new Event('click'))
 		expect(Stores.SidebarStore.SidebarDispFlag()).toBe(false)
-		expect(Stores.LoginStore.User()).toBe('')
+		expect(Stores.LoginStore.User()).toBe(null)
 	})
 })

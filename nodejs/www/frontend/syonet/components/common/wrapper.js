@@ -55,10 +55,7 @@ export default class WrapperComponent {
 			}
 		}
 		const user = this.Stores.LoginStore.User()
-		if (
-			this.Auth &&
-			(typeof user === 'undefined' || user === null || user === '')
-		) {
+		if (this.Auth && (typeof user === 'undefined' || user === null)) {
 			m.route.set('/login')
 		}
 	}

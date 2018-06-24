@@ -46,7 +46,7 @@
 		"react/no-unknown-property": [
 			2,
 			{
-				"ignore": ["class", "onclick"]
+				"ignore": ["class", "onclick", "onchange", "onkeypress", "oninput", "onblur"]
 			}
 		],
 		"prettier/prettier": [

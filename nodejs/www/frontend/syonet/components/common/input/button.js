@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import { m } from '../../../statics/mithril'
 import { ButtonStyle } from '../../../statics/styles'
 

@@ -1,3 +1,8 @@
+/**
+ * @flow
+ * @jsx m
+ */
+
 import { m } from '../../../statics/mithril'
 import { TextStyle } from '../../../statics/styles'
 
@@ -12,9 +17,19 @@ export default class TextComponent {
 
 	/**
 	 * propsで渡されてきた入力フォームの変更時のイベントハンドラ
-	 * @type {Function} OnChangeHandler
+	 * @type {Function} OnInputHandler
 	 */
-	OnChangeHandler: Function
+	OnInputHandler: Function
+
+	/**
+	 * @type {String} Placeholder
+	 */
+	Placeholder: string
+
+	/**
+	 * @type {String} DefalutValue
+	 */
+	DefalutValue: string
 
 	/**
 	 * @constructor
@@ -22,7 +37,9 @@ export default class TextComponent {
 	 */
 	constructor(vnode: TextComponentVnode) {
 		this.Stores = vnode.attrs.Stores
-		this.OnChangeHandler = vnode.attrs.OnChangeHandler
+		this.OnInputHandler = vnode.attrs.OnInputHandler
+		this.Placeholder = vnode.attrs.Placeholder
+		this.DefalutValue = vnode.attrs.DefalutValue
 	}
 
 	/**
@@ -33,7 +50,11 @@ export default class TextComponent {
 			<input
 				type="text"
 				class={TextStyle.text}
-				onChange={this.OnChangeHandler}
+				oninput={(event: SyntheticInputEvent<HTMLInputElement>) =>
+					this.OnInputHandler(event)
+				}
+				placeholder={this.Placeholder}
+				defalutValue={this.DefalutValue}
 			/>
 		)
 	}

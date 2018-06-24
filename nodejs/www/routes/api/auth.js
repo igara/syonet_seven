@@ -41,7 +41,7 @@ export const authCheck = async (
 			res.send({
 				status: 200,
 				message: 'OK',
-				user: '',
+				user: null,
 			})
 		}
 		const id = session.session.passport.user.id

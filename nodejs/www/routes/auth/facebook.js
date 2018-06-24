@@ -5,6 +5,7 @@ import express from 'express'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 // $FlowFixMe
 import passport from 'passport'
+import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
 const router = express.Router()
 
@@ -45,9 +46,16 @@ router.get('/', passport.authenticate('facebook'))
  * $FlowFixMe
  */
 export const facebook = async (req: express$Request, res: express$Response) => {
-	const userModel = new User()
-	await userModel.upsertByAuthUser(req.user)
-	res.redirect('/login/check/')
+	try {
+		await dbConnect()
+		const userModel = new User()
+		await userModel.upsertByAuthUser(req.user)
+		res.redirect('/login/check/')
+	} catch (error) {
+		console.error(error)
+	} finally {
+		await dbClose()
+	}
 }
 router.get('/callback', passport.authenticate('facebook'), facebook)
 

@@ -5,7 +5,7 @@ import { stream } from '../../statics/mithril'
 /**
  * ヘッダーに表示する文言
  */
-const HeaderTitle = stream('')
+const HeaderTitle = stream(null)
 
 export default {
 	HeaderTitle,

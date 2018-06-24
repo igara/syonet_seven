@@ -4,6 +4,7 @@ import express from 'express'
 import { Strategy as GithubStrategy } from 'passport-github'
 // $FlowFixMe
 import passport from 'passport'
+import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
 
 const router = express.Router()
@@ -43,9 +44,16 @@ router.get('/', passport.authenticate('github'))
  * $FlowFixMe
  */
 export const github = async (req: express$Request, res: express$Response) => {
-	const userModel = new User()
-	await userModel.upsertByAuthUser(req.user)
-	res.redirect('/login/check/')
+	try {
+		await dbConnect()
+		const userModel = new User()
+		await userModel.upsertByAuthUser(req.user)
+		res.redirect('/login/check/')
+	} catch (error) {
+		console.error(error)
+	} finally {
+		await dbClose()
+	}
 }
 router.get('/callback', passport.authenticate('github'), github)
 

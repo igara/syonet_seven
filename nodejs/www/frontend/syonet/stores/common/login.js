@@ -5,12 +5,12 @@ import { stream } from '../../statics/mithril'
 /**
  * ログイン状態を管理
  */
-const Status = stream('')
+const Status = stream(null)
 
 /**
  * ログインユーザ情報
  */
-const User = stream('')
+const User = stream(null)
 
 export default {
 	Status,

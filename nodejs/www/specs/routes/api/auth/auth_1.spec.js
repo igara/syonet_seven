@@ -89,7 +89,7 @@ describe('/auth/check', () => {
 		expect(response.status.mock.calls[0][0]).toBe(200)
 		expect(response.send.mock.calls[0][0].status).toBe(200)
 		expect(response.send.mock.calls[0][0].message).toBe('OK')
-		expect(response.send.mock.calls[0][0].user).toBe('')
+		expect(response.send.mock.calls[0][0].user).toBe(null)
 	})
 	test('適切なログイン中のCookieである場合', async () => {
 		const request = {
