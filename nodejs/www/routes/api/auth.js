@@ -17,18 +17,14 @@ export const authCheck = async (
 ) => {
 	try {
 		const token = req.headers['token']
-		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
-		if (
-			typeof sessionId === 'undefined' ||
-			sessionId === null ||
-			sessionId === ''
-		) {
-			res.status(405)
+		if (typeof token === 'undefined' || token === null || token === '') {
+			res.status(401)
 			res.send({
-				status: 405,
+				status: 401,
 				message: 'NG',
 			})
 		}
+		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
 
 		await dbConnect()
 		const sessionModel = new Session()
@@ -37,11 +33,10 @@ export const authCheck = async (
 			typeof session.session.passport === 'undefined' ||
 			session.session.passport === null
 		) {
-			res.status(200)
+			res.status(401)
 			res.send({
-				status: 200,
-				message: 'OK',
-				user: null,
+				status: 401,
+				message: 'NG',
 			})
 		}
 		const id = session.session.passport.user.id
@@ -51,6 +46,13 @@ export const authCheck = async (
 			id,
 			provider,
 		)
+		if (typeof userInfo === 'undefined' || userInfo === null) {
+			res.status(401)
+			res.send({
+				status: 401,
+				message: 'NG',
+			})
+		}
 		res.status(200)
 		res.send({
 			status: 200,
@@ -86,9 +88,9 @@ export const authDelete = async (
 			sessionId === null ||
 			sessionId === ''
 		) {
-			res.status(405)
+			res.status(401)
 			res.send({
-				status: 405,
+				status: 401,
 				message: 'NG',
 			})
 		}
@@ -102,9 +104,9 @@ export const authDelete = async (
 			result.n === 0 ||
 			result.ok === 0
 		) {
-			res.status(405)
+			res.status(401)
 			res.send({
-				status: 405,
+				status: 401,
 				message: 'NG',
 			})
 		}

@@ -1,5 +1,5 @@
 // @flow
-import { dbConnect, dbClose } from '../../../models'
+import { dbConnect, dbClose } from '../../models'
 
 const env = JSON.parse(JSON.stringify(process.env)).WWW_ENV
 
@@ -26,7 +26,7 @@ describe('index', () => {
 				close: jest.fn(),
 			},
 		}))
-		const mongo = require('../../../models')
+		const mongo = require('../../models')
 		await mongo.dbConnect()
 		await mongo.dbClose()
 	})
@@ -38,7 +38,7 @@ describe('index', () => {
 				close: jest.fn(),
 			},
 		}))
-		const mongo = require('../../../models')
+		const mongo = require('../../models')
 		await mongo.dbConnect()
 		await mongo.dbClose()
 	})

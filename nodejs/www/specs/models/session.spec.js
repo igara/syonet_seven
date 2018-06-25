@@ -1,9 +1,9 @@
 // @flow
-import { dbConnect, dbClose } from '../../../models'
+import { dbConnect, dbClose } from '../../models'
 import Session, {
 	getSessionBySessionId,
 	deleteSession,
-} from '../../../models/session'
+} from '../../models/session'
 
 describe('getSessionBySessionId', () => {
 	beforeEach(() => {

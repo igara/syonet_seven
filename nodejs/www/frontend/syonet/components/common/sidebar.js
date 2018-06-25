@@ -87,6 +87,7 @@ export default class SidebarComponent {
 					<li class={SidebarStyle.sidebar_link_list}>
 						<a
 							href="https://github.com/igara/syonet_seven"
+							target="_blank"
 							rel="noopener noreferrer"
 						>
 							GitHub

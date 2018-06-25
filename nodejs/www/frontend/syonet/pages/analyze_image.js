@@ -6,6 +6,7 @@
 import { m } from '../statics/mithril'
 import Button from '../components/common/input/button'
 import Text from '../components/common/input/text'
+import File from '../components/common/input/file'
 import AnalyzeImageAction from '../actions/analyze_image'
 
 /**
@@ -60,6 +61,15 @@ export default class AnalyzeImagePage {
 							}
 							Placeholder="カテゴリ名"
 							DefalutValue={category.name}
+						/>
+						<File
+							Stores={this.Stores}
+							OnInputHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
+								this.AnalyzeImageAction.onInputCategoryFile(event, category.id)
+							}
+							Multiple={true}
+							Key={`analyze_image_${category.id}`}
+							Accept="image/*"
 						/>
 					</div>
 				))}

@@ -4,8 +4,8 @@ import { dbConnect, dbClose } from '../models'
 import Session from '../models/session'
 import User from '../models/user'
 
-import { Sessions } from '../specs/models/session/__mocks__/data/session_1'
-import { Users } from '../specs/models/user/__mocks__/data/user_1'
+import { Sessions } from './testdata/session'
+import { Users } from './testdata/user'
 ;(async () => {
 	try {
 		await dbConnect()

@@ -1,7 +1,7 @@
 // @flow
 
-import { getApiHost, call } from '../../../libs/api'
-import Cookies from '../../../frontend/syonet/statics/js_cookie'
+import { getApiHost, call } from '../../libs/api'
+import Cookies from '../../frontend/syonet/statics/js_cookie'
 
 describe('getApiHost', () => {
 	beforeEach(() => {

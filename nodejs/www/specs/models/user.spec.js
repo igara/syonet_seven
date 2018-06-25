@@ -1,6 +1,6 @@
 // @flow
-import { dbConnect, dbClose } from '../../../models'
-import User, { getUserInfo, upsertByAuthUser } from '../../../models/user'
+import { dbConnect, dbClose } from '../../models'
+import User, { getUserInfo, upsertByAuthUser } from '../../models/user'
 
 describe('getUserInfo', () => {
 	beforeEach(() => {
