@@ -72,7 +72,7 @@
 		"eslint-plugin-jest": "^21.17.0",
 		"eslint-plugin-prettier": "^2.6.0",
 		"eslint-plugin-react": "^7.9.1",
-		"flow-bin": "^0.75.0",
+		"flow-bin": "^0.76.0",
 		"flow-typed": "^2.4.0",
 		"jest": "^23.1.0",
 		"jest-environment-jsdom": "^23.1.0",
