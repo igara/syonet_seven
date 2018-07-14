@@ -50,6 +50,14 @@ export default class FileComponent {
 		this.Accept = vnode.attrs.Accept
 	}
 
+	oninit(vnode: FileComponentVnode) {
+		this.Stores = vnode.attrs.Stores
+		this.OnInputHandler = vnode.attrs.OnInputHandler
+		this.Multiple = vnode.attrs.Multiple
+		this.Key = vnode.attrs.Key
+		this.Accept = vnode.attrs.Accept
+	}
+
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
@@ -61,9 +69,7 @@ export default class FileComponent {
 					{this.Multiple === true ? (
 						<input
 							type="file"
-							oninput={(event: SyntheticInputEvent<HTMLInputElement>) =>
-								this.OnInputHandler(event)
-							}
+							oninput={this.OnInputHandler}
 							multiple
 							style="display:none;"
 							id={`file_${this.Key}`}

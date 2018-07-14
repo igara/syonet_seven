@@ -14,12 +14,12 @@
 		"local_front_start": "parcel --https frontend/syonet/index.html -d dist/local/syonet",
 		"flow": "flow",
 		"test": "jest --detectOpenHandles --forceExit",
-		"clear": "jest --clearCache",
+		"clear": "jest --clearCache && rm -rf .cache dist",
 		"coverage": "jest --coverage --detectOpenHandles --forceExit",
 		"testdata": "TEST=test node -r babel-register libs/testdata.js"
 	},
 	"dependencies": {
-		"@tensorflow/tfjs": "^0.11.7",
+		"@tensorflow/tfjs": "^0.12.2",
 		"apollo-cache-inmemory": "^1.2.4",
 		"apollo-client": "^2.3.4",
 		"apollo-link-http": "^1.5.4",
@@ -50,9 +50,9 @@
 	},
 	"devDependencies": {
 		"@types/mithril": "^1.1.12",
-		"autoprefixer": "^8.6.2",
+		"autoprefixer": "^8.6.5",
 		"babel-core": "^6.26.3",
-		"babel-eslint": "^8.2.3",
+		"babel-eslint": "^8.2.6",
 		"babel-jest": "^23.0.1",
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -68,20 +68,20 @@
 		"codeclimate-test-reporter": "^0.5.0",
 		"eslint": "^5.0.0",
 		"eslint-config-prettier": "^2.9.0",
-		"eslint-plugin-flowtype": "^2.49.3",
+		"eslint-plugin-flowtype": "^2.50.0",
 		"eslint-plugin-jest": "^21.17.0",
-		"eslint-plugin-prettier": "^2.6.0",
+		"eslint-plugin-prettier": "^2.6.2",
 		"eslint-plugin-react": "^7.9.1",
-		"flow-bin": "^0.75.0",
-		"flow-typed": "^2.4.0",
+		"flow-bin": "^0.76.0",
+		"flow-typed": "^2.5.1",
 		"jest": "^23.1.0",
 		"jest-environment-jsdom": "^23.1.0",
 		"jest-environment-jsdom-global": "^1.1.0",
 		"parcel-bundler": "^1.9.1",
+		"parcel-plugin-inlinesvg": "^0.0.14",
 		"postcss-import": "^11.1.0",
 		"postcss-modules": "^1.1.0",
 		"postcss-simple-vars": "^4.1.0",
-		"prettier": "^1.13.5",
-		"styled-components": "^3.3.3"
+		"prettier": "^1.13.7"
 	}
 }

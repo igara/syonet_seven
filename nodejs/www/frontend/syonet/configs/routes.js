@@ -4,8 +4,8 @@
 import WrapperComponent from '../components/common/wrapper'
 
 // Pages
-import IndexPage from '../pages/index'
-import AnalyzeImagePage from '../pages/analyze_image'
+import IndexPage from '../pages'
+import AnalyzeImagePage from '../pages/tensorflowjs/analyze_image'
 import LoginPage from '../pages/login'
 import LoginCheckPage from '../pages/login_check'
 import NotFoundPage from '../pages/not_found'
@@ -20,11 +20,11 @@ export default async () => {
 			ChildComponent: IndexPage,
 			HeaderTitle: 'Syonet',
 		}),
-		'/analyzeimage': new WrapperComponent({
+		'/tesorflow': new WrapperComponent({
 			Stores,
 			ChildComponent: AnalyzeImagePage,
 			HeaderTitle: 'Analyze',
-			Auth: true,
+			// Auth: true,
 		}),
 		'/login': new WrapperComponent({
 			Stores,

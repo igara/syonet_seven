@@ -1,6 +1,7 @@
 {
 	"eslint.enable": true,
 	"flow.useNPMPackagedFlow": true,
+	"flow.pathToFlow": "${workspaceRoot}/nodejs/www/node_modules/.bin/flow",
 	"javascript.validate.enable": false,
 	"javascript.format.enable": false,
 	"editor.formatOnSave": true,

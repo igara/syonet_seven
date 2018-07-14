@@ -1,9 +1,10 @@
 // @flow
 
-declare var React: $Exports<'react'>;
+declare var React: $Exports<'react'>
 
 export type mithril = {
 	route: {
-		set: (string) => void,
+		set: string => void,
 	},
+	redraw: () => void,
 }

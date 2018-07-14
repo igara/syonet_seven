@@ -43,6 +43,13 @@ export default class ButtonComponent {
 		this.Children = vnode.children.find(c => c.children)
 	}
 
+	oninit(vnode: ButtonComponentVnode) {
+		this.Stores = vnode.attrs.Stores
+		this.OnClickHandler = vnode.attrs.OnClickHandler
+		this.Href = vnode.attrs.Href
+		this.Children = vnode.children.find(c => c.children)
+	}
+
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */

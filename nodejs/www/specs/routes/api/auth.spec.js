@@ -1,46 +1,4 @@
 // @flow
-// import { authCheck, authDelete } from '../../../routes/api/auth'
-
-// jest.mock('../../../../models/user', () =>
-// 	jest.fn(() => ({
-// 		getUserInfo: jest.fn().mockImplementation(async (id, provider) => {
-// 			const {
-// 				getUserInfo,
-// 				setUsers,
-// 			} = require('../../../models/user/__mocks__/user')
-// 			const { Users } = require('../../../models/user/__mocks__/data/user_1')
-// 			setUsers(Users)
-// 			return await getUserInfo(id, provider)
-// 		}),
-// 	})),
-// )
-
-// jest.mock('../../../../models/session', () =>
-// 	jest.fn(() => ({
-// 		getSessionBySessionId: jest.fn().mockImplementation(async sessionId => {
-// 			const {
-// 				getSessionBySessionId,
-// 				setSessions,
-// 			} = require('../../../models/session/__mocks__/session')
-// 			const {
-// 				Sessions,
-// 			} = require('../../../models/session/__mocks__/data/session_1')
-// 			setSessions(Sessions)
-// 			return await getSessionBySessionId(sessionId)
-// 		}),
-// 		deleteSession: jest.fn().mockImplementation(async sessionId => {
-// 			const {
-// 				deleteSession,
-// 				setSessions,
-// 			} = require('../../../models/session/__mocks__/session')
-// 			const {
-// 				Sessions,
-// 			} = require('../../../models/session/__mocks__/data/session_1')
-// 			setSessions(Sessions)
-// 			return await deleteSession(sessionId)
-// 		}),
-// 	})),
-// )
 
 describe('/auth/check', () => {
 	beforeEach(() => {

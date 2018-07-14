@@ -1,6 +1,5 @@
 // @flow
 
-import 'isomorphic-fetch'
 import { getEnvByHostname } from './env'
 import Cookies from '../frontend/syonet/statics/js_cookie'
 
