@@ -32,14 +32,14 @@ export default class AnalyzeImageAction {
 	 */
 	onInputModelName(event: SyntheticInputEvent<HTMLInputElement>) {
 		const name = event.target.value
-		this.Stores.TensorflowAnalyzeImageStore.ModelName(name)
+		this.Stores.KerasAnalyzeImageStore.ModelName(name)
 	}
 
 	/**
 	 * カテゴリ追加を押下したときの処理
 	 */
 	onClickAddCategory() {
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().map(
+		const category = this.Stores.KerasAnalyzeImageStore.Category().map(
 			category => category,
 		)
 		const id = category.length
@@ -48,14 +48,14 @@ export default class AnalyzeImageAction {
 			name: `無題${id}`,
 			images: [],
 		})
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.KerasAnalyzeImageStore.Category(category)
 	}
 
 	/**
 	 * カテゴリ名を押下したときの処理
 	 */
 	onClickCategoryName(id: number) {
-		this.Stores.TensorflowAnalyzeImageStore.SelectedCategoryID(id)
+		this.Stores.KerasAnalyzeImageStore.SelectedCategoryID(id)
 	}
 
 	/**
@@ -66,7 +66,7 @@ export default class AnalyzeImageAction {
 		id: number,
 	) {
 		const name = event.target.value
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().reduce(
+		const category = this.Stores.KerasAnalyzeImageStore.Category().reduce(
 			(accumulator, currentValue) => {
 				if (id === currentValue.id) {
 					accumulator.push({
@@ -80,7 +80,7 @@ export default class AnalyzeImageAction {
 			},
 			[],
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.KerasAnalyzeImageStore.Category(category)
 	}
 
 	/**
@@ -122,7 +122,7 @@ export default class AnalyzeImageAction {
 				imageUrl: string,
 				imageRGB: Array<Array<Array<number>>>,
 			}>,
-		}> = this.Stores.TensorflowAnalyzeImageStore.Category().reduce(
+		}> = this.Stores.KerasAnalyzeImageStore.Category().reduce(
 			(accumulator, currentValue) => {
 				if (id === currentValue.id) {
 					if (
@@ -147,8 +147,8 @@ export default class AnalyzeImageAction {
 			},
 			[],
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
-		console.log(this.Stores.TensorflowAnalyzeImageStore.Category())
+		this.Stores.KerasAnalyzeImageStore.Category(category)
+		console.log(this.Stores.KerasAnalyzeImageStore.Category())
 		m.redraw()
 	}
 
@@ -210,7 +210,7 @@ export default class AnalyzeImageAction {
 	 * 上げた画像のバツボタンを押下した時の処理
 	 */
 	onClickRemoveImage(id: number, index: number) {
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().map(
+		const category = this.Stores.KerasAnalyzeImageStore.Category().map(
 			category => {
 				if (id === category.id) {
 					return {
@@ -221,6 +221,6 @@ export default class AnalyzeImageAction {
 				return category
 			},
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.KerasAnalyzeImageStore.Category(category)
 	}
 }

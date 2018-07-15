@@ -4,7 +4,7 @@ import * as tf from '@tensorflow/tfjs'
 import { mod } from '@tensorflow/tfjs'
 
 export const save = async (Stores: Stores) => {
-	const category = Stores.AnalyzeImageStore.Category()
+	const category = Stores.TensorflowAnalyzeImageStore.Category()
 
 	const imagesRGBs = []
 	category.forEach(c => {

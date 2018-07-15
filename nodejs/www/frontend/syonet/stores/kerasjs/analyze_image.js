@@ -1,6 +1,6 @@
 // @flow
 
-import { stream } from '../statics/mithril'
+import { stream } from '../../statics/mithril'
 
 /**
  * モデル名

@@ -58,8 +58,8 @@ export default class AnalyzeImagePage {
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
 	view() {
-		this.categorys = this.Stores.TensorflowAnalyzeImageStore.Category()
-		this.selectedCategoryID = this.Stores.TensorflowAnalyzeImageStore.SelectedCategoryID()
+		this.categorys = this.Stores.KerasAnalyzeImageStore.Category()
+		this.selectedCategoryID = this.Stores.KerasAnalyzeImageStore.SelectedCategoryID()
 		const selectedCategory = this.categorys.find(
 			category => category.id === this.selectedCategoryID,
 		)
@@ -80,7 +80,7 @@ export default class AnalyzeImagePage {
 		) {
 			this.selectedCategory = selectedCategory
 		} else {
-			this.Stores.TensorflowAnalyzeImageStore.Category([this.selectedCategory])
+			this.Stores.KerasAnalyzeImageStore.Category([this.selectedCategory])
 		}
 		return (
 			<div>

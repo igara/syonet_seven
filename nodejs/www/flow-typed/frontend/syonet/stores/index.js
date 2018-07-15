@@ -14,7 +14,28 @@ export type Stores = {
 	TermStore: {
 		TermDispFlag: (?boolean) => boolean,
 	},
-	AnalyzeImageStore: {
+	TensorflowAnalyzeImageStore: {
+		ModelName: (?string) => string,
+		Category: (
+			?Array<{
+				id: number,
+				name: string,
+				images: Array<{
+					imageUrl: string,
+					imageRGB: Array<Array<Array<number>>>,
+				}>,
+			}>,
+		) => Array<{
+			id: number,
+			name: string,
+			images: Array<{
+				imageUrl: string,
+				imageRGB: Array<Array<Array<number>>>,
+			}>,
+		}>,
+		SelectedCategoryID: (?number) => number,
+	},
+	KerasAnalyzeImageStore: {
 		ModelName: (?string) => string,
 		Category: (
 			?Array<{
