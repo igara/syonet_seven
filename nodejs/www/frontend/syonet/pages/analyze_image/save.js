@@ -7,7 +7,7 @@ import { m } from '../../statics/mithril'
 import Button from '../../components/common/input/button'
 import Text from '../../components/common/input/text'
 import File from '../../components/common/input/file'
-import TensorflowAnalyzeImageAction from '../../actions/tensorflowjs/analyze_image'
+import AnalyzeImageSaveAction from '../../actions/analyze_image/save'
 import { AnalyzeImageStyle, TextStyle } from '../../statics/styles'
 import closeSvg from '../../images/close.svg'
 
@@ -21,9 +21,9 @@ export default class AnalyzeImagePage {
 	Stores: Stores
 
 	/**
-	 * @type {TensorflowAnalyzeImageAction} TensorflowAnalyzeImageAction
+	 * @type {AnalyzeImageSaveAction} AnalyzeImageSaveAction
 	 */
-	TensorflowAnalyzeImageAction: TensorflowAnalyzeImageAction
+	AnalyzeImageSaveAction: AnalyzeImageSaveAction
 
 	categorys: Array<{
 		id: number,
@@ -51,17 +51,15 @@ export default class AnalyzeImagePage {
 	 */
 	constructor(vnode: AnalyzeImagePageVnode) {
 		this.Stores = vnode.attrs.Stores
-		this.TensorflowAnalyzeImageAction = new TensorflowAnalyzeImageAction(
-			this.Stores,
-		)
+		this.AnalyzeImageSaveAction = new AnalyzeImageSaveAction(this.Stores)
 	}
 
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
 	view() {
-		this.categorys = this.Stores.TensorflowAnalyzeImageStore.Category()
-		this.selectedCategoryID = this.Stores.TensorflowAnalyzeImageStore.SelectedCategoryID()
+		this.categorys = this.Stores.AnalyzeImageSaveStore.Category()
+		this.selectedCategoryID = this.Stores.AnalyzeImageSaveStore.SelectedCategoryID()
 		const selectedCategory = this.categorys.find(
 			category => category.id === this.selectedCategoryID,
 		)
@@ -82,18 +80,18 @@ export default class AnalyzeImagePage {
 		) {
 			this.selectedCategory = selectedCategory
 		} else {
-			this.Stores.TensorflowAnalyzeImageStore.Category([this.selectedCategory])
+			this.Stores.AnalyzeImageSaveStore.Category([this.selectedCategory])
 		}
 		return (
 			<div>
 				<div>
 					<Text
-						OnInputHandler={this.TensorflowAnalyzeImageAction.onInputModelName}
+						OnInputHandler={this.AnalyzeImageSaveAction.onInputModelName}
 						Placeholder="モデル名"
 					/>
 					<Button
 						OnClickHandler={() =>
-							this.TensorflowAnalyzeImageAction.onClickSaveModel()
+							this.AnalyzeImageSaveAction.onClickSaveModel()
 						}
 					>
 						モデルの保存
@@ -101,7 +99,7 @@ export default class AnalyzeImagePage {
 					<Button
 						Stores={this.Stores}
 						OnClickHandler={() =>
-							this.TensorflowAnalyzeImageAction.onClickAddCategory()
+							this.AnalyzeImageSaveAction.onClickAddCategory()
 						}
 					>
 						カテゴリの追加
@@ -112,9 +110,7 @@ export default class AnalyzeImagePage {
 						<li
 							key={category.id}
 							onclick={() =>
-								this.TensorflowAnalyzeImageAction.onClickCategoryName(
-									category.id,
-								)
+								this.AnalyzeImageSaveAction.onClickCategoryName(category.id)
 							}
 						>
 							{category.name}
@@ -126,7 +122,7 @@ export default class AnalyzeImagePage {
 						type="text"
 						class={TextStyle.text}
 						oninput={(event: SyntheticInputEvent<HTMLInputElement>) =>
-							this.TensorflowAnalyzeImageAction.onInputCategoryName(
+							this.AnalyzeImageSaveAction.onInputCategoryName(
 								event,
 								this.selectedCategory.id,
 							)
@@ -137,7 +133,7 @@ export default class AnalyzeImagePage {
 					<File
 						Stores={this.Stores}
 						OnInputHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
-							this.TensorflowAnalyzeImageAction.onInputCategoryFile(
+							this.AnalyzeImageSaveAction.onInputCategoryFile(
 								event,
 								this.selectedCategory.id,
 								m,
@@ -158,7 +154,7 @@ export default class AnalyzeImagePage {
 								<i
 									class={AnalyzeImageStyle.close_icon}
 									onclick={() =>
-										this.TensorflowAnalyzeImageAction.onClickRemoveImage(
+										this.AnalyzeImageSaveAction.onClickRemoveImage(
 											this.selectedCategory.id,
 											index,
 										)

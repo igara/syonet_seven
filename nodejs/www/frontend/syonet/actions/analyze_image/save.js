@@ -4,7 +4,7 @@ import { save, load } from '../../tensorflow/image'
 /**
  * 画像認識画面のアクション
  */
-export default class TensorflowAnalyzeImageAction {
+export default class AnalyzeImageSaveAction {
 	/**
 	 * @type {Stores} Stores
 	 */
@@ -32,14 +32,14 @@ export default class TensorflowAnalyzeImageAction {
 	 */
 	onInputModelName(event: SyntheticInputEvent<HTMLInputElement>) {
 		const name = event.target.value
-		this.Stores.TensorflowAnalyzeImageStore.ModelName(name)
+		this.Stores.AnalyzeImageSaveStore.ModelName(name)
 	}
 
 	/**
 	 * カテゴリ追加を押下したときの処理
 	 */
 	onClickAddCategory() {
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().map(
+		const category = this.Stores.AnalyzeImageSaveStore.Category().map(
 			category => category,
 		)
 		const id = category.length
@@ -48,14 +48,14 @@ export default class TensorflowAnalyzeImageAction {
 			name: `無題${id}`,
 			images: [],
 		})
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.AnalyzeImageSaveStore.Category(category)
 	}
 
 	/**
 	 * カテゴリ名を押下したときの処理
 	 */
 	onClickCategoryName(id: number) {
-		this.Stores.TensorflowAnalyzeImageStore.SelectedCategoryID(id)
+		this.Stores.AnalyzeImageSaveStore.SelectedCategoryID(id)
 	}
 
 	/**
@@ -66,7 +66,7 @@ export default class TensorflowAnalyzeImageAction {
 		id: number,
 	) {
 		const name = event.target.value
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().reduce(
+		const category = this.Stores.AnalyzeImageSaveStore.Category().reduce(
 			(accumulator, currentValue) => {
 				if (id === currentValue.id) {
 					accumulator.push({
@@ -80,7 +80,7 @@ export default class TensorflowAnalyzeImageAction {
 			},
 			[],
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.AnalyzeImageSaveStore.Category(category)
 	}
 
 	/**
@@ -122,7 +122,7 @@ export default class TensorflowAnalyzeImageAction {
 				imageUrl: string,
 				imageRGB: Array<Array<Array<number>>>,
 			}>,
-		}> = this.Stores.TensorflowAnalyzeImageStore.Category().reduce(
+		}> = this.Stores.AnalyzeImageSaveStore.Category().reduce(
 			(accumulator, currentValue) => {
 				if (id === currentValue.id) {
 					if (
@@ -147,8 +147,8 @@ export default class TensorflowAnalyzeImageAction {
 			},
 			[],
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
-		console.log(this.Stores.TensorflowAnalyzeImageStore.Category())
+		this.Stores.AnalyzeImageSaveStore.Category(category)
+		console.log(this.Stores.AnalyzeImageSaveStore.Category())
 		m.redraw()
 	}
 
@@ -210,7 +210,7 @@ export default class TensorflowAnalyzeImageAction {
 	 * 上げた画像のバツボタンを押下した時の処理
 	 */
 	onClickRemoveImage(id: number, index: number) {
-		const category = this.Stores.TensorflowAnalyzeImageStore.Category().map(
+		const category = this.Stores.AnalyzeImageSaveStore.Category().map(
 			category => {
 				if (id === category.id) {
 					return {
@@ -221,6 +221,6 @@ export default class TensorflowAnalyzeImageAction {
 				return category
 			},
 		)
-		this.Stores.TensorflowAnalyzeImageStore.Category(category)
+		this.Stores.AnalyzeImageSaveStore.Category(category)
 	}
 }

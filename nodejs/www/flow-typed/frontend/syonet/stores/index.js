@@ -14,7 +14,7 @@ export type Stores = {
 	TermStore: {
 		TermDispFlag: (?boolean) => boolean,
 	},
-	TensorflowAnalyzeImageStore: {
+	AnalyzeImageSaveStore: {
 		ModelName: (?string) => string,
 		Category: (
 			?Array<{

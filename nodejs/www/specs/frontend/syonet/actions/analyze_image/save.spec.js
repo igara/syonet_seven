@@ -9,10 +9,10 @@ describe('onInputModelName', () => {
 	})
 
 	test('changed', async () => {
-		Stores.TensorflowAnalyzeImageStore.ModelName('')
-		expect(Stores.TensorflowAnalyzeImageStore.ModelName()).toBe('')
+		Stores.AnalyzeImageSaveStore.ModelName('')
+		expect(Stores.AnalyzeImageSaveStore.ModelName()).toBe('')
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tensorflowjs/analyze_image')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -26,7 +26,7 @@ describe('onInputModelName', () => {
 			},
 		)
 		await inputTextElement.dispatchEvent(new Event('change'))
-		expect(Stores.TensorflowAnalyzeImageStore.ModelName()).toBe('test')
+		expect(Stores.AnalyzeImageSaveStore.ModelName()).toBe('test')
 	})
 })
 
@@ -36,10 +36,10 @@ describe('onClickAddCategory', () => {
 	})
 
 	test('clicked', async () => {
-		Stores.TensorflowAnalyzeImageStore.Category([])
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([])
+		Stores.AnalyzeImageSaveStore.Category([])
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tensorflowjs/analyze_image')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const buttonElement = document.createElement('button')
@@ -47,7 +47,7 @@ describe('onClickAddCategory', () => {
 			await analyzeImageAction.onClickAddCategory()
 		})
 		await buttonElement.dispatchEvent(new Event('click'))
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 0,
 				name: '無題0',
@@ -63,8 +63,8 @@ describe('onClickCategoryName', () => {
 	})
 
 	test('clicked', async () => {
-		Stores.TensorflowAnalyzeImageStore.SelectedCategoryID(4)
-		expect(Stores.TensorflowAnalyzeImageStore.SelectedCategoryID()).toBe(4)
+		Stores.AnalyzeImageSaveStore.SelectedCategoryID(4)
+		expect(Stores.AnalyzeImageSaveStore.SelectedCategoryID()).toBe(4)
 	})
 })
 
@@ -74,14 +74,14 @@ describe('onInputCategoryName', () => {
 	})
 
 	test('changed', async () => {
-		Stores.TensorflowAnalyzeImageStore.Category([
+		Stores.AnalyzeImageSaveStore.Category([
 			{
 				id: 0,
 				name: '',
 				images: [],
 			},
 		])
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 0,
 				name: '',
@@ -89,7 +89,7 @@ describe('onInputCategoryName', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tensorflowjs/analyze_image')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -103,7 +103,7 @@ describe('onInputCategoryName', () => {
 			},
 		)
 		await inputTextElement.dispatchEvent(new Event('change'))
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 0,
 				name: 'test',
@@ -113,14 +113,14 @@ describe('onInputCategoryName', () => {
 	})
 
 	test('対象のidがない時', async () => {
-		Stores.TensorflowAnalyzeImageStore.Category([
+		Stores.AnalyzeImageSaveStore.Category([
 			{
 				id: 1,
 				name: '',
 				images: [],
 			},
 		])
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 1,
 				name: '',
@@ -128,7 +128,7 @@ describe('onInputCategoryName', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tensorflowjs/analyze_image')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -142,7 +142,7 @@ describe('onInputCategoryName', () => {
 			},
 		)
 		await inputTextElement.dispatchEvent(new Event('change'))
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 1,
 				name: '',
@@ -234,7 +234,7 @@ describe('onClickRemoveImage', () => {
 	})
 
 	test('clicked', async () => {
-		Stores.TensorflowAnalyzeImageStore.Category([
+		Stores.AnalyzeImageSaveStore.Category([
 			{
 				id: 0,
 				name: '',
@@ -256,7 +256,7 @@ describe('onClickRemoveImage', () => {
 				],
 			},
 		])
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{
 				id: 0,
 				images: [{ imageRGB: [], imageUrl: 'data:image/png;base64,a' }],
@@ -269,11 +269,11 @@ describe('onClickRemoveImage', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tensorflowjs/analyze_image')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		await analyzeImageAction.onClickRemoveImage(0, 0)
-		expect(Stores.TensorflowAnalyzeImageStore.Category()).toEqual([
+		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([
 			{ id: 0, images: [], name: '' },
 			{
 				id: 1,
