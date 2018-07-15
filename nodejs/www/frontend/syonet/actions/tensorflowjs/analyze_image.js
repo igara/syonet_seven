@@ -4,7 +4,7 @@ import { save, load } from '../../tensorflow/image'
 /**
  * 画像認識画面のアクション
  */
-export default class AnalyzeImageAction {
+export default class TensorflowAnalyzeImageAction {
 	/**
 	 * @type {Stores} Stores
 	 */

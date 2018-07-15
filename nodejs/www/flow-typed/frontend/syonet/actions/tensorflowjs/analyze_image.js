@@ -1,6 +1,6 @@
 // @flow
 
-export type AnalyzeImageAction = {
+export type TensorflowAnalyzeImageAction = {
 	onClickSaveModel: () => void,
 	onInputModelName: (event: SyntheticInputEvent<HTMLInputElement>) => void,
 	onClickAddCategory: () => void,

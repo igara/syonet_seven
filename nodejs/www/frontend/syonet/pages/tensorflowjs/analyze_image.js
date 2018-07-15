@@ -7,7 +7,7 @@ import { m } from '../../statics/mithril'
 import Button from '../../components/common/input/button'
 import Text from '../../components/common/input/text'
 import File from '../../components/common/input/file'
-import AnalyzeImageAction from '../../actions/tensorflowjs/analyze_image'
+import TensorflowAnalyzeImageAction from '../../actions/tensorflowjs/analyze_image'
 import { AnalyzeImageStyle, TextStyle } from '../../statics/styles'
 import closeSvg from '../../images/close.svg'
 
@@ -21,9 +21,9 @@ export default class AnalyzeImagePage {
 	Stores: Stores
 
 	/**
-	 * @type {AnalyzeImageAction} AnalyzeImageAction
+	 * @type {TensorflowAnalyzeImageAction} TensorflowAnalyzeImageAction
 	 */
-	AnalyzeImageAction: AnalyzeImageAction
+	TensorflowAnalyzeImageAction: TensorflowAnalyzeImageAction
 
 	categorys: Array<{
 		id: number,
@@ -51,7 +51,9 @@ export default class AnalyzeImagePage {
 	 */
 	constructor(vnode: AnalyzeImagePageVnode) {
 		this.Stores = vnode.attrs.Stores
-		this.AnalyzeImageAction = new AnalyzeImageAction(this.Stores)
+		this.TensorflowAnalyzeImageAction = new TensorflowAnalyzeImageAction(
+			this.Stores,
+		)
 	}
 
 	/**
@@ -86,17 +88,21 @@ export default class AnalyzeImagePage {
 			<div>
 				<div>
 					<Text
-						OnInputHandler={this.AnalyzeImageAction.onInputModelName}
+						OnInputHandler={this.TensorflowAnalyzeImageAction.onInputModelName}
 						Placeholder="モデル名"
 					/>
 					<Button
-						OnClickHandler={() => this.AnalyzeImageAction.onClickSaveModel()}
+						OnClickHandler={() =>
+							this.TensorflowAnalyzeImageAction.onClickSaveModel()
+						}
 					>
 						モデルの保存
 					</Button>
 					<Button
 						Stores={this.Stores}
-						OnClickHandler={() => this.AnalyzeImageAction.onClickAddCategory()}
+						OnClickHandler={() =>
+							this.TensorflowAnalyzeImageAction.onClickAddCategory()
+						}
 					>
 						カテゴリの追加
 					</Button>
@@ -106,7 +112,9 @@ export default class AnalyzeImagePage {
 						<li
 							key={category.id}
 							onclick={() =>
-								this.AnalyzeImageAction.onClickCategoryName(category.id)
+								this.TensorflowAnalyzeImageAction.onClickCategoryName(
+									category.id,
+								)
 							}
 						>
 							{category.name}
@@ -118,7 +126,7 @@ export default class AnalyzeImagePage {
 						type="text"
 						class={TextStyle.text}
 						oninput={(event: SyntheticInputEvent<HTMLInputElement>) =>
-							this.AnalyzeImageAction.onInputCategoryName(
+							this.TensorflowAnalyzeImageAction.onInputCategoryName(
 								event,
 								this.selectedCategory.id,
 							)
@@ -129,7 +137,7 @@ export default class AnalyzeImagePage {
 					<File
 						Stores={this.Stores}
 						OnInputHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
-							this.AnalyzeImageAction.onInputCategoryFile(
+							this.TensorflowAnalyzeImageAction.onInputCategoryFile(
 								event,
 								this.selectedCategory.id,
 								m,
@@ -150,7 +158,7 @@ export default class AnalyzeImagePage {
 								<i
 									class={AnalyzeImageStyle.close_icon}
 									onclick={() =>
-										this.AnalyzeImageAction.onClickRemoveImage(
+										this.TensorflowAnalyzeImageAction.onClickRemoveImage(
 											this.selectedCategory.id,
 											index,
 										)
