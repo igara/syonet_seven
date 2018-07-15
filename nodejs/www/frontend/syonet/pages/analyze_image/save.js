@@ -8,13 +8,13 @@ import Button from '../../components/common/input/button'
 import Text from '../../components/common/input/text'
 import File from '../../components/common/input/file'
 import AnalyzeImageSaveAction from '../../actions/analyze_image/save'
-import { AnalyzeImageStyle, TextStyle } from '../../statics/styles'
+import { AnalyzeImageSaveStyle, TextStyle } from '../../statics/styles'
 import closeSvg from '../../images/close.svg'
 
 /**
- * Routing URL: //analyzeimage/
+ * Routing URL: //analyze_image/save
  */
-export default class AnalyzeImagePage {
+export default class AnalyzeImageSavePage {
 	/**
 	 * @type {Stores} Stores
 	 */
@@ -49,7 +49,7 @@ export default class AnalyzeImagePage {
 	 * @constructor
 	 * @param {Vnode<A, this>} vnode
 	 */
-	constructor(vnode: AnalyzeImagePageVnode) {
+	constructor(vnode: AnalyzeImageSavePageVnode) {
 		this.Stores = vnode.attrs.Stores
 		this.AnalyzeImageSaveAction = new AnalyzeImageSaveAction(this.Stores)
 	}
@@ -105,7 +105,7 @@ export default class AnalyzeImagePage {
 						カテゴリの追加
 					</Button>
 				</div>
-				<ul class={AnalyzeImageStyle.name_area_list}>
+				<ul class={AnalyzeImageSaveStyle.name_area_list}>
 					{this.categorys.map(category => (
 						<li
 							key={category.id}
@@ -143,16 +143,16 @@ export default class AnalyzeImagePage {
 						Key={`analyze_image_${this.selectedCategory.id}`}
 						Accept="image/*"
 					/>
-					<ul class={AnalyzeImageStyle.image_area_list}>
+					<ul class={AnalyzeImageSaveStyle.image_area_list}>
 						{this.selectedCategory.images.map((image, index) => (
 							<li key={this.selectedCategory.id}>
 								<img
 									key={`analyze_image_${this.selectedCategory.id}`}
 									src={image.imageUrl}
-									class={AnalyzeImageStyle.image}
+									class={AnalyzeImageSaveStyle.image}
 								/>
 								<i
-									class={AnalyzeImageStyle.close_icon}
+									class={AnalyzeImageSaveStyle.close_icon}
 									onclick={() =>
 										this.AnalyzeImageSaveAction.onClickRemoveImage(
 											this.selectedCategory.id,

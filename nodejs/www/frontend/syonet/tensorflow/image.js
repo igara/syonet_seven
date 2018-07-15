@@ -1,7 +1,6 @@
 // @flow
 
 import * as tf from '@tensorflow/tfjs'
-import { mod } from '@tensorflow/tfjs'
 
 export const save = async (Stores: Stores) => {
 	const category = Stores.AnalyzeImageSaveStore.Category()
@@ -109,8 +108,15 @@ export const save = async (Stores: Stores) => {
 	// await model.save('localstorage://test')
 }
 
-export const load = async () => {
-	const model = await tf.loadModel('localstorage://test')
-	model.compile({ optimizer: 'sgd', loss: 'meanSquaredError' })
-	model.predict(tf.tensor2d([[5]], [1, 1])).print()
+export const load = async (modelJsonUrl: string) => {
+	const model = await tf.loadModel(modelJsonUrl)
+	return model
+}
+
+export const exec = async (Stores: Stores, imageData: ImageData) => {
+	const model = Stores.AnalyzeImageLoadStore.Model()
+	console.log(model)
+	const example = tf.fromPixels(imageData)
+	const prediction = model.predict(example)
+	console.log(prediction)
 }

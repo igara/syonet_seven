@@ -8,7 +8,8 @@ import FooterStyle from '../styles/common/footer.pcss'
 import TermStyle from '../styles/common/term.pcss'
 import ButtonStyle from '../styles/common/input/button.pcss'
 import TextStyle from '../styles/common/input/text.pcss'
-import AnalyzeImageStyle from '../styles/analyze_image.pcss'
+import AnalyzeImageSaveStyle from '../styles/analyze_image/save.pcss'
+import AnalyzeImageLoadStyle from '../styles/analyze_image/load.pcss'
 
 import Icon from '../styles/common/icon.pcss'
 import Close from '../styles/common/icon/close.pcss'
@@ -29,5 +30,6 @@ export {
 	IconStyle,
 	ButtonStyle,
 	TextStyle,
-	AnalyzeImageStyle,
+	AnalyzeImageSaveStyle,
+	AnalyzeImageLoadStyle,
 }

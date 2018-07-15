@@ -77,6 +77,14 @@ export default class SidebarComponent {
 					)}
 					<li
 						class={SidebarStyle.sidebar_link_list}
+						onclick={(event: Event) =>
+							this.SidebarAction.onClickAnalyzeImage(m, event)
+						}
+					>
+						<a href="/analyze_image">画像解析ツール</a>
+					</li>
+					<li
+						class={SidebarStyle.sidebar_link_list}
 						onclick={() => this.SidebarAction.onClickTerm()}
 					>
 						<a>利用規約</a>

@@ -35,4 +35,22 @@ export type Stores = {
 		}>,
 		SelectedCategoryID: (?number) => number,
 	},
+	AnalyzeImageListStore: {
+		List: (
+			?Array<{
+				download_url: string,
+				name: string,
+				sha: string,
+			}>,
+		) => Array<{
+			download_url: string,
+			name: string,
+			sha: string,
+		}>,
+	},
+	AnalyzeImageLoadStore: {
+		Model: (?Object) => Object,
+		ImageUrl: (url?: string) => string,
+		File: (file?: File) => File,
+	},
 }

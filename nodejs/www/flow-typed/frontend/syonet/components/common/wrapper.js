@@ -5,4 +5,5 @@ export type WrapperComponentVnode = {
 	ChildComponent: Object,
 	HeaderTitle: string,
 	Auth?: boolean,
+	attrs?: Object,
 }
