@@ -57,7 +57,9 @@ export default class ButtonComponent {
 		return (
 			<button
 				class={ButtonStyle.button}
-				onclick={() => (this.OnClickHandler ? this.OnClickHandler() : null)}
+				onclick={(event: SyntheticInputEvent<HTMLInputElement>) =>
+					this.OnClickHandler ? this.OnClickHandler(event) : null
+				}
 			>
 				{this.Href ? (
 					<a href={this.Href}>{this.Children}</a>

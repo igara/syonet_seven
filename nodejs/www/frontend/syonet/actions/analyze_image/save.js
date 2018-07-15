@@ -1,5 +1,5 @@
 // @flow
-import { save, load } from '../../tensorflow/image'
+import { save } from '../../tensorflow/image'
 
 /**
  * 画像認識画面のアクション
@@ -18,6 +18,11 @@ export default class AnalyzeImageSaveAction {
 	 */
 	constructor(Stores: Stores) {
 		this.Stores = Stores
+	}
+
+	async onClickList(m: mithril, event: SyntheticInputEvent<HTMLInputElement>) {
+		event.preventDefault()
+		m.route.set('/analyze_image')
 	}
 
 	/**

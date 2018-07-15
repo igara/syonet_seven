@@ -29,4 +29,9 @@ export default class AnalyzeImageListAction {
 		const pathname = `/analyze_image/load/${sha}`
 		m.route.set(pathname)
 	}
+
+	async onClickSave(m: mithril, event: SyntheticInputEvent<HTMLInputElement>) {
+		event.preventDefault()
+		m.route.set('/analyze_image/save')
+	}
 }

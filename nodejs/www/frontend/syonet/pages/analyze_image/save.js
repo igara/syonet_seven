@@ -84,6 +84,14 @@ export default class AnalyzeImageSavePage {
 		}
 		return (
 			<div>
+				<Button
+					OnClickHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
+						this.AnalyzeImageSaveAction.onClickList(m, event)
+					}
+					Href="/analyze_image"
+				>
+					一覧へ戻る
+				</Button>
 				<div>
 					<Text
 						OnInputHandler={this.AnalyzeImageSaveAction.onInputModelName}
