@@ -5,6 +5,7 @@ import WrapperComponent from '../components/common/wrapper'
 
 // Pages
 import IndexPage from '../pages'
+import ToolsPage from '../pages/tools'
 import AnalyzeImageListPage from '../pages/tools/analyze_image/list'
 import AnalyzeImageLoadPage from '../pages/tools/analyze_image/load'
 import AnalyzeImageSavePage from '../pages/tools/analyze_image/save'
@@ -48,6 +49,11 @@ export default async () => {
 			Stores,
 			ChildComponent: IndexPage,
 			HeaderTitle: 'Syonet',
+		}),
+		'/tools': new WrapperComponent({
+			Stores,
+			ChildComponent: ToolsPage,
+			HeaderTitle: 'Tools',
 		}),
 		'/tools/analyze_image': new WrapperComponent({
 			Stores,

@@ -77,13 +77,13 @@ export default class SidebarAction {
 	}
 
 	/**
-	 * 画像解析ツールを押下したときの処理
+	 * ツールを押下したときの処理
 	 * @param {Mithril} m
 	 * @param {Event} event
 	 */
-	async onClickAnalyzeImage(m: mithril, event: Event) {
+	async onClickTools(m: mithril, event: Event) {
 		event.preventDefault()
-		const pathname = '/tools/analyze_image'
+		const pathname = '/tools'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
 		m.route.set(pathname)
