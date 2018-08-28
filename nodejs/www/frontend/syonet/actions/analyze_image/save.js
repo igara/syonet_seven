@@ -22,7 +22,7 @@ export default class AnalyzeImageSaveAction {
 
 	async onClickList(m: mithril, event: SyntheticInputEvent<HTMLInputElement>) {
 		event.preventDefault()
-		m.route.set('/analyze_image')
+		m.route.set('/tools/analyze_image')
 	}
 
 	/**
