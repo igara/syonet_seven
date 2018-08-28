@@ -5,9 +5,9 @@ import WrapperComponent from '../components/common/wrapper'
 
 // Pages
 import IndexPage from '../pages'
-import AnalyzeImageListPage from '../pages/analyze_image/list'
-import AnalyzeImageLoadPage from '../pages/analyze_image/load'
-import AnalyzeImageSavePage from '../pages/analyze_image/save'
+import AnalyzeImageListPage from '../pages/tools/analyze_image/list'
+import AnalyzeImageLoadPage from '../pages/tools/analyze_image/load'
+import AnalyzeImageSavePage from '../pages/tools/analyze_image/save'
 import LoginPage from '../pages/login'
 import LoginCheckPage from '../pages/login_check'
 import NotFoundPage from '../pages/not_found'
@@ -49,17 +49,17 @@ export default async () => {
 			ChildComponent: IndexPage,
 			HeaderTitle: 'Syonet',
 		}),
-		'/analyze_image': new WrapperComponent({
+		'/tools/analyze_image': new WrapperComponent({
 			Stores,
 			ChildComponent: AnalyzeImageListPage,
 			HeaderTitle: '作成した画像解析一覧',
 		}),
-		'/analyze_image/load/:sha': new WrapperComponent({
+		'/tools/analyze_image/load/:sha': new WrapperComponent({
 			Stores,
 			ChildComponent: AnalyzeImageLoadPage,
 			HeaderTitle: '画像解析読み込み画面',
 		}),
-		'/analyze_image/save': new WrapperComponent({
+		'/tools/analyze_image/save': new WrapperComponent({
 			Stores,
 			ChildComponent: AnalyzeImageSavePage,
 			HeaderTitle: '画像解析保存画面',

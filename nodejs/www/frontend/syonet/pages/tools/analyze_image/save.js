@@ -3,16 +3,16 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import Button from '../../components/common/input/button'
-import Text from '../../components/common/input/text'
-import File from '../../components/common/input/file'
-import AnalyzeImageSaveAction from '../../actions/analyze_image/save'
-import { AnalyzeImageSaveStyle, TextStyle } from '../../statics/styles'
-import closeSvg from '../../images/close.svg'
+import { m } from '../../../statics/mithril'
+import Button from '../../../components/common/input/button'
+import Text from '../../../components/common/input/text'
+import File from '../../../components/common/input/file'
+import AnalyzeImageSaveAction from '../../../actions/analyze_image/save'
+import { AnalyzeImageSaveStyle, TextStyle } from '../../../statics/styles'
+import closeSvg from '../../../images/close.svg'
 
 /**
- * Routing URL: //analyze_image/save
+ * Routing URL: //tools/analyze_image/save
  */
 export default class AnalyzeImageSavePage {
 	/**
@@ -88,7 +88,7 @@ export default class AnalyzeImageSavePage {
 					OnClickHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
 						this.AnalyzeImageSaveAction.onClickList(m, event)
 					}
-					Href="/analyze_image"
+					Href="/tools/analyze_image"
 				>
 					一覧へ戻る
 				</Button>

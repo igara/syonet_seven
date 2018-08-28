@@ -3,15 +3,15 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import AnalyzeImageLoadAction from '../../actions/analyze_image/load'
-import { AnalyzeImageLoadStyle } from '../../statics/styles'
-import File from '../../components/common/input/file'
-import Button from '../../components/common/input/button'
-import closeSvg from '../../images/close.svg'
+import { m } from '../../../statics/mithril'
+import AnalyzeImageLoadAction from '../../../actions/analyze_image/load'
+import { AnalyzeImageLoadStyle } from '../../../statics/styles'
+import File from '../../../components/common/input/file'
+import Button from '../../../components/common/input/button'
+import closeSvg from '../../../images/close.svg'
 
 /**
- * Routing URL: //analyze_image/load/${sha}
+ * Routing URL: //tools/analyze_image/load/${sha}
  */
 export default class AnalyzeImageLoadPage {
 	/**

@@ -3,12 +3,12 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import AnalyzeImageListAction from '../../actions/analyze_image/list'
-import Button from '../../components/common/input/button'
+import { m } from '../../../statics/mithril'
+import AnalyzeImageListAction from '../../../actions/analyze_image/list'
+import Button from '../../../components/common/input/button'
 
 /**
- * Routing URL: //analyze_image/
+ * Routing URL: //tools/analyze_image/
  */
 export default class AnalyzeImageListPage {
 	/**
@@ -50,7 +50,7 @@ export default class AnalyzeImageListPage {
 						OnClickHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
 							this.AnalyzeImageListAction.onClickSave(m, event)
 						}
-						Href="/analyze_image/save"
+						Href="/tools/analyze_image/save"
 					>
 						データセット作成
 					</Button>
@@ -70,7 +70,9 @@ export default class AnalyzeImageListPage {
 									)
 								}
 							>
-								<a href={`/analyze_image/load/${list.sha}`}>{list.name}</a>
+								<a href={`/tools/analyze_image/load/${list.sha}`}>
+									{list.name}
+								</a>
 							</li>
 						))}
 					</ul>

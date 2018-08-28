@@ -83,7 +83,7 @@ export default class SidebarAction {
 	 */
 	async onClickAnalyzeImage(m: mithril, event: Event) {
 		event.preventDefault()
-		const pathname = '/analyze_image'
+		const pathname = '/tools/analyze_image'
 		this.Stores.SidebarStore.SidebarDispFlag(false)
 		await sleep(1000)
 		m.route.set(pathname)

@@ -81,7 +81,7 @@ export default class SidebarComponent {
 							this.SidebarAction.onClickAnalyzeImage(m, event)
 						}
 					>
-						<a href="/analyze_image">画像解析ツール</a>
+						<a href="/tools/analyze_image">画像解析ツール</a>
 					</li>
 					<li
 						class={SidebarStyle.sidebar_link_list}
