@@ -43,6 +43,7 @@ app.use(
 	(req: express$Request, res: express$Response, next: express$NextFunction) => {
 		res.set('Access-Control-Allow-Origin', '*')
 		res.set('Access-Control-Allow-Headers', 'Content-Type')
+		res.set('Cache-Control', 'public, max-age=3600')
 
 		if (req.method === 'OPTIONS') {
 			res.append('Access-Control-Allow-Headers', 'Token')
