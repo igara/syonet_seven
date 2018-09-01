@@ -48,7 +48,7 @@ export default async () => {
 		'/': new WrapperComponent({
 			Stores,
 			ChildComponent: IndexPage,
-			HeaderTitle: 'Syonet',
+			HeaderTitle: 'Top',
 		}),
 		'/tools': new WrapperComponent({
 			Stores,

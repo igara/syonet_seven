@@ -50,6 +50,8 @@ export default class WrapperComponent {
 	async oninit(vnode: WrapperComponentVnode) {
 		this.VnodeAttrs = vnode.attrs
 		this.Stores.HeaderStore.HeaderTitle(this.HeaderTitle)
+		const title = this.HeaderTitle ? `Syonet / ${this.HeaderTitle}` : 'Syonet'
+		document.title = title
 		const user = this.Stores.LoginStore.User()
 		if (this.Auth && (typeof user === 'undefined' || user === null)) {
 			m.route.set('/login')

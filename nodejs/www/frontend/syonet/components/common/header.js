@@ -5,6 +5,7 @@
 
 import { m } from '../../statics/mithril'
 import { HeaderStyle, IconStyle } from '../../statics/styles'
+import syonetSvg from '../../images/syonet.svg'
 
 /**
  * ヘッダーを表示するコンポーネント
@@ -29,7 +30,7 @@ export default class HeaderComponent {
 	view() {
 		return (
 			<ul class={HeaderStyle.header_wrap_ul}>
-				<li>{this.Stores.HeaderStore.HeaderTitle}</li>
+				<li>{m.trust(syonetSvg)}</li>
 				<li>
 					{this.Stores.LoginStore.User() ? (
 						<img

@@ -90,9 +90,6 @@ export default class SidebarComponent {
 						<a>利用規約</a>
 					</li>
 					<li class={SidebarStyle.sidebar_link_list}>
-						<a>ライセンス</a>
-					</li>
-					<li class={SidebarStyle.sidebar_link_list}>
 						<a
 							href="https://github.com/igara/syonet_seven"
 							target="_blank"
