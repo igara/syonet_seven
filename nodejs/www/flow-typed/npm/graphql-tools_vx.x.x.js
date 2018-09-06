@@ -1,4 +1,4 @@
-// flow-typed signature: e0d2e9616124b413e330f689443c41f2
+// flow-typed signature: 0535044d19f2cd2665f578c22d18fe36
 // flow-typed version: <<STUB>>/graphql-tools_v^3.0.2/flow_v0.76.0
 
 /**
@@ -118,6 +118,10 @@ declare module 'graphql-tools/dist/mock' {
   declare module.exports: any;
 }
 
+declare module 'graphql-tools/dist/schemaGenerator' {
+  declare module.exports: any;
+}
+
 declare module 'graphql-tools/dist/schemaVisitor' {
   declare module.exports: any;
 }
@@ -147,6 +151,10 @@ declare module 'graphql-tools/dist/stitching/linkToFetcher' {
 }
 
 declare module 'graphql-tools/dist/stitching/makeRemoteExecutableSchema' {
+  declare module.exports: any;
+}
+
+declare module 'graphql-tools/dist/stitching/mapAsyncIterator' {
   declare module.exports: any;
 }
 
@@ -315,6 +323,9 @@ declare module 'graphql-tools/dist/mergeDeep.js' {
 declare module 'graphql-tools/dist/mock.js' {
   declare module.exports: $Exports<'graphql-tools/dist/mock'>;
 }
+declare module 'graphql-tools/dist/schemaGenerator.js' {
+  declare module.exports: $Exports<'graphql-tools/dist/schemaGenerator'>;
+}
 declare module 'graphql-tools/dist/schemaVisitor.js' {
   declare module.exports: $Exports<'graphql-tools/dist/schemaVisitor'>;
 }
@@ -338,6 +349,9 @@ declare module 'graphql-tools/dist/stitching/linkToFetcher.js' {
 }
 declare module 'graphql-tools/dist/stitching/makeRemoteExecutableSchema.js' {
   declare module.exports: $Exports<'graphql-tools/dist/stitching/makeRemoteExecutableSchema'>;
+}
+declare module 'graphql-tools/dist/stitching/mapAsyncIterator.js' {
+  declare module.exports: $Exports<'graphql-tools/dist/stitching/mapAsyncIterator'>;
 }
 declare module 'graphql-tools/dist/stitching/mergeSchemas.js' {
   declare module.exports: $Exports<'graphql-tools/dist/stitching/mergeSchemas'>;

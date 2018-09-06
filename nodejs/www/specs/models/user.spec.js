@@ -43,6 +43,7 @@ describe('upsertByAuthUser', () => {
 		const result = await upsertByAuthUser(user)
 		expect(result.auth.id).toBe(user.id)
 		expect(result.auth.provider).toBe(user.provider)
+		expect(result.type).toBe('general')
 		await User.deleteOne({
 			_id: result._id,
 		})

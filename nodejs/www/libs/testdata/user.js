@@ -53,6 +53,7 @@ export const Users: Array<UserInfoData> = [
 		},
 		__v: 0,
 		date: '2018-05-05T06:57:34.000Z',
+		type: 'general',
 	},
 	{
 		_id: '5aed4fce5e1e7327848a03fc',
@@ -164,6 +165,7 @@ export const Users: Array<UserInfoData> = [
 		},
 		__v: 0,
 		date: '2018-05-05T06:31:42.000Z',
+		type: 'general',
 	},
 	{
 		_id: '5af7a18e37c74efa1be829a4',
@@ -212,6 +214,7 @@ export const Users: Array<UserInfoData> = [
 		},
 		__v: 0,
 		date: '2018-05-15T14:29:48.000Z',
+		type: 'general',
 	},
 	{
 		_id: '5aed4fe95e1e7327848a0408',
@@ -263,5 +266,6 @@ export const Users: Array<UserInfoData> = [
 		},
 		__v: 0,
 		date: '2018-05-05T06:32:21.000Z',
+		type: 'general',
 	},
 ]

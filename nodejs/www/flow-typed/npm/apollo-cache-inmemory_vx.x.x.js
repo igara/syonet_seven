@@ -1,4 +1,4 @@
-// flow-typed signature: 52ab5fa853f84aac09e4f31164e16401
+// flow-typed signature: 54b376c20356480d78427010a87e7d17
 // flow-typed version: <<STUB>>/apollo-cache-inmemory_v^1.2.4/flow_v0.76.0
 
 /**
@@ -66,10 +66,6 @@ declare module 'apollo-cache-inmemory/lib/writeToStore' {
   declare module.exports: any;
 }
 
-declare module 'apollo-cache-inmemory/rollup.config' {
-  declare module.exports: any;
-}
-
 // Filename aliases
 declare module 'apollo-cache-inmemory/lib/bundle.umd.js' {
   declare module.exports: $Exports<'apollo-cache-inmemory/lib/bundle.umd'>;
@@ -103,7 +99,4 @@ declare module 'apollo-cache-inmemory/lib/types.js' {
 }
 declare module 'apollo-cache-inmemory/lib/writeToStore.js' {
   declare module.exports: $Exports<'apollo-cache-inmemory/lib/writeToStore'>;
-}
-declare module 'apollo-cache-inmemory/rollup.config.js' {
-  declare module.exports: $Exports<'apollo-cache-inmemory/rollup.config'>;
 }

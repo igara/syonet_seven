@@ -4,6 +4,10 @@ import mongo from './index'
 const UserSchema = mongo.Schema(
 	{
 		auth: mongo.Schema.Types.Mixed,
+		type: {
+			type: String,
+			default: 'general',
+		},
 	},
 	{ collection: 'users' },
 )

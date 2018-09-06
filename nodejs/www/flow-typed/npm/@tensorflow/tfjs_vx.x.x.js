@@ -1,4 +1,4 @@
-// flow-typed signature: e1eed5bf583a97404c96a9bafdc8ff8a
+// flow-typed signature: dd7ed20b3d9478c181e10f649abdab7e
 // flow-typed version: <<STUB>>/@tensorflow/tfjs_v^0.12.2/flow_v0.76.0
 
 /**
@@ -22,6 +22,18 @@ declare module '@tensorflow/tfjs' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
+declare module '@tensorflow/tfjs/dist-es6/index_test' {
+  declare module.exports: any;
+}
+
+declare module '@tensorflow/tfjs/dist-es6/index' {
+  declare module.exports: any;
+}
+
+declare module '@tensorflow/tfjs/dist-es6/version' {
+  declare module.exports: any;
+}
+
 declare module '@tensorflow/tfjs/dist/index' {
   declare module.exports: any;
 }
@@ -42,11 +54,16 @@ declare module '@tensorflow/tfjs/dist/version' {
   declare module.exports: any;
 }
 
-declare module '@tensorflow/tfjs/rollup.config' {
-  declare module.exports: any;
-}
-
 // Filename aliases
+declare module '@tensorflow/tfjs/dist-es6/index_test.js' {
+  declare module.exports: $Exports<'@tensorflow/tfjs/dist-es6/index_test'>;
+}
+declare module '@tensorflow/tfjs/dist-es6/index.js' {
+  declare module.exports: $Exports<'@tensorflow/tfjs/dist-es6/index'>;
+}
+declare module '@tensorflow/tfjs/dist-es6/version.js' {
+  declare module.exports: $Exports<'@tensorflow/tfjs/dist-es6/version'>;
+}
 declare module '@tensorflow/tfjs/dist/index.js' {
   declare module.exports: $Exports<'@tensorflow/tfjs/dist/index'>;
 }
@@ -61,7 +78,4 @@ declare module '@tensorflow/tfjs/dist/tf.min.js' {
 }
 declare module '@tensorflow/tfjs/dist/version.js' {
   declare module.exports: $Exports<'@tensorflow/tfjs/dist/version'>;
-}
-declare module '@tensorflow/tfjs/rollup.config.js' {
-  declare module.exports: $Exports<'@tensorflow/tfjs/rollup.config'>;
 }

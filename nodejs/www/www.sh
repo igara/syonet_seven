@@ -4,10 +4,11 @@ yarn
 yarn clear
 
 if [ $WWW_ENV = "local" ]; then
-yarn build
+yarn syonet_build
+yarn admin_build
 yarn start
-# yarn local_front_start
 elif [ $WWW_ENV = "production" ]; then
-yarn build
+yarn syonet_build
+yarn admin_build
 yarn start
 fi

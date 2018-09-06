@@ -36,7 +36,7 @@ app.use(
 	}),
 )
 
-const syonetStaticDir = path.join(__dirname, 'dist/prod/syonet')
+const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
 app.use(
@@ -76,7 +76,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(syonetStaticDir))
+app.use(express.static(staticDir))
 
 // graphql
 graphql(app)
@@ -112,9 +112,11 @@ app.use('/auth/twitter', authTwitter)
 app.use('/auth/google', authGoogle)
 app.use('/auth/github', authGithub)
 
-// send all requests to index.html so browserHistory in React Router works
+app.get('/admin/*', (req: express$Request, res: express$Response) => {
+	res.sendFile(path.join(staticDir, 'admin/index.html'))
+})
 app.get('*', (req: express$Request, res: express$Response) => {
-	res.sendFile(path.join(syonetStaticDir, 'index.html'))
+	res.sendFile(path.join(staticDir, 'syonet/index.html'))
 })
 
 // catch 404 and forward to error handler
@@ -141,7 +143,7 @@ app.use(
 		// render the error page
 		// $FlowFixMe
 		res.status(err.status || 500)
-		res.sendFile(path.join(syonetStaticDir, 'index.html'))
+		res.sendFile(path.join(staticDir, 'syonet/index.html'))
 	},
 )
 

@@ -1,17 +1,13 @@
 {
-	"presets": [
-		"env",
-		"stage-0",
-		"stage-3",
-		"react"
-	],
+	"presets": ["env", "stage-0", "stage-3", "react"],
 	"plugins": [
-		["transform-react-jsx", {
-			"pragma": "m"
-		}],
-		["babel-plugin-transform-runtime", {
-			"regenerator": true
-		}],
+		["transform-react-jsx"],
+		[
+			"babel-plugin-transform-runtime",
+			{
+				"regenerator": true
+			}
+		],
 		["transform-flow-strip-types"],
 		["transform-class-properties"]
 	]

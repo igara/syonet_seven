@@ -30,6 +30,7 @@ export type UpsertByAuthUserReturn = {
 			value: string,
 		}>,
 	},
+	type: string,
 }
 
 export type UserInfoData = {
@@ -56,6 +57,7 @@ export type UserInfoData = {
 			value: string,
 		}>,
 	},
+	type: string,
 }
 
 export type GetUserInfoReturn = {
