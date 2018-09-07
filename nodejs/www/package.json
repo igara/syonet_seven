@@ -92,7 +92,7 @@
 		"parcel-plugin-inlinesvg": "^0.0.14",
 		"postcss-import": "^11.1.0",
 		"postcss-modules": "^1.1.0",
-		"postcss-simple-vars": "^4.1.0",
+		"postcss-simple-vars": "^5.0.0",
 		"prettier": "^1.13.7"
 	}
 }
