@@ -47,7 +47,7 @@
 		"passport-github": "^1.1.0",
 		"passport-google-oauth20": "^1.0.0",
 		"passport-twitter": "^1.0.4",
-		"pm2": "^2.10.4",
+		"pm2": "^3.1.0",
 		"react": "^16.4.2",
 		"react-dom": "^16.4.2",
 		"react-redux": "^5.0.7",
