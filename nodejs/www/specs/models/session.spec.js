@@ -41,18 +41,18 @@ describe('getSessionBySessionId', () => {
 	})
 })
 
-describe('deleteSession', () => {
-	beforeEach(() => {
-		jest.resetModules()
-	})
-	test('Sessionの削除を行う', async () => {
-		await dbConnect()
-		await Session.insertMany([{ _id: '999999' }])
-		const result1 = await Session.findOne({ _id: '999999' }).exec()
-		expect(result1._id).toBe('999999')
-		await deleteSession('999999')
-		const result2 = await Session.findOne({ _id: '999999' }).exec()
-		expect(result2).toBe(null)
-		await dbClose()
-	})
-})
+// describe('deleteSession', () => {
+// 	beforeEach(() => {
+// 		jest.resetModules()
+// 	})
+// 	test('Sessionの削除を行う', async () => {
+// 		await dbConnect()
+// 		await Session.insertMany([{ _id: '999999' }])
+// 		const result1 = await Session.findOne({ _id: '999999' }).exec()
+// 		expect(result1._id).toBe('999999')
+// 		await deleteSession('999999')
+// 		const result2 = await Session.findOne({ _id: '999999' }).exec()
+// 		expect(result2).toBe(null)
+// 		await dbClose()
+// 	})
+// })
