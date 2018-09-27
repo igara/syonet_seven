@@ -5,14 +5,22 @@
 
 import { m } from '../statics/mithril'
 
+import type { StoresType } from '../stores'
+
+export type IndexPageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //index/
  */
 export default class IndexPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor

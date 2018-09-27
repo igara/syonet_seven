@@ -2,7 +2,9 @@
 
 import * as tf from '@tensorflow/tfjs'
 
-export const save = async (Stores: Stores) => {
+import type { StoresType } from '../stores'
+
+export const save = async (Stores: StoresType) => {
 	const category = Stores.AnalyzeImageSaveStore.Category()
 
 	const imagesRGBs = []
@@ -113,7 +115,7 @@ export const load = async (modelJsonUrl: string) => {
 	return model
 }
 
-export const exec = async (Stores: Stores, imageData: ImageData) => {
+export const exec = async (Stores: StoresType, imageData: ImageData) => {
 	const model = Stores.AnalyzeImageLoadStore.Model()
 	console.log(model)
 	const example = tf.fromPixels(imageData)

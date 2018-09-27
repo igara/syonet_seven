@@ -9,11 +9,21 @@ import FooterComponent from './footer'
 import SidebarComponent from './sidebar'
 import { ContentStyle } from '../../statics/styles'
 
+import type { StoresType } from '../../stores'
+
+export type WrapperComponentVnode = {
+	Stores: StoresType,
+	ChildComponent: Object,
+	HeaderTitle: string,
+	Auth?: boolean,
+	attrs?: Object,
+}
+
 /**
  * 共通のレイアウトを出力する
  */
 export default class WrapperComponent {
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {Mithril} ChildComponent

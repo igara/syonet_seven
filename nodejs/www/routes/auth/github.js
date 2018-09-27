@@ -6,6 +6,7 @@ import { Strategy as GithubStrategy } from 'passport-github'
 import passport from 'passport'
 import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
+import type { UserModelType } from '../../models/user'
 
 const router = express.Router()
 
@@ -46,7 +47,7 @@ router.get('/', passport.authenticate('github'))
 export const github = async (req: express$Request, res: express$Response) => {
 	try {
 		await dbConnect()
-		const userModel = new User()
+		const userModel: UserModelType = new User()
 		await userModel.upsertByAuthUser(req.user)
 		res.redirect('/login/check/')
 	} catch (error) {

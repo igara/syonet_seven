@@ -51,8 +51,7 @@ app.use(
 				'Access-Control-Allow-Methods',
 				req.get('access-control-request-Method'),
 			)
-			res.send()
-			return
+			return res.send()
 		}
 		next()
 	},

@@ -1,5 +1,5 @@
-// flow-typed signature: 2cc0769b661064b1ba797c33f9c3233b
-// flow-typed version: 6f5d5940e2/mongoose_v5.x.x/flow_>=v0.50.x
+// flow-typed signature: ef9d0868c946f297eb07d33a0cce25d7
+// flow-typed version: 511b983940/mongoose_v5.x.x/flow_>=v0.50.x
 
 /*** FIX broken globals import 'bson' (((( ***/
 // import 'bson';
@@ -546,7 +546,7 @@ type ConnectionEventTypes = "error" | "open" | "disconnected" | string;
 declare class Mongoose$Connection {
   constructor(): this;
   close(): Promise<any>;
-  connect(uri: string, opts?: ConnectionConnectOpts): void;
+  connect(uri: string, opts?: ConnectionConnectOpts, fn?: (error: any) => void): Promise<Mongoose$Connection>;
   openUri(uri: string, opts?: ConnectionConnectOpts): void;
   model<Doc>(
     name: string | Doc,
@@ -597,7 +597,7 @@ declare module "mongoose" {
     model: $PropertyType<Mongoose$Connection, "model">,
     createConnection(uri?: string, options?: Object): Mongoose$Connection,
     set: (key: string, value: string | Function | boolean) => void,
-    connect: (uri: string, options?: Object) => void,
+    connect: (uri: string, options?: ConnectionConnectOpts, fn?: (error: any) => void) => Promise<Mongoose$Connection>,
     connection: Mongoose$Connection,
     connections: Mongoose$Connection[],
     Query: typeof Mongoose$Query,

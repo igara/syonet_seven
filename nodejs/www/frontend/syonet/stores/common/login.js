@@ -2,6 +2,13 @@
 
 import { stream } from '../../statics/mithril'
 
+export type LoginStoreType = {
+	LoginStore: {
+		Status: (?number) => number,
+		User: (?Object | ?string) => Object,
+	},
+}
+
 /**
  * ログイン状態を管理
  */

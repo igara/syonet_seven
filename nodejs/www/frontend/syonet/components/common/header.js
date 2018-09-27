@@ -7,14 +7,22 @@ import { m } from '../../statics/mithril'
 import { HeaderStyle, IconStyle } from '../../statics/styles'
 import syonetSvg from '../../images/syonet.svg'
 
+import type { StoresType } from '../../stores'
+
+export type HeaderComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * ヘッダーを表示するコンポーネント
  */
 export default class HeaderComponent {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor

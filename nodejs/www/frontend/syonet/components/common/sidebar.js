@@ -9,11 +9,24 @@ import SidebarAction from '../../actions/common/sidebar'
 import { sleep } from '../../../../libs/sleep'
 import TermComponent from './term'
 
+import type { StoresType } from '../../stores'
+
+export type SidebarComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+	dom: {
+		classList: {
+			add: Object => void,
+		},
+	},
+}
+
 /**
  * サイドバーを表示するコンポーネント
  */
 export default class SidebarComponent {
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {SidebarAction} SidebarAction

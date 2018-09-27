@@ -11,14 +11,22 @@ import AnalyzeImageSaveAction from '../../../actions/analyze_image/save'
 import { AnalyzeImageSaveStyle, TextStyle } from '../../../statics/styles'
 import closeSvg from '../../../images/close.svg'
 
+import type { StoresType } from '../../../stores'
+
+export type AnalyzeImageSavePageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //tools/analyze_image/save
  */
 export default class AnalyzeImageSavePage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {AnalyzeImageSaveAction} AnalyzeImageSaveAction

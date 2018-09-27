@@ -2,16 +2,18 @@
 
 import { callLoginCheck } from '../fetchs/login'
 
+import type { StoresType } from '../stores'
+
 /**
  * ログインチェックのアクション
  */
 export default class LoginCheckAction {
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

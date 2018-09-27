@@ -1,14 +1,16 @@
 // @flow
 import { save } from '../../tensorflow/image'
 
+import type { StoresType } from '../../stores'
+
 /**
  * 画像認識画面のアクション
  */
 export default class AnalyzeImageSaveAction {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	MAX_SIZE = 128
 	ACCURACY = 1
@@ -16,7 +18,7 @@ export default class AnalyzeImageSaveAction {
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

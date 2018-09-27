@@ -7,14 +7,22 @@ import { m } from '../../../statics/mithril'
 import AnalyzeImageListAction from '../../../actions/analyze_image/list'
 import Button from '../../../components/common/input/button'
 
+import type { StoresType } from '../../../stores'
+
+export type AnalyzeImageListPageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //tools/analyze_image/
  */
 export default class AnalyzeImageListPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {AnalyzeImageListAction} AnalyzeImageListAction

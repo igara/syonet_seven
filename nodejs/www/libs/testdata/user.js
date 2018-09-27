@@ -1,5 +1,7 @@
 // @flow
 
+import type { UserInfoData } from '../../models/user'
+
 export const Users: Array<UserInfoData> = [
 	{
 		_id: '5aed55de759258017268621c',

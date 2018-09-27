@@ -2,19 +2,23 @@
 
 import { sleep } from '../../../../libs/sleep'
 
+import type { StoresType } from '../../stores'
+
+export type AnalyzeImageListActionType = {}
+
 /**
  * 一覧画面のアクション
  */
 export default class AnalyzeImageListAction {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

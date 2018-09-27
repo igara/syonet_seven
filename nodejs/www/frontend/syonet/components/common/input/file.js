@@ -6,14 +6,26 @@
 import { m } from '../../../statics/mithril'
 import { ButtonStyle } from '../../../statics/styles'
 
+import type { StoresType } from '../../../stores'
+
+export type FileComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+		OnInputHandler: Function,
+		Multiple: boolean,
+		Key: string,
+		Accept: string,
+	},
+}
+
 /**
  * ファイル入力を表示するコンポーネント
  */
 export default class FileComponent {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * propsで渡されてきた入力フォームの変更時のイベントハンドラ

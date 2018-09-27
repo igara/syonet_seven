@@ -1,18 +1,20 @@
 // @flow
 
+import type { StoresType } from '../../stores'
+
 /**
  * 利用規約のアクション
  */
 export default class TermAction {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

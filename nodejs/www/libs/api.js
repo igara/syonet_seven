@@ -3,6 +3,12 @@
 import { getEnvByHostname } from './env'
 import Cookies from '../frontend/syonet/statics/js_cookie'
 
+export type APICallParamOption = {
+	body: Object,
+	method: string,
+	url: string,
+}
+
 /**
  * Apiを叩く時のホスト名を取得する
  */

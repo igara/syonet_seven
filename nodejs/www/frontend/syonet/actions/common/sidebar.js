@@ -4,20 +4,22 @@ import { sleep } from '../../../../libs/sleep'
 import { callLogout } from '../../fetchs/login'
 import Cookies from '../../statics/js_cookie'
 
+import type { StoresType } from '../../stores'
+
 /**
  * サイドバーのアクション
  */
 export default class SidebarAction {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor
-	 * @param {Stores} Stores
+	 * @param {StoresType} Stores
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

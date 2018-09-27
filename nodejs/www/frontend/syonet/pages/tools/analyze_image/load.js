@@ -10,14 +10,23 @@ import File from '../../../components/common/input/file'
 import Button from '../../../components/common/input/button'
 import closeSvg from '../../../images/close.svg'
 
+import type { StoresType } from '../../../stores'
+
+export type AnalyzeImageLoadPageVnode = {
+	attrs: {
+		Stores: StoresType,
+		sha: string,
+	},
+}
+
 /**
  * Routing URL: //tools/analyze_image/load/${sha}
  */
 export default class AnalyzeImageLoadPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {AnalyzeImageLoadAction} AnalyzeImageLoadAction
@@ -58,7 +67,10 @@ export default class AnalyzeImageLoadPage {
 				typeof modelData !== 'undefined' &&
 				modelData !== null ? (
 					<div>
-						<div>{modelData.name}モデルの読み込み完了しました。</div>
+						<div>
+							{modelData.name}
+							モデルの読み込み完了しました。
+						</div>
 						<File
 							Stores={this.Stores}
 							OnInputHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>

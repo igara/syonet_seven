@@ -3,7 +3,12 @@
 import express from 'express'
 import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
+import type { UserModelType, GetUserInfoReturn } from '../../models/user'
 import Session from '../../models/session'
+import type {
+	SessionModelType,
+	GetSessionBySessionIdReturn,
+} from '../../models/session'
 
 const router = express.Router()
 
@@ -19,7 +24,7 @@ export const authCheck = async (
 		const token = req.headers['token']
 		if (typeof token === 'undefined' || token === null || token === '') {
 			res.status(401)
-			res.send({
+			return res.send({
 				status: 401,
 				message: 'NG',
 			})
@@ -27,14 +32,18 @@ export const authCheck = async (
 		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
 
 		await dbConnect()
-		const sessionModel = new Session()
-		const session = await sessionModel.getSessionBySessionId(sessionId)
+		const sessionModel: SessionModelType = new Session()
+		const session: GetSessionBySessionIdReturn = await sessionModel.getSessionBySessionId(
+			sessionId,
+		)
 		if (
 			typeof session.session.passport === 'undefined' ||
-			session.session.passport === null
+			session.session.passport === null ||
+			typeof session.session.passport.user === 'undefined' ||
+			session.session.passport.user === null
 		) {
 			res.status(401)
-			res.send({
+			return res.send({
 				status: 401,
 				message: 'NG',
 			})
@@ -48,13 +57,13 @@ export const authCheck = async (
 		)
 		if (typeof userInfo === 'undefined' || userInfo === null) {
 			res.status(401)
-			res.send({
+			return res.send({
 				status: 401,
 				message: 'NG',
 			})
 		}
 		res.status(200)
-		res.send({
+		return res.send({
 			status: 200,
 			message: 'OK',
 			user: userInfo,
@@ -62,7 +71,7 @@ export const authCheck = async (
 	} catch (error) {
 		console.error(error)
 		res.status(500)
-		res.send({
+		return res.send({
 			status: 500,
 			message: 'NG',
 		})
@@ -89,7 +98,7 @@ export const authDelete = async (
 			sessionId === ''
 		) {
 			res.status(401)
-			res.send({
+			return res.send({
 				status: 401,
 				message: 'NG',
 			})
@@ -105,20 +114,20 @@ export const authDelete = async (
 			result.ok === 0
 		) {
 			res.status(401)
-			res.send({
+			return res.send({
 				status: 401,
 				message: 'NG',
 			})
 		}
 		res.status(200)
-		res.send({
+		return res.send({
 			status: 200,
 			message: 'OK',
 		})
 	} catch (error) {
 		console.error(error)
 		res.status(500)
-		res.send({
+		return res.send({
 			status: 500,
 			message: 'NG',
 		})

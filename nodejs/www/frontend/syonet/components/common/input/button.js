@@ -6,14 +6,25 @@
 import { m } from '../../../statics/mithril'
 import { ButtonStyle } from '../../../statics/styles'
 
+import type { StoresType } from '../../../stores'
+
+export type ButtonComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+		OnClickHandler: Function,
+		Href: string,
+	},
+	children: React.Node,
+}
+
 /**
  * ボタンを表示するコンポーネント
  */
 export default class ButtonComponent {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * propsで渡されてきた押下時のイベントハンドラ

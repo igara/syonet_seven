@@ -7,14 +7,22 @@ import { m } from '../statics/mithril'
 import { getApiHost } from '../../../libs/api'
 import Button from '../components/common/input/button'
 
+import type { StoresType } from '../stores'
+
+export type LoginPageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //login/
  */
 export default class LoginPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor

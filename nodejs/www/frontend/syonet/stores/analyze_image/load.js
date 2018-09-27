@@ -2,6 +2,14 @@
 
 import { stream } from '../../statics/mithril'
 
+export type AnalyzeImageLoadStoreType = {
+	AnalyzeImageLoadStore: {
+		Model: (?Object) => Object,
+		ImageUrl: (url?: string) => string,
+		File: (file?: File) => File,
+	},
+}
+
 /**
  * 画像解析情報
  */

@@ -7,14 +7,22 @@ import { m } from '../../statics/mithril'
 import FooterAction from '../../actions/common/footer'
 import { FooterStyle, IconStyle } from '../../statics/styles'
 
+import type { StoresType } from '../../stores'
+
+export type FooterComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * フッダーを表示するコンポーネント
  */
 export default class FooterComponent {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {FooterAction} FooterAction

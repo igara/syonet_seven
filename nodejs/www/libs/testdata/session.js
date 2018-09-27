@@ -1,5 +1,7 @@
 // @flow
 
+import type { SessionInfoData } from '../../models/session'
+
 export const Sessions: Array<SessionInfoData> = [
 	{
 		_id: '1111111111111',

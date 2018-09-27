@@ -6,6 +6,8 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import passport from 'passport'
 import { dbConnect, dbClose } from '../../models'
 import User from '../../models/user'
+import type { UserModelType } from '../../models/user'
+
 const router = express.Router()
 
 /**
@@ -52,7 +54,7 @@ router.get(
 export const google = async (req: express$Request, res: express$Response) => {
 	try {
 		await dbConnect()
-		const userModel = new User()
+		const userModel: UserModelType = new User()
 		await userModel.upsertByAuthUser(req.user)
 		res.redirect('/login/check/')
 	} catch (error) {

@@ -6,14 +6,22 @@
 import { m } from '../statics/mithril'
 import LoginCheckAction from '../actions/login_check'
 
+import type { StoresType } from '../stores'
+
+export type LoginCheckPageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //login/check
  */
 export default class LoginCheckPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {LoginCheckAction} LoginCheckAction

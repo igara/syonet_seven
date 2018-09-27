@@ -4,21 +4,25 @@ import { callAnalyzeImageModel } from '../../fetchs/github'
 
 import { load, exec } from '../../tensorflow/image'
 
+import type { StoresType } from '../../stores'
+
+export type AnalyzeImageLoadActionType = {}
+
 /**
  * 解析画面のアクション
  */
 export default class AnalyzeImageLoadAction {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	MAX_SIZE = 128
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

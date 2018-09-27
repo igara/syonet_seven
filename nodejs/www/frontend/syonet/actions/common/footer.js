@@ -1,15 +1,17 @@
 // @flow
 
+import type { StoresType } from '../../stores'
+
 /**
  * フッダーのアクション
  */
 export default class FooterAction {
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor
 	 */
-	constructor(Stores: Stores) {
+	constructor(Stores: StoresType) {
 		this.Stores = Stores
 	}
 

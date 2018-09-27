@@ -5,14 +5,22 @@
 
 import { m } from '../statics/mithril'
 
+import type { StoresType } from '../stores'
+
+export type NotFoundPageVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+}
+
 /**
  * Routing URL: //:any
  */
 export default class NotFoundPage {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @constructor

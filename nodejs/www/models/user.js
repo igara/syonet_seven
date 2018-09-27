@@ -1,6 +1,78 @@
 // @flow
 import mongo from './index'
 
+import mongoose from 'mongoose'
+type IndexModelType = mongoose
+
+export type UpsertByAuthUserParam = {
+	id: string | number,
+	provider: string,
+}
+
+export type UpsertByAuthUserReturn = {
+	_id: string,
+	auth: {
+		id: string,
+		username?: ?string,
+		provider: string,
+		displayName: string,
+		name?: ?{
+			familyName: string,
+			givenName: string,
+		},
+		emails?: ?Array<{
+			value: string,
+			type?: ?string,
+		}>,
+		_json: {
+			image?: {
+				url: string,
+			},
+		},
+		photos: Array<{
+			value: string,
+		}>,
+	},
+	type: string,
+}
+
+export type UserInfoData = {
+	_id: string,
+	auth: {
+		id: string,
+		username?: ?string,
+		provider: string,
+		displayName: string,
+		name?: ?{
+			familyName: string,
+			givenName: string,
+		},
+		emails?: ?Array<{
+			value: string,
+			type?: ?string,
+		}>,
+		_json: {
+			image?: {
+				url: string,
+			},
+		},
+		photos: Array<{
+			value: string,
+		}>,
+	},
+	type: string,
+}
+
+export type GetUserInfoReturn = {
+	displayName: string,
+	image: string,
+}
+
+export type UserModelType = IndexModelType & {
+	upsertByAuthUser: UpsertByAuthUserParam => Promise<UpsertByAuthUserReturn>,
+	getUserInfo: (string, string) => Promise<GetUserInfoReturn>,
+}
+
 const UserSchema = mongo.Schema(
 	{
 		auth: mongo.Schema.Types.Mixed,
@@ -23,7 +95,7 @@ export const upsertByAuthUser = async (
 	await User.update(
 		{ 'auth.id': user.id, 'auth.provider': user.provider },
 		{ $set: { auth: user } },
-		{ upsert: true },
+		{ upsert: true, setDefaultsOnInsert: true },
 	)
 	const findResult = await User.findOne({
 		'auth.id': user.id,

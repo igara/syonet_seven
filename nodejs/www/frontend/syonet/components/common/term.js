@@ -9,14 +9,27 @@ import TermAction from '../../actions/common/term'
 import { sleep } from '../../../../libs/sleep'
 import Button from './input/button'
 
+import type { StoresType } from '../../stores'
+
+export type TermComponentVnode = {
+	attrs: {
+		Stores: StoresType,
+	},
+	dom: {
+		classList: {
+			add: Object => void,
+		},
+	},
+}
+
 /**
  * 利用規約を表示するコンポーネント
  */
 export default class TermComponent {
 	/**
-	 * @type {Stores} Stores
+	 * @type {StoresType} Stores
 	 */
-	Stores: Stores
+	Stores: StoresType
 
 	/**
 	 * @type {TermAction} TermAction
