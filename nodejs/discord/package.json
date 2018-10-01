@@ -10,7 +10,7 @@
 		"babel-eslint": "^8.2.1",
 		"eslint": "^5.0.0",
 		"eslint-config-prettier": "^2.9.0",
-		"eslint-plugin-prettier": "^2.6.0",
+		"eslint-plugin-prettier": "^3.0.0",
 		"prettier": "^1.13.5"
 	},
 	"scripts": {
