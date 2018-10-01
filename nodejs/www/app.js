@@ -20,6 +20,8 @@ import mongoose from './models'
 // API・Page Import
 import authApi from './routes/api/auth'
 import userApi from './routes/api/user'
+import adminStatic from './routes/admin_static'
+import admin from './routes/admin'
 import authFacebook from './routes/auth/facebook'
 import authTwitter from './routes/auth/twitter'
 import authGoogle from './routes/auth/google'
@@ -75,6 +77,8 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+
+app.use('/admin', adminStatic)
 app.use(express.static(staticDir))
 
 // graphql
@@ -110,12 +114,10 @@ app.use('/auth/facebook', authFacebook)
 app.use('/auth/twitter', authTwitter)
 app.use('/auth/google', authGoogle)
 app.use('/auth/github', authGithub)
+app.use('/manage', admin)
 
-app.get('/admin/*', (req: express$Request, res: express$Response) => {
-	res.sendFile(path.join(staticDir, 'admin/index.html'))
-})
 app.get('*', (req: express$Request, res: express$Response) => {
-	res.sendFile(path.join(staticDir, 'syonet/index.html'))
+	return res.sendFile(path.join(staticDir, 'syonet/index.html'))
 })
 
 // catch 404 and forward to error handler
@@ -142,7 +144,7 @@ app.use(
 		// render the error page
 		// $FlowFixMe
 		res.status(err.status || 500)
-		res.sendFile(path.join(staticDir, 'syonet/index.html'))
+		return res.sendFile(path.join(staticDir, 'syonet/index.html'))
 	},
 )
 

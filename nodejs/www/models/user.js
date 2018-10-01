@@ -71,6 +71,7 @@ export type GetUserInfoReturn = {
 export type UserModelType = IndexModelType & {
 	upsertByAuthUser: UpsertByAuthUserParam => Promise<UpsertByAuthUserReturn>,
 	getUserInfo: (string, string) => Promise<GetUserInfoReturn>,
+	getIsAdmin: (string, string) => Promise<boolean>,
 }
 
 const UserSchema = mongo.Schema(
@@ -135,6 +136,36 @@ export const getUserInfo = async (
 }
 
 UserSchema.methods.getUserInfo = getUserInfo
+
+/**
+ * 認証したユーザから管理者であるかを取得する
+ * @param {String} id
+ * @param {String} provider
+ * @return {Promise<boolean>}
+ */
+export const getIsAdmin = async (
+	id: string,
+	provider: string,
+): Promise<boolean> => {
+	const user: UserInfoData = await User.findOne({
+		'auth.id': id,
+		'auth.provider': provider,
+	}).exec()
+	if (
+		typeof user === 'undefined' ||
+		user === null ||
+		typeof user.auth === 'undefined' ||
+		user.auth === null
+	) {
+		return false
+	}
+	if (user.type === 'admin') {
+		return true
+	}
+	return false
+}
+
+UserSchema.methods.getIsAdmin = getIsAdmin
 
 const User: UserModelType = mongo.model('User', UserSchema)
 export default User

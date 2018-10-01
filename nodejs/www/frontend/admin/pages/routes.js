@@ -16,7 +16,7 @@ const mapStateToProps = state => {
 const Routes = () => {
 	return (
 		<BrowserRouter>
-			<Route exact path="/admin" component={Home} />
+			<Route exact path="/manage" component={Home} />
 		</BrowserRouter>
 	)
 }
