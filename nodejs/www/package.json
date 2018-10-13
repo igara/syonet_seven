@@ -79,7 +79,7 @@
 		"create-react-app": "^1.5.2",
 		"eslint": "^5.0.0",
 		"eslint-config-prettier": "^2.9.0",
-		"eslint-plugin-flowtype": "^2.50.0",
+		"eslint-plugin-flowtype": "^3.0.0",
 		"eslint-plugin-jest": "^21.17.0",
 		"eslint-plugin-prettier": "^2.6.2",
 		"eslint-plugin-react": "^7.9.1",
