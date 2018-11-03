@@ -4,7 +4,7 @@ import { getEnvByHostname } from './env'
 import Cookies from '../frontend/syonet/statics/js_cookie'
 
 export type APICallParamOption = {
-	body: Object,
+	body: ?Object,
 	method: string,
 	url: string,
 }
@@ -32,9 +32,10 @@ export const getApiHost = (): string => {
  */
 export const call = async ({ url, body, method }: APICallParamOption) => {
 	const sessionId = Cookies.get('connect.sid')
+	const bodyString = body ? JSON.stringify(body) : null
 	if (sessionId) {
 		return await fetch(url, {
-			body: JSON.stringify(body),
+			body: bodyString,
 			cache: 'no-cache',
 			credentials: 'same-origin',
 			headers: {
@@ -47,7 +48,7 @@ export const call = async ({ url, body, method }: APICallParamOption) => {
 		})
 	}
 	return await fetch(url, {
-		body: JSON.stringify(body),
+		body: bodyString,
 		cache: 'no-cache',
 		credentials: 'same-origin',
 		headers: {

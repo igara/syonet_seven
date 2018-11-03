@@ -2,7 +2,7 @@
 
 /**
  * 解析データ一覧の取得
- * @param {{}} json
+ * @return {{}} json
  */
 export const callAnalyzeImageList = async () => {
 	const result = await fetch(
@@ -20,7 +20,7 @@ export const callAnalyzeImageList = async () => {
 
 /**
  * 解析データの取得
- * @param {{}} json
+ * @return {{}} json
  */
 export const callAnalyzeImageModel = async (modelDir: string) => {
 	const result = await fetch(

@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 type State = {}
@@ -12,8 +13,8 @@ class Admin extends React.Component<Props, State> {
 	render() {
 		return (
 			<div>
-				<h2>Home</h2>
-				<p>Welcome to ようこそ</p>
+				<h1>管理画面</h1>
+				<Link to="/manage/user">User一覧</Link>
 			</div>
 		)
 	}

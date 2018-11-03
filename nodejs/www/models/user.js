@@ -167,5 +167,30 @@ export const getIsAdmin = async (
 
 UserSchema.methods.getIsAdmin = getIsAdmin
 
+/**
+ * @return {Promise<number>}
+ */
+export const getUserCount = async (): Promise<number> => {
+	const count: number = await User.count()
+	return count
+}
+
+UserSchema.methods.getUserCount = getUserCount
+
+/**
+ * @return {Promise<Array<UserInfoData>>}
+ */
+export const getUserList = async (
+	offset: string | number,
+	limit: string | number,
+): Promise<Array<UserInfoData>> => {
+	const userList: Array<UserInfoData> = await User.find({})
+		.skip(offset)
+		.limit(limit)
+	return userList
+}
+
+UserSchema.methods.getUserList = getUserList
+
 const User: UserModelType = mongo.model('User', UserSchema)
 export default User

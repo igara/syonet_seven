@@ -1,12 +1,12 @@
 {
-	// See http://go.microsoft.com/fwlink/?LinkId=827846
-	// for the documentation about the extensions.json format
-	"recommendations": [
-		// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
-		"EditorConfig.editorconfig",
-		"dbaeumer.vscode-eslint",
-		"flowtype.flow-for-vscode",
-		"gcazaciuc.vscode-flow-ide",
-		"esbenp.prettier-vscode"
-	]
+  // See http://go.microsoft.com/fwlink/?LinkId=827846
+  // for the documentation about the extensions.json format
+  "recommendations": [
+    // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+    "EditorConfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "flowtype.flow-for-vscode",
+    "esbenp.prettier-vscode",
+    "jpoissonnier.vscode-styled-components"
+  ]
 }

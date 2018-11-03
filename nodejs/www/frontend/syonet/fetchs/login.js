@@ -4,7 +4,7 @@ import { call, getApiHost } from '../../../libs/api'
 
 /**
  * ログインチェックを行う
- * @param {{}} json
+ * @return {{}} json
  */
 export const callLoginCheck = async () => {
 	const result = await call({
@@ -18,7 +18,7 @@ export const callLoginCheck = async () => {
 
 /**
  * ログアウトを行う
- * @param {{}} json
+ * @return {{}} json
  */
 export const callLogout = async () => {
 	const result = await call({
