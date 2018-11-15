@@ -44,6 +44,7 @@ export default class IndexPage {
 					allowTransparency="true"
 					frameBorder="0"
 				/>
+				またこのページはオフラインでも見れます。たまに左下の三表示からキャッシュを削除してご利用ください。
 			</div>
 		)
 	}
