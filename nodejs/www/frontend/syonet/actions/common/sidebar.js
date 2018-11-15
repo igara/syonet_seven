@@ -90,4 +90,29 @@ export default class SidebarAction {
 		await sleep(1000)
 		m.route.set(pathname)
 	}
+
+	/**
+	 * キャッシュクリアを押下した時
+	 * @param {Mithril} m
+	 * @param {Event} event
+	 */
+	async onClickCacheClear() {
+		if (typeof navigator.serviceWorker !== 'undefined') {
+			const registrations = await navigator.serviceWorker.getRegistrations()
+			// 登録されているworkerを全て削除する
+			registrations.forEach(registration => {
+				registration.unregister()
+			})
+			caches.keys().then(keys => {
+				let promises = []
+				// キャッシュストレージを全て削除する
+				keys.forEach(cacheName => {
+					if (cacheName) {
+						promises.push(caches.delete(cacheName))
+					}
+				})
+			})
+			location.reload()
+		}
+	}
 }

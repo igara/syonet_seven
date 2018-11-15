@@ -12,6 +12,7 @@
 		"syonet_build": "parcel build frontend/syonet/index.html -d dist/prod/syonet --public-url /syonet",
 		"admin_build": "parcel build frontend/admin/index.html -d dist/prod/admin --public-url /admin",
 		"lint": "eslint ./*",
+		"local_syonet_sw_start": "parcel frontend/syonet/index.html -d dist/local/syonet -p 1111",
 		"local_syonet_start": "parcel --https frontend/syonet/index.html -d dist/local/syonet -p 1111",
 		"local_admin_start": "parcel --https frontend/admin/index.html -d dist/local/admin -p 1112",
 		"flow": "flow",
@@ -90,9 +91,13 @@
 		"jest-environment-jsdom-global": "^1.1.0",
 		"parcel-bundler": "^1.9.7",
 		"parcel-plugin-inlinesvg": "^0.0.14",
+		"parcel-plugin-sw-precache": "^1.0.2",
 		"postcss-import": "^11.1.0",
 		"postcss-modules": "^1.1.0",
 		"postcss-simple-vars": "^4.1.0",
 		"prettier": "^1.13.7"
+	},
+	"sw-precache": {
+		"maximumFileSizeToCacheInBytes": 10485760
 	}
 }

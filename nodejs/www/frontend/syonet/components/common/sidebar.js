@@ -111,6 +111,12 @@ export default class SidebarComponent {
 							GitHub
 						</a>
 					</li>
+					<li
+						class={SidebarStyle.sidebar_link_list}
+						onclick={() => this.SidebarAction.onClickCacheClear()}
+					>
+						<a>キャッシュクリア</a>
+					</li>
 				</ul>
 				<button
 					class={IconStyle.Close.close_icon}

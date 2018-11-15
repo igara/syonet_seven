@@ -118,6 +118,10 @@ app.use('/auth/google', authGoogle)
 app.use('/auth/github', authGithub)
 app.use('/manage', admin)
 
+app.get('/service-worker.js', (req: express$Request, res: express$Response) => {
+	return res.sendFile(path.join(staticDir, 'syonet/service-worker.js'))
+})
+
 app.get('*', (req: express$Request, res: express$Response) => {
 	return res.sendFile(path.join(staticDir, 'syonet/index.html'))
 })

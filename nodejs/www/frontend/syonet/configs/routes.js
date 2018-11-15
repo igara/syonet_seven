@@ -43,7 +43,10 @@ const setAnalyzeImageList = async () => {
 }
 
 export default async () => {
-	await Promise.all([checkAuth(), setAnalyzeImageList()])
+	await Promise.all([
+		checkAuth().catch(console.error),
+		setAnalyzeImageList().catch(console.error),
+	])
 	const routes = {
 		'/': new WrapperComponent({
 			Stores,
