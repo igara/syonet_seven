@@ -44,7 +44,7 @@ export default class AnalyzeImageLoadAction {
 		m: mithril,
 	) {
 		const files: FileList = event.target.files
-		if (typeof files === 'undefined' || files === null || files === '') {
+		if (typeof files === 'undefined' || files === null) {
 			return
 		}
 

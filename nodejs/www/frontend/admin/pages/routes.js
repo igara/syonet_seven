@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Home from './admin'
@@ -25,10 +24,6 @@ injectGlobal`
   }
 `
 
-const mapStateToProps = state => {
-	return {}
-}
-
 const Routes = () => {
 	return (
 		<BrowserRouter>
@@ -40,4 +35,4 @@ const Routes = () => {
 	)
 }
 
-export default connect(mapStateToProps)(Routes)
+export default Routes
