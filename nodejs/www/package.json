@@ -4,8 +4,7 @@
 	"private": true,
 	"scripts": {
 		"start": "pm2 --no-daemon start pm2.json",
-		"server": "node -r babel-register ./bin/www.js",
-		"server_debug": "node --inspect=0.0.0.0:9229 -r babel-register ./bin/www.js",
+		"server": "babel-node ./bin/www.js",
 		"server_prod": "pm2 --no-daemon start npm -- server",
 		"stop": "pm2 stop www",
 		"pm2": "pm2",
@@ -19,7 +18,7 @@
 		"test": "jest --detectOpenHandles --forceExit",
 		"clear": "jest --clearCache && rm -rf .cache dist",
 		"coverage": "jest --coverage --detectOpenHandles --forceExit",
-		"testdata": "TEST=test node -r babel-register libs/testdata.js"
+		"testdata": "TEST=test babel-node libs/testdata.js"
 	},
 	"dependencies": {
 		"@tensorflow/tfjs": "^0.12.2",
@@ -53,11 +52,13 @@
 		"react-dom": "^16.6.3",
 		"react-router-dom": "^4.3.1",
 		"serve-favicon": "~2.5.0",
-		"styled-components": "^3.4.5"
+		"styled-components": "^3.4.5",
+		"web-push": "^3.3.3"
 	},
 	"devDependencies": {
 		"@types/mithril": "^1.1.12",
 		"autoprefixer": "^8.6.5",
+		"babel-cli": "^6.26.0",
 		"babel-core": "^6.26.3",
 		"babel-eslint": "^10.0.1",
 		"babel-jest": "^23.6.0",
@@ -70,7 +71,6 @@
 		"babel-preset-react": "^6.24.1",
 		"babel-preset-stage-0": "^6.24.1",
 		"babel-preset-stage-3": "^6.24.1",
-		"babel-register": "^6.26.0",
 		"babel-runtime": "^6.26.0",
 		"codeclimate-test-reporter": "^0.5.0",
 		"eslint": "^5.9.0",

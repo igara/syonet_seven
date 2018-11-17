@@ -1,10 +1,10 @@
 {
-	"apps": [
-		{
-			"name": "www",
-			"script": "node",
-			"args" : "--inspect=0.0.0.0:9229 -r babel-register ./bin/www.js",
-			"watch": true
-		}
-	]
+  "apps": [
+    {
+      "name": "www",
+      "script": "babel-node",
+      "args": "./bin/www.js",
+      "watch": true
+    }
+  ]
 }
