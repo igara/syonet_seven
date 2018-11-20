@@ -84,9 +84,10 @@ client.on("message", message => {
           const body = weppushContent[1];
 
           await dbConnect();
+          const notificationModel = new Notification();
           const notifications: Array<
             GetNotificationInfoReturn
-          > = await Notification.getNotificationList();
+          > = await notificationModel.getNotificationList();
           await Promise.all(
             notifications.map(notification => {
               const subscription = {
