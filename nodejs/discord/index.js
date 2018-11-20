@@ -87,30 +87,34 @@ client.on("message", message => {
           const notifications: Array<
             GetNotificationInfoReturn
           > = await Notification.getNotificationList();
-          await Promise.all(notifications.map(notification => {
-			  notification.
-			  const subscription = {
-				endpoint: notification.endpoint,
-				keys: {
-				  auth: notification.auth,
-				  p256dh: notification.p256dh,
-				}
-			  };
-	
-			  // プッシュ通知で送信したい任意のデータ
-			  const payload = JSON.stringify({
-				title,
-				body,
-				icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-				url: `https://${process.env.WWW_DOMAIN}`
-			  });
-	
-			  // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
-			  webpush
-				.sendNotification(subscription, payload)
-				.then()
-				.catch(console.error);
-		  })).then(console.log).catch(console.error)
+          await Promise.all(
+            notifications.map(notification => {
+              const subscription = {
+                endpoint: notification.endpoint,
+                keys: {
+                  auth: notification.auth,
+                  p256dh: notification.p256dh
+                }
+              };
+
+              // プッシュ通知で送信したい任意のデータ
+              const payload = JSON.stringify({
+                title,
+                body,
+                icon:
+                  "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+                url: `https://${process.env.WWW_DOMAIN}`
+              });
+
+              // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
+              webpush
+                .sendNotification(subscription, payload)
+                .then()
+                .catch(console.error);
+            })
+          )
+            .then(console.log)
+            .catch(console.error);
         })
         .catch(console.error);
     } else {
