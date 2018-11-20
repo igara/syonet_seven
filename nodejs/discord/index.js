@@ -25,7 +25,7 @@ const vapidKeys = {
 webpush.setVapidDetails(contact, vapidKeys.publicKey, vapidKeys.privateKey);
 
 // 準備完了イベントのconsole.logで通知黒い画面に出る。
-client.on("ready", async () => {
+client.on("ready", () => {
   const result = child_process.execSync(`
 	curl -H "Accept: application/json" \
 	-H "Content-type: application/json" \
