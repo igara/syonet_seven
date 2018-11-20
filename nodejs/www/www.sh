@@ -10,5 +10,5 @@ yarn server_dev
 elif [ $WWW_ENV = "production" ]; then
 yarn syonet_build
 yarn admin_build
-yarn start
+yarn server
 fi
