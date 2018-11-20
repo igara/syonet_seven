@@ -16,8 +16,10 @@ declare var process: {
 		TWITTER_CALLBACK: string,
 		GITHUB_CLIENT_ID: string,
 		GITHUB_CLIENT_SECRET: string,
-		GITHUB_CALLBACK: string
+		GITHUB_CALLBACK: string,
+		WEBPUSH_CONTACT: string,
+		WEBPUSH_VAPIDKEYS_PUBLIC: string,
+		WEBPUSH_VAPIDKEYS_PRIVATE: string,
 	},
-	exit(code?: number): void
-};
- 
+	exit(code?: number): void,
+}

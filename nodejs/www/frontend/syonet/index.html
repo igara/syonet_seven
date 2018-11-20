@@ -1,28 +1,34 @@
 <html>
+	<head>
+		<title>Syonet</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+		/>
+	</head>
 
-<head>
-	<title>Syonet</title>
-	<meta charset="utf-8" />
-	<meta name="description" content="" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-</head>
+	<body>
+		<script async src="./statics/polyfill.js"></script>
+		<script async src="./statics/mithril.js"></script>
+		<script async src="./statics/date_fns.js"></script>
+		<script async src="./statics/js_cookie.js"></script>
+		<script async src="./statics/syonet.js"></script>
+		<script async src="./statics/sw_top_register.js"></script>
+		<script async src="./statics/notification.js"></script>
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=UA-75259720-1"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-<body>
-	<script async src="./statics/polyfill.js"></script>
-	<script async src="./statics/mithril.js"></script>
-	<script async src="./statics/date_fns.js"></script>
-	<script async src="./statics/js_cookie.js"></script>
-	<script async src="./statics/syonet.js"></script>
-	<script async src="./statics/sw_top_register.js"></script>
-	<script async src="./statics/notification.js"></script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75259720-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-
-		gtag('config', 'UA-75259720-1');
-	</script>
-</body>
-
+			gtag("config", "UA-75259720-1");
+		</script>
+	</body>
 </html>

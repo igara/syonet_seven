@@ -2,8 +2,8 @@
   "apps": [
     {
       "name": "www",
-      "script": "babel-node",
-      "args": "./bin/www.js",
+      "script": "nodemon",
+      "args": "--exec babel-node ./bin/www.js",
       "watch": true
     }
   ]

@@ -1,35 +1,46 @@
 {
-	"env": {
-		"node": true
-	},
-	"extends": ["eslint:recommended", "prettier", "plugin:prettier/recommended"],
-	"parser": "babel-eslint",
-	"parserOptions": {
-		"sourceType": "module",
-		"ecmaVersion": 6,
-		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true
-		}
-	},
-	"rules": {
-		"linebreak-style": ["error", "unix"],
-		"no-console": 0,
-		"rest-spread-spacing": ["error", "never"],
-		"no-unused-vars": [
-			1,
-			{
-				"vars": "all",
-				"args": "none"
-			}
-		],
-		"prettier/prettier": [
-			"error",
-			{
-				"singleQuote": true,
-				"trailingComma": "all",
-				"useTabs": true,
-				"semi": false
-			}
-		]
-	}
+  "env": {
+    "commonjs": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    }
+  },
+  "plugins": ["flowtype"],
+  "rules": {
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1,
+    "linebreak-style": ["error", "unix"],
+    "no-console": 0,
+    "rest-spread-spacing": ["error", "never"],
+    "no-unused-vars": [
+      1,
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "useTabs": true,
+        "semi": false
+      }
+    ]
+  }
 }

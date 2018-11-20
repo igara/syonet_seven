@@ -20,6 +20,7 @@ import mongoose from './models'
 // API・Page Import
 import authApi from './routes/api/auth'
 import userApi from './routes/api/user'
+import webpushApi from './routes/api/webpush'
 import adminUserApi from './routes/api/admin/user'
 import adminStatic from './routes/admin_static'
 import admin from './routes/admin'
@@ -88,6 +89,7 @@ graphql(app)
 // API
 app.use('/api/auth', authApi)
 app.use('/api/user', userApi)
+app.use('/api/webpush', webpushApi)
 app.use('/api/admin/user', adminUserApi)
 
 // Auth

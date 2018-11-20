@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   www:
@@ -26,6 +26,9 @@ services:
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       GITHUB_CALLBACK: ${GITHUB_CALLBACK}
+      WEBPUSH_CONTACT: ${WEBPUSH_CONTACT}
+      WEBPUSH_VAPIDKEYS_PUBLIC: ${WEBPUSH_VAPIDKEYS_PUBLIC}
+      WEBPUSH_VAPIDKEYS_PRIVATE: ${WEBPUSH_VAPIDKEYS_PRIVATE}
       TZ: Asia/Tokyo
     links:
       - mongodb
@@ -49,16 +52,16 @@ services:
   https-portal:
     image: steveltn/https-portal:1
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     links:
       - www:www
     environment:
-      DOMAINS: '${WWW_DOMAIN} -> http://www:3000'
-      STAGE: '${WWW_ENV}'
-      RESOLVER: '127.0.0.11 ipv6=off valid=60s'
-      DYNAMIC_UPSTREAM: 'true'
-      WEBSOCKET: 'true'
+      DOMAINS: "${WWW_DOMAIN} -> http://www:3000"
+      STAGE: "${WWW_ENV}"
+      RESOLVER: "127.0.0.11 ipv6=off valid=60s"
+      DYNAMIC_UPSTREAM: "true"
+      WEBSOCKET: "true"
       CLIENT_MAX_BODY_SIZE: 0
       TZ: Asia/Tokyo
     volumes:
@@ -82,9 +85,18 @@ services:
       DISCORD_WEBHOCK: ${DISCORD_WEBHOCK}
       IN_POM_PATH: ${IN_POM_PATH}
       OUT_POM_PATH: ${OUT_POM_PATH}
+      WEBPUSH_CONTACT: ${WEBPUSH_CONTACT}
+      WEBPUSH_VAPIDKEYS_PUBLIC: ${WEBPUSH_VAPIDKEYS_PUBLIC}
+      WEBPUSH_VAPIDKEYS_PRIVATE: ${WEBPUSH_VAPIDKEYS_PRIVATE}
+      WWW_DOMAIN: ${WWW_DOMAIN}
+    links:
+      - mongodb
+    networks:
+      - frontend
+      - backend
 
 networks:
   frontend:
-    driver: 'bridge'
+    driver: "bridge"
   backend:
-    driver: 'bridge'
+    driver: "bridge"
