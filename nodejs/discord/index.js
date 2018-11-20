@@ -77,7 +77,7 @@ client.on("message", message => {
       const sendText = `通知します`;
       message
         .reply(sendText)
-        .then(async message => {
+        .then(async () => {
           console.log(`Sent message: ${sendText}`);
           const weppushContent = message.content.match(/\[\S+\]/g);
           const title = weppushContent[0];
