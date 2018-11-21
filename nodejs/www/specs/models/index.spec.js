@@ -1,6 +1,4 @@
 // @flow
-import { dbConnect, dbClose } from '../../models'
-
 const env = JSON.parse(JSON.stringify(process.env)).WWW_ENV
 
 describe('index', () => {
@@ -14,8 +12,15 @@ describe('index', () => {
 	test('test実行時 docker上じゃない想定', async () => {
 		global.TEST = 'test'
 		process.env.WWW_ENV = ''
-		await dbConnect()
-		await dbClose()
+		jest.doMock('mongoose', () => ({
+			connect: jest.fn(),
+			connection: {
+				close: jest.fn(),
+			},
+		}))
+		const mongo = require('../../models')
+		await mongo.dbConnect()
+		await mongo.dbClose()
 	})
 	test('test実行時 docker上想定', async () => {
 		global.TEST = 'test'

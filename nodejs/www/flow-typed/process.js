@@ -1,6 +1,7 @@
 // @flow
 declare var process: {
 	env: {
+		TEST: string,
 		NODE_ENV: string,
 		PORT: string,
 		WWW_ENV: string,

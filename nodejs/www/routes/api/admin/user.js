@@ -61,7 +61,6 @@ const list = async (req: express$Request, res: express$Response, next) => {
 		offset = offset < userCount ? offset : userCount
 		const userList = await userModel.getUserList(offset, limit)
 		res.status(200)
-		console.log(limit, offset)
 		return res.send({
 			status: 200,
 			message: 'OK',
