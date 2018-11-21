@@ -80,8 +80,8 @@ client.on("message", message => {
         .then(async () => {
           console.log(`Sent message: ${sendText}`);
           const weppushContent = message.content.match(/\[\S+\]/g);
-          const title = weppushContent[0];
-          const body = weppushContent[1];
+          const title = weppushContent[0].replace("[", "").replace("]", "");
+          const body = weppushContent[1].replace("[", "").replace("]", "");
 
           await dbConnect();
           const notificationModel = new Notification();
