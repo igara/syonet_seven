@@ -7,6 +7,12 @@ module.exports = {
 	transform: {
 		'^.+\\.js$': 'babel-jest',
 	},
+	collectCoverageFrom: [
+		'**/*.{js,jsx}',
+		'!<rootDir>/node_modules/',
+		'!<rootDir>/flow-typed/**',
+		'!<rootDir>/frontend/syonet/statics/**',
+	],
 	globals: {
 		TEST: 'test',
 	},
