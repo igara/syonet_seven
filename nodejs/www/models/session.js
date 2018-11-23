@@ -1,9 +1,6 @@
 // @flow
 import mongo from './index'
 
-import mongoose from 'mongoose'
-type IndexModelType = mongoose
-
 export type GetSessionBySessionIdReturn = {
 	_id: string,
 	session: {
@@ -125,12 +122,12 @@ export type DeleteSessionReturn = {
 	ok: number,
 }
 
-export type SessionModelType = IndexModelType & {
+export type SessionModelType = {
 	getSessionBySessionId: string => Promise<GetSessionBySessionIdReturn>,
 	deleteSession: string => Promise<DeleteSessionReturn>,
 }
 
-const SessionSchema = mongo.Schema(
+const SessionSchema = new mongo.Schema(
 	{
 		_id: String,
 		session: mongo.Schema.Types.Mixed,
@@ -171,5 +168,5 @@ export const deleteSession = async (
 
 SessionSchema.methods.deleteSession = deleteSession
 
-const Session: SessionModelType = mongo.model('Session', SessionSchema)
+const Session = mongo.model('Session', SessionSchema)
 export default Session

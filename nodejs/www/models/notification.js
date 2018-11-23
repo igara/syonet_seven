@@ -1,9 +1,6 @@
 // @flow
 import mongo from './index'
 
-import mongoose from 'mongoose'
-type IndexModelType = mongoose
-
 export type InsertNotificationParam = {
 	endpoint: string,
 	auth: string,
@@ -31,12 +28,12 @@ export type GetNotificationInfoReturn = {
 	p256dh: string,
 }
 
-export type NotificationModelType = IndexModelType & {
+export type NotificationModelType = {
 	insertNotification: InsertNotificationParam => Promise<InsertNotificationReturn>,
 	getNotificationInfo: () => Promise<GetNotificationInfoReturn>,
 }
 
-const NotificationSchema = mongo.Schema(
+const NotificationSchema = new mongo.Schema(
 	{
 		endpoint: String,
 		auth: String,
@@ -75,9 +72,6 @@ export const getNotificationList = async (): Promise<Array<Object>> => {
 
 NotificationSchema.methods.getNotificationList = getNotificationList
 
-const Notification: NotificationModelType = mongo.model(
-	'Notification',
-	NotificationSchema,
-)
+const Notification = mongo.model('Notification', NotificationSchema)
 
 export default Notification

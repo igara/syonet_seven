@@ -1,9 +1,6 @@
 // @flow
 import mongo from './index'
 
-import mongoose from 'mongoose'
-type IndexModelType = mongoose
-
 export type UpsertByAuthUserParam = {
 	id: string | number,
 	provider: string,
@@ -68,13 +65,18 @@ export type GetUserInfoReturn = {
 	image: string,
 }
 
-export type UserModelType = IndexModelType & {
+export type UserModelType = {
 	upsertByAuthUser: UpsertByAuthUserParam => Promise<UpsertByAuthUserReturn>,
 	getUserInfo: (string, string) => Promise<GetUserInfoReturn>,
 	getIsAdmin: (string, string) => Promise<boolean>,
+	getUserCount: () => Promise<number>,
+	getUserList: (
+		offset: string | number,
+		limit: string | number,
+	) => Promise<Array<UserInfoData>>,
 }
 
-const UserSchema = mongo.Schema(
+const UserSchema = new mongo.Schema(
 	{
 		auth: mongo.Schema.Types.Mixed,
 		type: {
@@ -192,5 +194,5 @@ export const getUserList = async (
 
 UserSchema.methods.getUserList = getUserList
 
-const User: UserModelType = mongo.model('User', UserSchema)
+const User = mongo.model('User', UserSchema)
 export default User

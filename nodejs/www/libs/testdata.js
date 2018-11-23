@@ -12,9 +12,9 @@ import { Notifications } from './testdata/notification'
 	try {
 		await dbConnect()
 		await Promise.all([
-			Session.remove(),
-			User.remove(),
-			NotificationModel.remove(),
+			Session.remove({}),
+			User.remove({}),
+			NotificationModel.remove({}),
 		])
 		await Promise.all([
 			Session.insertMany(Sessions),
