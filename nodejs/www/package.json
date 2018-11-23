@@ -38,7 +38,7 @@
 		"isomorphic-fetch": "^2.2.1",
 		"js-cookie": "^2.2.0",
 		"mithril": "^1.1.6",
-		"mongoose": "^5.1.5",
+		"mongoose": "^5.3.13",
 		"morgan": "~1.9.0",
 		"passport": "^0.4.0",
 		"passport-facebook": "^2.1.1",
@@ -91,6 +91,10 @@
 		"prettier": "^1.15.2"
 	},
 	"sw-precache": {
-		"maximumFileSizeToCacheInBytes": 10485760
+		"maximumFileSizeToCacheInBytes": 10485760,
+		"navigateFallbackWhitelist": [
+			"/^/auth//",
+			"/^/manage//"
+		]
 	}
 }

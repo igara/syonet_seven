@@ -31,7 +31,7 @@ const arrayBufferToBase64 = arrayBuffer => {
 ;(async () => {
 	if (navigator.serviceWorker) {
 		if (location.href) {
-			let swFile = './service-worker.js'
+			let swFile = '/service-worker.js'
 			let scope = '/'
 
 			try {
