@@ -1,8 +1,8 @@
 // @flow
 
-import { callLoginCheck } from '../fetchs/login'
+import { callLoginCheck } from '@F_syonet/fetchs/login'
 
-import type { StoresType } from '../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 /**
  * ログインチェックのアクション

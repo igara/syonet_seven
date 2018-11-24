@@ -1,10 +1,10 @@
 // @flow
 
-import { callAnalyzeImageModel } from '../../../fetchs/github'
+import { callAnalyzeImageModel } from '@F_syonet/fetchs/github'
 
-import { load, exec } from '../../../tensorflow/image'
+import { load, exec } from '@F_syonet/tensorflow/image'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type AnalyzeImageLoadActionType = {}
 

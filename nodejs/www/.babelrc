@@ -9,6 +9,17 @@
 			}
 		],
 		["@babel/transform-flow-strip-types"],
-		["@babel/proposal-class-properties"]
+		["@babel/proposal-class-properties"],
+		[
+			"module-resolver",
+			{
+				"root": ["./"],
+				"alias": {
+					"@F_syonet": "./frontend/syonet",
+					"@F_admin": "./frontend/admin",
+					"@www": "./"
+				}
+			}
+		]
 	]
 }

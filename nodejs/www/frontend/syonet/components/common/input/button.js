@@ -3,10 +3,10 @@
  * @jsx m
  */
 
-import { m } from '../../../statics/mithril'
-import { ButtonStyle } from '../../../statics/styles'
+import { m } from '@F_syonet/statics/mithril'
+import { ButtonStyle } from '@F_syonet/statics/styles'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type ButtonComponentVnode = {
 	attrs: {

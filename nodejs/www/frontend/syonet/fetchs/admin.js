@@ -1,6 +1,6 @@
 // @flow
 
-import { call, getApiHost } from '../../../libs/api'
+import { call, getApiHost } from '@www/libs/api'
 
 /**
  * ユーザ一覧を取得

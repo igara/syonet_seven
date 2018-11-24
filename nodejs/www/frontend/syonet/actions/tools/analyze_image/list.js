@@ -1,8 +1,8 @@
 // @flow
 
-import { sleep } from '../../../../../libs/sleep'
+import { sleep } from '@www/libs/sleep'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type AnalyzeImageListActionType = {}
 

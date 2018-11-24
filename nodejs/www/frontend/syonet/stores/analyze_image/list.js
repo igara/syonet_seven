@@ -1,6 +1,6 @@
 // @flow
 
-import { stream } from '../../statics/mithril'
+import { stream } from '@F_syonet/statics/mithril'
 
 export type AnalyzeImageListStoreType = {
 	AnalyzeImageListStore: {

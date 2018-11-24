@@ -1,6 +1,6 @@
 // @flow
 
-import { callWebpushKey, callRegistWebpush } from '../fetchs/webpush'
+import { callWebpushKey, callRegistWebpush } from '@F_syonet/fetchs/webpush'
 
 /**
  * Base64 エンコードからバイナリ形式に変換する

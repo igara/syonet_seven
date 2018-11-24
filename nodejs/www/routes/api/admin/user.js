@@ -1,14 +1,14 @@
 // @flow
 
 import express from 'express'
-import { dbConnect, dbClose } from '../../../models'
-import User from '../../../models/user'
-import type { UserModelType, GetUserInfoReturn } from '../../../models/user'
-import Session from '../../../models/session'
+import { dbConnect, dbClose } from '@www/models'
+import User from '@www/models/user'
+import type { UserModelType, GetUserInfoReturn } from '@www/models/user'
+import Session from '@www/models/session'
 import type {
 	SessionModelType,
 	GetSessionBySessionIdReturn,
-} from '../../../models/session'
+} from '@www/models/session'
 
 const router = express.Router()
 

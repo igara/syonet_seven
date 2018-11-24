@@ -3,11 +3,11 @@
  * @jsx m
  */
 
-import { m } from '../../../statics/mithril'
-import AnalyzeImageListAction from '../../../actions/tools/analyze_image/list'
-import Button from '../../../components/common/input/button'
+import { m } from '@F_syonet/statics/mithril'
+import AnalyzeImageListAction from '@F_syonet/actions/tools/analyze_image/list'
+import Button from '@F_syonet/components/common/input/button'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type AnalyzeImageListPageVnode = {
 	attrs: {

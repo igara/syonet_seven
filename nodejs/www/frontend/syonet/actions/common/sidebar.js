@@ -1,10 +1,10 @@
 // @flow
 
-import { sleep } from '../../../../libs/sleep'
-import { callLogout } from '../../fetchs/login'
-import Cookies from '../../statics/js_cookie'
+import { sleep } from '@www/libs/sleep'
+import { callLogout } from '@F_syonet/fetchs/login'
+import Cookies from '@F_syonet/statics/js_cookie'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 /**
  * サイドバーのアクション

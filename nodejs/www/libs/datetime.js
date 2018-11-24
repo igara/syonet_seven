@@ -1,6 +1,6 @@
 // @flow
 
-import dateFns from '../frontend/syonet/statics/date_fns'
+import dateFns from '@F_syonet/statics/date_fns'
 
 export type GetMultiFormatDateTimeParamOption = {
 	Date?: Date,

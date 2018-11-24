@@ -1,6 +1,6 @@
 // @flow
 
-import type { UserInfoData } from '../../models/user'
+import type { UserInfoData } from '@www/models/user'
 
 export const Users: Array<UserInfoData> = [
 	{

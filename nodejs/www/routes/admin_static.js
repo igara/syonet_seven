@@ -2,17 +2,17 @@
 
 import express from 'express'
 import path from 'path'
-import { dbConnect, dbClose } from '../models'
-import User from '../models/user'
-import type { UserModelType } from '../models/user'
-import Session from '../models/session'
+import { dbConnect, dbClose } from '@www/models'
+import User from '@www/models/user'
+import type { UserModelType } from '@www/models/user'
+import Session from '@www/models/session'
 import type {
 	SessionModelType,
 	GetSessionBySessionIdReturn,
-} from '../models/session'
+} from '@www/models/session'
 
 const router = express.Router()
-const staticDir = path.join(__dirname, '../dist/prod')
+const staticDir = path.join(__dirname, '@www/dist/prod')
 
 /**
  * @param {Request} req

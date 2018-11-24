@@ -3,11 +3,11 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import FooterAction from '../../actions/common/footer'
-import { FooterStyle, IconStyle } from '../../statics/styles'
+import { m } from '@F_syonet/statics/mithril'
+import FooterAction from '@F_syonet/actions/common/footer'
+import { FooterStyle, IconStyle } from '@F_syonet/statics/styles'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type FooterComponentVnode = {
 	attrs: {

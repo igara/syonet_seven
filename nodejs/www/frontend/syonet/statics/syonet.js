@@ -1,7 +1,7 @@
 // @flow
 
 import { m } from './mithril'
-import routes from '../configs/routes'
+import routes from '@F_syonet/configs/routes'
 
 window.onload = async () => {
 	m.route.prefix('')

@@ -2,9 +2,9 @@
 
 import express from 'express'
 import webpush from 'web-push'
-import { dbConnect, dbClose } from '../../models'
-import Notification from '../../models/notification'
-import type { NotificationModelType } from '../../models/notification'
+import { dbConnect, dbClose } from '@www/models'
+import Notification from '@www/models/notification'
+import type { NotificationModelType } from '@www/models/notification'
 
 const contact = process.env.WEBPUSH_CONTACT
 const vapidKeys = {

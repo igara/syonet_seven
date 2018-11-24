@@ -3,11 +3,11 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import { HeaderStyle, IconStyle } from '../../statics/styles'
-import syonetSvg from '../../images/syonet.svg'
+import { m } from '@F_syonet/statics/mithril'
+import { HeaderStyle, IconStyle } from '@F_syonet/statics/styles'
+import syonetSvg from '@F_syonet/images/syonet.svg'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type HeaderComponentVnode = {
 	attrs: {

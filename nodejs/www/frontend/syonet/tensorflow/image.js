@@ -2,7 +2,7 @@
 
 import * as tf from '@tensorflow/tfjs'
 
-import type { StoresType } from '../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export const save = async (Stores: StoresType) => {
 	const category = Stores.AnalyzeImageSaveStore.Category()

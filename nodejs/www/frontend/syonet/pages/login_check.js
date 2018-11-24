@@ -3,10 +3,10 @@
  * @jsx m
  */
 
-import { m } from '../statics/mithril'
-import LoginCheckAction from '../actions/login_check'
+import { m } from '@F_syonet/statics/mithril'
+import LoginCheckAction from '@F_syonet/actions/login_check'
 
-import type { StoresType } from '../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type LoginCheckPageVnode = {
 	attrs: {

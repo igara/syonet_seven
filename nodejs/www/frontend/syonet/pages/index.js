@@ -3,9 +3,9 @@
  * @jsx m
  */
 
-import { m } from '../statics/mithril'
+import { m } from '@F_syonet/statics/mithril'
 
-import type { StoresType } from '../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type IndexPageVnode = {
 	attrs: {

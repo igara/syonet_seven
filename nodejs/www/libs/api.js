@@ -1,7 +1,7 @@
 // @flow
 
 import { getEnvByHostname } from './env'
-import Cookies from '../frontend/syonet/statics/js_cookie'
+import Cookies from '@F_syonet/statics/js_cookie'
 
 export type APICallParamOption = {
 	body: ?Object,

@@ -1,6 +1,6 @@
 // @flow
 
-import { call, getApiHost } from '../../../libs/api'
+import { call, getApiHost } from '@www/libs/api'
 
 /**
  * ログインチェックを行う

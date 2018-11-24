@@ -3,13 +3,13 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import { TermStyle } from '../../statics/styles'
-import TermAction from '../../actions/common/term'
-import { sleep } from '../../../../libs/sleep'
+import { m } from '@F_syonet/statics/mithril'
+import { TermStyle } from '@F_syonet/statics/styles'
+import TermAction from '@F_syonet/actions/common/term'
+import { sleep } from '@www/libs/sleep'
 import Button from './input/button'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type TermComponentVnode = {
 	attrs: {

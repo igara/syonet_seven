@@ -1,6 +1,6 @@
 // @flow
 
-import type { NotificationInfoData } from '../../models/notification'
+import type { NotificationInfoData } from '@www/models/notification'
 
 export const Notifications: Array<NotificationInfoData> = [
 	{

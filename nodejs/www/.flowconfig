@@ -13,5 +13,8 @@ module.file_ext=.js
 module.file_ext=.css
 module.file_ext=.scss
 module.file_ext=.pcss
+module.name_mapper='^@F_syonet/\(.*\)$' -> '<PROJECT_ROOT>/frontend/syonet/\1'
+module.name_mapper='^@F_admin/\(.*\)$' -> '<PROJECT_ROOT>/frontend/admin/\1'
+module.name_mapper='^@www/\(.*\)$' -> '<PROJECT_ROOT>/\1'
 
 [strict]

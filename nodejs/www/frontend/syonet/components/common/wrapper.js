@@ -3,13 +3,13 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
+import { m } from '@F_syonet/statics/mithril'
 import HeaderComponent from './header'
 import FooterComponent from './footer'
 import SidebarComponent from './sidebar'
-import { ContentStyle } from '../../statics/styles'
+import { ContentStyle } from '@F_syonet/statics/styles'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type WrapperComponentVnode = {
 	Stores: StoresType,

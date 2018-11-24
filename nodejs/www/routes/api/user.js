@@ -1,8 +1,8 @@
 // @flow
 
 import express from 'express'
-import { dbConnect, dbClose } from '../../models'
-import User from '../../models/user'
+import { dbConnect, dbClose } from '@www/models'
+import User from '@www/models/user'
 
 const router = express.Router()
 

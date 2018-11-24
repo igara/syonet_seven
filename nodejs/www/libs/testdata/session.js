@@ -1,6 +1,6 @@
 // @flow
 
-import type { SessionInfoData } from '../../models/session'
+import type { SessionInfoData } from '@www/models/session'
 
 export const Sessions: Array<SessionInfoData> = [
 	{

@@ -1,24 +1,24 @@
 // @flow
 
 // Components
-import WrapperComponent from '../components/common/wrapper'
+import WrapperComponent from '@F_syonet/components/common/wrapper'
 
 // Pages
-import IndexPage from '../pages'
-import ToolsPage from '../pages/tools'
-import AnalyzeImageListPage from '../pages/tools/analyze_image/list'
-import AnalyzeImageLoadPage from '../pages/tools/analyze_image/load'
-import AnalyzeImageSavePage from '../pages/tools/analyze_image/save'
-import LoginPage from '../pages/login'
-import LoginCheckPage from '../pages/login_check'
-import NotFoundPage from '../pages/not_found'
+import IndexPage from '@F_syonet/pages'
+import ToolsPage from '@F_syonet/pages/tools'
+import AnalyzeImageListPage from '@F_syonet/pages/tools/analyze_image/list'
+import AnalyzeImageLoadPage from '@F_syonet/pages/tools/analyze_image/load'
+import AnalyzeImageSavePage from '@F_syonet/pages/tools/analyze_image/save'
+import LoginPage from '@F_syonet/pages/login'
+import LoginCheckPage from '@F_syonet/pages/login_check'
+import NotFoundPage from '@F_syonet/pages/not_found'
 
 // Stores
-import Stores from '../stores'
+import Stores from '@F_syonet/stores'
 
-import Cookies from '../statics/js_cookie'
-import { callLoginCheck } from '../fetchs/login'
-import { callAnalyzeImageList } from '../fetchs/github'
+import Cookies from '@F_syonet/statics/js_cookie'
+import { callLoginCheck } from '@F_syonet/fetchs/login'
+import { callAnalyzeImageList } from '@F_syonet/fetchs/github'
 
 /**
  * ログインチェック

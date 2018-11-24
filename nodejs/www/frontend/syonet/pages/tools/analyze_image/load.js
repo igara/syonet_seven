@@ -3,14 +3,14 @@
  * @jsx m
  */
 
-import { m } from '../../../statics/mithril'
-import AnalyzeImageLoadAction from '../../../actions/tools/analyze_image/load'
-import { AnalyzeImageLoadStyle } from '../../../statics/styles'
-import File from '../../../components/common/input/file'
-import Button from '../../../components/common/input/button'
-import closeSvg from '../../../images/close.svg'
+import { m } from '@F_syonet/statics/mithril'
+import AnalyzeImageLoadAction from '@F_syonet/actions/tools/analyze_image/load'
+import { AnalyzeImageLoadStyle } from '@F_syonet/statics/styles'
+import File from '@F_syonet/components/common/input/file'
+import Button from '@F_syonet/components/common/input/button'
+import closeSvg from '@F_syonet/images/close.svg'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type AnalyzeImageLoadPageVnode = {
 	attrs: {

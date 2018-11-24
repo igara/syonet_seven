@@ -1,6 +1,6 @@
 // @flow
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 /**
  * フッダーのアクション

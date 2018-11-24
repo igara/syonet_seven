@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-import app from '../app'
+import app from '@www/app'
 const debug = require('debug')('www:server')
 import http from 'http'
 

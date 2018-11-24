@@ -3,13 +3,13 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
-import { SidebarStyle, IconStyle } from '../../statics/styles'
-import SidebarAction from '../../actions/common/sidebar'
-import { sleep } from '../../../../libs/sleep'
+import { m } from '@F_syonet/statics/mithril'
+import { SidebarStyle, IconStyle } from '@F_syonet/statics/styles'
+import SidebarAction from '@F_syonet/actions/common/sidebar'
+import { sleep } from '@www/libs/sleep'
 import TermComponent from './term'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type SidebarComponentVnode = {
 	attrs: {

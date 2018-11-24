@@ -3,15 +3,15 @@
  * @jsx m
  */
 
-import { m } from '../../../statics/mithril'
-import Button from '../../../components/common/input/button'
-import Text from '../../../components/common/input/text'
-import File from '../../../components/common/input/file'
-import AnalyzeImageSaveAction from '../../../actions/tools/analyze_image/save'
-import { AnalyzeImageSaveStyle, TextStyle } from '../../../statics/styles'
-import closeSvg from '../../../images/close.svg'
+import { m } from '@F_syonet/statics/mithril'
+import Button from '@F_syonet/components/common/input/button'
+import Text from '@F_syonet/components/common/input/text'
+import File from '@F_syonet/components/common/input/file'
+import AnalyzeImageSaveAction from '@F_syonet/actions/tools/analyze_image/save'
+import { AnalyzeImageSaveStyle, TextStyle } from '@F_syonet/statics/styles'
+import closeSvg from '@F_syonet/images/close.svg'
 
-import type { StoresType } from '../../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type AnalyzeImageSavePageVnode = {
 	attrs: {

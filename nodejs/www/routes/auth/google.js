@@ -4,9 +4,9 @@ import express from 'express'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 // $FlowFixMe
 import passport from 'passport'
-import { dbConnect, dbClose } from '../../models'
-import User from '../../models/user'
-import type { UserModelType } from '../../models/user'
+import { dbConnect, dbClose } from '@www/models'
+import User from '@www/models/user'
+import type { UserModelType } from '@www/models/user'
 
 const router = express.Router()
 
