@@ -1,7 +1,7 @@
 // @flow
-import { save } from '../../tensorflow/image'
+import { save } from '../../../tensorflow/image'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '../../../stores'
 
 /**
  * 画像認識画面のアクション

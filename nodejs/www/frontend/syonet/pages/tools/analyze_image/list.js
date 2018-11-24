@@ -4,7 +4,7 @@
  */
 
 import { m } from '../../../statics/mithril'
-import AnalyzeImageListAction from '../../../actions/analyze_image/list'
+import AnalyzeImageListAction from '../../../actions/tools/analyze_image/list'
 import Button from '../../../components/common/input/button'
 
 import type { StoresType } from '../../../stores'

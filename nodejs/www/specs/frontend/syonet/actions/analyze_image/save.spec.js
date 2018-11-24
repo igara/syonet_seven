@@ -12,7 +12,7 @@ describe('onInputModelName', () => {
 		Stores.AnalyzeImageSaveStore.ModelName('')
 		expect(Stores.AnalyzeImageSaveStore.ModelName()).toBe('')
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tools/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -39,7 +39,7 @@ describe('onClickAddCategory', () => {
 		Stores.AnalyzeImageSaveStore.Category([])
 		expect(Stores.AnalyzeImageSaveStore.Category()).toEqual([])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tools/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const buttonElement = document.createElement('button')
@@ -89,7 +89,7 @@ describe('onInputCategoryName', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tools/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -128,7 +128,7 @@ describe('onInputCategoryName', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tools/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		const inputTextElement = document.createElement('input')
@@ -269,7 +269,7 @@ describe('onClickRemoveImage', () => {
 			},
 		])
 
-		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/analyze_image/save')
+		const AnalyzeImageAction = require('../../../../../frontend/syonet/actions/tools/analyze_image/save')
 			.default
 		const analyzeImageAction = new AnalyzeImageAction(Stores)
 		await analyzeImageAction.onClickRemoveImage(0, 0)
