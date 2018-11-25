@@ -1,6 +1,6 @@
 // @flow
 
-import { getEnvByHostname } from '../../libs/env'
+import { getEnvByHostname } from '@www/libs/env'
 
 describe('getEnvByHostname', () => {
 	beforeEach(() => {

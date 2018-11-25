@@ -1,9 +1,9 @@
 // @flow
 
-import { getMultiFormatDateTime, getTimeStamp } from '../../libs/datetime'
-import dateFns from '../../frontend/syonet/statics/date_fns'
+import { getMultiFormatDateTime, getTimeStamp } from '@www/libs/datetime'
+import dateFns from '@F_syonet/statics/date_fns'
 
-import { DateInstance, MockDate } from '../globals/date'
+import { DateInstance, MockDate } from '@www/specs/globals/date'
 
 describe('getTimeStamp', () => {
 	beforeEach(() => {

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { callUserList } from '../../../../syonet/fetchs/admin'
+import { callUserList } from '@F_syonet/fetchs/admin'
 import styled from 'styled-components'
 
 type Props = {}

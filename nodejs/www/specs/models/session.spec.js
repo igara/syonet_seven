@@ -5,8 +5,8 @@ describe('getSessionBySessionId', () => {
 		jest.resetModules()
 	})
 	test('sessionIdの指定がない時', async () => {
-		const { dbConnect, dbClose } = require('../../models')
-		const { getSessionBySessionId } = require('../../models/session')
+		const { dbConnect, dbClose } = require('@www/models')
+		const { getSessionBySessionId } = require('@www/models/session')
 		await dbConnect()
 		// $FlowFixMe
 		const result = await getSessionBySessionId()
@@ -14,8 +14,8 @@ describe('getSessionBySessionId', () => {
 		await dbClose()
 	})
 	test('sessionIdの指定がある時 ログイン中である時', async () => {
-		const { dbConnect, dbClose } = require('../../models')
-		const { getSessionBySessionId } = require('../../models/session')
+		const { dbConnect, dbClose } = require('@www/models')
+		const { getSessionBySessionId } = require('@www/models/session')
 		await dbConnect()
 		const result = await getSessionBySessionId('1111111111111')
 		if (typeof result !== 'undefined' && result !== null) {
@@ -30,8 +30,8 @@ describe('getSessionBySessionId', () => {
 		await dbClose()
 	})
 	test('sessionIdの指定がある時 ただしログイン中ではない', async () => {
-		const { dbConnect, dbClose } = require('../../models')
-		const { getSessionBySessionId } = require('../../models/session')
+		const { dbConnect, dbClose } = require('@www/models')
+		const { getSessionBySessionId } = require('@www/models/session')
 		await dbConnect()
 		const result = await getSessionBySessionId('2222222222222')
 		if (typeof result !== 'undefined' && result !== null) {
@@ -47,9 +47,9 @@ describe('deleteSession', () => {
 		jest.resetModules()
 	})
 	test('Sessionの削除を行う', async () => {
-		const { dbConnect, dbClose } = require('../../models')
-		const { deleteSession } = require('../../models/session')
-		const Session = require('../../models/session').default
+		const { dbConnect, dbClose } = require('@www/models')
+		const { deleteSession } = require('@www/models/session')
+		const Session = require('@www/models/session').default
 		await dbConnect()
 		await Session.insertMany([{ _id: '999999' }])
 		const result1 = await Session.findOne({ _id: '999999' }).exec()

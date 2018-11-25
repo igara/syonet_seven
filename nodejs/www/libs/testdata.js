@@ -1,9 +1,9 @@
 // @flow
 
-import { dbConnect, dbClose } from '../models'
-import Session from '../models/session'
-import User from '../models/user'
-import NotificationModel from '../models/notification'
+import { dbConnect, dbClose } from '@www/models'
+import Session from '@www/models/session'
+import User from '@www/models/user'
+import NotificationModel from '@www/models/notification'
 
 import { Sessions } from './testdata/session'
 import { Users } from './testdata/user'

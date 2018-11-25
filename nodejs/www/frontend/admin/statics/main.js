@@ -6,7 +6,7 @@
 import { React } from './react'
 import { ReactDOM } from './react_dom'
 
-import Routes from '../pages/routes'
+import Routes from '@F_admin//pages/routes'
 
 ReactDOM.render(
 	<Routes />,

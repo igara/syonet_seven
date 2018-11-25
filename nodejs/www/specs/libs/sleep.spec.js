@@ -1,6 +1,6 @@
 // @flow
 
-import { sleep } from '../../libs/sleep'
+import { sleep } from '@www/libs/sleep'
 
 describe('sleep', () => {
 	beforeEach(() => {

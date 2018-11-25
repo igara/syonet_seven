@@ -1,7 +1,7 @@
 // @flow
 
-import Stores from '../../../../../frontend/syonet/stores'
-import { m } from '../../../../../frontend/syonet/statics/mithril'
+import Stores from '@F_syonet/stores'
+import { m } from '@F_syonet/statics/mithril'
 
 describe('onClickClose', () => {
 	beforeEach(() => {
@@ -9,8 +9,7 @@ describe('onClickClose', () => {
 	})
 
 	test('SidebarDispFlag false', async () => {
-		const SidebarAction = require('../../../../../frontend/syonet/actions/common/sidebar')
-			.default
+		const SidebarAction = require('@F_syonet/actions/common/sidebar').default
 		const sidebarAction = new SidebarAction(Stores)
 		Stores.SidebarStore.SidebarDispFlag(true)
 		expect(Stores.SidebarStore.SidebarDispFlag()).toBe(true)
@@ -25,8 +24,7 @@ describe('onClickTerm', () => {
 	})
 
 	test('TermDispFlag false', async () => {
-		const SidebarAction = require('../../../../../frontend/syonet/actions/common/sidebar')
-			.default
+		const SidebarAction = require('@F_syonet/actions/common/sidebar').default
 		const sidebarAction = new SidebarAction(Stores)
 		expect(Stores.TermStore.TermDispFlag()).toBe(false)
 		sidebarAction.onClickTerm()
@@ -40,11 +38,10 @@ describe('onClickHome', () => {
 	})
 
 	test('home click', async () => {
-		jest.doMock('../../../../../libs/sleep', () => ({
+		jest.doMock('@www/libs/sleep', () => ({
 			sleep: jest.fn(),
 		}))
-		const SidebarAction = require('../../../../../frontend/syonet/actions/common/sidebar')
-			.default
+		const SidebarAction = require('@F_syonet/actions/common/sidebar').default
 		const sidebarAction = new SidebarAction(Stores)
 		Stores.SidebarStore.SidebarDispFlag(true)
 		expect(Stores.SidebarStore.SidebarDispFlag()).toBe(true)
@@ -64,11 +61,10 @@ describe('onClickLogin', () => {
 	})
 
 	test('login click', async () => {
-		jest.doMock('../../../../../libs/sleep', () => ({
+		jest.doMock('@www/libs/sleep', () => ({
 			sleep: jest.fn(),
 		}))
-		const SidebarAction = require('../../../../../frontend/syonet/actions/common/sidebar')
-			.default
+		const SidebarAction = require('@F_syonet/actions/common/sidebar').default
 		const sidebarAction = new SidebarAction(Stores)
 
 		Stores.SidebarStore.SidebarDispFlag(true)
@@ -89,17 +85,16 @@ describe('onClickLogout', () => {
 	})
 
 	test('logout click', async () => {
-		jest.doMock('../../../../../frontend/syonet/fetchs/login', () => ({
+		jest.doMock('@F_syonet/fetchs/login', () => ({
 			callLogout: jest.fn(),
 		}))
-		jest.doMock('../../../../../frontend/syonet/statics/js_cookie', () => ({
+		jest.doMock('@F_syonet/statics/js_cookie', () => ({
 			remove: jest.fn(),
 		}))
-		jest.doMock('../../../../../libs/sleep', () => ({
+		jest.doMock('@www/libs/sleep', () => ({
 			sleep: jest.fn(),
 		}))
-		const SidebarAction = require('../../../../../frontend/syonet/actions/common/sidebar')
-			.default
+		const SidebarAction = require('@F_syonet/actions/common/sidebar').default
 		const sidebarAction = new SidebarAction(Stores)
 
 		Stores.SidebarStore.SidebarDispFlag(true)

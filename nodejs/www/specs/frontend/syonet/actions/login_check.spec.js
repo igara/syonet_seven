@@ -1,6 +1,6 @@
 // @flow
 
-import Stores from '../../../../frontend/syonet/stores'
+import Stores from '@F_syonet/stores'
 
 describe('callLoginCheckApi', () => {
 	beforeEach(() => {
@@ -8,15 +8,14 @@ describe('callLoginCheckApi', () => {
 	})
 
 	test('get User', async () => {
-		jest.doMock('../../../../frontend/syonet/fetchs/login', () => ({
+		jest.doMock('@F_syonet/fetchs/login', () => ({
 			callLoginCheck: jest.fn(() => ({
 				status: 200,
 				user: { id: 1 },
 			})),
 		}))
 
-		const LoginCheckAction = require('../../../../frontend/syonet/actions/login_check')
-			.default
+		const LoginCheckAction = require('@F_syonet/actions/login_check').default
 		const loginCheckAction = new LoginCheckAction(Stores)
 		Stores.LoginStore.Status(null)
 		Stores.LoginStore.User({})
@@ -29,15 +28,14 @@ describe('callLoginCheckApi', () => {
 	})
 
 	test('failed User', async () => {
-		jest.doMock('../../../../frontend/syonet/fetchs/login', () => ({
+		jest.doMock('@F_syonet/fetchs/login', () => ({
 			callLoginCheck: jest.fn(() => ({
 				status: 405,
 				user: { id: 1 },
 			})),
 		}))
 
-		const LoginCheckAction = require('../../../../frontend/syonet/actions/login_check')
-			.default
+		const LoginCheckAction = require('@F_syonet/actions/login_check').default
 		const loginCheckAction = new LoginCheckAction(Stores)
 		Stores.LoginStore.Status(null)
 		Stores.LoginStore.User({})

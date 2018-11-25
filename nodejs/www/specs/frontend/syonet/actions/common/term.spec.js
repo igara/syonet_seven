@@ -1,7 +1,7 @@
 // @flow
 
-import TermAction from '../../../../../frontend/syonet/actions/common/term'
-import Stores from '../../../../../frontend/syonet/stores'
+import TermAction from '@F_syonet/actions/common/term'
+import Stores from '@F_syonet/stores'
 
 describe('onClickClose', () => {
 	beforeEach(() => {

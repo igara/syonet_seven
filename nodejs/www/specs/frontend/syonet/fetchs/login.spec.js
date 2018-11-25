@@ -6,7 +6,7 @@ describe('callLoginCheck', () => {
 	})
 
 	test('login', async () => {
-		jest.doMock('../../../../libs/api', () => ({
+		jest.doMock('@www/libs/api', () => ({
 			call: jest.fn(() => ({
 				json: jest.fn(() => ({
 					status: 200,
@@ -16,8 +16,7 @@ describe('callLoginCheck', () => {
 			getApiHost: jest.fn(() => 'https://localhost'),
 		}))
 
-		const callLoginCheck = require('../../../../frontend/syonet/fetchs/login')
-			.callLoginCheck
+		const callLoginCheck = require('@F_syonet/fetchs/login').callLoginCheck
 		const json = await callLoginCheck()
 		expect(json).toEqual({
 			status: 200,
@@ -32,7 +31,7 @@ describe('callLogout', () => {
 	})
 
 	test('logout', async () => {
-		jest.doMock('../../../../libs/api', () => ({
+		jest.doMock('@www/libs/api', () => ({
 			call: jest.fn(() => ({
 				json: jest.fn(() => ({
 					status: 200,
@@ -41,8 +40,7 @@ describe('callLogout', () => {
 			getApiHost: jest.fn(() => 'https://localhost'),
 		}))
 
-		const callLogout = require('../../../../frontend/syonet/fetchs/login')
-			.callLogout
+		const callLogout = require('@F_syonet/fetchs/login').callLogout
 		const json = await callLogout()
 		expect(json).toEqual({
 			status: 200,

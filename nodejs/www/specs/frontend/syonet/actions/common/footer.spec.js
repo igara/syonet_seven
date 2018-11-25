@@ -1,7 +1,7 @@
 // @flow
 
-import FooterAction from '../../../../../frontend/syonet/actions/common/footer'
-import Stores from '../../../../../frontend/syonet/stores'
+import FooterAction from '@F_syonet/actions/common/footer'
+import Stores from '@F_syonet/stores'
 
 describe('onClickLinkIcon', () => {
 	beforeEach(() => {
