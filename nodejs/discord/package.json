@@ -22,7 +22,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-prettier": "^2.6.0",
-    "flow-bin": "^0.86.0",
+    "flow-bin": "^0.87.0",
     "flow-typed": "^2.5.1",
     "prettier": "^1.13.5"
   },
