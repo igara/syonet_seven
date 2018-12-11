@@ -9,6 +9,7 @@ import ToolsPage from '@F_syonet/pages/tools'
 import AnalyzeImageListPage from '@F_syonet/pages/tools/analyze_image/list'
 import AnalyzeImageLoadPage from '@F_syonet/pages/tools/analyze_image/load'
 import AnalyzeImageSavePage from '@F_syonet/pages/tools/analyze_image/save'
+import VotingPage from '@F_syonet/pages/tools/voting/index'
 import LoginPage from '@F_syonet/pages/login'
 import LoginCheckPage from '@F_syonet/pages/login_check'
 import NotFoundPage from '@F_syonet/pages/not_found'
@@ -73,6 +74,11 @@ export default async () => {
 			ChildComponent: AnalyzeImageSavePage,
 			HeaderTitle: '画像解析保存画面',
 			// Auth: true,
+		}),
+		'/tools/voting': new WrapperComponent({
+			Stores,
+			ChildComponent: VotingPage,
+			HeaderTitle: '投票ツール',
 		}),
 		'/login': new WrapperComponent({
 			Stores,

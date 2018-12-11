@@ -102,7 +102,9 @@ export default class AnalyzeImageSavePage {
 				</Button>
 				<div>
 					<Text
-						OnInputHandler={this.AnalyzeImageSaveAction.onInputModelName}
+						OnInputHandler={(event: SyntheticInputEvent<HTMLInputElement>) =>
+							this.AnalyzeImageSaveAction.onInputModelName(event)
+						}
 						Placeholder="モデル名"
 					/>
 					<Button

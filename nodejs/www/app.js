@@ -22,6 +22,7 @@ import authApi from './routes/api/auth'
 import userApi from './routes/api/user'
 import webpushApi from './routes/api/webpush'
 import adminUserApi from './routes/api/admin/user'
+import googleSpreadSheetApi from './routes/api/google/spreadsheet'
 import adminStatic from './routes/admin_static'
 import admin from './routes/admin'
 import authFacebook from './routes/auth/facebook'
@@ -91,6 +92,7 @@ app.use('/api/auth', authApi)
 app.use('/api/user', userApi)
 app.use('/api/webpush', webpushApi)
 app.use('/api/admin/user', adminUserApi)
+app.use('/api/google/spreadsheet', googleSpreadSheetApi)
 
 // Auth
 app.use(passport.initialize())

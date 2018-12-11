@@ -9,6 +9,8 @@ declare var process: {
 		GOOGLE_CLIENT_ID: string,
 		GOOGLE_CLIENT_SECRET: string,
 		GOOGLE_CALLBACK: string,
+		GOOGLE_SERVICE_CLIENT_EMAIL: string,
+		GOOGLE_SERVICE_PRIVATE_KEY: string,
 		FACEBOOK_APP_ID: string,
 		FACEBOOK_APP_SECRET: string,
 		FACEBOOK_CALLBACK: string,

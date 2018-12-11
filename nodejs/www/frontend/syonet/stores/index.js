@@ -7,6 +7,7 @@ import TermStore from './common/term'
 import AnalyzeImageSaveStore from './analyze_image/save'
 import AnalyzeImageListStore from './analyze_image/list'
 import AnalyzeImageLoadStore from './analyze_image/load'
+import VotingStore from './voting'
 
 import type { HeaderStoreType } from './common/header'
 import type { SidebarStoreType } from './common/sidebar'
@@ -15,6 +16,7 @@ import type { TermStoreType } from './common/term'
 import type { AnalyzeImageSaveStoreType } from './analyze_image/save'
 import type { AnalyzeImageListStoreType } from './analyze_image/list'
 import type { AnalyzeImageLoadStoreType } from './analyze_image/load'
+import type { VotingStoreType } from './voting'
 
 export type StoresType = HeaderStoreType &
 	SidebarStoreType &
@@ -22,7 +24,8 @@ export type StoresType = HeaderStoreType &
 	TermStoreType &
 	AnalyzeImageSaveStoreType &
 	AnalyzeImageListStoreType &
-	AnalyzeImageLoadStoreType
+	AnalyzeImageLoadStoreType &
+	VotingStoreType
 
 const Stores = {
 	HeaderStore,
@@ -32,6 +35,7 @@ const Stores = {
 	AnalyzeImageSaveStore,
 	AnalyzeImageListStore,
 	AnalyzeImageLoadStore,
+	VotingStore,
 }
 
 export default Stores

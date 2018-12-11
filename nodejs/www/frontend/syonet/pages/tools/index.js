@@ -3,9 +3,9 @@
  * @jsx m
  */
 
-import { m } from '../../statics/mithril'
+import { m } from '@F_syonet/statics/mithril'
 
-import type { StoresType } from '../../stores'
+import type { StoresType } from '@F_syonet/stores'
 
 export type IndexPageVnode = {
 	attrs: {
@@ -44,6 +44,14 @@ export default class ToolsPage {
 						}}
 					>
 						<a href="/tools/analyze_image">画像解析ツール</a>
+					</li>
+					<li
+						onclick={event => {
+							event.preventDefault()
+							m.route.set('/tools/voting')
+						}}
+					>
+						<a href="/tools/voting">投票ツール</a>
 					</li>
 				</ul>
 			</div>

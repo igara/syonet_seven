@@ -8,6 +8,7 @@ import FooterStyle from '@F_syonet/styles/common/footer.pcss'
 import TermStyle from '@F_syonet/styles/common/term.pcss'
 import ButtonStyle from '@F_syonet/styles/common/input/button.pcss'
 import TextStyle from '@F_syonet/styles/common/input/text.pcss'
+import SelectStyle from '@F_syonet/styles/common/input/select.pcss'
 import AnalyzeImageSaveStyle from '@F_syonet/styles/analyze_image/save.pcss'
 import AnalyzeImageLoadStyle from '@F_syonet/styles/analyze_image/load.pcss'
 
@@ -30,6 +31,7 @@ export {
 	IconStyle,
 	ButtonStyle,
 	TextStyle,
+	SelectStyle,
 	AnalyzeImageSaveStyle,
 	AnalyzeImageLoadStyle,
 }

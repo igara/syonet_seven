@@ -53,13 +53,6 @@ export default class TextComponent {
 		this.DefalutValue = vnode.attrs.DefalutValue
 	}
 
-	oninit(vnode: TextComponentVnode) {
-		this.Stores = vnode.attrs.Stores
-		this.OnInputHandler = vnode.attrs.OnInputHandler
-		this.Placeholder = vnode.attrs.Placeholder
-		this.DefalutValue = vnode.attrs.DefalutValue
-	}
-
 	/**
 	 * Lifecycle: Creates a view out of virtual elements.
 	 */
@@ -68,7 +61,9 @@ export default class TextComponent {
 			<input
 				type="text"
 				class={TextStyle.text}
-				oninput={this.OnInputHandler}
+				oninput={(event: SyntheticInputEvent<HTMLInputElement>) =>
+					this.OnInputHandler(event)
+				}
 				placeholder={this.Placeholder}
 				value={this.DefalutValue}
 			/>
