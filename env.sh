@@ -15,6 +15,5 @@ fi
 echo "ENV:$env"
 
 cp "env/$env.env" ".env"
-cp "env/pm2_$env.json" "nodejs/www/pm2.json"
 
 echo "Finished SetEnv"
