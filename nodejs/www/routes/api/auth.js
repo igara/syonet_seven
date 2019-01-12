@@ -62,7 +62,18 @@ export const authCheck = async (
 				message: 'NG',
 			})
 		}
-		res.cookie('token', sessionId, { maxAge: 60 * 60 * 1000, httpOnly: false })
+		const isProduction = process.env.NODE_ENV === 'production'
+		const cookie = isProduction
+			? {
+					httpOnly: false,
+					maxAge: 60 * 60 * 1000,
+					domein: `.${process.env.WWW_DOMAIN}`,
+			  }
+			: {
+					httpOnly: false,
+					maxAge: 60 * 60 * 1000,
+			  }
+		res.cookie('token', sessionId, cookie)
 		res.status(200)
 		return res.send({
 			status: 200,
