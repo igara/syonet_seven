@@ -65,9 +65,11 @@ export const authCheck = async (
 		const isProduction = process.env.NODE_ENV === 'production'
 		const cookie = isProduction
 			? {
+					domain: `.${process.env.WWW_DOMAIN}`,
+					path: '/',
+					secure: true,
 					httpOnly: false,
 					maxAge: 60 * 60 * 1000,
-					domain: `.${process.env.WWW_DOMAIN}`,
 			  }
 			: {
 					httpOnly: false,
