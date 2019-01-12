@@ -57,8 +57,6 @@ export const twitter = async (req: express$Request, res: express$Response) => {
 			const cookie = isProduction
 				? {
 						domain: `.${process.env.WWW_DOMAIN}`,
-						path: '/',
-						secure: true,
 						httpOnly: false,
 						maxAge: 60 * 60 * 1000,
 				  }
