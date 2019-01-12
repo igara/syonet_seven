@@ -62,6 +62,7 @@ export const authCheck = async (
 				message: 'NG',
 			})
 		}
+		res.cookie('token', sessionId, { maxAge: 60 * 60 * 1000, httpOnly: false })
 		res.status(200)
 		return res.send({
 			status: 200,
