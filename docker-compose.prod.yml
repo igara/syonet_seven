@@ -10,6 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:cached
     environment:
       WWW_ENV: ${WWW_ENV}
+      WWW_DOMAIN: ${WWW_DOMAIN}
       DB_DOMAIN: ${DB_DOMAIN}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}

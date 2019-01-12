@@ -33,6 +33,11 @@ import { graphql } from './routes/graphql'
 
 const app = express()
 
+/**
+ * Local環境ではないかを判定する
+ */
+const isProduction = process.env.NODE_ENV === 'production'
+
 app.use(
 	compression({
 		threshold: 0,
@@ -65,7 +70,7 @@ app.use(
 // HTTPの時HTTPSアクセスにリダイレクトする
 app.use(
 	(req: express$Request, res: express$Response, next: express$NextFunction) => {
-		if (isNotLocalEnv() && req.headers['x-forwarded-proto'] !== 'https') {
+		if (isProduction && req.headers['x-forwarded-proto'] !== 'https') {
 			// request was via http, so redirect to https
 			res.redirect(`https://${req.hostname}${req.url}`)
 		} else {
@@ -99,6 +104,17 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 const MongoStore = connectMongo(session)
+const cookie = isProduction
+	? {
+			httpOnly: false,
+			maxAge: 60 * 60 * 1000,
+			domein: `.${process.env.WWW_DOMAIN}`,
+	  }
+	: {
+			httpOnly: false,
+			maxAge: 60 * 60 * 1000,
+	  }
+
 app.use(
 	session({
 		secret: 'syonet',
@@ -109,10 +125,7 @@ app.use(
 			autoRemoveInterval: 60,
 			stringify: false,
 		}),
-		cookie: {
-			httpOnly: false,
-			maxAge: 60 * 60 * 1000,
-		},
+		cookie,
 	}),
 )
 
@@ -159,11 +172,3 @@ app.use(
 )
 
 export default app
-
-/**
- * Local環境ではないかを判定する
- * @return {Boolean}
- */
-function isNotLocalEnv() {
-	return process.env.NODE_ENV === 'production'
-}

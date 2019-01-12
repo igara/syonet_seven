@@ -5,6 +5,7 @@ declare var process: {
 		NODE_ENV: string,
 		PORT: string,
 		WWW_ENV: string,
+		WWW_DOMAIN: string,
 		DB_DOMAIN: string,
 		GOOGLE_CLIENT_ID: string,
 		GOOGLE_CLIENT_SECRET: string,
