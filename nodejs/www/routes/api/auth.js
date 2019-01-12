@@ -67,7 +67,7 @@ export const authCheck = async (
 			? {
 					httpOnly: false,
 					maxAge: 60 * 60 * 1000,
-					domein: `.${process.env.WWW_DOMAIN}`,
+					domain: `.${process.env.WWW_DOMAIN}`,
 			  }
 			: {
 					httpOnly: false,
