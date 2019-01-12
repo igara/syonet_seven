@@ -51,7 +51,7 @@ export const twitter = async (req: express$Request, res: express$Response) => {
 		const userModel: UserModelType = new User()
 		await userModel.upsertByAuthUser(req.user)
 		const sid = req.cookies['connect.sid']
-		if (typeof sid === 'undefined' || sid === null || sid === '') {
+		if (typeof sid !== 'undefined' && sid !== null && sid !== '') {
 			const sessionId = sid.replace(/\.\S*$/, '')
 			const isProduction = process.env.NODE_ENV === 'production'
 			const cookie = isProduction
