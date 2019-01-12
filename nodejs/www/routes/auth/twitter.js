@@ -50,22 +50,24 @@ export const twitter = async (req: express$Request, res: express$Response) => {
 		await dbConnect()
 		const userModel: UserModelType = new User()
 		await userModel.upsertByAuthUser(req.user)
-		const sid = req.headers['connect.sid']
-		const sessionId = sid.replace(/\.\S*$/, '')
-		const isProduction = process.env.NODE_ENV === 'production'
-		const cookie = isProduction
-			? {
-					domain: `.${process.env.WWW_DOMAIN}`,
-					path: '/',
-					secure: true,
-					httpOnly: false,
-					maxAge: 60 * 60 * 1000,
-			  }
-			: {
-					httpOnly: false,
-					maxAge: 60 * 60 * 1000,
-			  }
-		res.cookie('token', sessionId, cookie)
+		const sid = req.cookies['connect.sid']
+		if (typeof sid === 'undefined' || sid === null || sid === '') {
+			const sessionId = sid.replace(/\.\S*$/, '')
+			const isProduction = process.env.NODE_ENV === 'production'
+			const cookie = isProduction
+				? {
+						domain: `.${process.env.WWW_DOMAIN}`,
+						path: '/',
+						secure: true,
+						httpOnly: false,
+						maxAge: 60 * 60 * 1000,
+				  }
+				: {
+						httpOnly: false,
+						maxAge: 60 * 60 * 1000,
+				  }
+			res.cookie('token', sessionId, cookie)
+		}
 		res.redirect('/login/check/')
 	} catch (error) {
 		console.error(error)
