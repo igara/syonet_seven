@@ -109,6 +109,7 @@ const cookie = isProduction
 			httpOnly: false,
 			maxAge: 60 * 60 * 1000,
 			domein: `.${process.env.WWW_DOMAIN}`,
+			secure: false,
 	  }
 	: {
 			httpOnly: false,
