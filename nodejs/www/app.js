@@ -36,7 +36,7 @@ const app = express()
 /**
  * Local環境ではないかを判定する
  */
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.WWW_ENV === 'production'
 
 app.use(
 	compression({

@@ -53,7 +53,7 @@ export const twitter = async (req: express$Request, res: express$Response) => {
 		const sid = req.cookies['connect.sid']
 		if (typeof sid !== 'undefined' && sid !== null && sid !== '') {
 			const sessionId = sid.replace(/\.\S*$/, '')
-			const isProduction = process.env.NODE_ENV === 'production'
+			const isProduction = process.env.WWW_ENV === 'production'
 			const cookie = isProduction
 				? {
 						domain: `.${process.env.WWW_DOMAIN}`,
