@@ -1,21 +1,14 @@
-// @flow
-
-import express from 'express'
-import path from 'path'
-// $FlowFixMe
-import favicon from 'serve-favicon'
-import logger from 'morgan'
-// $FlowFixMe
-import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
-// $FlowFixMe
-import passport from 'passport'
-// $FlowFixMe
-import compression from 'compression'
-// $FlowFixMe
-import session from 'express-session'
-import connectMongo from 'connect-mongo'
-import mongoose from './models'
+import * as express from 'express'
+import * as path from 'path'
+import * as favicon from 'serve-favicon'
+import * as logger from 'morgan'
+import * as cookieParser from 'cookie-parser'
+import * as bodyParser from 'body-parser'
+import * as passport from 'passport'
+import * as compression from 'compression'
+import * as session from 'express-session'
+import * as connectMongo from 'connect-mongo'
+import mongoose, { dbConnect } from './models'
 
 // API・Page Import
 import authApi from './routes/api/auth'
@@ -49,35 +42,31 @@ app.use(
 const staticDir = path.join(__dirname, 'dist/prod')
 
 // CORSを許可する
-app.use(
-	(req: express$Request, res: express$Response, next: express$NextFunction) => {
-		res.set('Access-Control-Allow-Origin', '*')
-		res.set('Access-Control-Allow-Headers', 'Content-Type')
-		res.set('Cache-Control', 'public, max-age=3600')
+app.use((req, res, next) => {
+	res.set('Access-Control-Allow-Origin', '*')
+	res.set('Access-Control-Allow-Headers', 'Content-Type')
+	res.set('Cache-Control', 'public, max-age=3600')
 
-		if (req.method === 'OPTIONS') {
-			res.append('Access-Control-Allow-Headers', 'Token')
-			res.set(
-				'Access-Control-Allow-Methods',
-				req.get('access-control-request-Method'),
-			)
-			return res.send()
-		}
-		next()
-	},
-)
+	if (req.method === 'OPTIONS') {
+		res.append('Access-Control-Allow-Headers', 'Token')
+		res.set(
+			'Access-Control-Allow-Methods',
+			req.get('access-control-request-Method'),
+		)
+		return res.send()
+	}
+	next()
+})
 
 // HTTPの時HTTPSアクセスにリダイレクトする
-app.use(
-	(req: express$Request, res: express$Response, next: express$NextFunction) => {
-		if (isProduction && req.headers['x-forwarded-proto'] !== 'https') {
-			// request was via http, so redirect to https
-			res.redirect(`https://${req.hostname}${req.url}`)
-		} else {
-			next()
-		}
-	},
-)
+app.use((req, res, next) => {
+	if (isProduction && req.headers['x-forwarded-proto'] !== 'https') {
+		// request was via http, so redirect to https
+		res.redirect(`https://${req.hostname}${req.url}`)
+	} else {
+		next()
+	}
+})
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -99,10 +88,11 @@ app.use('/api/webpush', webpushApi)
 app.use('/api/admin/user', adminUserApi)
 app.use('/api/google/spreadsheet', googleSpreadSheetApi)
 
-// Auth
-app.use(passport.initialize())
-app.use(passport.session())
-
+mongoose.connect(
+	'mongodb://mongodb/syonet',
+	// @ts-ignore: Unreachable code error
+	{ useNewUrlParser: true },
+)
 const MongoStore = connectMongo(session)
 const cookie = isProduction
 	? {
@@ -128,47 +118,37 @@ app.use(
 		cookie,
 	}),
 )
-
+// Auth
+app.use(passport.initialize())
+app.use(passport.session())
 app.use('/auth/facebook', authFacebook)
 app.use('/auth/twitter', authTwitter)
 app.use('/auth/google', authGoogle)
 app.use('/auth/github', authGithub)
+
 app.use('/manage', admin)
 
-app.get('/service-worker.js', (req: express$Request, res: express$Response) => {
+app.get('/service-worker.js', (req, res) => {
 	return res.sendFile(path.join(staticDir, 'syonet/service-worker.js'))
 })
 
-app.get('*', (req: express$Request, res: express$Response) => {
+app.get('*', (req, res) => {
 	return res.sendFile(path.join(staticDir, 'syonet/index.html'))
 })
 
 // catch 404 and forward to error handler
-app.use(
-	(req: express$Request, res: express$Response, next: express$NextFunction) => {
-		const err: Error = new Error('Not Found')
-		// $FlowFixMe
-		err.status = 404
-		next(err)
-	},
-)
+app.use((req, res, next) => {
+	const err: Error = new Error('Not Found')
+	next(err)
+})
 
 // error handler
-app.use(
-	(
-		err: Error,
-		req: express$Request,
-		res: express$Response,
-		next: express$NextFunction,
-	) => {
-		// set locals, only providing error in development
-		res.locals.message = err.message
-		res.locals.error = req.app.get('env') === 'local' ? err : {}
-		// render the error page
-		// $FlowFixMe
-		res.status(err.status || 500)
-		return res.sendFile(path.join(staticDir, 'syonet/index.html'))
-	},
-)
+app.use((req, res, next) => {
+	// set locals, only providing error in development
+	res.locals.error = {}
+	// render the error page
+	res.status(404)
+	return res.sendFile(path.join(staticDir, 'syonet/index.html'))
+})
 
 export default app

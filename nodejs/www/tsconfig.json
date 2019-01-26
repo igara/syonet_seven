@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"lib": ["es2015", "dom"],
+		"strict": true,
+		"baseUrl": "./",
+		"esModuleInterop": false,
+		"paths": {
+			"@F_syonet/*": ["./frontend/syonet/*"],
+			"@F_admin/*": ["./frontend/admin/*"],
+			"@www/*": ["./*"],
+			"*": ["./ts-typed/*"]
+		}
+	}
+}

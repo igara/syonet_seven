@@ -1,13 +1,9 @@
-// @flow
-
-import express from 'express'
-// $FlowFixMe
+import * as express from 'express'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
-// $FlowFixMe
-import passport from 'passport'
+import * as passport from 'passport'
 import { dbConnect, dbClose } from '@www/models'
-import User from '@www/models/user'
-import type { UserModelType } from '@www/models/user'
+import * as User from '@www/models/user'
+
 const router = express.Router()
 
 /**
@@ -16,10 +12,14 @@ const router = express.Router()
 passport.use(
 	new FacebookStrategy(
 		{
-			clientID: process.env.FACEBOOK_APP_ID,
-			clientSecret: process.env.FACEBOOK_APP_SECRET,
-			callbackURL: process.env.FACEBOOK_CALLBACK,
-			scope: ['email', 'user_friends', 'user_birthday', 'user_location'],
+			clientID: process.env.FACEBOOK_APP_ID ? process.env.FACEBOOK_APP_ID : '',
+			clientSecret: process.env.FACEBOOK_APP_SECRET
+				? process.env.FACEBOOK_APP_SECRET
+				: '',
+			callbackURL: process.env.FACEBOOK_CALLBACK
+				? process.env.FACEBOOK_CALLBACK
+				: '',
+			// scope: ['email', 'user_friends', 'user_birthday', 'user_location'],
 			profileFields: ['id', 'email', 'displayName', 'name', 'gender', 'photos'],
 		},
 		(accessToken, refreshToken, profile, done) => {
@@ -42,15 +42,11 @@ router.get('/', passport.authenticate('facebook'))
 
 /**
  * 認証完了画面
- * @param {Request} req
- * @param {Response} res
- * $FlowFixMe
  */
-export const facebook = async (req: express$Request, res: express$Response) => {
+export const facebook = async (req: express.Request, res: express.Response) => {
 	try {
 		await dbConnect()
-		const userModel: UserModelType = new User()
-		await userModel.upsertByAuthUser(req.user)
+		await User.upsertByAuthUser(req.user)
 		res.redirect('/login/check/')
 	} catch (error) {
 		console.error(error)

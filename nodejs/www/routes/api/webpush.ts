@@ -1,15 +1,16 @@
-// @flow
-
-import express from 'express'
-import webpush from 'web-push'
+import * as express from 'express'
+import * as webpush from 'web-push'
 import { dbConnect, dbClose } from '@www/models'
-import Notification from '@www/models/notification'
-import type { NotificationModelType } from '@www/models/notification'
+import * as Notification from '@www/models/notification'
 
-const contact = process.env.WEBPUSH_CONTACT
+const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : ''
 const vapidKeys = {
-	publicKey: process.env.WEBPUSH_VAPIDKEYS_PUBLIC,
-	privateKey: process.env.WEBPUSH_VAPIDKEYS_PRIVATE,
+	publicKey: process.env.WEBPUSH_VAPIDKEYS_PUBLIC
+		? process.env.WEBPUSH_VAPIDKEYS_PUBLIC
+		: '',
+	privateKey: process.env.WEBPUSH_VAPIDKEYS_PRIVATE
+		? process.env.WEBPUSH_VAPIDKEYS_PRIVATE
+		: '',
 }
 
 webpush.setVapidDetails(contact, vapidKeys.publicKey, vapidKeys.privateKey)
@@ -17,9 +18,9 @@ webpush.setVapidDetails(contact, vapidKeys.publicKey, vapidKeys.privateKey)
 const router = express.Router()
 
 const getWebpushKey = async (
-	req: express$Request,
-	res: express$Response,
-	next,
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction,
 ) => {
 	return res.json({
 		publicKey: vapidKeys.publicKey,
@@ -29,9 +30,9 @@ const getWebpushKey = async (
 router.get('/', getWebpushKey)
 
 const postWebpush = async (
-	req: express$Request,
-	res: express$Response,
-	next,
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction,
 ) => {
 	try {
 		let notification
@@ -57,17 +58,16 @@ const postWebpush = async (
 
 		await dbConnect()
 
-		const findResult = await Notification.findOne({
+		const findResult = await Notification.getNotification({
 			...notification,
-		}).exec()
+		})
 		if (findResult) {
 			return res.send({
 				status: 200,
 				message: 'Registed',
 			})
 		}
-		const notificationModel: NotificationModelType = new Notification()
-		await notificationModel.insertNotification(notification)
+		await Notification.insertNotification(notification)
 
 		const subscription = {
 			endpoint: notification.endpoint,

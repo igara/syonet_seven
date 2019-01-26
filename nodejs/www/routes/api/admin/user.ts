@@ -1,21 +1,18 @@
-// @flow
-
-import express from 'express'
+import * as express from 'express'
 import { dbConnect, dbClose } from '@www/models'
-import User from '@www/models/user'
-import type { UserModelType, GetUserInfoReturn } from '@www/models/user'
-import Session from '@www/models/session'
-import type {
-	SessionModelType,
-	GetSessionBySessionIdReturn,
-} from '@www/models/session'
+import * as User from '@www/models/user'
+import * as Session from '@www/models/session'
 
 const router = express.Router()
 
-const list = async (req: express$Request, res: express$Response, next) => {
+const list = async (
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction,
+) => {
 	try {
 		const token = req.headers['token']
-		if (typeof token === 'undefined' || token === null || token === '') {
+		if (typeof token !== 'string' || token === null || token === '') {
 			res.status(401)
 			return res.send({
 				status: 401,
@@ -25,11 +22,9 @@ const list = async (req: express$Request, res: express$Response, next) => {
 		const sessionId = token.replace(/^connect.sid=s:/, '').replace(/\.\S*$/, '')
 
 		await dbConnect()
-		const sessionModel: SessionModelType = new Session()
-		const session: GetSessionBySessionIdReturn = await sessionModel.getSessionBySessionId(
-			sessionId,
-		)
+		const session = await Session.getSessionBySessionId(sessionId)
 		if (
+			session === null ||
 			typeof session.session.passport === 'undefined' ||
 			session.session.passport === null ||
 			typeof session.session.passport.user === 'undefined' ||
@@ -43,8 +38,7 @@ const list = async (req: express$Request, res: express$Response, next) => {
 		}
 		const id = session.session.passport.user.id
 		const provider = session.session.passport.user.provider
-		const userModel: UserModelType = new User()
-		const isAdmin: boolean = await userModel.getIsAdmin(id, provider)
+		const isAdmin: boolean = await User.getIsAdmin(id, provider)
 		if (isAdmin === false) {
 			res.status(401)
 			return res.send({
@@ -53,13 +47,13 @@ const list = async (req: express$Request, res: express$Response, next) => {
 			})
 		}
 
-		const userCount = await userModel.getUserCount()
+		const userCount = await User.getUserCount()
 		let limit = isNaN(+req.query.limit) ? 1 : +req.query.limit
 		limit = limit === 0 ? 1 : limit
 		limit = limit < userCount ? limit : userCount
 		let offset = isNaN(+req.query.next) ? 0 : +req.query.next - 1
 		offset = offset < userCount ? offset : userCount
-		const userList = await userModel.getUserList(offset, limit)
+		const userList = await User.getUserList(offset, limit)
 		res.status(200)
 		return res.send({
 			status: 200,

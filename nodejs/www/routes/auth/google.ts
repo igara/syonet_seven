@@ -1,12 +1,8 @@
-// @flow
-import express from 'express'
-// $FlowFixMe
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
-// $FlowFixMe
-import passport from 'passport'
+import * as express from 'express'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
+import * as passport from 'passport'
 import { dbConnect, dbClose } from '@www/models'
-import User from '@www/models/user'
-import type { UserModelType } from '@www/models/user'
+import * as User from '@www/models/user'
 
 const router = express.Router()
 
@@ -16,10 +12,16 @@ const router = express.Router()
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: process.env.GOOGLE_CALLBACK,
-			accessType: 'offline',
+			clientID: process.env.GOOGLE_CLIENT_ID
+				? process.env.GOOGLE_CLIENT_ID
+				: '',
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET
+				? process.env.GOOGLE_CLIENT_SECRET
+				: '',
+			callbackURL: process.env.GOOGLE_CALLBACK
+				? process.env.GOOGLE_CALLBACK
+				: '',
+			// accessType: 'offline',
 		},
 		(accessToken, refreshToken, profile, done) => {
 			done(null, profile)
@@ -47,15 +49,11 @@ router.get(
 
 /**
  * 認証完了画面
- * @param {Request} req
- * @param {Response} res
- * $FlowFixMe
  */
-export const google = async (req: express$Request, res: express$Response) => {
+export const google = async (req: express.Request, res: express.Response) => {
 	try {
 		await dbConnect()
-		const userModel: UserModelType = new User()
-		await userModel.upsertByAuthUser(req.user)
+		await User.upsertByAuthUser(req.user)
 		res.redirect('/login/check/')
 	} catch (error) {
 		console.error(error)

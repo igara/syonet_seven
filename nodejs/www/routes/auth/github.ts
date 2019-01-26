@@ -1,12 +1,8 @@
-// @flow
-import express from 'express'
-// $FlowFixMe
+import * as express from 'express'
 import { Strategy as GithubStrategy } from 'passport-github'
-// $FlowFixMe
-import passport from 'passport'
+import * as passport from 'passport'
 import { dbConnect, dbClose } from '@www/models'
-import User from '@www/models/user'
-import type { UserModelType } from '@www/models/user'
+import * as User from '@www/models/user'
 
 const router = express.Router()
 
@@ -16,9 +12,15 @@ const router = express.Router()
 passport.use(
 	new GithubStrategy(
 		{
-			clientID: process.env.GITHUB_CLIENT_ID,
-			clientSecret: process.env.GITHUB_CLIENT_SECRET,
-			callbackURL: process.env.GITHUB_CALLBACK,
+			clientID: process.env.GITHUB_CLIENT_ID
+				? process.env.GITHUB_CLIENT_ID
+				: '',
+			clientSecret: process.env.GITHUB_CLIENT_SECRET
+				? process.env.GITHUB_CLIENT_SECRET
+				: '',
+			callbackURL: process.env.GITHUB_CALLBACK
+				? process.env.GITHUB_CALLBACK
+				: '',
 		},
 		(accessToken, refreshToken, profile, done) => {
 			done(null, profile)
@@ -40,15 +42,11 @@ router.get('/', passport.authenticate('github'))
 
 /**
  * 認証完了画面
- * @param {Request} req
- * @param {Response} res
- * $FlowFixMe
  */
-export const github = async (req: express$Request, res: express$Response) => {
+export const github = async (req: express.Request, res: express.Response) => {
 	try {
 		await dbConnect()
-		const userModel: UserModelType = new User()
-		await userModel.upsertByAuthUser(req.user)
+		await User.upsertByAuthUser(req.user)
 		res.redirect('/login/check/')
 	} catch (error) {
 		console.error(error)

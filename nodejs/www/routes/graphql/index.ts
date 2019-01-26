@@ -1,4 +1,5 @@
-import bodyParser from 'body-parser'
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import {
 	makeExecutableSchema,
@@ -6,7 +7,7 @@ import {
 	mergeSchemas,
 } from 'graphql-tools'
 
-export const graphql = app => {
+export const graphql = (app: express.Express) => {
 	// Some fake data
 	const books = [
 		{

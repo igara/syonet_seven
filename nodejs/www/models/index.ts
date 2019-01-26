@@ -1,41 +1,37 @@
-// @flow
-
-import mongoose from 'mongoose'
-
-if (!global.TEST && !process.env.TEST && process.env.WWW_ENV) {
-	mongoose.connect(
-		'mongodb://mongodb/syonet',
-		{ useNewUrlParser: true },
-	)
-}
+import * as mongoose from 'mongoose'
 
 export const dbConnect = async () => {
 	if (
+		// @ts-ignore: Unreachable code error
 		(global.TEST === 'test' || process.env.TEST === 'test') &&
 		!process.env.WWW_ENV
 	) {
-		await mongoose.connect(
+		return await mongoose.connect(
 			'mongodb://localhost:27017/test',
+			// @ts-ignore: Unreachable code error
 			{ useNewUrlParser: true },
 		)
 	} else if (
+		// @ts-ignore: Unreachable code error
 		(global.TEST === 'test' || process.env.TEST === 'test') &&
 		process.env.WWW_ENV
 	) {
-		await mongoose.connect(
+		return await mongoose.connect(
 			'mongodb://mongodb/test',
+			// @ts-ignore: Unreachable code error
 			{ useNewUrlParser: true },
 		)
 	} else {
-		await mongoose.connect(
+		return await mongoose.connect(
 			'mongodb://mongodb/syonet',
+			// @ts-ignore: Unreachable code error
 			{ useNewUrlParser: true },
 		)
 	}
 }
 
 export const dbClose = async () => {
-	await mongoose.connection.close()
+	return await mongoose.connection.close()
 }
 
 export default mongoose

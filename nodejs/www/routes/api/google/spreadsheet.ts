@@ -1,20 +1,22 @@
-// @flow
-
-import express from 'express'
-import GoogleSpreadsheet from 'google-spreadsheet'
+import * as express from 'express'
+import * as GoogleSpreadsheet from 'google-spreadsheet'
 import { promisify } from 'util'
 
 const router = express.Router()
 
 const credentials = {
-	client_email: process.env.GOOGLE_SERVICE_CLIENT_EMAIL,
-	private_key: process.env.GOOGLE_SERVICE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+	client_email: process.env.GOOGLE_SERVICE_CLIENT_EMAIL
+		? process.env.GOOGLE_SERVICE_CLIENT_EMAIL
+		: '',
+	private_key: process.env.GOOGLE_SERVICE_PRIVATE_KEY
+		? process.env.GOOGLE_SERVICE_PRIVATE_KEY.replace(/\\n/g, '\n')
+		: '',
 }
 
 const getSpreadSheetPage = async (
-	req: express$Request,
-	res: express$Response,
-	next,
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction,
 ) => {
 	try {
 		if (
@@ -31,7 +33,9 @@ const getSpreadSheetPage = async (
 		const spreadSheet = new GoogleSpreadsheet(req.query.id)
 		const useServiceAccountAuth = promisify(spreadSheet.useServiceAccountAuth)
 		await useServiceAccountAuth(credentials)
-		const getInfo = promisify(spreadSheet.getInfo)
+		const getInfo = promisify<{ title: string; worksheets: Array<any> }>(
+			spreadSheet.getInfo,
+		)
 		const sheetInfo = await getInfo()
 		const pageTitle = sheetInfo.title
 		const sheetsTitles = sheetInfo.worksheets.map(sheet => sheet.title)
@@ -51,9 +55,9 @@ const getSpreadSheetPage = async (
 router.get('/page', getSpreadSheetPage)
 
 const getSpreadSheet = async (
-	req: express$Request,
-	res: express$Response,
-	next,
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction,
 ) => {
 	try {
 		if (
@@ -75,14 +79,32 @@ const getSpreadSheet = async (
 		const useServiceAccountAuth = promisify(spreadSheet.useServiceAccountAuth)
 		await useServiceAccountAuth(credentials)
 
-		const getInfo = promisify(spreadSheet.getInfo)
+		const getInfo = promisify<{ title: string; worksheets: Array<any> }>(
+			spreadSheet.getInfo,
+		)
 		const sheetInfo = await getInfo()
 		const pageTitle = sheetInfo.title
 
-		let rows = []
+		let rows: Array<{
+			'app:edited': string
+			id: string
+			_xml: string
+			save: string
+			del: string
+			_links: string
+		}> = []
 		for (const worksheet of sheetInfo.worksheets) {
 			if (worksheet.title === sheetTitle) {
-				const getRows = promisify(worksheet.getRows)
+				const getRows = promisify<
+					Array<{
+						'app:edited': string
+						id: string
+						_xml: string
+						save: string
+						del: string
+						_links: string
+					}>
+				>(worksheet.getRows)
 				const sheetRows = await getRows()
 				// const addRow = promisify(worksheet.addRow)
 				// await addRow({
