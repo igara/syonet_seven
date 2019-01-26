@@ -7,3 +7,4 @@ data/ssl_certs/*
 !data/.gitkeep
 !data/mongo/.gitkeep
 !data/ssl_certs/.gitkeep
+.DS_Store

@@ -2,5 +2,6 @@ node_modules
 dist
 .cache
 yarn-error.log
+yarn.lock
 pm2.json
 coverage
