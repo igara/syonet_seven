@@ -1,14 +1,18 @@
-// https://facebook.github.io/jest/docs/ja/configuration.html
+const tsconfig = require('./tsconfig.json')
+const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig)
+
 module.exports = {
 	roots: ['./specs'],
 	notify: true,
-	moduleFileExtensions: ['js'],
+	moduleFileExtensions: ['js', 'ts'],
 	testEnvironment: 'jest-environment-jsdom-global',
 	transform: {
 		'^.+\\.js$': 'babel-jest',
+		'^.+\\.ts$': 'ts-jest',
 	},
 	collectCoverageFrom: [
-		'**/*.{js,jsx}',
+		'**/*.{js}',
+		'**/*.{ts}',
 		'!<rootDir>/node_modules/',
 		'!<rootDir>/flow-typed/**',
 		'!<rootDir>/frontend/syonet/statics/**',
@@ -16,4 +20,6 @@ module.exports = {
 	globals: {
 		TEST: 'test',
 	},
+	testMatch: ['**/specs/**/*.ts'],
+	moduleNameMapper,
 }

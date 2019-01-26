@@ -1,5 +1,3 @@
-// @flow
-
 describe('getUserInfo', () => {
 	beforeEach(() => {
 		jest.resetModules()
@@ -8,7 +6,6 @@ describe('getUserInfo', () => {
 		const { dbConnect, dbClose } = require('@www/models')
 		const { getUserInfo } = require('@www/models/user')
 		await dbConnect()
-		// $FlowFixMe
 		const result = await getUserInfo()
 		expect(result).toBe(null)
 		await dbClose()

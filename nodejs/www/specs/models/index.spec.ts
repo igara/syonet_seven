@@ -1,4 +1,3 @@
-// @flow
 const env = JSON.parse(JSON.stringify(process.env)).WWW_ENV
 
 describe('index', () => {

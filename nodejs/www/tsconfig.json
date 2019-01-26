@@ -9,8 +9,7 @@
 		"paths": {
 			"@F_syonet/*": ["./frontend/syonet/*"],
 			"@F_admin/*": ["./frontend/admin/*"],
-			"@www/*": ["./*"],
-			"*": ["./ts-typed/*"]
+			"@www/*": ["./*"]
 		}
 	}
 }

@@ -1,5 +1,3 @@
-// @flow
-
 describe('getSessionBySessionId', () => {
 	beforeEach(() => {
 		jest.resetModules()
@@ -8,7 +6,6 @@ describe('getSessionBySessionId', () => {
 		const { dbConnect, dbClose } = require('@www/models')
 		const { getSessionBySessionId } = require('@www/models/session')
 		await dbConnect()
-		// $FlowFixMe
 		const result = await getSessionBySessionId()
 		expect(result).toBe(null)
 		await dbClose()

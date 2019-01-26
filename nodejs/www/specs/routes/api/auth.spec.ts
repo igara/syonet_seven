@@ -1,5 +1,3 @@
-// @flow
-
 describe('/auth/check', () => {
 	beforeEach(() => {
 		jest.resetModules()
@@ -34,7 +32,6 @@ describe('/auth/check', () => {
 			send: jest.fn(),
 		}
 		const { authCheck } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authCheck(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -72,7 +69,6 @@ describe('/auth/check', () => {
 			send: jest.fn(),
 		}
 		const { authCheck } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authCheck(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -157,7 +153,6 @@ describe('/auth/check', () => {
 			send: jest.fn(),
 		}
 		const { authCheck } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authCheck(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -206,7 +201,6 @@ describe('/auth/check', () => {
 			send: jest.fn(),
 		}
 		const { authCheck } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authCheck(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(200)
 		expect(response.send.mock.calls[0][0].status).toBe(200)
@@ -250,7 +244,6 @@ describe('/auth/check', () => {
 			send: jest.fn(),
 		}
 		const { authCheck } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authCheck(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(500)
 		expect(response.send.mock.calls[0][0].status).toBe(500)
@@ -281,7 +274,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(500)
 		expect(response.send.mock.calls[0][0].status).toBe(500)
@@ -309,7 +301,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -339,7 +330,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -369,7 +359,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(401)
 		expect(response.send.mock.calls[0][0].status).toBe(401)
@@ -399,7 +388,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(200)
 		expect(response.send.mock.calls[0][0].status).toBe(200)
@@ -428,7 +416,6 @@ describe('/auth/delete', () => {
 			send: jest.fn(),
 		}
 		const { authDelete } = require('@www/routes/api/auth')
-		// $FlowFixMe
 		await authDelete(request, response)
 		expect(response.status.mock.calls[0][0]).toBe(500)
 		expect(response.send.mock.calls[0][0].status).toBe(500)

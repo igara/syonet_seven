@@ -1,5 +1,3 @@
-// @flow
-
 describe('getNotificationList', () => {
 	beforeEach(() => {
 		jest.resetModules()
