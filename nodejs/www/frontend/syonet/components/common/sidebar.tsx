@@ -1,24 +1,24 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
-import { SidebarStyle, IconStyle } from '@F_syonet/styles'
-import { sleep } from '@www/libs/sleep'
-import { AppState } from '@F_syonet/stores/index'
-import { RoutesActions } from '@F_syonet/containers/routes'
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { SidebarStyle, IconStyle } from "@F_syonet/styles";
+import { sleep } from "@www/libs/sleep";
+import { AppState } from "@F_syonet/stores/index";
+import { RoutesActions } from "@F_syonet/containers/routes";
 
 interface OwnProps {}
 
-type SidebarProps = OwnProps & AppState & RoutesActions
+type SidebarProps = OwnProps & AppState & RoutesActions;
 
 /**
  * サイドバーを表示するコンポーネント
  */
 export const SidebarComponent: React.SFC<SidebarProps> = (
-	props: SidebarProps,
+	props: SidebarProps
 ) => {
 	return (
 		<div
 			className={`${SidebarStyle.sidebar_wrap_div} ${
-				props.Sidebar.SidebarDispFlag ? '' : SidebarStyle.hidden
+				props.Sidebar.SidebarDispFlag ? "" : SidebarStyle.hidden
 			}`}
 		>
 			<div className={SidebarStyle.sidebar_overlay_div} />
@@ -85,5 +85,5 @@ export const SidebarComponent: React.SFC<SidebarProps> = (
 				<div className={IconStyle.Close.close_mark} />
 			</button>
 		</div>
-	)
-}
+	);
+};

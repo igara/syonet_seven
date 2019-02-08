@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
+import * as React from "react";
+import { Link } from "react-router-dom";
 
 interface OwnProps {}
 
@@ -11,5 +11,5 @@ export const ToolsPageComponent: React.SFC<OwnProps> = () => {
 		<ul>
 			<li>何も置いてません</li>
 		</ul>
-	)
-}
+	);
+};

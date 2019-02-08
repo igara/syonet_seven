@@ -1,11 +1,11 @@
-import * as React from 'react'
-import { ButtonStyle } from '@F_syonet/styles'
+import * as React from "react";
+import { ButtonStyle } from "@F_syonet/styles";
 
 interface OwnProps {
-	Key: string
-	OnInputHandler: any
-	Multiple?: boolean
-	Accept: string
+	Key: string;
+	OnInputHandler: any;
+	Multiple?: boolean;
+	Accept: string;
 }
 
 /**
@@ -21,7 +21,7 @@ export const FileComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 						type="file"
 						onChange={props.OnInputHandler}
 						multiple
-						style={{ display: 'none' }}
+						style={{ display: "none" }}
 						id={`file_${props.Key}`}
 						accept={props.Accept}
 					/>
@@ -29,12 +29,12 @@ export const FileComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 					<input
 						type="file"
 						onChange={props.OnInputHandler}
-						style={{ display: 'none' }}
+						style={{ display: "none" }}
 						id={`file_${props.Key}`}
 						accept={props.Accept}
 					/>
 				)}
 			</label>
 		</button>
-	)
-}
+	);
+};

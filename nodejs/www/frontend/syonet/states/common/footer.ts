@@ -1,7 +1,7 @@
-import { reducerWithInitialState } from 'typescript-fsa-reducers'
+import { reducerWithInitialState } from "typescript-fsa-reducers";
 
 export interface FooterState {}
 
-const initialState: FooterState = {}
+const initialState: FooterState = {};
 
-export const footerReducer = reducerWithInitialState(initialState)
+export const footerReducer = reducerWithInitialState(initialState);

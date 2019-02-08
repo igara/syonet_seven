@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { HeaderStyle, IconStyle } from '@F_syonet/styles'
-import * as syonetSvg from '@F_syonet/images/syonet.svg'
-import { AppState } from '@F_syonet/stores/index'
-import { RoutesActions } from '@F_syonet/containers/routes'
+import * as React from "react";
+import { HeaderStyle, IconStyle } from "@F_syonet/styles";
+import * as syonetSvg from "@F_syonet/images/syonet.svg";
+import { AppState } from "@F_syonet/stores/index";
+import { RoutesActions } from "@F_syonet/containers/routes";
 
 interface OwnProps {}
 
-type HeaderProps = OwnProps & AppState & RoutesActions
+type HeaderProps = OwnProps & AppState & RoutesActions;
 
 /**
  * ヘッダーを表示するコンポーネント
@@ -24,5 +24,5 @@ export const HeaderComponent: React.SFC<HeaderProps> = (props: HeaderProps) => {
 				) : null}
 			</li>
 		</ul>
-	)
-}
+	);
+};

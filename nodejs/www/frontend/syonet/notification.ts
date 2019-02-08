@@ -1,45 +1,45 @@
-export default null
-declare var self: ServiceWorkerGlobalScope
+export default null;
+declare var self: ServiceWorkerGlobalScope;
 
-self.addEventListener('install', event => {}, false)
+self.addEventListener("install", event => {}, false);
 
 self.addEventListener(
-	'activate',
+	"activate",
 	event => {
-		event.waitUntil(self.clients.claim())
+		event.waitUntil(self.clients.claim());
 	},
-	false,
-)
+	false
+);
 
 self.addEventListener(
-	'push',
+	"push",
 	event => {
 		// デスクトップ通知の表示処理
 		if (!event.data) {
-			return
+			return;
 		}
 
-		const data = event.data.json() // ペイロードを JSON 形式でパース
-		const title = data.title
-		const body = data.body
-		const icon = data.icon
-		const url = data.url
+		const data = event.data.json(); // ペイロードを JSON 形式でパース
+		const title = data.title;
+		const body = data.body;
+		const icon = data.icon;
+		const url = data.url;
 
 		event.waitUntil(
-			self.registration.showNotification(title, { body, icon, data: { url } }),
-		)
+			self.registration.showNotification(title, { body, icon, data: { url } })
+		);
 	},
-	false,
-)
+	false
+);
 
 self.addEventListener(
-	'notificationclick',
+	"notificationclick",
 	event => {
-		const notification = event.notification // Notification インスタンスを取得
-		const url = notification.data.url
+		const notification = event.notification; // Notification インスタンスを取得
+		const url = notification.data.url;
 
 		// 通知をクリックしたら, URL で指定されたページを新しいタブで開く
-		event.waitUntil(self.clients.openWindow(url))
+		event.waitUntil(self.clients.openWindow(url));
 	},
-	false,
-)
+	false
+);

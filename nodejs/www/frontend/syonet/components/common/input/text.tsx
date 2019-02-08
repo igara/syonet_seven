@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { TextStyle } from '@F_syonet/styles'
+import * as React from "react";
+import { TextStyle } from "@F_syonet/styles";
 
 interface OwnProps {
-	OnChangeHandler?: Function
-	DefalutValue: string
-	Placeholder: string
+	OnChangeHandler?: Function;
+	DefalutValue: string;
+	Placeholder: string;
 }
 
 /**
@@ -21,5 +21,5 @@ export const TextComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 			placeholder={props.Placeholder}
 			defaultValue={props.DefalutValue}
 		/>
-	)
-}
+	);
+};

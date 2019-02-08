@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 interface OwnProps {}
 
@@ -17,5 +17,5 @@ export const IndexPageComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 			/>
 			またこのページはオフラインでも見れます。たまに左下の三表示からキャッシュを削除してご利用ください。
 		</>
-	)
-}
+	);
+};

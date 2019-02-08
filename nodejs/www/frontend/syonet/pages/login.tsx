@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { getApiHost } from '@www/libs/api'
-import { ButtonComponent as Button } from '@F_syonet/components/common/input/button'
+import * as React from "react";
+import { getApiHost } from "@www/libs/api";
+import { ButtonComponent as Button } from "@F_syonet/components/common/input/button";
 
 interface OwnProps {}
 
@@ -8,7 +8,7 @@ interface OwnProps {}
  * Routing URL: //login/
  */
 export const LoginPageComponent: React.SFC<OwnProps> = (props: OwnProps) => {
-	const host = getApiHost()
+	const host = getApiHost();
 	return (
 		<>
 			ログイン画面です
@@ -25,5 +25,5 @@ export const LoginPageComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 				<a href={`${host}/auth/github`}>github</a>
 			</Button>
 		</>
-	)
-}
+	);
+};

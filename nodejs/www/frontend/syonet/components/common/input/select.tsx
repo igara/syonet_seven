@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { SelectStyle } from '@F_syonet/styles'
+import * as React from "react";
+import { SelectStyle } from "@F_syonet/styles";
 
 interface OwnProps {
-	children: Array<React.ReactNode>
-	OnChangeHandler?: Function
+	children: Array<React.ReactNode>;
+	OnChangeHandler?: Function;
 }
 
 export const SelectComponent: React.SFC<OwnProps> = (props: OwnProps) => {
@@ -14,5 +14,5 @@ export const SelectComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 		>
 			{props.children}
 		</select>
-	)
-}
+	);
+};

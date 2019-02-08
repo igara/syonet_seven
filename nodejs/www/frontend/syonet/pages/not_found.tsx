@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 interface OwnProps {}
 
@@ -6,5 +6,5 @@ interface OwnProps {}
  * Routing URL: //:any
  */
 export const NotFoundPageComponent: React.SFC<OwnProps> = () => {
-	return <>存在しないページです</>
-}
+	return <>存在しないページです</>;
+};

@@ -1,19 +1,19 @@
-import { reducerWithInitialState } from 'typescript-fsa-reducers'
-import { checkLogin, logout, Login } from '@F_syonet/actions/common/login'
+import { reducerWithInitialState } from "typescript-fsa-reducers";
+import { checkLogin, logout, Login } from "@F_syonet/actions/common/login";
 
 export interface StoreData<T> {
-	data: T
-	loading?: boolean
-	error?: any
+	data: T;
+	loading?: boolean;
+	error?: any;
 }
 
 export interface LoginState {
-	login: StoreData<Login>
+	login: StoreData<Login>;
 }
 
 const initialState: LoginState = {
-	login: { data: { status: 0, user: null }, loading: false },
-}
+	login: { data: { status: 0, user: null }, loading: false }
+};
 
 export const loginReducer = reducerWithInitialState(initialState)
 	.case(checkLogin.async.started, state => {
@@ -23,9 +23,9 @@ export const loginReducer = reducerWithInitialState(initialState)
 				...state.login,
 				data: { status: 0, user: null },
 				loading: true,
-				error: null,
-			},
-		}
+				error: null
+			}
+		};
 	})
 	.case(checkLogin.async.done, (state, payload) => {
 		return {
@@ -34,9 +34,9 @@ export const loginReducer = reducerWithInitialState(initialState)
 				...state.login,
 				data: payload.result,
 				loading: false,
-				error: null,
-			},
-		}
+				error: null
+			}
+		};
 	})
 	.case(checkLogin.async.failed, (state, payload) => {
 		return {
@@ -45,9 +45,9 @@ export const loginReducer = reducerWithInitialState(initialState)
 				...state.login,
 				data: { status: 0, user: null },
 				loading: false,
-				error: payload.error,
-			},
-		}
+				error: payload.error
+			}
+		};
 	})
 	.case(logout.async.started, state => {
 		return {
@@ -55,9 +55,9 @@ export const loginReducer = reducerWithInitialState(initialState)
 			login: {
 				...state.login,
 				loading: true,
-				error: null,
-			},
-		}
+				error: null
+			}
+		};
 	})
 	.case(logout.async.done, state => {
 		return {
@@ -66,9 +66,9 @@ export const loginReducer = reducerWithInitialState(initialState)
 				...state.login,
 				data: { status: 0, user: null },
 				loading: false,
-				error: null,
-			},
-		}
+				error: null
+			}
+		};
 	})
 	.case(logout.async.failed, (state, payload) => {
 		return {
@@ -76,7 +76,7 @@ export const loginReducer = reducerWithInitialState(initialState)
 			login: {
 				...state.login,
 				loading: false,
-				error: payload.error,
-			},
-		}
-	})
+				error: payload.error
+			}
+		};
+	});

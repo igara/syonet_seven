@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { TermStyle } from '@F_syonet/styles'
-import { sleep } from '@www/libs/sleep'
-import { ButtonComponent as Button } from '@F_syonet/components/common/input/button'
-import { AppState } from '@F_syonet/stores/index'
-import { RoutesActions } from '@F_syonet/containers/routes'
+import * as React from "react";
+import { TermStyle } from "@F_syonet/styles";
+import { sleep } from "@www/libs/sleep";
+import { ButtonComponent as Button } from "@F_syonet/components/common/input/button";
+import { AppState } from "@F_syonet/stores/index";
+import { RoutesActions } from "@F_syonet/containers/routes";
 
 interface OwnProps {}
 
-type TermProps = OwnProps & AppState & RoutesActions
+type TermProps = OwnProps & AppState & RoutesActions;
 
 /**
  * 利用規約を表示するコンポーネント
@@ -16,7 +16,7 @@ export const TermComponent: React.SFC<TermProps> = (props: TermProps) => {
 	return (
 		<div
 			className={`${TermStyle.term_wrap_div} ${
-				props.Term.TermDispFlag ? '' : TermStyle.hidden
+				props.Term.TermDispFlag ? "" : TermStyle.hidden
 			}`}
 		>
 			<div className={TermStyle.term_overlay_div}>
@@ -36,5 +36,5 @@ export const TermComponent: React.SFC<TermProps> = (props: TermProps) => {
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};

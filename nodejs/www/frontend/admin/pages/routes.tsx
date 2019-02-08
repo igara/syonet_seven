@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import * as React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Home from './admin'
-import User from './admin/user'
+import Home from "./admin";
+import User from "./admin/user";
 
-import { injectGlobal } from 'styled-components'
+import { injectGlobal } from "styled-components";
 
 injectGlobal`
   html {
@@ -17,7 +17,7 @@ injectGlobal`
 			margin: 0;
 		}
   }
-`
+`;
 
 const Routes = () => {
 	return (
@@ -27,7 +27,7 @@ const Routes = () => {
 				<Route exact path="/manage/user" component={User} />
 			</Switch>
 		</BrowserRouter>
-	)
-}
+	);
+};
 
-export default Routes
+export default Routes;

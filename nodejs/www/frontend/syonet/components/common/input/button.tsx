@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { ButtonStyle } from '@F_syonet/styles'
+import * as React from "react";
+import { ButtonStyle } from "@F_syonet/styles";
 
 interface OwnProps {
-	children: React.ReactNode
-	OnClickHandler?: Function
+	children: React.ReactNode;
+	OnClickHandler?: Function;
 }
 
 /**
@@ -19,5 +19,5 @@ export const ButtonComponent: React.SFC<OwnProps> = (props: OwnProps) => {
 		>
 			{props.children}
 		</button>
-	)
-}
+	);
+};

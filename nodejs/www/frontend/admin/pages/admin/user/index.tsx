@@ -1,43 +1,43 @@
-import * as React from 'react'
-import { callUserList } from '@www/libs/fetchs/admin'
-import styled from 'styled-components'
+import * as React from "react";
+import { callUserList } from "@www/libs/fetchs/admin";
+import styled from "styled-components";
 
-type Props = {}
+type Props = {};
 type State = {
 	users: Array<{
-		_id: string
+		_id: string;
 		auth: {
-			id: string
-			displayName: string
-			username: string
-			profileUrl: string
-			provider: string
-		}
-	}>
-}
+			id: string;
+			displayName: string;
+			username: string;
+			profileUrl: string;
+			provider: string;
+		};
+	}>;
+};
 
 class User extends React.Component<Props, State> {
 	state: State = {
-		users: [],
-	}
+		users: []
+	};
 
 	componentDidMount() {
-		let next = 1
-		let limit = 1
-		let users = []
+		let next = 1;
+		let limit = 1;
+		let users = [];
 		callUserList({ limit, next })
 			.then(async json => {
-				const { userCount } = json
+				const { userCount } = json;
 				while (next <= userCount) {
-					limit = 10
-					const json = await callUserList({ limit, next })
-					const { userList } = json
-					users = users.concat(userList)
-					next = next + 10
+					limit = 10;
+					const json = await callUserList({ limit, next });
+					const { userList } = json;
+					users = users.concat(userList);
+					next = next + 10;
 				}
-				this.setState({ ...this.state, users })
+				this.setState({ ...this.state, users });
 			})
-			.catch(console.error)
+			.catch(console.error);
 	}
 
 	render() {
@@ -66,11 +66,11 @@ class User extends React.Component<Props, State> {
 					))}
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
-export default User
+export default User;
 
 const UserListHeaderArea = styled.div`
 	display: flex;
@@ -78,11 +78,11 @@ const UserListHeaderArea = styled.div`
 		width: calc(100vw / 6);
 		word-break: break-all;
 	}
-`
+`;
 const UserListContentArea = styled.div`
 	display: flex;
 	div {
 		width: calc(100vw / 6);
 		word-break: break-all;
 	}
-`
+`;

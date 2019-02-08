@@ -1,4 +1,4 @@
-import { call, getApiHost } from '@www/libs/api'
+import { call, getApiHost } from "@www/libs/api";
 
 /**
  * ログインチェックを行う
@@ -6,12 +6,12 @@ import { call, getApiHost } from '@www/libs/api'
 export const callLoginCheck = async () => {
 	const result = await call({
 		url: `${getApiHost()}/api/auth/check`,
-		method: 'POST',
-		body: {},
-	})
-	const json = await result.json()
-	return json
-}
+		method: "POST",
+		body: {}
+	});
+	const json = await result.json();
+	return json;
+};
 
 /**
  * ログアウトを行う
@@ -19,9 +19,9 @@ export const callLoginCheck = async () => {
 export const callLogout = async () => {
 	const result = await call({
 		url: `${getApiHost()}/api/auth/delete`,
-		method: 'DELETE',
-		body: {},
-	})
-	const json = await result.json()
-	return json
-}
+		method: "DELETE",
+		body: {}
+	});
+	const json = await result.json();
+	return json;
+};
