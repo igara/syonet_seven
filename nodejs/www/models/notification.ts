@@ -7,6 +7,13 @@ export type InsertNotificationParam = {
 	p256dh: string
 }
 
+export interface NotificationData {
+	_id: string
+	endpoint: string
+	auth: string
+	p256dh: string
+}
+
 export interface NotificationDocument extends Document {
 	_id: string
 	endpoint: string

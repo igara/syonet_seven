@@ -1,6 +1,34 @@
 import { Document, Schema } from 'mongoose'
 import mongo from './index'
 
+export interface UserData {
+	_id: string
+	auth: {
+		id: string
+		username?: string
+		provider: string
+		displayName: string
+		name?: {
+			familyName: string
+			givenName: string
+		}
+		emails?: Array<{
+			value: string
+			type?: string
+		}>
+		_json: {
+			image?: {
+				url: string
+				isDefault: boolean
+			}
+		}
+		photos: Array<{
+			value: string
+		}>
+	}
+	type: string
+}
+
 export interface UserDocument extends Document {
 	_id: string
 	auth: {

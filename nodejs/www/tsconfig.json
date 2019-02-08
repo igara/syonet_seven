@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "es5",
 		"module": "commonjs",
-		"lib": ["es2015", "dom"],
+		"lib": ["es2015", "dom", "webworker"],
 		"strict": true,
 		"baseUrl": "./",
 		"esModuleInterop": false,
@@ -10,6 +10,8 @@
 			"@F_syonet/*": ["./frontend/syonet/*"],
 			"@F_admin/*": ["./frontend/admin/*"],
 			"@www/*": ["./*"]
-		}
+		},
+		"jsx": "react",
+		"noImplicitAny": false
 	}
 }

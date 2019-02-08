@@ -7,22 +7,18 @@ describe('/auth/check', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
-					return {
-						session: null,
-					}
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
-				getUserInfo: jest.fn().mockImplementation((id, provider) => {
-					return null
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
+				return {
+					session: null,
+				}
+			}),
+		}))
+		jest.doMock('@www/models/user', () => ({
+			getUserInfo: jest.fn().mockImplementation((id, provider) => {
+				return null
+			}),
+		}))
 
 		const request = {
 			headers: {},
@@ -42,22 +38,18 @@ describe('/auth/check', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
-					return {
-						session: null,
-					}
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
-				getUserInfo: jest.fn().mockImplementation((id, provider) => {
-					return null
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
+				return {
+					session: null,
+				}
+			}),
+		}))
+		jest.doMock('@www/models/user', () => ({
+			getUserInfo: jest.fn().mockImplementation((id, provider) => {
+				return null
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -80,22 +72,18 @@ describe('/auth/check', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
-					return {
-						session: {},
-					}
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
-				getUserInfo: jest.fn().mockImplementation((id, provider) => {
-					return null
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			getSessionBySessionId: jest.fn().mockImplementation(sessionId => {
+				return {
+					session: {},
+				}
+			}),
+		}))
+		jest.doMock('@www/models/user', () => ({
+			getUserInfo: jest.fn().mockImplementation((id, provider) => {
+				return null
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -119,77 +107,28 @@ describe('/auth/check', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(async sessionId => {
-					return {
-						session: {
-							passport: {
-								user: {
-									id: 1111111111111,
-									provider: 'google',
-								},
+		jest.doMock('@www/models/session', () => ({
+			getSessionBySessionId: jest.fn().mockImplementation(async sessionId => {
+				return {
+					session: {
+						passport: {
+							user: {
+								id: 1111111111111,
+								provider: 'google',
 							},
 						},
-					}
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
-				getUserInfo: jest.fn().mockImplementation((id, provider) => {
-					return null
-				}),
-			})),
-		)
-
-		const request = {
-			headers: {
-				token: 'connect.sid=s:1111111111111.abcdf',
-			},
-		}
-		const response = {
-			status: jest.fn(),
-			send: jest.fn(),
-		}
-		const { authCheck } = require('@www/routes/api/auth')
-		await authCheck(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(401)
-		expect(response.send.mock.calls[0][0].status).toBe(401)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
-	})
-
-	test('適切なログイン中のCookieである場合', async () => {
-		jest.doMock('@www/models', () => ({
-			dbConnect: jest.fn(),
-			dbClose: jest.fn(),
+					},
+				}
+			}),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(async sessionId => {
-					return {
-						session: {
-							passport: {
-								user: {
-									id: 1111111111111,
-									provider: 'google',
-								},
-							},
-						},
-					}
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
-				getUserInfo: jest.fn().mockImplementation((id, provider) => {
-					return {
-						displayName: 'google user',
-						image: 'https://lh4.googleusercontent.com/photo.jpg?sz=50',
-					}
-				}),
-			})),
-		)
+		jest.doMock('@www/models/user', () => ({
+			getUserInfo: jest.fn().mockImplementation((id, provider) => {
+				return {
+					displayName: 'google user',
+					image: 'https://lh4.googleusercontent.com/photo.jpg?sz=50',
+				}
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -216,23 +155,19 @@ describe('/auth/check', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				getSessionBySessionId: jest.fn().mockImplementation(() => {
-					throw new Error('db error')
-				}),
-			})),
-		)
-		jest.doMock('@www/models/user', () =>
-			jest.fn(() => ({
+		jest.doMock('@www/models/session', () => ({
+			getSessionBySessionId: jest.fn().mockImplementation(() => {
+				throw new Error('db error')
+			}),
+		})),
+			jest.doMock('@www/models/user', () => ({
 				getUserInfo: jest.fn().mockImplementation((id, provider) => {
 					return {
 						displayName: 'google user',
 						image: 'https://lh4.googleusercontent.com/photo.jpg?sz=50',
 					}
 				}),
-			})),
-		)
+			}))
 
 		const request = {
 			headers: {
@@ -260,11 +195,9 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn(),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn(),
+		}))
 
 		const request = {
 			headers: {},
@@ -275,8 +208,8 @@ describe('/auth/delete', () => {
 		}
 		const { authDelete } = require('@www/routes/api/auth')
 		await authDelete(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(500)
-		expect(response.send.mock.calls[0][0].status).toBe(500)
+		expect(response.status.mock.calls[0][0]).toBe(401)
+		expect(response.send.mock.calls[0][0].status).toBe(401)
 		expect(response.send.mock.calls[0][0].message).toBe('NG')
 	})
 
@@ -285,11 +218,9 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn(),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn(),
+		}))
 
 		const request = {
 			headers: {
@@ -312,13 +243,11 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn().mockImplementation(() => {
-					return { ok: 0 }
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn().mockImplementation(() => {
+				return { ok: 0 }
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -331,9 +260,9 @@ describe('/auth/delete', () => {
 		}
 		const { authDelete } = require('@www/routes/api/auth')
 		await authDelete(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(401)
-		expect(response.send.mock.calls[0][0].status).toBe(401)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
+		expect(response.status.mock.calls[0][0]).toBe(200)
+		expect(response.send.mock.calls[0][0].status).toBe(200)
+		expect(response.send.mock.calls[0][0].message).toBe('OK')
 	})
 
 	test('ログイン中のtokenではない場合', async () => {
@@ -341,13 +270,11 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn().mockImplementation(() => {
-					return { ok: 0 }
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn().mockImplementation(() => {
+				return { ok: 0 }
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -360,9 +287,9 @@ describe('/auth/delete', () => {
 		}
 		const { authDelete } = require('@www/routes/api/auth')
 		await authDelete(request, response)
-		expect(response.status.mock.calls[0][0]).toBe(401)
-		expect(response.send.mock.calls[0][0].status).toBe(401)
-		expect(response.send.mock.calls[0][0].message).toBe('NG')
+		expect(response.status.mock.calls[0][0]).toBe(200)
+		expect(response.send.mock.calls[0][0].status).toBe(200)
+		expect(response.send.mock.calls[0][0].message).toBe('OK')
 	})
 
 	test('適切なログイン中のtokenである場合', async () => {
@@ -370,13 +297,11 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn().mockImplementation(() => {
-					return { ok: 1 }
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn().mockImplementation(() => {
+				return { ok: 1 }
+			}),
+		}))
 
 		const request = {
 			headers: {
@@ -399,13 +324,11 @@ describe('/auth/delete', () => {
 			dbConnect: jest.fn(),
 			dbClose: jest.fn(),
 		}))
-		jest.doMock('@www/models/session', () =>
-			jest.fn(() => ({
-				deleteSession: jest.fn().mockImplementation(() => {
-					throw new Error('db error')
-				}),
-			})),
-		)
+		jest.doMock('@www/models/session', () => ({
+			deleteSession: jest.fn().mockImplementation(() => {
+				throw new Error('db error')
+			}),
+		}))
 		const request = {
 			headers: {
 				token: 'connect.sid=s:1111111111111.abcdf',

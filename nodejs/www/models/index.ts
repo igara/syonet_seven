@@ -3,21 +3,11 @@ import * as mongoose from 'mongoose'
 export const dbConnect = async () => {
 	if (
 		// @ts-ignore: Unreachable code error
-		(global.TEST === 'test' || process.env.TEST === 'test') &&
-		!process.env.WWW_ENV
+		process.env.TEST === 'testdata' ||
+		process.env.TEST === 'test'
 	) {
 		return await mongoose.connect(
 			'mongodb://localhost:27017/test',
-			// @ts-ignore: Unreachable code error
-			{ useNewUrlParser: true },
-		)
-	} else if (
-		// @ts-ignore: Unreachable code error
-		(global.TEST === 'test' || process.env.TEST === 'test') &&
-		process.env.WWW_ENV
-	) {
-		return await mongoose.connect(
-			'mongodb://mongodb/test',
 			// @ts-ignore: Unreachable code error
 			{ useNewUrlParser: true },
 		)

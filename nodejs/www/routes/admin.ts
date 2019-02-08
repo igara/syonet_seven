@@ -5,7 +5,7 @@ import * as User from '@www/models/user'
 import * as Session from '@www/models/session'
 
 const router = express.Router()
-const staticDir = path.join(__dirname, '@www/dist/prod')
+const staticDir = path.join(__dirname, '../dist/prod')
 
 /**
  * @param {Request} req

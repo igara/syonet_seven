@@ -1,7 +1,6 @@
-// @flow
-
 import { getApiHost, call } from '@www/libs/api'
-import Cookies from '@F_syonet/statics/js_cookie'
+import * as Cookies from 'js-cookie'
+declare var global: any
 
 describe('getApiHost', () => {
 	beforeEach(() => {

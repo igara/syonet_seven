@@ -1,6 +1,64 @@
 import { Document, Schema } from 'mongoose'
 import mongo from './index'
 
+export interface SessionData {
+	_id: string
+	session: {
+		cookie: {
+			originalMaxAge: number
+			expires: string
+			secure: string
+			httpOnly: boolean
+			domain: string
+			path: string
+			sameSite: string
+		}
+		passport?: {
+			user: {
+				id: string
+				displayName: string
+				name: {
+					familyName: string
+					givenName: string
+				}
+				emails: Array<{
+					value: string
+					type: string
+				}>
+				photos: Array<{
+					value: string
+				}>
+				gender: string
+				provider: string
+				_raw: string
+				_json: {
+					kind: string
+					etag: string
+					emails: Array<{
+						value: string
+						type: string
+					}>
+					objectType: string
+					id: string
+					displayName: string
+					name: {
+						familyName: string
+						givenName: string
+					}
+					image: {
+						url: string
+						isDefault: boolean
+					}
+					isPlusUser: boolean
+					language: string
+					verified: boolean
+					domain: string
+				}
+			}
+		}
+	}
+}
+
 export interface SessionDocument extends Document {
 	_id: string
 	session: {
@@ -85,12 +143,7 @@ SessionSchema.methods.getSessionBySessionId = getSessionBySessionId
 /**
  * SessionIDからセッション情報を削除する
  */
-export const deleteSession = async (
-	sessionId: string,
-): Promise<{
-	ok?: number | undefined
-	n?: number | undefined
-}> => {
+export const deleteSession = async (sessionId: string) => {
 	const result = await Session.deleteOne({
 		_id: sessionId,
 	})

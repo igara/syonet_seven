@@ -1,18 +1,13 @@
-// @flow
-
 import { getMultiFormatDateTime, getTimeStamp } from '@www/libs/datetime'
-import dateFns from '@F_syonet/statics/date_fns'
-
-import { DateInstance, MockDate } from '@www/specs/globals/date'
+import { advanceTo } from 'jest-date-mock'
 
 describe('getTimeStamp', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		global.Date = DateInstance
+		advanceTo(new Date('2018/11/11 11:11:11'))
 	})
 	test('Date 2018/11/11 11:11:11', async () => {
 		const date = new Date('2018/11/11 11:11:11')
-		global.Date = () => date
 		expect(getTimeStamp()).toBe(Math.round(date.getTime() / 1000))
 	})
 })
@@ -20,18 +15,10 @@ describe('getTimeStamp', () => {
 describe('getMultiFormatDateTime', () => {
 	beforeEach(() => {
 		jest.resetModules()
-		global.Date = DateInstance
-	})
-
-	test('Date 2018-11-11 11:11:11', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
-		expect(getMultiFormatDateTime()).toBe('2018-11-11 11:11:11')
+		advanceTo(new Date('2018/11/11 11:11:11'))
 	})
 
 	test('Date 2018/11/11 11:11:11 format', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			format: 'YYYY/MM/DD HH:mm:ss',
 		}
@@ -43,8 +30,6 @@ describe('getMultiFormatDateTime', () => {
 	})
 
 	test('Date 2018-11-11 11:11:11 seconds', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			seconds: -1,
 		}
@@ -64,8 +49,6 @@ describe('getMultiFormatDateTime', () => {
 	})
 
 	test('Date 2018-11-11 11:11:11 minutes', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			minutes: -1,
 		}
@@ -85,8 +68,6 @@ describe('getMultiFormatDateTime', () => {
 	})
 
 	test('Date 2018-11-11 11:11:11 hours', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			hours: -1,
 		}
@@ -106,8 +87,6 @@ describe('getMultiFormatDateTime', () => {
 	})
 
 	test('Date 2018-11-11 11:11:11 date', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			day: -1,
 		}
@@ -127,8 +106,6 @@ describe('getMultiFormatDateTime', () => {
 	})
 
 	test('Date 2018-11-11 11:11:11 month', async () => {
-		global.Date = MockDate
-		global.dateFns = dateFns
 		let option = {
 			month: -1,
 		}
