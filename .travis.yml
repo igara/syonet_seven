@@ -28,7 +28,6 @@ before_install:
   - (cd ./nodejs/www/ && yarn)
 
 script:
-  - (cd ./nodejs/www/ && yarn flow)
   - (cd ./nodejs/www/ && yarn testdata)
   - (cd ./nodejs/www/ && yarn test)
   - (cd ./nodejs/www/ && yarn coverage)
