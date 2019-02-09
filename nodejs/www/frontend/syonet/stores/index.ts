@@ -15,11 +15,14 @@ export interface AppState {
 	router: RouterState;
 }
 
-const reduxDebugTool =
+const createCompose =
 	process.env.WWW_ENV === "production"
-		? null
-		: (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-		  (window as any).__REDUX_DEVTOOLS_EXTENSION__();
+		? compose(applyMiddleware(thunk))
+		: compose(
+				applyMiddleware(thunk),
+				(window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
+					(window as any).__REDUX_DEVTOOLS_EXTENSION__()
+		  );
 
 export const rootReducer = (history: History) =>
 	combineReducers<AppState>({
@@ -34,7 +37,7 @@ export const store = createStore(
 	rootReducer(history),
 	compose(
 		applyMiddleware(thunk),
-		reduxDebugTool
+		createCompose
 	)
 );
 export default store;
