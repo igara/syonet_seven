@@ -14,7 +14,6 @@ app.set("port", port);
 
 /**
  * Create HTTP server.
- * $FlowFixMe
  */
 const server = http.createServer(app);
 

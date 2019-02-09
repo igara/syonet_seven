@@ -95,7 +95,6 @@ describe("/auth/check", () => {
 			send: jest.fn()
 		};
 		const { authCheck } = require("@www/routes/api/auth");
-		// $FlowFixMe
 		await authCheck(request, response);
 		expect(response.status.mock.calls[0][0]).toBe(401);
 		expect(response.send.mock.calls[0][0].status).toBe(401);
