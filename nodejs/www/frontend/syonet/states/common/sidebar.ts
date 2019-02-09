@@ -51,5 +51,24 @@ export const sidebarReducer = reducerWithInitialState(initialState)
 	 * キャッシュクリアを押下した時
 	 */
 	.case(sidebarActions.onClickCacheClear, state => {
+		if (typeof navigator.serviceWorker !== "undefined") {
+			navigator.serviceWorker.getRegistrations().then(registrations => {
+				// 登録されているworkerを全て削除する
+				registrations.forEach(registration => {
+					registration.unregister();
+				});
+				caches.keys().then(keys => {
+					let promises = [];
+					// キャッシュストレージを全て削除する
+					keys.forEach(cacheName => {
+						if (cacheName) {
+							// @ts-ignore
+							promises.push(caches.delete(cacheName));
+						}
+					});
+				});
+				location.reload();
+			});
+		}
 		return { ...state, SidebarDispFlag: false };
 	});

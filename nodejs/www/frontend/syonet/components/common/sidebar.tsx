@@ -73,7 +73,7 @@ export const SidebarComponent: React.SFC<SidebarProps> = (
 				</li>
 				<li
 					className={SidebarStyle.sidebar_link_list}
-					// onClick={() => this.SidebarAction.onClickCacheClear()}
+					onClick={props.Actions.sidebar.onClickCacheClear}
 				>
 					<a>キャッシュクリア</a>
 				</li>
