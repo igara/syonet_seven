@@ -1,5 +1,5 @@
 {
 	"watch": ["./*"],
 	"ext": "ts",
-	"exec": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register ./bin/www.ts"
+	"exec": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register ./server/bin/www.ts"
 }

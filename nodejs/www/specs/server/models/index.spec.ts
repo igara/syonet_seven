@@ -17,7 +17,7 @@ describe("index", () => {
 				close: jest.fn()
 			}
 		}));
-		const mongo = require("@www/models");
+		const mongo = require("@www/server/models");
 		await mongo.dbConnect();
 		await mongo.dbClose();
 	});
@@ -30,7 +30,7 @@ describe("index", () => {
 				close: jest.fn()
 			}
 		}));
-		const mongo = require("@www/models");
+		const mongo = require("@www/server/models");
 		await mongo.dbConnect();
 		await mongo.dbClose();
 	});
@@ -42,7 +42,7 @@ describe("index", () => {
 				close: jest.fn()
 			}
 		}));
-		const mongo = require("@www/models");
+		const mongo = require("@www/server/models");
 		await mongo.dbConnect();
 		await mongo.dbClose();
 	});

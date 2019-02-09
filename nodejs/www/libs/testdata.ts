@@ -1,7 +1,7 @@
-import { dbConnect, dbClose } from "@www/models";
-import Session from "@www/models/session";
-import User from "@www/models/user";
-import NotificationModel from "@www/models/notification";
+import { dbConnect, dbClose } from "@www/server/models";
+import Session from "@www/server/models/session";
+import User from "@www/server/models/user";
+import NotificationModel from "@www/server/models/notification";
 
 import { Sessions } from "./testdata/session";
 import { Users } from "./testdata/user";

@@ -1,4 +1,4 @@
-import { UserData } from "@www/models/user";
+import { UserData } from "@www/server/models/user";
 
 export const Users: Array<UserData> = [
 	{

@@ -1,17 +1,19 @@
 import * as express from "express";
 import * as path from "path";
-import { dbConnect, dbClose } from "@www/models";
-import * as User from "@www/models/user";
-import * as Session from "@www/models/session";
+import { dbConnect, dbClose } from "@www/server/models";
+import * as User from "@www/server/models/user";
+import * as Session from "@www/server/models/session";
 
 const router = express.Router();
-const staticDir = path.join(__dirname, "../dist/prod");
+const staticDir = path.join(__dirname, "../../dist/prod");
 
 /**
- * @param {Request} req
- * @param {Response} res
  */
-export const admin = async (req: express.Request, res: express.Response) => {
+export const adminStatic = async (
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction
+) => {
 	try {
 		const sessionId = req.cookies["connect.sid"]
 			.replace(/^s:/, "")
@@ -47,8 +49,8 @@ export const admin = async (req: express.Request, res: express.Response) => {
 	} finally {
 		await dbClose();
 	}
-	return res.sendFile(path.join(staticDir, "admin/index.html"));
+	return next();
 };
-router.get("/*", admin);
+router.get("/*", adminStatic);
 
 export default router;

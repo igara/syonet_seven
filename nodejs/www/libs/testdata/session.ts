@@ -1,4 +1,4 @@
-import { SessionData } from "@www/models/session";
+import { SessionData } from "@www/server/models/session";
 
 export const Sessions: Array<SessionData> = [
 	{

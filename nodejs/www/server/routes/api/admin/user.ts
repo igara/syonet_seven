@@ -1,7 +1,7 @@
 import * as express from "express";
-import { dbConnect, dbClose } from "@www/models";
-import * as User from "@www/models/user";
-import * as Session from "@www/models/session";
+import { dbConnect, dbClose } from "@www/server/models";
+import * as User from "@www/server/models/user";
+import * as Session from "@www/server/models/session";
 
 const router = express.Router();
 

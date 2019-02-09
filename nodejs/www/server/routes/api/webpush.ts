@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as webpush from "web-push";
-import { dbConnect, dbClose } from "@www/models";
-import * as Notification from "@www/models/notification";
+import { dbConnect, dbClose } from "@www/server/models";
+import * as Notification from "@www/server/models/notification";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
 const vapidKeys = {

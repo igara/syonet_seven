@@ -1,8 +1,8 @@
 import * as express from "express";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import * as passport from "passport";
-import { dbConnect, dbClose } from "@www/models";
-import * as User from "@www/models/user";
+import { dbConnect, dbClose } from "@www/server/models";
+import * as User from "@www/server/models/user";
 
 const router = express.Router();
 

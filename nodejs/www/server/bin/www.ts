@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-import app from "@www/app";
+import app from "@www/server/app";
 const debug = require("debug")("www:server");
 import * as http from "http";
 

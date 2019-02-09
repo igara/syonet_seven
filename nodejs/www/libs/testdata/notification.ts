@@ -1,4 +1,4 @@
-import { NotificationData } from "@www/models/notification";
+import { NotificationData } from "@www/server/models/notification";
 
 export const Notifications: Array<NotificationData> = [
 	{

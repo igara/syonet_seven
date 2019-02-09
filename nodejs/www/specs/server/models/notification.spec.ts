@@ -3,8 +3,8 @@ describe("getNotificationList", () => {
 		jest.resetModules();
 	});
 	test("通知する対象一覧を取得", async () => {
-		const { dbConnect, dbClose } = require("@www/models");
-		const { getNotificationList } = require("@www/models/notification");
+		const { dbConnect, dbClose } = require("@www/server/models");
+		const { getNotificationList } = require("@www/server/models/notification");
 		await dbConnect();
 		const result = await getNotificationList();
 		expect(
@@ -34,7 +34,7 @@ describe("insertNotification", () => {
 		jest.resetModules();
 	});
 	test("通知対象の情報を追加", async () => {
-		const { dbConnect, dbClose } = require("@www/models");
+		const { dbConnect, dbClose } = require("@www/server/models");
 		await dbConnect();
 		const notification = {
 			endpoint: "https://example3.com",
@@ -42,8 +42,8 @@ describe("insertNotification", () => {
 			p256dh: "33333333333333"
 		};
 
-		const { insertNotification } = require("@www/models/notification");
-		const N = require("@www/models/notification").default;
+		const { insertNotification } = require("@www/server/models/notification");
+		const N = require("@www/server/models/notification").default;
 		await insertNotification(notification);
 		await N.remove(notification);
 		await dbClose();

@@ -1,6 +1,6 @@
 import * as express from "express";
-import { dbConnect, dbClose } from "@www/models";
-import User from "@www/models/user";
+import { dbConnect, dbClose } from "@www/server/models";
+import User from "@www/server/models/user";
 
 const router = express.Router();
 

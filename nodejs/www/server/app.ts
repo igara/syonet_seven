@@ -8,7 +8,7 @@ import * as passport from "passport";
 import * as compression from "compression";
 import * as session from "express-session";
 import * as connectMongo from "connect-mongo";
-import mongoose, { dbConnect } from "./models";
+import mongoose, { dbConnect } from "@www/server/models";
 
 // API・Page Import
 import authApi from "./routes/api/auth";
@@ -39,7 +39,7 @@ app.use(
 	})
 );
 
-const staticDir = path.join(__dirname, "dist/prod");
+const staticDir = path.join(__dirname, "../dist/prod");
 
 // CORSを許可する
 app.use((req, res, next) => {
