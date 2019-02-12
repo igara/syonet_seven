@@ -71,7 +71,7 @@
 		"@types/js-cookie": "^2.2.0",
 		"@types/mongoose": "^5.3.8",
 		"@types/morgan": "^1.7.35",
-		"@types/node": "^10.12.18",
+		"@types/node": "^11.9.0",
 		"@types/passport": "^1.0.0",
 		"@types/passport-facebook": "^2.1.8",
 		"@types/passport-github": "^1.1.4",
