@@ -111,7 +111,7 @@
 		"tslint-config-prettier": "^1.17.0",
 		"tslint-plugin-prettier": "^2.0.1",
 		"tslint-react": "^3.6.0",
-		"typed-css-modules": "^0.3.7",
+		"typed-css-modules": "^0.4.1",
 		"typescript": "^3.2.4"
 	},
 	"sw-precache": {
