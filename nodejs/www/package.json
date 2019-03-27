@@ -110,7 +110,7 @@
 		"tsconfig-paths-jest": "^0.0.1",
 		"tslint-config-prettier": "^1.17.0",
 		"tslint-plugin-prettier": "^2.0.1",
-		"tslint-react": "^3.6.0",
+		"tslint-react": "^4.0.0",
 		"typed-css-modules": "^0.3.7",
 		"typescript": "^3.2.4"
 	},
