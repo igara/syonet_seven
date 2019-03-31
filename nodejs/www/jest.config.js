@@ -1,25 +1,17 @@
-const tsconfig = require('./tsconfig.json')
-const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig)
+const tsconfig = require("./tsconfig.json");
+const moduleNameMapper = require("tsconfig-paths-jest")(tsconfig);
 
 module.exports = {
-	roots: ['./specs'],
+	roots: ["./specs"],
 	notify: true,
-	moduleFileExtensions: ['js', 'ts'],
-	testEnvironment: 'jest-environment-jsdom-global',
+	moduleFileExtensions: ["js", "ts"],
+	testEnvironment: "jest-environment-jsdom-global",
 	transform: {
-		'^.+\\.js$': 'babel-jest',
-		'^.+\\.ts$': 'ts-jest',
+		"^.+\\.ts$": "ts-jest"
 	},
-	collectCoverageFrom: [
-		'**/*.{js}',
-		'**/*.{ts}',
-		'!<rootDir>/node_modules/',
-		'!<rootDir>/flow-typed/**',
-		'!<rootDir>/frontend/syonet/statics/**',
-	],
 	globals: {
-		TEST: 'test',
+		TEST: "test"
 	},
-	testMatch: ['**/specs/**/*.ts'],
-	moduleNameMapper,
-}
+	testMatch: ["**/specs/**/*.spec.ts"],
+	moduleNameMapper
+};
