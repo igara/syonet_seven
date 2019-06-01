@@ -9,13 +9,16 @@ import * as compression from "compression";
 import * as session from "express-session";
 import * as connectMongo from "connect-mongo";
 import mongoose, { dbConnect } from "@www/server/models";
+import * as http from "http";
+import * as WebSocket from "ws";
 
-// API・Page Import
+// API Import
 import authApi from "./routes/api/auth";
 import userApi from "./routes/api/user";
 import webpushApi from "./routes/api/webpush";
 import adminUserApi from "./routes/api/admin/user";
 import googleSpreadSheetApi from "./routes/api/google/spreadsheet";
+// Page Import
 import adminStatic from "./routes/admin_static";
 import admin from "./routes/admin";
 import authFacebook from "./routes/auth/facebook";
@@ -23,8 +26,13 @@ import authTwitter from "./routes/auth/twitter";
 import authGoogle from "./routes/auth/google";
 import authGithub from "./routes/auth/github";
 import { graphql } from "./routes/graphql";
+// WebSocket Import
+import { ssbSocketRoute } from "./routes/ws/ssb";
 
 const app = express();
+const webSocketServer = http.createServer(app);
+webSocketServer.listen(9000);
+const wss = new WebSocket.Server({ server: webSocketServer });
 
 /**
  * Local環境ではないかを判定する
@@ -118,6 +126,7 @@ app.use(
 		cookie
 	})
 );
+
 // Auth
 app.use(passport.initialize());
 app.use(passport.session());
@@ -127,6 +136,8 @@ app.use("/auth/google", authGoogle);
 app.use("/auth/github", authGithub);
 
 app.use("/manage", admin);
+
+ssbSocketRoute(wss);
 
 app.get("/service-worker.js", (req, res) => {
 	return res.sendFile(path.join(staticDir, "syonet/service-worker.js"));

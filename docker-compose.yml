@@ -8,6 +8,7 @@ services:
     ports:
       - 3000:3000
       - 9229:9229
+      - 9000:9000
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached

@@ -5,6 +5,8 @@ services:
     build:
       context: ./nodejs/www
       dockerfile: www.Dockerfile
+    ports:
+      - 9000:9000
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
