@@ -114,7 +114,7 @@
 		"ts-node": "^8.0.3",
 		"tsconfig-paths": "^3.8.0",
 		"tsconfig-paths-jest": "^0.0.1",
-		"typed-css-modules": "^0.4.2",
+		"typed-css-modules": "^0.5.0",
 		"typescript": "^3.4.1"
 	},
 	"sw-precache": {
