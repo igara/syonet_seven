@@ -7,6 +7,11 @@ enum WebSocketStatus {
 	CLOSE
 }
 
+enum RotationStatus {
+	RIGHT = 90,
+	LEFT = 270
+}
+
 enum PlayerType {
 	MAN = 0,
 	CPU
@@ -15,8 +20,9 @@ enum PlayerType {
 type UserData = {
 	id: number;
 	name: string;
-	webSocketStatus: number;
-	playerType: number;
+	webSocketStatus: WebSocketStatus;
+	rotationStatus: RotationStatus;
+	playerType: PlayerType;
 	unixTime: number;
 	character: string;
 	position: {
