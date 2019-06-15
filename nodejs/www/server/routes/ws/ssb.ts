@@ -1,6 +1,6 @@
 import * as WS from "ws";
 
-enum Status {
+enum WebSocketStatus {
 	OPEN = 0,
 	BATTLE,
 	DEAD,
@@ -15,7 +15,7 @@ enum PlayerType {
 type UserData = {
 	id: number;
 	name: string;
-	status: number;
+	webSocketStatus: number;
 	playerType: number;
 	unixTime: number;
 	character: string;
@@ -44,7 +44,7 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 			const data = message.toString("utf-8", 0, message.length);
 			const userData: UserData = JSON.parse(data);
 
-			if (userData.status === Status.OPEN) {
+			if (userData.webSocketStatus === WebSocketStatus.OPEN) {
 				userData.id = userId;
 				userId += 1;
 				const userDataJsonString = JSON.stringify(userData);
@@ -53,21 +53,21 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 				});
 			}
 
-			if (userData.status === Status.BATTLE) {
+			if (userData.webSocketStatus === WebSocketStatus.BATTLE) {
 				const userDataJsonString = JSON.stringify(userData);
 				wss.clients.forEach(client => {
 					client.send(userDataJsonString);
 				});
 			}
 
-			if (userData.status === Status.DEAD) {
+			if (userData.webSocketStatus === WebSocketStatus.DEAD) {
 				const userDataJsonString = JSON.stringify(userData);
 				wss.clients.forEach(client => {
 					client.send(userDataJsonString);
 				});
 			}
 
-			if (userData.status === Status.CLOSE) {
+			if (userData.webSocketStatus === WebSocketStatus.CLOSE) {
 				const userDataJsonString = JSON.stringify(userData);
 				wss.clients.forEach(client => {
 					client.send(userDataJsonString);
