@@ -13,7 +13,7 @@
 		"local_syonet_start": "parcel --https frontend/syonet/index.html -d dist/local/syonet -p 1111",
 		"local_admin_start": "parcel --https frontend/admin/index.html -d dist/local/admin -p 1112",
 		"test": "TEST=test jest --detectOpenHandles --forceExit",
-		"clear": "jest --clearCache && rm -rf .cache dist",
+		"clear": "jest --clearCache && rm -rf .cache dist/syonet dist/admin",
 		"coverage": "TEST=test jest --coverage --detectOpenHandles --forceExit",
 		"testdata": "TEST=testdata node -r tsconfig-paths/register -r ts-node/register libs/testdata.ts",
 		"csstyped": "tcm -p **/*.pcss"
