@@ -26,6 +26,7 @@ declare module NodeJS {
 		WEBPUSH_CONTACT: string;
 		WEBPUSH_VAPIDKEYS_PUBLIC: string;
 		WEBPUSH_VAPIDKEYS_PRIVATE: string;
+		DISCORD_WEBHOCK: string;
 	}
 }
 

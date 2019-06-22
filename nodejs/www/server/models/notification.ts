@@ -49,7 +49,9 @@ NotificationSchema.methods.insertNotification = insertNotification;
 /**
  * 通知必要な情報を取得
  */
-export const getNotificationList = async (): Promise<Array<Object>> => {
+export const getNotificationList = async (): Promise<
+	Array<NotificationDocument>
+> => {
 	const notificationList = await Notification.find({});
 	return notificationList;
 };

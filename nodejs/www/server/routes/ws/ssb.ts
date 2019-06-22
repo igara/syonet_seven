@@ -1,8 +1,24 @@
 import * as WS from "ws";
+import * as webpush from "web-push";
+import { dbConnect, dbClose } from "@www/server/models";
+import * as Notification from "@www/server/models/notification";
+
+const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
+const vapidKeys = {
+	publicKey: process.env.WEBPUSH_VAPIDKEYS_PUBLIC
+		? process.env.WEBPUSH_VAPIDKEYS_PUBLIC
+		: "",
+	privateKey: process.env.WEBPUSH_VAPIDKEYS_PRIVATE
+		? process.env.WEBPUSH_VAPIDKEYS_PRIVATE
+		: ""
+};
+
+webpush.setVapidDetails(contact, vapidKeys.publicKey, vapidKeys.privateKey);
 
 enum WebSocketStatus {
 	OPEN = 0,
 	BATTLE,
+	DIE,
 	DEAD,
 	CLOSE
 }
@@ -43,41 +59,124 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 	let userId = 1;
 
 	wss.on("connection", (ws: WS) => {
-		ws.on("message", (message: Buffer | string) => {
-			if (typeof message === "string") {
-				return;
-			}
-			const data = message.toString("utf-8", 0, message.length);
-			const userData: UserData = JSON.parse(data);
+		ws.on("message", async (message: Buffer | string) => {
+			try {
+				if (typeof message === "string") {
+					return;
+				}
+				const data = message.toString("utf-8", 0, message.length);
+				const userData: UserData = JSON.parse(data);
 
-			if (userData.webSocketStatus === WebSocketStatus.OPEN) {
-				userData.id = userId;
-				userId += 1;
-				const userDataJsonString = JSON.stringify(userData);
-				wss.clients.forEach(client => {
-					client.send(userDataJsonString);
-				});
-			}
+				if (userData.webSocketStatus === WebSocketStatus.OPEN) {
+					userData.id = userId;
+					userId += 1;
+					const userDataJsonString = JSON.stringify(userData);
+					wss.clients.forEach(client => {
+						client.send(userDataJsonString);
+					});
 
-			if (userData.webSocketStatus === WebSocketStatus.BATTLE) {
-				const userDataJsonString = JSON.stringify(userData);
-				wss.clients.forEach(client => {
-					client.send(userDataJsonString);
-				});
-			}
+					if (userData.playerType == PlayerType.MAN) {
+						await dbConnect();
+						const notifications = await Notification.getNotificationList();
+						await dbClose();
+						await Promise.all(
+							notifications.map(notification => {
+								const subscription = {
+									endpoint: notification.endpoint,
+									keys: {
+										auth: notification.auth,
+										p256dh: notification.p256dh
+									}
+								};
 
-			if (userData.webSocketStatus === WebSocketStatus.DEAD) {
-				const userDataJsonString = JSON.stringify(userData);
-				wss.clients.forEach(client => {
-					client.send(userDataJsonString);
-				});
-			}
+								const title = "ssb";
+								const body = `${userData.name} is fighting`;
+								// プッシュ通知で送信したい任意のデータ
+								const payload = JSON.stringify({
+									title,
+									body,
+									icon:
+										"https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+									url: `https://${process.env.WWW_DOMAIN}`
+								});
 
-			if (userData.webSocketStatus === WebSocketStatus.CLOSE) {
-				const userDataJsonString = JSON.stringify(userData);
-				wss.clients.forEach(client => {
-					client.send(userDataJsonString);
-				});
+								// 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
+								webpush
+									.sendNotification(subscription, payload)
+									.then()
+									.catch(console.error);
+							})
+						)
+							.then(console.log)
+							.catch(console.error);
+					}
+				}
+
+				if (userData.webSocketStatus === WebSocketStatus.BATTLE) {
+					const userDataJsonString = JSON.stringify(userData);
+					wss.clients.forEach(client => {
+						client.send(userDataJsonString);
+					});
+				}
+
+				if (userData.webSocketStatus === WebSocketStatus.DIE) {
+					const userDataJsonString = JSON.stringify(userData);
+					wss.clients.forEach(client => {
+						client.send(userDataJsonString);
+					});
+
+					if (userData.playerType == PlayerType.MAN) {
+						await dbConnect();
+						const notifications = await Notification.getNotificationList();
+						await dbClose();
+						await Promise.all(
+							notifications.map(notification => {
+								const subscription = {
+									endpoint: notification.endpoint,
+									keys: {
+										auth: notification.auth,
+										p256dh: notification.p256dh
+									}
+								};
+
+								const title = "ssb";
+								const body = `${userData.name} dead`;
+								// プッシュ通知で送信したい任意のデータ
+								const payload = JSON.stringify({
+									title,
+									body,
+									icon:
+										"https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+									url: `https://${process.env.WWW_DOMAIN}`
+								});
+
+								// 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
+								webpush
+									.sendNotification(subscription, payload)
+									.then()
+									.catch(console.error);
+							})
+						)
+							.then(console.log)
+							.catch(console.error);
+					}
+				}
+
+				if (userData.webSocketStatus === WebSocketStatus.DEAD) {
+					const userDataJsonString = JSON.stringify(userData);
+					wss.clients.forEach(client => {
+						client.send(userDataJsonString);
+					});
+				}
+
+				if (userData.webSocketStatus === WebSocketStatus.CLOSE) {
+					const userDataJsonString = JSON.stringify(userData);
+					wss.clients.forEach(client => {
+						client.send(userDataJsonString);
+					});
+				}
+			} catch (error) {
+				console.error(error);
 			}
 		});
 
