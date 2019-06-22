@@ -5,8 +5,6 @@ services:
     build:
       context: ./nodejs/www
       dockerfile: www.Dockerfile
-    ports:
-      - 9000:9000
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
@@ -62,11 +60,11 @@ services:
     links:
       - www:www
     environment:
-      DOMAINS: "${WWW_DOMAIN} -> http://www:3000"
+      DOMAINS: "${WWW_DOMAIN} -> http://www:3000, ${WWW_DOMAIN} -> ws://www:9000"
       STAGE: "${WWW_ENV}"
+      WEBSOCKET: "true"
       RESOLVER: "127.0.0.11 ipv6=off valid=60s"
       DYNAMIC_UPSTREAM: "true"
-      WEBSOCKET: "true"
       CLIENT_MAX_BODY_SIZE: 0
       TZ: Asia/Tokyo
     volumes:
