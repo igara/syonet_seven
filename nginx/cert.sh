@@ -17,6 +17,7 @@ if [ "$WWW_ENV" = "production" ]; then
         chmod 400 "$key_file"
     fi
 
+    cp /nginx/syonet.work/cert.conf /etc/nginx/conf.d/nginx.conf
     nginx
 
     if [ ! -e "/etc/letsencrypt/initialize" ]; then
@@ -30,7 +31,7 @@ if [ "$WWW_ENV" = "production" ]; then
     certbot renew
 
     nginx -s stop
-    cp /nginx/syonet.work/www.conf /etc/nginx/conf.d/www.conf
+    cp /nginx/syonet.work/www.conf /etc/nginx/conf.d/nginx.conf
 fi
 
 echo "success: updated certification"
