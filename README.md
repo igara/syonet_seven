@@ -15,6 +15,8 @@
 cd syonet_seven
 # 環境設定
 sh env.sh local
+# オレオレ証明書
+(cd data/openssl && openssl genrsa -out ca.key 2048 && openssl req -new -x509 -days 3650 -key ca.key -out ca.crt && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 3650 -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt)
 docker-compose up -d
 # Webフロント開発サーバ起動
 (cd nodejs/www && yarn local_syonet_start)

@@ -55,8 +55,11 @@ services:
       TZ: Asia/Tokyo
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: ./nginx
+      dockerfile: nginx.Dockerfile
     volumes:
+      - ./nginx:/nginx:cached
       - ./nginx/localhost:/etc/nginx/conf.d
       - ./data/openssl:/var/www/openssl
     links:
@@ -64,7 +67,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+    environment:
+      WWW_ENV: ${WWW_ENV}
+      WWW_DOMAIN: ${WWW_DOMAIN}
     networks:
       - frontend
       - backend
