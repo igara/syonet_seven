@@ -6,6 +6,7 @@ services:
       context: ./nodejs/www
       dockerfile: www.Dockerfile
     ports:
+      - 3000:3000
       - 9000:9000
     volumes:
       - ./nodejs/www:/www:cached
