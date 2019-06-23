@@ -30,9 +30,10 @@ import { graphql } from "./routes/graphql";
 import { ssbSocketRoute } from "./routes/ws/ssb";
 
 const app = express();
-const webSocketServer = http.createServer(app);
-webSocketServer.listen(9000);
-const wss = new WebSocket.Server({ server: webSocketServer });
+const wss = new WebSocket.Server({
+	port: 9000,
+	host: "0.0.0.0"
+});
 
 /**
  * Local環境ではないかを判定する
