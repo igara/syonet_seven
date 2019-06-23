@@ -1,11 +1,12 @@
 #!/bin/sh
 
 if [ "$WWW_ENV" = "production" ]; then
-    if [ ! -d "/etc/letsencrypt/live/${WWW_DOMAIN}" ]; then
-        mkdir -p /etc/letsencrypt/live/${WWW_DOMAIN}
-        mkdir -p /var/lib/letsencrypt
-        mkdir -p /etc/letsencrypt/live/openssl
-    fi
+    rm -rf /etc/letsencrypt/live/${WWW_DOMAIN}
+    rm -rf /var/lib/letsencrypt
+    rm -rf /etc/letsencrypt/live/openssl
+    mkdir -p /etc/letsencrypt/live/${WWW_DOMAIN}
+    mkdir -p /var/lib/letsencrypt
+    mkdir -p /etc/letsencrypt/live/openssl
 
     crt_file="/etc/letsencrypt/live/openssl/fullchain.pem" &&
     key_file="/etc/letsencrypt/live/openssl/privkey.pem" &&
@@ -21,15 +22,9 @@ if [ "$WWW_ENV" = "production" ]; then
     cp /nginx/syonet.work/cert.conf /etc/nginx/conf.d/default.conf
     nginx
 
-    if [ ! -e "/etc/letsencrypt/initialize" ]; then
-        rm -rf /etc/letsencrypt/live/${WWW_DOMAIN}
-        certbot certonly -n --keep-until-expiring --agree-tos \
-            --webroot --webroot-path /var/lib/letsencrypt \
-            -m ${LETSENCRYPT_MAIL} -d ${WWW_DOMAIN}
-    fi
-
-    touch /etc/letsencrypt/initialize
-    certbot renew
+    certbot certonly -n --keep-until-expiring --agree-tos \
+        --webroot --webroot-path /var/lib/letsencrypt \
+        -m ${LETSENCRYPT_MAIL} -d ${WWW_DOMAIN}
 
     nginx -s stop
     cp /nginx/syonet.work/www.conf /etc/nginx/conf.d/default.conf
