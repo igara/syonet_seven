@@ -3,8 +3,10 @@ ubuntu-xenial-16.04-cloudimg-console.log
 .vagrant
 .env
 data/mongo/*
-data/ssl_certs/*
+data/certbot/*
+data/openssl/*
 !data/.gitkeep
 !data/mongo/.gitkeep
-!data/ssl_certs/.gitkeep
+!data/certbot/.gitkeep
+!data/openssl/.gitkeep
 .DS_Store

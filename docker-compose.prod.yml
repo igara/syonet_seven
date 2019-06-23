@@ -55,26 +55,29 @@ services:
       TZ: Asia/Tokyo
     restart: always
 
-  https-portal:
-    image: steveltn/https-portal:1
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/syonet.work:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    links:
+      - www:www
     ports:
       - "80:80"
       - "443:443"
-    links:
-      - www:www
-    environment:
-      DOMAINS: "${WWW_DOMAIN} -> http://www:3000"
-      STAGE: "${WWW_ENV}"
-      RESOLVER: "127.0.0.11 ipv6=off valid=60s"
-      DYNAMIC_UPSTREAM: "true"
-      WEBSOCKET: "true"
-      CLIENT_MAX_BODY_SIZE: 0
-      TZ: Asia/Tokyo
-    volumes:
-      - ./data/ssl_certs:/var/lib/https-portal:cached
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     networks:
       - frontend
       - backend
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     restart: always
 
   discord:

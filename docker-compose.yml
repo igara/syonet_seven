@@ -54,23 +54,17 @@ services:
     environment:
       TZ: Asia/Tokyo
 
-  https-portal:
-    image: steveltn/https-portal:1
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/localhost:/etc/nginx/conf.d
+      - ./data/openssl:/var/www/openssl
+    links:
+      - www:www
     ports:
       - "80:80"
       - "443:443"
-    links:
-      - www:www
-    environment:
-      DOMAINS: "${WWW_DOMAIN} -> http://www:3000"
-      STAGE: "${WWW_ENV}"
-      RESOLVER: "127.0.0.11 ipv6=off valid=60s"
-      DYNAMIC_UPSTREAM: "true"
-      WEBSOCKET: "true"
-      CLIENT_MAX_BODY_SIZE: 0
-      TZ: Asia/Tokyo
-    volumes:
-      - ./data/ssl_certs:/var/lib/https-portal:cached
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     networks:
       - frontend
       - backend
