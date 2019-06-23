@@ -4,10 +4,11 @@ if [ "$WWW_ENV" = "production" ]; then
     if [ ! -d "/etc/letsencrypt/live/${WWW_DOMAIN}" ]; then
         mkdir -p /etc/letsencrypt/live/${WWW_DOMAIN}
         mkdir -p /var/lib/letsencrypt
+        mkdir -p /etc/letsencrypt/live/openssl
     fi
 
-    crt_file="/etc/letsencrypt/live/${WWW_DOMAIN}/fullchain.pem" &&
-    key_file="/etc/letsencrypt/live/${WWW_DOMAIN}/privkey.pem" &&
+    crt_file="/etc/letsencrypt/live/openssl/fullchain.pem" &&
+    key_file="/etc/letsencrypt/live/openssl/privkey.pem" &&
     subject="${LETSENCRYPT_SUBJECT}" &&
     openssl req -new -newkey rsa:2048 -sha256 -x509 -nodes \
         -set_serial 1 \
