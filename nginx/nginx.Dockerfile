@@ -6,6 +6,6 @@ ENV LETSENCRYPT_MAIL "igara1119@gmail.com"
 ADD . /nginx
 WORKDIR /nginx
 
-RUN apk add certbot
+RUN apk add certbot openssl
 RUN chmod +x /nginx/cert.sh
 CMD ["/nginx/cert.sh"]
