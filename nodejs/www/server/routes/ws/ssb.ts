@@ -1,7 +1,9 @@
 import * as WS from "ws";
+import * as child_process from "child_process";
 import * as webpush from "web-push";
 import { dbConnect, dbClose } from "@www/server/models";
 import * as Notification from "@www/server/models/notification";
+import * as fetch from "isomorphic-fetch";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
 const vapidKeys = {
@@ -76,6 +78,20 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 					});
 
 					if (userData.playerType == PlayerType.MAN) {
+						const content = `${userData.name} is fighting`;
+						const url: string = process.env.DISCORD_WEBHOCK
+							? process.env.DISCORD_WEBHOCK
+							: "";
+						const result = await fetch(url, {
+							body: `{"username":"syonet.work - ssb","content":"${content}"}`,
+							headers: {
+								Accept: "application/json",
+								"Content-Type": "application/json"
+							},
+							method: "POST"
+						});
+						console.info(result);
+
 						await dbConnect();
 						const notifications = await Notification.getNotificationList();
 						await dbClose();
@@ -90,14 +106,14 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 								};
 
 								const title = "ssb";
-								const body = `${userData.name} is fighting`;
+								const body = content;
 								// プッシュ通知で送信したい任意のデータ
 								const payload = JSON.stringify({
 									title,
 									body,
 									icon:
 										"https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-									url: `https://${process.env.WWW_DOMAIN}`
+									url: `https://${process.env.WWW_DOMAIN}/games/ssb`
 								});
 
 								// 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
@@ -126,6 +142,20 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 					});
 
 					if (userData.playerType == PlayerType.MAN) {
+						const content = `${userData.name} dead`;
+						const url: string = process.env.DISCORD_WEBHOCK
+							? process.env.DISCORD_WEBHOCK
+							: "";
+						const result = await fetch(url, {
+							body: `{"username":"syonet.work - ssb","content":"${content}"}`,
+							headers: {
+								Accept: "application/json",
+								"Content-Type": "application/json"
+							},
+							method: "POST"
+						});
+						console.info(result);
+
 						await dbConnect();
 						const notifications = await Notification.getNotificationList();
 						await dbClose();
@@ -140,14 +170,14 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 								};
 
 								const title = "ssb";
-								const body = `${userData.name} dead`;
+								const body = content;
 								// プッシュ通知で送信したい任意のデータ
 								const payload = JSON.stringify({
 									title,
 									body,
 									icon:
 										"https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-									url: `https://${process.env.WWW_DOMAIN}`
+									url: `https://${process.env.WWW_DOMAIN}/games/ssb`
 								});
 
 								// 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
