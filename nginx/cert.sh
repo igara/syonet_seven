@@ -1,10 +1,8 @@
 #!/bin/sh
 
 if [ "$WWW_ENV" = "production" ]; then
-    rm -rf /etc/letsencrypt/live/${WWW_DOMAIN}
     rm -rf /var/lib/letsencrypt
     rm -rf /etc/letsencrypt/live/openssl
-    mkdir -p /etc/letsencrypt/live/${WWW_DOMAIN}
     mkdir -p /var/lib/letsencrypt
     mkdir -p /etc/letsencrypt/live/openssl
 
