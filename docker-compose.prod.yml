@@ -61,7 +61,6 @@ services:
       dockerfile: nginx.Dockerfile
     volumes:
       - ./nginx:/nginx:cached
-      - ./nginx/syonet.work:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     links:

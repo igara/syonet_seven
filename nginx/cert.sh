@@ -30,6 +30,7 @@ if [ "$WWW_ENV" = "production" ]; then
     certbot renew
 
     nginx -s stop
+    cp /nginx/syonet.work/www.conf /etc/nginx/conf.d/www.conf
 fi
 
 echo "success: updated certification"
