@@ -20,8 +20,11 @@ if [ "$WWW_ENV" = "production" ]; then
     cp /nginx/syonet.work/cert.conf /etc/nginx/conf.d/default.conf
     nginx
 
+    echo "create new certification"
+    sleep 10
+
     certbot certonly -n --keep-until-expiring --agree-tos \
-        --webroot --webroot-path /var/lib/letsencrypt \
+        --webroot --webroot-path /usr/share/nginx/html \
         -m ${LETSENCRYPT_MAIL} -d ${WWW_DOMAIN}
 
     nginx -s stop
