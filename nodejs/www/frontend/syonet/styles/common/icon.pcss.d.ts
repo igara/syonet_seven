@@ -1,1 +1,5 @@
-export const login_user_icon: string;
+declare const styles: {
+  readonly "login_user_icon": string;
+};
+export = styles;
+

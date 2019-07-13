@@ -12,6 +12,8 @@ import * as Icon from "@F_syonet/styles/common/icon.pcss";
 import * as Close from "@F_syonet/styles/common/icon/close.pcss";
 import * as Hamburger from "@F_syonet/styles/common/icon/hamburger.pcss";
 
+import * as ToolsSsbStyle from "@F_syonet/styles/tools/ssb.pcss";
+
 const IconStyle = {
 	Icon,
 	Close,
@@ -27,5 +29,6 @@ export {
 	IconStyle,
 	ButtonStyle,
 	TextStyle,
-	SelectStyle
+	SelectStyle,
+	ToolsSsbStyle
 };

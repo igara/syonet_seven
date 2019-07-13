@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { IndexPageComponent } from "@F_syonet/pages/index";
 import { LoginPageComponent } from "@F_syonet/pages/login";
 import { ToolsPageComponent } from "@F_syonet/pages/tools/index";
+import { ToolsSsbPageComponent } from "@F_syonet/pages/tools/ssb";
 import { NotFoundPageComponent } from "@F_syonet/pages/not_found";
 
 import { AppState } from "@F_syonet/stores/index";
@@ -31,6 +32,7 @@ export const RoutesComponent: React.SFC<RoutesProps> = (props: RoutesProps) => {
 					<Route exact path="/" component={IndexPageComponent} />
 					<Route path="/login" component={LoginPageComponent} />
 					<Route exact path="/tools" component={ToolsPageComponent} />
+					<Route path="/tools/ssb" component={ToolsSsbPageComponent} />
 					<Route component={NotFoundPageComponent} />
 				</Switch>
 			</div>

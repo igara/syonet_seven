@@ -1,1 +1,5 @@
-export const footer_wrap_div: string;
+declare const styles: {
+  readonly "footer_wrap_div": string;
+};
+export = styles;
+

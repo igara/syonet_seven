@@ -1,4 +1,8 @@
-export const hamburger_icon: string;
-export const hamburger_mark_top: string;
-export const hamburger_mark: string;
-export const hamburger_mark_bottom: string;
+declare const styles: {
+  readonly "hamburger_icon": string;
+  readonly "hamburger_mark_top": string;
+  readonly "hamburger_mark": string;
+  readonly "hamburger_mark_bottom": string;
+};
+export = styles;
+

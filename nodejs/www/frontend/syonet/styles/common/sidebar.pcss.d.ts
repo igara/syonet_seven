@@ -1,9 +1,13 @@
-export const sidebar_exit: string;
-export const sidebar_exit_slider: string;
-export const sidebar_wrap_div: string;
-export const hidden: string;
-export const sidebar_overlay_div: string;
-export const sidebar_overlay_div_slider: string;
-export const sidebar_link_wrap_ul: string;
-export const sidebar_link_wrap_ul_slider: string;
-export const sidebar_link_list: string;
+declare const styles: {
+  readonly "sidebar_exit": string;
+  readonly "sidebar_exit_slider": string;
+  readonly "sidebar_wrap_div": string;
+  readonly "hidden": string;
+  readonly "sidebar_overlay_div": string;
+  readonly "sidebar_overlay_div_slider": string;
+  readonly "sidebar_link_wrap_ul": string;
+  readonly "sidebar_link_wrap_ul_slider": string;
+  readonly "sidebar_link_list": string;
+};
+export = styles;
+

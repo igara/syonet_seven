@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 
 interface OwnProps {}
 
@@ -9,7 +8,18 @@ interface OwnProps {}
 export const ToolsPageComponent: React.SFC<OwnProps> = () => {
 	return (
 		<ul>
-			<li>何も置いてません</li>
+			<li>
+				<a href="/games/ssb" target="_blank" rel="noopener">
+					SUPER SUPER BROS.
+				</a>
+				<ul>
+					<li>
+						<a href="/tools/ssb" target="_blank" rel="noopener">
+							チュートリアル
+						</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
 	);
 };

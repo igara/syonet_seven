@@ -1,4 +1,6 @@
 node_modules
+dist/local/syonet
+dist/local/admin
 dist/prod/syonet
 dist/prod/admin
 .cache

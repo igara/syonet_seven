@@ -1,7 +1,9 @@
 {
-"companyName": "DefaultCompany",
+"companyName": "syonet.work",
 "productName": "ssb",
 "dataUrl": "ssb.data.unityweb",
+"wasmCodeUrl": "ssb.wasm.code.unityweb",
+"wasmFrameworkUrl": "ssb.wasm.framework.unityweb",
 "asmCodeUrl": "ssb.asm.code.unityweb",
 "asmMemoryUrl": "ssb.asm.memory.unityweb",
 "asmFrameworkUrl": "ssb.asm.framework.unityweb",

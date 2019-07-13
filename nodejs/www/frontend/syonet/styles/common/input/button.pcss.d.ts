@@ -1,1 +1,5 @@
-export const button: string;
+declare const styles: {
+  readonly "button": string;
+};
+export = styles;
+

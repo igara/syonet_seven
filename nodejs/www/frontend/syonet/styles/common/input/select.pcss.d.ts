@@ -1,1 +1,5 @@
-export const select: string;
+declare const styles: {
+  readonly "select": string;
+};
+export = styles;
+
