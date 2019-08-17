@@ -30,7 +30,7 @@ import { graphql } from "./routes/graphql";
 import { ssbSocketRoute } from "./routes/ws/ssb";
 
 const app = express();
-const wss = new WebSocket.Server({
+const ssbWss = new WebSocket.Server({
 	port: 9000,
 	host: "0.0.0.0"
 });
@@ -138,7 +138,7 @@ app.use("/auth/github", authGithub);
 
 app.use("/manage", admin);
 
-ssbSocketRoute(wss);
+ssbSocketRoute(ssbWss);
 
 app.get("/service-worker.js", (req, res) => {
 	return res.sendFile(path.join(staticDir, "syonet/service-worker.js"));
