@@ -8,5 +8,3 @@ RUN apk --update add tzdata && \
 	rm -rf /var/cache/apk/*
 
 RUN npm install
-RUN chmod +x /www/www.sh
-CMD ["/www/www.sh"]

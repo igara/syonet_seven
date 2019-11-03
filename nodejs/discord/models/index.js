@@ -2,33 +2,15 @@
 
 import mongoose from "mongoose";
 
-if (!global.TEST && !process.env.TEST && process.env.NODE_ENV) {
-  mongoose.connect(
-    "mongodb://mongodb/syonet",
-    { useNewUrlParser: true }
-  );
-}
-
 export const dbConnect = async () => {
-  if (
-    (global.TEST === "test" || process.env.TEST === "test") &&
-    !process.env.NODE_ENV
-  ) {
+  if (global.TEST === "test" || process.env.TEST === "test") {
     await mongoose.connect(
-      "mongodb://localhost:27017/test",
-      { useNewUrlParser: true }
-    );
-  } else if (
-    (global.TEST === "test" || process.env.TEST === "test") &&
-    process.env.NODE_ENV
-  ) {
-    await mongoose.connect(
-      "mongodb://mongodb/test",
+      `${process.env.DB_HOST}/test`,
       { useNewUrlParser: true }
     );
   } else {
     await mongoose.connect(
-      "mongodb://mongodb/syonet",
+      `${process.env.DB_HOST}/syonet`,
       { useNewUrlParser: true }
     );
   }
