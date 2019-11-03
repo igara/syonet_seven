@@ -25,7 +25,7 @@ before_install:
   - sh env.sh local
   - docker-compose build
   - docker-compose up -d
-  - docker-compose exec www npm install
+  - (cd ./nodejs/www && npm install)
 
 script:
   - docker-compose exec www npm run testdata
