@@ -15,7 +15,8 @@
     "sw:build": "webpack",
     "test": "npm run testdata && jest --detectOpenHandles --forceExit",
     "coverage": "npm run testdata && jest --coverage --detectOpenHandles --forceExit",
-    "testdata": "ts-node -r tsconfig-paths/register --project server.tsconfig.json libs/testdata.ts"
+    "testdata": "ts-node -r tsconfig-paths/register --project server.tsconfig.json libs/testdata.ts",
+    "codeclimate": "cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js"
   },
   "dependencies": {
     "body-parser": "1.19.0",
