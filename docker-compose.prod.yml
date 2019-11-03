@@ -22,7 +22,7 @@ services:
     restart: always
 
   mongodb:
-    image: mongo:4
+    image: mongo:3.7.1
     ports:
       - 27017:27017
     command: mongod
