@@ -25,7 +25,7 @@ services:
     image: mongo:4
     ports:
       - 27017:27017
-    command: mongod --smallfiles
+    command: mongod
     volumes:
       - ./data/mongo:/data/db:cached
     networks:
