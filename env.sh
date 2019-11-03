@@ -15,6 +15,6 @@ fi
 echo "ENV:$env"
 
 cp "env/$env.env" ".env"
-cp "nodejs/www/$env.env" ".env"
+cp "env/$env.env" "nodejs/www/.env"
 
 echo "Finished SetEnv"
