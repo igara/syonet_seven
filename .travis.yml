@@ -24,7 +24,7 @@ before_install:
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sh env.sh local
   - docker-compose build
-  - docker-compose up -d
+  - docker-compose up -d mongodb
   - (cd ./nodejs/www && npm install)
 
 script:
