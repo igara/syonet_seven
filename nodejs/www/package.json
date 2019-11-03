@@ -13,8 +13,8 @@
     "lint": "npm run stylelint && npm run eslint",
     "clean": "rm -rf node_modules .next dist",
     "sw:build": "webpack",
-    "test": "jest --forceExit",
-    "coverage": "jest --coverage --forceExit",
+    "test": "npm run testdata && jest --forceExit",
+    "coverage": "npm run testdata && jest --coverage --forceExit",
     "testdata": "ts-node -r tsconfig-paths/register --project server.tsconfig.json libs/testdata.ts"
   },
   "dependencies": {

@@ -1,3 +1,5 @@
+import User from "@www/models/user";
+
 describe("getUserInfo", () => {
   beforeEach(() => {
     jest.resetModules();
@@ -43,10 +45,12 @@ describe("upsertByAuthUser", () => {
       id: 33333,
       provider: "twitter",
     };
-    const result = await upsertByAuthUser(user);
-    expect(result.auth.id).toBe(user.id);
-    expect(result.auth.provider).toBe(user.provider);
-    expect(result.type).toBe("general");
+    const upsertResult = await upsertByAuthUser(user);
+    expect(null).toBe(upsertResult);
+    const findResult = await upsertByAuthUser(user);
+    expect(findResult.auth.id).toBe(user.id);
+    expect(findResult.auth.provider).toBe(user.provider);
+    expect(findResult.type).toBe("general");
     await dbClose();
   });
 });
