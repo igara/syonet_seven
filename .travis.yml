@@ -30,7 +30,6 @@ before_install:
 
 script:
   - docker-compose exec www npm run testdata
-  - docker-compose exec www npm run test
   - docker-compose exec www npm run coverage
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
 
