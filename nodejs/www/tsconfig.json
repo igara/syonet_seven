@@ -1,17 +1,28 @@
 {
-	"compilerOptions": {
-		"target": "es5",
-		"module": "commonjs",
-		"lib": ["es2015", "dom", "webworker"],
-		"strict": true,
-		"baseUrl": "./",
-		"esModuleInterop": false,
-		"paths": {
-			"@F_syonet/*": ["./frontend/syonet/*"],
-			"@F_admin/*": ["./frontend/admin/*"],
-			"@www/*": ["./*"]
-		},
-		"jsx": "react",
-		"noImplicitAny": false
-	}
+  "compilerOptions": {
+    "allowJs": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom", "es2017", "esnext", "webworker"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@www/*": ["./*"]
+    },
+    "target": "esnext",
+    "typeRoots": ["types", "node_modules/@types"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": ["*.ts", "**/*.ts", "**/*.tsx"]
 }

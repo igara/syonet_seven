@@ -1,0 +1,8 @@
+.login_user_icon {
+  width: 5vh;
+  height: 5vh;
+  background: rgba(255, 255, 255, 0);
+  border: medium solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+}

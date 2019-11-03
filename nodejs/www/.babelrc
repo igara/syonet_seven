@@ -1,15 +1,14 @@
 {
-	"plugins": [
-		[
-			"module-resolver",
-			{
-				"root": ["./"],
-				"alias": {
-					"@F_syonet": "./frontend/syonet",
-					"@F_admin": "./frontend/admin",
-					"@www": "./"
-				}
-			}
-		]
-	]
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@www": "./"
+        }
+      }
+    ]
+  ]
 }

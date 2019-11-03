@@ -24,13 +24,13 @@ before_install:
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sh env.sh local
   - docker-compose build
-  - docker-compose up -d mongodb
-  - (cd ./nodejs/www/ && yarn)
+  - docker-compose up -d
+  - docker-compose exec www npm install
 
 script:
-  - (cd ./nodejs/www/ && yarn testdata)
-  - (cd ./nodejs/www/ && yarn test)
-  - (cd ./nodejs/www/ && yarn coverage)
+  - docker-compose exec www npm run testdata
+  - docker-compose exec www npm run test
+  - docker-compose exec www npm run coverage
   - cat ./nodejs/www/coverage/lcov.info | ./nodejs/www/node_modules/codeclimate-test-reporter/bin/codeclimate.js
 
 after_success:

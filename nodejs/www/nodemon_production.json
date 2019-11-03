@@ -1,4 +1,0 @@
-{
-	"ext": "ts",
-	"exec": "node -r tsconfig-paths/register -r ts-node/register ./server/bin/www.ts"
-}

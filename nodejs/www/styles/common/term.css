@@ -1,0 +1,53 @@
+.term_exit {
+  animation: term_exit_slider 1s;
+}
+
+@keyframes term_exit_slider {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100vh);
+  }
+}
+
+.term_wrap_div {
+  position: fixed;
+  top: 0;
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.term_overlay_div {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  background: rgba(45, 45, 45, 0.5);
+  animation: term_wrap_div_slider 1s;
+}
+
+.term_content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 90vw;
+  height: 90%;
+  margin: auto;
+  background: #fff;
+}
+
+@keyframes term_wrap_div_slider {
+  0% {
+    transform: translateY(100vh);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

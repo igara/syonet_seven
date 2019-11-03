@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$WWW_ENV" = "production" ]; then
+if [ "$NODE_ENV" = "production" ]; then
     rm -rf /var/lib/letsencrypt
     rm -rf /etc/letsencrypt/live/openssl
     mkdir -p /var/lib/letsencrypt

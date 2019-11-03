@@ -7,7 +7,7 @@
     "dbaeumer.vscode-eslint",
     "flowtype.flow-for-vscode",
     "esbenp.prettier-vscode",
-    "jpoissonnier.vscode-styled-components",
-    "cpylua.language-postcss"
+    "cpylua.language-postcss",
+    "shinnn.stylelint"
   ]
 }

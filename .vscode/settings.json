@@ -1,9 +1,23 @@
 {
-	"eslint.enable": true,
-	"flow.useNPMPackagedFlow": true,
-	"flow.pathToFlow": "${workspaceRoot}/nodejs/www/node_modules/.bin/flow",
-	"javascript.validate.enable": false,
-	"javascript.format.enable": false,
-	"editor.formatOnSave": true,
-	"prettier.eslintIntegration": true
+  "flow.useNPMPackagedFlow": true,
+  "flow.pathToFlow": "${workspaceRoot}/nodejs/discord/node_modules/.bin/flow",
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "prettier.stylelintIntegration": true,
+  "javascript.validate.enable": false,
+  "javascript.format.enable": false,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.renderControlCharacters": true,
+  "files.insertFinalNewline": true,
+  "files.eol": "\n",
+  "files.exclude": {
+    ".next": true,
+    "node_modules": true
+  }
 }

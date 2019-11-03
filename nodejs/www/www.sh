@@ -1,14 +1,9 @@
 #!/bin/sh
 
-yarn
-yarn clear
+npm install
 
-if [ $WWW_ENV = "local" ]; then
-yarn syonet_build
-yarn admin_build
-yarn server_dev
-elif [ $WWW_ENV = "production" ]; then
-yarn syonet_build
-yarn admin_build
-yarn server
+if [ $NODE_ENV = "localhost" ]; then
+npm run dev
+elif [ $NODE_ENV = "production" ]; then
+npm run production
 fi
