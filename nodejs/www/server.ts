@@ -80,13 +80,11 @@ app.prepare().then(() => {
   const MongoStore = connectMongo(session);
   const cookie = dev
     ? {
-        httpOnly: false,
-        maxAge: 60 * 60 * 1000,
+        maxAge: 86400 * 1000,
       }
     : {
-        httpOnly: false,
-        maxAge: 60 * 60 * 1000,
-        domain: `.${process.env.WWW_DOMAIN}`,
+        maxAge: 86400 * 1000,
+        // domain: `.${process.env.WWW_DOMAIN}`,
       };
 
   server.use(
