@@ -5,7 +5,6 @@ services:
     build:
       context: ./nodejs/www
       dockerfile: www.Dockerfile
-    command: npm run production
     ports:
       - 3000:3000
       - 9000:9000
@@ -59,7 +58,6 @@ services:
     build:
       context: ./nodejs/discord
       dockerfile: discord.Dockerfile
-    command: npm run start
     volumes:
       - ./nodejs/discord:/discord:cached
     environment:

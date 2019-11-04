@@ -9,4 +9,5 @@ RUN apk --update add tzdata && \
 
 RUN apk --no-cache add curl
 
-RUN npm install
+RUN chmod +x /discord/discord.sh
+CMD ["/discord/discord.sh"]

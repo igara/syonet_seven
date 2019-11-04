@@ -5,7 +5,6 @@ services:
     build:
       context: ./nodejs/www
       dockerfile: www.Dockerfile
-    command: npm run dev
     ports:
       - 3000:3000
       - 9229:9229
@@ -14,6 +13,7 @@ services:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
     environment:
+      NODE_ENV: ${NODE_ENV}
       TZ: Asia/Tokyo
     links:
       - mongodb
@@ -58,10 +58,10 @@ services:
     build:
       context: ./nodejs/discord
       dockerfile: discord.Dockerfile
-    command: npm run start
     volumes:
       - ./nodejs/discord:/discord:cached
     environment:
+      NODE_ENV: ${NODE_ENV}
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
       DISCORD_ADMIN_USER_ID: ${DISCORD_ADMIN_USER_ID}
       DISCORD_BOT_CHANNEL_ID: ${DISCORD_BOT_CHANNEL_ID}
