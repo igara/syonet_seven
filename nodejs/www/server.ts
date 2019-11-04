@@ -62,16 +62,6 @@ app.prepare().then(() => {
     next();
   });
 
-  // HTTPの時HTTPSアクセスにリダイレクトする
-  server.use((req, res, next) => {
-    if (!dev && req.headers["x-forwarded-proto"] !== "https") {
-      // request was via http, so redirect to https
-      res.redirect(`https://${req.hostname}${req.url}`);
-    } else {
-      next();
-    }
-  });
-
   mongoose.connect(`${process.env.DB_HOST}/syonet`, {
     useFindAndModify: false,
     useNewUrlParser: true,
