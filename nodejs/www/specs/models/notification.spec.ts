@@ -3,6 +3,7 @@ import { NotificationDocument } from "@www/models/notification";
 describe("getNotificationList", () => {
   beforeEach(() => {
     jest.resetModules();
+    process.env.DB_HOST = "mongodb://localhost:27017";
   });
   test("通知する対象一覧を取得", async () => {
     const { dbConnect, dbClose } = require("@www/models");

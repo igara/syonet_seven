@@ -10,6 +10,8 @@ import { Sessions } from "@www/libs/testdata/session";
 import { Users } from "@www/libs/testdata/user";
 import { Notifications } from "@www/libs/testdata/notification";
 
+process.env.DB_HOST = "mongodb://localhost:27017";
+
 export const main = async () => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

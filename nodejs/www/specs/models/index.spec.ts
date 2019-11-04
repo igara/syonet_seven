@@ -1,12 +1,10 @@
-const host = JSON.parse(JSON.stringify(process.env)).DB_HOST;
-
 describe("index", () => {
   beforeEach(() => {
     jest.resetModules();
   });
   afterEach(() => {
     global.TEST = "test";
-    process.env.DB_HOST = host;
+    process.env.DB_HOST = "mongodb://localhost:27017";
   });
 
   test("test", async () => {

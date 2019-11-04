@@ -1,6 +1,7 @@
 describe("getSessionBySessionId", () => {
   beforeEach(() => {
     jest.resetModules();
+    process.env.DB_HOST = "mongodb://localhost:27017";
   });
   test("sessionIdの指定がない時", async () => {
     const { dbConnect, dbClose } = require("@www/models");

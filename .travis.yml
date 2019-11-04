@@ -28,9 +28,8 @@ before_install:
   - (cd ./nodejs/www && npm install)
 
 script:
-  - docker-compose up -d www
-  - docker-compose exec www npm run coverage
-  - docker-compose exec www npm run codeclimate
+  - (cd nodejs/www && npm run coverage)
+  - (cd nodejs/www && npm run codeclimate)
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh

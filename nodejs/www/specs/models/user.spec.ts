@@ -3,6 +3,7 @@ import User from "@www/models/user";
 describe("getUserInfo", () => {
   beforeEach(() => {
     jest.resetModules();
+    process.env.DB_HOST = "mongodb://localhost:27017";
   });
   test("User.authのid・providerの指定がない時", async () => {
     const { dbConnect, dbClose } = require("@www/models");
@@ -36,6 +37,7 @@ describe("getUserInfo", () => {
 describe("upsertByAuthUser", () => {
   beforeEach(() => {
     jest.resetModules();
+    process.env.DB_HOST = "mongodb://localhost:27017";
   });
   test("Userの指定がある時", async () => {
     const { dbConnect, dbClose } = require("@www/models");
