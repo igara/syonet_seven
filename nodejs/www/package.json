@@ -88,7 +88,7 @@
     "jest-environment-jsdom": "24.9.0",
     "jest-environment-jsdom-global": "1.2.0",
     "next-workbox-webpack-plugin": "2.1.1",
-    "prettier": "1.18.2",
+    "prettier": "1.19.0",
     "prettier-stylelint": "0.4.2",
     "redux-devtools-extension": "2.13.8",
     "redux-logger": "3.0.6",
