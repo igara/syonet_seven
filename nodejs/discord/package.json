@@ -24,7 +24,7 @@
     "eslint-plugin-prettier": "2.6.0",
     "flow-bin": "0.86.0",
     "flow-typed": "2.5.1",
-    "prettier": "1.13.5"
+    "prettier": "1.19.0"
   },
   "scripts": {
     "start": "babel-node index.js"
