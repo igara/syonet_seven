@@ -14,7 +14,7 @@ describe("index", () => {
         close: jest.fn(),
       },
     }));
-    const model = require("@www/models");
+    const model = require("@www/models/mongoose");
     await model.dbConnect();
     await model.dbClose();
   });
@@ -27,7 +27,7 @@ describe("index", () => {
         close: jest.fn(),
       },
     }));
-    const model = require("@www/models");
+    const model = require("@www/models/mongoose");
     await model.dbConnect();
     await model.dbClose();
   });

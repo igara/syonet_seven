@@ -1,8 +1,10 @@
 import express from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import passport from "passport";
-import { dbConnect, dbClose } from "@www/models";
-import * as User from "@www/models/user";
+import { dbConnect, dbClose } from "@www/models/mongoose";
+import * as User from "@www/models/mongoose/user";
+import * as AccessToken from "@www/models/mongoose/access_token";
+import { generateAccessToken } from "@www/libs/token";
 
 const router = express.Router();
 
@@ -36,7 +38,7 @@ passport.deserializeUser((obj, done) => {
 router.get(
   "/",
   passport.authenticate("google", {
-    scope: ["email", "profile"],
+    scope: ["profile"],
     session: false,
   }),
 );
@@ -44,17 +46,24 @@ router.get(
 /**
  * 認証完了画面
  */
-export const google = async (req: express.Request, res: express.Response) => {
+export const google = async (req: any, res: express.Response) => {
+  let query = "";
+
   try {
     await dbConnect();
-    await User.upsertByAuthUser(req.user);
-    res.redirect("/");
+    const user = await User.upsertByAuthUser(req.user);
+    if (user) {
+      const accessToken = generateAccessToken(user._id.toString());
+      await AccessToken.upsertAccessTokenByTokenAndUserId(accessToken, user._id);
+      query = `?token=${accessToken}`;
+    }
   } catch (error) {
     console.error(error);
   } finally {
     await dbClose();
   }
+  return res.redirect(`/${query}`);
 };
-router.get("/callback", passport.authenticate("google"), google);
+router.get("/callback", passport.authenticate("google", { session: false }), google);
 
 export default router;

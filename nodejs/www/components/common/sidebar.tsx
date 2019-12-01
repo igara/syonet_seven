@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { sidebarStyle, iconStyle } from "@www/styles";
 import { sidebarActions } from "@www/actions/common/sidebar";
-import { logout } from "@www/actions/common/login";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "@www/stores";
-import { Cookies } from "@www/libs/cookie";
+import { db } from "@www/models/dexie/db";
 
 type Props = AppState;
 
@@ -30,14 +29,10 @@ export const SidebarComponent = (props: Props) => {
         {props.login.login.data.user ? (
           <li
             className={sidebarStyle.sidebar_link_list}
-            onClick={() => {
-              const cookies = Cookies();
-              const sessionId = cookies.get("connect.sid");
-              if (sessionId) {
-                const token = `connect.sid=${sessionId}`;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                dispatch<any>(logout.action(token));
-              }
+            onClick={async () => {
+              await db.access_tokens.clear();
+              await dispatch(sidebarActions.onClickLogout(false));
+              location.href = "/";
             }}
           >
             ログアウト
@@ -64,7 +59,11 @@ export const SidebarComponent = (props: Props) => {
         </li>
         <li
           className={sidebarStyle.sidebar_link_list}
-          onClick={() => dispatch(sidebarActions.onClickCacheClear(false))}
+          onClick={async () => {
+            await db.access_tokens.clear();
+            await dispatch(sidebarActions.onClickCacheClear(false));
+            location.href = "/";
+          }}
         >
           キャッシュクリア
         </li>

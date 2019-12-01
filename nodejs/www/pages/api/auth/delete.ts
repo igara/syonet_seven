@@ -1,29 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbConnect, dbClose } from "@www/models";
-import * as Session from "@www/models/session";
+import { dbConnect, dbClose } from "@www/models/mongoose";
 
-export const deleteAuth = async (req: NextApiRequest, res: NextApiResponse) => {
+export const deleteAuth = async (_: NextApiRequest, res: NextApiResponse) => {
   try {
-    const token = req.headers["token"];
-    if (typeof token !== "string" || token === null || token === "") {
-      res.status(401);
-      return res.send({
-        status: 401,
-        message: "NG",
-      });
-    }
-    const sessionId = token.replace(/^connect.sid=s:/, "").replace(/\.\S*$/, "");
-    if (typeof sessionId === "undefined" || sessionId === null || sessionId === "") {
-      res.status(401);
-      return res.send({
-        status: 401,
-        message: "NG",
-      });
-    }
-
     await dbConnect();
-    const result = await Session.deleteSession(sessionId);
-    console.info(result);
+
     res.status(200);
     return res.send({
       status: 200,

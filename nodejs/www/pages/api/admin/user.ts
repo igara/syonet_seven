@@ -1,45 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbConnect, dbClose } from "@www/models";
-import * as User from "@www/models/user";
-import * as Session from "@www/models/session";
+import { dbConnect, dbClose } from "@www/models/mongoose";
+import * as User from "@www/models/mongoose/user";
 
 const list = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const token = req.headers["token"];
-    if (typeof token !== "string" || token === null || token === "") {
-      res.status(401);
-      return res.send({
-        status: 401,
-        message: "NG",
-      });
-    }
-    const sessionId = token.replace(/^connect.sid=s:/, "").replace(/\.\S*$/, "");
-
     await dbConnect();
-    const session = await Session.getSessionBySessionId(sessionId);
-    if (
-      session === null ||
-      typeof session.session.passport === "undefined" ||
-      session.session.passport === null ||
-      typeof session.session.passport.user === "undefined" ||
-      session.session.passport.user === null
-    ) {
-      res.status(401);
-      return res.send({
-        status: 401,
-        message: "NG",
-      });
-    }
-    const id = session.session.passport.user.id;
-    const provider = session.session.passport.user.provider;
-    const isAdmin: boolean = await User.getIsAdmin(id, provider);
-    if (isAdmin === false) {
-      res.status(401);
-      return res.send({
-        status: 401,
-        message: "NG",
-      });
-    }
 
     const userCount = await User.getUserCount();
     let limit = isNaN(+req.query.limit) ? 1 : +req.query.limit;

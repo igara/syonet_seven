@@ -1,4 +1,4 @@
-import { NotificationDocument } from "@www/models/notification";
+import { NotificationDocument } from "@www/models/mongoose/notification";
 
 describe("getNotificationList", () => {
   beforeEach(() => {
@@ -6,8 +6,8 @@ describe("getNotificationList", () => {
     process.env.DB_HOST = "mongodb://localhost:27017";
   });
   test("通知する対象一覧を取得", async () => {
-    const { dbConnect, dbClose } = require("@www/models");
-    const { getNotificationList } = require("@www/models/notification");
+    const { dbConnect, dbClose } = require("@www/models/mongoose");
+    const { getNotificationList } = require("@www/models/mongoose/notification");
     await dbConnect();
     const result = await getNotificationList();
 
@@ -38,7 +38,7 @@ describe("insertNotification", () => {
     jest.resetModules();
   });
   test("通知対象の情報を追加", async () => {
-    const { dbConnect, dbClose } = require("@www/models");
+    const { dbConnect, dbClose } = require("@www/models/mongoose");
     await dbConnect();
     const notification = {
       endpoint: "https://example3.com",
@@ -46,8 +46,8 @@ describe("insertNotification", () => {
       p256dh: "33333333333333",
     };
 
-    const { insertNotification } = require("@www/models/notification");
-    const N = require("@www/models/notification").default;
+    const { insertNotification } = require("@www/models/mongoose/notification");
+    const N = require("@www/models/mongoose/notification").default;
     await insertNotification(notification);
     await N.deleteOne(notification);
     await dbClose();

@@ -1,4 +1,4 @@
-import { NotificationData } from "@www/models/notification";
+import { NotificationData } from "@www/models/mongoose/notification";
 
 export const Notifications: Array<NotificationData> = [
   {

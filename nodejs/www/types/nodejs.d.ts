@@ -24,6 +24,9 @@ declare module NodeJS {
     GITHUB_CLIENT_ID: string;
     GITHUB_CLIENT_SECRET: string;
     GITHUB_CALLBACK: string;
+    TOKEN_AUDIENCE: string;
+    TOKEN_ISSUER: string;
+    TOKEN_SECRET: string;
     WEBPUSH_CONTACT: string;
     WEBPUSH_VAPIDKEYS_PUBLIC: string;
     WEBPUSH_VAPIDKEYS_PRIVATE: string;

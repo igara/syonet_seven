@@ -69,8 +69,6 @@ export const sidebarReducer = reducerWithInitialState(initialState)
             }
           });
         });
-        // eslint-disable-next-line no-undef
-        location.reload();
       });
     }
     return { ...state, SidebarDispFlag: false };

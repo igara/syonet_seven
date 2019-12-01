@@ -5,8 +5,6 @@ import bodyParser from "body-parser";
 import next from "next";
 import passport from "passport";
 import compression from "compression";
-import session from "express-session";
-import connectMongo from "connect-mongo";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import * as WebSocket from "ws";
@@ -14,9 +12,9 @@ import fs from "fs";
 import path from "path";
 config({ path: path.resolve(__dirname, ".env") });
 import authFacebook from "@www/server/passport/facebook";
-import authTwitter from "@www/server/passport/twitter";
 import authGoogle from "@www/server/passport/google";
 import authGithub from "@www/server/passport/github";
+import "@www/server/passport/jwt";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
 
@@ -55,7 +53,7 @@ app.prepare().then(() => {
     res.set("Cache-Control", "public, max-age=3600");
 
     if (req.method === "OPTIONS") {
-      res.append("Access-Control-Allow-Headers", "Token");
+      res.append("Access-Control-Allow-Headers", "authorization");
       res.set("Access-Control-Allow-Methods", req.get("access-control-request-Method"));
       return res.send();
     }
@@ -67,35 +65,10 @@ app.prepare().then(() => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  const MongoStore = connectMongo(session);
-  const cookie = dev
-    ? {
-        maxAge: 86400 * 1000,
-      }
-    : {
-        maxAge: 86400 * 1000,
-        // domain: `.${process.env.WWW_DOMAIN}`,
-      };
-
-  server.use(
-    session({
-      secret: "syonet",
-      store: new MongoStore({
-        mongooseConnection: mongoose.connection,
-        autoRemove: "interval",
-        autoRemoveInterval: 60,
-        stringify: false,
-      }),
-      resave: false,
-      saveUninitialized: true,
-      cookie,
-    }),
-  );
 
   server.use(passport.initialize());
   server.use(passport.session());
   server.use("/auth/facebook", authFacebook);
-  server.use("/auth/twitter", authTwitter);
   server.use("/auth/google", authGoogle);
   server.use("/auth/github", authGithub);
 

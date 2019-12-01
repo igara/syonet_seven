@@ -1,7 +1,7 @@
 import WS from "ws";
 import webpush from "web-push";
-import { dbConnect, dbClose } from "@www/models";
-import * as Notification from "@www/models/notification";
+import { dbConnect, dbClose } from "@www/models/mongoose";
+import * as Notification from "@www/models/mongoose/notification";
 import fetch from "isomorphic-fetch";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";

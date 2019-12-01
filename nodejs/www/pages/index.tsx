@@ -1,21 +1,51 @@
 /* eslint-disable no-undef */
 import { NextPageContext } from "next";
 import Head from "next/head";
-import { Cookies } from "@www/libs/cookie";
 import { WrapperComponent } from "@www/components/wrapper";
 import { AppState } from "@www/stores";
 import { AppProps } from "next-redux-wrapper";
 import { checkLogin } from "@www/actions/common/login";
+import { db } from "@www/models/dexie/db";
+import { useDispatch, useStore } from "react-redux";
+import { useState } from "react";
 
-type Props = AppState;
+type Props = {
+  token: string;
+} & AppState;
 
 const IndexPageComponent = (props: Props) => {
+  const [state, setState] = useState(props);
+  const dispatch = useDispatch();
+  const store = useStore();
+
+  if (process.browser) {
+    db.transaction("rw", db.access_tokens, async () => {
+      let token: string;
+      if (props.token) {
+        token = props.token;
+        await db.access_tokens.clear();
+        await db.access_tokens.put({
+          token: token,
+        });
+      } else {
+        const accessTokens = await db.access_tokens.toArray();
+        token = accessTokens.length > 0 ? accessTokens[0].token : "";
+      }
+
+      if (token) {
+        await dispatch<any>(checkLogin.action(token));
+      }
+
+      setState(store.getState());
+    });
+  }
+
   return (
     <>
       <Head>
         <title>Syonet</title>
       </Head>
-      <WrapperComponent {...props}>
+      <WrapperComponent {...state}>
         なんとなくdiscordはじめてみました。ChatOps的な何かとかやってます。ご自由にご参加ください。
         <iframe
           src="https://discordapp.com/widget?id=426647501643317252&theme=light&username=anonimas"
@@ -30,19 +60,9 @@ const IndexPageComponent = (props: Props) => {
 };
 
 IndexPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  try {
-    const cookie = context.req ? Cookies(context.req) : Cookies();
-    const sessionId = cookie.get("connect.sid");
-    if (sessionId) {
-      const token = `connect.sid=${sessionId}`;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await context.store.dispatch<any>(checkLogin.action(token));
-    }
-  } catch (error) {
-    console.error(error);
-  }
+  const token = context.query.token;
   const state: AppState = context.store.getState();
-  return { ...state };
+  return { ...state, token };
 };
 
 export default IndexPageComponent;

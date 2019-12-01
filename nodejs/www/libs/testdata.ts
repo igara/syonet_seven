@@ -1,12 +1,10 @@
 import { config } from "dotenv";
 import path from "path";
 config({ path: path.resolve(__dirname, "../", ".env") });
-import { dbConnect, dbClose } from "@www/models";
-import Session from "@www/models/session";
-import User from "@www/models/user";
-import NotificationModel from "@www/models/notification";
+import { dbConnect, dbClose } from "@www/models/mongoose";
+import User from "@www/models/mongoose/user";
+import NotificationModel from "@www/models/mongoose/notification";
 
-import { Sessions } from "@www/libs/testdata/session";
 import { Users } from "@www/libs/testdata/user";
 import { Notifications } from "@www/libs/testdata/notification";
 
@@ -18,14 +16,9 @@ export const main = async () => {
     (global as any).TEST = "test";
     await dbConnect();
 
-    await Session.deleteMany({});
     await User.deleteMany({});
     await NotificationModel.deleteMany({});
-    await Promise.all([
-      Session.insertMany(Sessions),
-      User.insertMany(Users),
-      NotificationModel.insertMany(Notifications),
-    ]);
+    await Promise.all([User.insertMany(Users), NotificationModel.insertMany(Notifications)]);
   } catch (error) {
     console.error(error);
   } finally {

@@ -11,10 +11,6 @@ export type UserData = {
       familyName: string;
       givenName: string;
     };
-    emails?: Array<{
-      value: string;
-      type?: string;
-    }>;
     _json: {
       image?: {
         url: string;
@@ -39,10 +35,6 @@ export interface UserDocument extends Document {
       familyName: string;
       givenName: string;
     };
-    emails?: Array<{
-      value: string;
-      type?: string;
-    }>;
     _json: {
       image?: {
         url: string;
@@ -84,7 +76,7 @@ export const upsertByAuthUser = async (user: UpsertByAuthUserParam | undefined):
     const findResult = await User.findOneAndUpdate(
       { "auth.id": user.id, "auth.provider": user.provider },
       { $set: { auth: user } },
-      { upsert: true, setDefaultsOnInsert: true },
+      { upsert: true, setDefaultsOnInsert: true, new: true },
     );
     return findResult;
   }
@@ -150,6 +142,16 @@ export const getUserList = async (offset: number, limit: number): Promise<Array<
 };
 
 UserSchema.methods.getUserList = getUserList;
+
+export const getUserById = async (id: string): Promise<UserData | null> => {
+  const user = await User.findOne({
+    _id: id,
+  }).exec();
+
+  return user;
+};
+
+UserSchema.methods.getUserById = getUserById;
 
 const User = mongoose.models.User || mongoose.model<UserDocument>("User", UserSchema);
 export default User;

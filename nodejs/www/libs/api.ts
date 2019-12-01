@@ -16,7 +16,7 @@ export const call = async ({ url, body, method, token }: APICallParamOption) => 
     return await fetch(url, {
       body: bodyString,
       headers: {
-        Token: token,
+        Authorization: `Bearer ${token}`,
       },
       method: method,
     });
