@@ -49,7 +49,7 @@
     "typescript-fsa-redux-thunk": "2.1.7",
     "universal-cookie": "4.0.2",
     "web-push": "3.4.0",
-    "ws": "7.1.2"
+    "ws": "7.2.1"
   },
   "devDependencies": {
     "@types/compression": "1.0.1",
