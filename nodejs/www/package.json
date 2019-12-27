@@ -47,7 +47,7 @@
     "typescript-fsa": "3.0.0",
     "typescript-fsa-reducers": "1.2.1",
     "typescript-fsa-redux-thunk": "2.1.7",
-    "universal-cookie": "4.0.2",
+    "universal-cookie": "4.0.3",
     "web-push": "3.4.0",
     "ws": "7.1.2"
   },
