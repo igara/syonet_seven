@@ -23,7 +23,7 @@
     "eslint-plugin-flowtype": "3.2.0",
     "eslint-plugin-prettier": "2.6.0",
     "flow-bin": "0.86.0",
-    "flow-typed": "2.5.1",
+    "flow-typed": "3.0.0",
     "prettier": "1.13.5"
   },
   "scripts": {
