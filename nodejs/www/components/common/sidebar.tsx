@@ -30,9 +30,11 @@ export const SidebarComponent = (props: Props) => {
           <li
             className={sidebarStyle.sidebar_link_list}
             onClick={async () => {
-              await db.access_tokens.clear();
-              await dispatch(sidebarActions.onClickLogout(false));
-              location.href = "/";
+              if (process.browser) {
+                await db.access_tokens.clear();
+                await dispatch(sidebarActions.onClickLogout(false));
+                location.href = "/";
+              }
             }}
           >
             ログアウト
@@ -60,9 +62,11 @@ export const SidebarComponent = (props: Props) => {
         <li
           className={sidebarStyle.sidebar_link_list}
           onClick={async () => {
-            await db.access_tokens.clear();
-            await dispatch(sidebarActions.onClickCacheClear(false));
-            location.href = "/";
+            if (process.browser) {
+              await db.access_tokens.clear();
+              await dispatch(sidebarActions.onClickCacheClear(false));
+              location.href = "/";
+            }
           }}
         >
           キャッシュクリア

@@ -10,10 +10,6 @@ const NotFoundPageComponent = (props: Props) => {
 };
 
 NotFoundPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  try {
-  } catch (error) {
-    console.error(error);
-  }
   return { ...context.store.getState() };
 };
 

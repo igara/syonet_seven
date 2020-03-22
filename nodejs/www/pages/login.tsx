@@ -5,7 +5,7 @@ import { NextPageContext } from "next";
 import { AppProps } from "next-redux-wrapper";
 import { checkLogin } from "@www/actions/common/login";
 import { AppState } from "@www/stores";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 
@@ -17,17 +17,24 @@ const LoginPageComponent = (props: Props) => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  if (process.browser) {
-    db.transaction("rw", db.access_tokens, async () => {
-      const accessTokens = await db.access_tokens.toArray();
-      const token = accessTokens.length > 0 ? accessTokens[0].token : "";
+  useEffect(() => {
+    if (process.browser) {
+      (async () => {
+        const accessTokens = await db.access_tokens.toArray();
+        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
 
-      if (token) {
-        await dispatch<any>(checkLogin.action(token));
-      }
-      setState(store.getState());
-    });
-  }
+        if (token) {
+          await dispatch<any>(checkLogin.action(token));
+        }
+
+        const storeState: AppState = store.getState();
+        if (!storeState.login.login.data.user) {
+          await db.access_tokens.clear();
+        }
+        setState(storeState);
+      })();
+    }
+  }, []);
 
   return (
     <>

@@ -7,7 +7,7 @@ import { AppProps } from "next-redux-wrapper";
 import { checkLogin } from "@www/actions/common/login";
 import { db } from "@www/models/dexie/db";
 import { useDispatch, useStore } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Props = {
   token: string;
@@ -18,27 +18,32 @@ const IndexPageComponent = (props: Props) => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  if (process.browser) {
-    db.transaction("rw", db.access_tokens, async () => {
-      let token: string;
-      if (props.token) {
-        token = props.token;
-        await db.access_tokens.clear();
-        await db.access_tokens.put({
-          token: token,
-        });
-      } else {
-        const accessTokens = await db.access_tokens.toArray();
-        token = accessTokens.length > 0 ? accessTokens[0].token : "";
-      }
+  useEffect(() => {
+    if (process.browser) {
+      (async () => {
+        let token: string;
+        if (props.token) {
+          token = props.token;
+          await db.access_tokens.clear();
+          await db.access_tokens.put({
+            token: token,
+          });
+        } else {
+          const accessTokens = await db.access_tokens.toArray();
+          token = accessTokens.length > 0 ? accessTokens[0].token : "";
+        }
 
-      if (token) {
-        await dispatch<any>(checkLogin.action(token));
-      }
-
-      setState(store.getState());
-    });
-  }
+        if (token) {
+          await dispatch<any>(checkLogin.action(token));
+        }
+        const storeState: AppState = store.getState();
+        if (!storeState.login.login.data.user) {
+          await db.access_tokens.clear();
+        }
+        setState(store.getState());
+      })();
+    }
+  }, []);
 
   return (
     <>

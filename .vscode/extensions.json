@@ -8,6 +8,6 @@
     "flowtype.flow-for-vscode",
     "esbenp.prettier-vscode",
     "cpylua.language-postcss",
-    "shinnn.stylelint"
+    "stuartzhang.stylelint-stzhang"
   ]
 }
