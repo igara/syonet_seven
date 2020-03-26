@@ -20,6 +20,7 @@ export type UserData = {
     photos: Array<{
       value: string;
     }>;
+    accessToken: string;
   };
   type: string;
 };
@@ -43,6 +44,7 @@ export interface UserDocument extends Document {
     photos: Array<{
       value: string;
     }>;
+    accessToken: string;
   };
   type: string;
 }

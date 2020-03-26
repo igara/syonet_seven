@@ -19,8 +19,8 @@ passport.use(
       callbackURL: process.env.GOOGLE_CALLBACK ? process.env.GOOGLE_CALLBACK : "",
       // accessType: 'offline',
     },
-    (_accessToken, _refreshToken, profile, done) => {
-      done(null, profile);
+    (accessToken, _refreshToken, profile, done) => {
+      done(null, { ...profile, accessToken });
     },
   ),
 );
@@ -38,7 +38,13 @@ passport.deserializeUser((obj, done) => {
 router.get(
   "/",
   passport.authenticate("google", {
-    scope: ["profile"],
+    scope: [
+      "profile",
+      "https://www.googleapis.com/auth/drive",
+      "https://www.googleapis.com/auth/drive.file",
+      "https://www.googleapis.com/auth/drive.metadata",
+      "https://www.googleapis.com/auth/spreadsheets",
+    ],
     session: false,
   }),
 );
