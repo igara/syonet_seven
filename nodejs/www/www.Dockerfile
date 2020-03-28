@@ -2,7 +2,15 @@ FROM node:alpine
 
 ADD . /www
 WORKDIR /www
-RUN apk --update add --virtual docker
+RUN apk update && apk --no-cache add --virtual \
+  build-dependencies \
+	curl \
+	build-base \
+	make \
+	gcc \
+	g++ \
+	python \
+	avahi-dev
 
 RUN apk --update add tzdata && \
 	rm -rf /var/cache/apk/*

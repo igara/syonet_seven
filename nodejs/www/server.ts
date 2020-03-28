@@ -15,6 +15,7 @@ import authFacebook from "@www/server/passport/facebook";
 import authGoogle from "@www/server/passport/google";
 import authGithub from "@www/server/passport/github";
 import "@www/server/passport/jwt";
+import * as discord from "@www/server/discord";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
 
@@ -73,6 +74,7 @@ app.prepare().then(() => {
   server.use("/auth/github", authGithub);
 
   ssbSocketRoute(ssbWss);
+  discord.connect();
 
   server.use("/games/ssb", express.static(gamesDir));
   server.all("/games/ssb", (_req, res) => {

@@ -54,31 +54,6 @@ services:
       - frontend
       - backend
 
-  discord:
-    build:
-      context: ./nodejs/discord
-      dockerfile: discord.Dockerfile
-    volumes:
-      - ./nodejs/discord:/discord:cached
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
-      DISCORD_ADMIN_USER_ID: ${DISCORD_ADMIN_USER_ID}
-      DISCORD_BOT_CHANNEL_ID: ${DISCORD_BOT_CHANNEL_ID}
-      REMOTE_DEPLOY_COMMAND: ${REMOTE_DEPLOY_COMMAND}
-      DISCORD_WEBHOCK: ${DISCORD_WEBHOCK}
-      IN_POM_PATH: ${IN_POM_PATH}
-      OUT_POM_PATH: ${OUT_POM_PATH}
-      WEBPUSH_CONTACT: ${WEBPUSH_CONTACT}
-      WEBPUSH_VAPIDKEYS_PUBLIC: ${WEBPUSH_VAPIDKEYS_PUBLIC}
-      WEBPUSH_VAPIDKEYS_PRIVATE: ${WEBPUSH_VAPIDKEYS_PRIVATE}
-      WWW_DOMAIN: ${WWW_DOMAIN}
-    links:
-      - mongodb
-    networks:
-      - frontend
-      - backend
-
 networks:
   frontend:
     driver: "bridge"

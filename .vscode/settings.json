@@ -1,6 +1,4 @@
 {
-  "flow.useNPMPackagedFlow": true,
-  "flow.pathToFlow": "${workspaceRoot}/nodejs/discord/node_modules/.bin/flow",
   "eslint.enable": true,
   "eslint.validate": [
     "javascript",

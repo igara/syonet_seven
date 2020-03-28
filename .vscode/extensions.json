@@ -5,7 +5,6 @@
     // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
     "EditorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
-    "flowtype.flow-for-vscode",
     "esbenp.prettier-vscode",
     "cpylua.language-postcss",
     "stuartzhang.stylelint-stzhang"

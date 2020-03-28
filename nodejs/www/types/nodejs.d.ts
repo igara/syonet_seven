@@ -31,6 +31,12 @@ declare module NodeJS {
     WEBPUSH_VAPIDKEYS_PUBLIC: string;
     WEBPUSH_VAPIDKEYS_PRIVATE: string;
     DISCORD_WEBHOCK: string;
+    DISCORD_BOT_TOKEN: string;
+    DISCORD_ADMIN_USER_ID: string;
+    DISCORD_BOT_CHANNEL_ID: string;
+    REMOTE_DEPLOY_COMMAND: string;
+    IN_POM_PATH: string;
+    OUT_POM_PATH: string;
   }
 }
 
