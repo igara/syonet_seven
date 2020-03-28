@@ -27,6 +27,6 @@
     "prettier": "1.13.5"
   },
   "scripts": {
-    "start": "babel-node index.js"
+    "start": "npx babel-node index.js"
   }
 }
