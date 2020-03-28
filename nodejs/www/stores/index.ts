@@ -4,6 +4,7 @@ import { sidebarReducer, SidebarState } from "@www/states/common/sidebar";
 import { termReducer, TermState } from "@www/states/common/term";
 import { loginReducer, LoginState } from "@www/states/common/login";
 import { QiitaItemsState, qiitaItemsReducer } from "@www/states/blogs/qiita/items";
+import { QiitaItemState, qiitaItemReducer } from "@www/states/blogs/qiita/item";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
@@ -12,6 +13,7 @@ export type AppState = {
   term: TermState;
   login: LoginState;
   qiitaItems: QiitaItemsState;
+  qiitaItem: QiitaItemState;
 };
 
 export const rootReducer = () =>
@@ -20,6 +22,7 @@ export const rootReducer = () =>
     term: termReducer,
     login: loginReducer,
     qiitaItems: qiitaItemsReducer,
+    qiitaItem: qiitaItemReducer,
   });
 
 export const store = () =>

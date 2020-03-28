@@ -1,7 +1,7 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { toolsSsbStyle } from "@www/styles";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
 import { AppState } from "@www/stores";
 import Head from "next/head";

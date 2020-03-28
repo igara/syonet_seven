@@ -1,13 +1,14 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
-import { getItems, setItems } from "@www/actions/blogs/qiita";
+import { getItem } from "@www/actions/blogs/qiita/item";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
+import { useRouter } from "next/router";
 
 type Props = AppState;
 
@@ -15,16 +16,15 @@ const BlogsQiitaItemPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
   const dispatch = useDispatch();
   const store = useStore();
-
-  if (state.qiitaItems.items.data.items.length === 0) {
-    dispatch<any>(getItems.action());
-  } else {
-    dispatch<any>(setItems.action(state.qiitaItems.items.data.items));
-  }
+  const storeState: AppState = store.getState();
+  const router = useRouter();
+  const name = process.browser ? decodeURI(location.href.split("/").reverse()[0]) : router.query.name;
 
   useEffect(() => {
-    if (process.browser) {
-      (async () => {
+    (async () => {
+      await dispatch<any>(getItem.action(name.toString()));
+
+      if (process.browser) {
         const accessTokens = await db.access_tokens.toArray();
         const token = accessTokens.length > 0 ? accessTokens[0].token : "";
 
@@ -32,32 +32,35 @@ const BlogsQiitaItemPageComponent = (props: Props) => {
           await dispatch<any>(checkLogin.action(token));
         }
 
-        const storeState: AppState = store.getState();
         if (!storeState.login.login.data.user) {
           await db.access_tokens.clear();
         }
-        setState({
-          ...storeState,
-          qiitaItems: state.qiitaItems,
-        });
-      })();
-    }
+      }
+      setState({
+        ...storeState,
+        ...state,
+        qiitaItem: state.qiitaItem,
+      });
+    })();
   }, []);
 
   return (
     <>
       <Head>
-        <title>Syonet - Qiita</title>
+        <title>Syonet - Qiita - {name}</title>
       </Head>
       <WrapperComponent {...state}>
-        <h1>Qiita バックアップ</h1>
+        <h1>{name}</h1>
+        <div dangerouslySetInnerHTML={{ __html: state.qiitaItem.item.data.item }}></div>
       </WrapperComponent>
     </>
   );
 };
 
 BlogsQiitaItemPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  await context.store.dispatch<any>(getItems.action());
+  const asPath = context.asPath || "";
+  const name = process.browser ? decodeURI(asPath.split("/").reverse()[0]) : context.query.name;
+  await context.store.dispatch<any>(getItem.action(encodeURI(name.toString())));
   const state: AppState = context.store.getState();
   return { ...state };
 };

@@ -41,18 +41,18 @@ export const SidebarComponent = (props: Props) => {
           </li>
         ) : (
           <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickLogin(false))}>
-            <Link href="/login" as="/login">
+            <Link href="/login">
               <a>ログイン</a>
             </Link>
           </li>
         )}
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTools(false))}>
-          <Link href="/tools" as="/tools">
+          <Link href="/tools">
             <a>ツール</a>
           </Link>
         </li>
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTools(false))}>
-          <Link href="/blogs" as="/blogs">
+          <Link href="/blogs">
             <a>ブログ</a>
           </Link>
         </li>

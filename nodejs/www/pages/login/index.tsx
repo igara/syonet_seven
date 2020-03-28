@@ -2,7 +2,7 @@ import Head from "next/head";
 import { WrapperComponent } from "@www/components/wrapper";
 import { ButtonComponent as Button } from "@www/components/common/input/button";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
 import { AppState } from "@www/stores";
 import { useState, useEffect } from "react";

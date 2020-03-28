@@ -1,6 +1,6 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { AppState } from "@www/stores";
 
 type Props = AppState;

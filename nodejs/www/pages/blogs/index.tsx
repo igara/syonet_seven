@@ -1,6 +1,6 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect } from "react";
@@ -43,7 +43,7 @@ const BlogsPageComponent = (props: Props) => {
       <WrapperComponent {...state}>
         <ul>
           <li>
-            <Link href="/blogs/qiita" as="/blogs/qiita">
+            <Link href="/blogs/qiita">
               <a>Qiita バックアップ</a>
             </Link>
             <ul>

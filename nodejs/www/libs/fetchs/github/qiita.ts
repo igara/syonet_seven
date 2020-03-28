@@ -25,3 +25,15 @@ export const callItems = async (): Promise<Item[]> => {
   const json = await result.json();
   return json;
 };
+
+export const callItem = async (name: string): Promise<string> => {
+  const result = await fetch(
+    `https://raw.githubusercontent.com/igara/qiita-export/master/data/igara/${name}/README.html`,
+    {
+      method: "GET",
+    },
+  );
+
+  const text = await result.text();
+  return text;
+};

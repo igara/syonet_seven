@@ -1,5 +1,5 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { setItems, getItems, QiitaItems } from "@www/actions/blogs/qiita";
+import { setItems, getItems, QiitaItems } from "@www/actions/blogs/qiita/items";
 
 export type QiitaItemsData<T> = {
   data: T;

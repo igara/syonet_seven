@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import Head from "next/head";
 import { WrapperComponent } from "@www/components/wrapper";
 import { AppState } from "@www/stores";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
 import { db } from "@www/models/dexie/db";
 import { useDispatch, useStore } from "react-redux";

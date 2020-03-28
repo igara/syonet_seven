@@ -1,6 +1,6 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
-import { AppProps } from "next-redux-wrapper";
+import { AppProps } from "next/app";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect } from "react";
@@ -48,14 +48,14 @@ const ToolsPageComponent = (props: Props) => {
             </a>
             <ul>
               <li>
-                <Link href="/tools/ssb" as="/tools/ssb">
+                <Link href="/tools/ssb">
                   <a>チュートリアル</a>
                 </Link>
               </li>
             </ul>
           </li>
           <li>
-            <Link href="/tools/account" as="/tools/account">
+            <Link href="/tools/account">
               <a>家計簿</a>
             </Link>
           </li>
