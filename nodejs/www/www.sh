@@ -1,4 +1,5 @@
 #!/bin/sh
+npm install -g npm
 npm ci
 if [ $NODE_ENV = "localhost" ]; then
 npm run dev
