@@ -1,6 +1,6 @@
 #!/bin/sh
 npm install -g npm
-npm run clean
+npm run clean:all
 npm ci
 if [ $WWW_DOMAIN = "localhost" ]; then
 npm run dev
