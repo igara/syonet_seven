@@ -51,6 +51,11 @@ export const SidebarComponent = (props: Props) => {
             <a>ツール</a>
           </Link>
         </li>
+        <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTools(false))}>
+          <Link href="/blogs" as="/blogs">
+            <a>ブログ</a>
+          </Link>
+        </li>
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTerm(true))}>
           利用規約
         </li>

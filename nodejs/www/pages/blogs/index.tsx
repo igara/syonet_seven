@@ -11,7 +11,7 @@ import Link from "next/link";
 
 type Props = AppState;
 
-const ToolsPageComponent = (props: Props) => {
+const BlogsPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
   const dispatch = useDispatch();
   const store = useStore();
@@ -38,26 +38,21 @@ const ToolsPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - Tools</title>
+        <title>Syonet - Blogs</title>
       </Head>
       <WrapperComponent {...state}>
         <ul>
           <li>
-            <a href="/games/ssb" target="_blank" rel="noopener">
-              SUPER SUPER BROS.
-            </a>
+            <Link href="/blogs/qiita" as="/blogs/qiita">
+              <a>Qiita バックアップ</a>
+            </Link>
             <ul>
               <li>
-                <Link href="/tools/ssb" as="/tools/ssb">
-                  <a>チュートリアル</a>
-                </Link>
+                <a href="https://qiita.com/igara" target="_blank" rel="noopener">
+                  Qiita プロフィールページ
+                </a>
               </li>
             </ul>
-          </li>
-          <li>
-            <Link href="/tools/account" as="/tools/account">
-              <a>家計簿</a>
-            </Link>
           </li>
         </ul>
       </WrapperComponent>
@@ -65,9 +60,9 @@ const ToolsPageComponent = (props: Props) => {
   );
 };
 
-ToolsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
+BlogsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
   return { ...state };
 };
 
-export default ToolsPageComponent;
+export default BlogsPageComponent;

@@ -1,14 +1,14 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { checkLogin, logout, Login } from "@www/actions/common/login";
 
-export type StoreData<T> = {
+export type LoginData<T> = {
   data: T;
   loading?: boolean;
   error: null | Error;
 };
 
 export type LoginState = {
-  login: StoreData<Login>;
+  login: LoginData<Login>;
 };
 
 const initialState: LoginState = {
