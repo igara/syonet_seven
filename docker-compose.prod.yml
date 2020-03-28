@@ -12,7 +12,6 @@ services:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
     environment:
-      NODE_ENV: ${NODE_ENV}
       TZ: Asia/Tokyo
     links:
       - mongodb
