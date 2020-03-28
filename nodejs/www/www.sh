@@ -1,8 +1,8 @@
 #!/bin/sh
 npm install -g npm
 npm ci
-if [ $NODE_ENV = "localhost" ]; then
+if [ $WWW_DOMAIN = "localhost" ]; then
 npm run dev
-elif [ $NODE_ENV = "production" ]; then
+elif [ $WWW_DOMAIN = "syonet.work" ]; then
 npm run production
 fi
