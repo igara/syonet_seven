@@ -26,11 +26,14 @@ jobs:
           docker-compose build
           docker-compose up -d mongodb
           (cd ./nodejs/www && npm ci)
+        env:
+          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
       - name: test task
         run: |
           (cd nodejs/www && npm run coverage)
           (cd nodejs/www && npm run codeclimate)
       - name: Discord notification
+        if: always()
         env:
           DISCORD_WEBHOOK: ${{ secrets.WEBHOOK_URL }}
         uses: Ilshidur/action-discord@master
