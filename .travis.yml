@@ -29,7 +29,6 @@ before_install:
 
 script:
   - (cd nodejs/www && npm run coverage)
-  - (cd nodejs/www && npm run codeclimate)
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh

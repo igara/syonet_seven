@@ -26,16 +26,21 @@ jobs:
           docker-compose build
           docker-compose up -d mongodb
           (cd ./nodejs/www && npm ci)
+      - name: test task
         env:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
-      - name: test task
         run: |
           (cd nodejs/www && npm run coverage)
           (cd nodejs/www && npm run codeclimate)
-      - name: Discord notification
+      - uses: actions/setup-ruby@v1
+      - name: Send Webhook Notification
         if: always()
         env:
-          DISCORD_WEBHOOK: ${{ secrets.WEBHOOK_URL }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed."
+          JOB_STATUS: ${{ job.status }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          HOOK_OS_NAME: ${{ runner.os }}
+          WORKFLOW_NAME: ${{ github.workflow }}
+        run: |
+          git clone https://github.com/DiscordHooks/github-actions-discord-webhook.git webhook
+          bash webhook/send.sh $JOB_STATUS $WEBHOOK_URL
+        shell: bash
