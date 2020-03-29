@@ -91,7 +91,7 @@
     "eslint-plugin-react": "7.16.0",
     "jest": "24.9.0",
     "jest-date-mock": "1.0.7",
-    "jest-environment-jsdom": "24.9.0",
+    "jest-environment-jsdom": "25.2.4",
     "jest-environment-jsdom-global": "1.2.0",
     "next-workbox-webpack-plugin": "2.1.1",
     "prettier": "1.18.2",
