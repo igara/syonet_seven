@@ -5,5 +5,9 @@ npm ci
 if [ $WWW_DOMAIN = "localhost" ]; then
 npm run dev
 elif [ $WWW_DOMAIN = "syonet.work" ]; then
-npm run production
+export NODE_ENV=production
+npm run sw:build
+npm run build
+npm run start
+# npm run production
 fi
