@@ -79,7 +79,7 @@
     "@types/redux-logger": "3.0.7",
     "@types/web-push": "3.3.0",
     "@types/ws": "7.2.3",
-    "@typescript-eslint/eslint-plugin": "2.4.0",
+    "@typescript-eslint/eslint-plugin": "2.26.0",
     "@typescript-eslint/parser": "2.4.0",
     "babel-plugin-module-resolver": "3.2.0",
     "codeclimate-test-reporter": "0.5.1",
