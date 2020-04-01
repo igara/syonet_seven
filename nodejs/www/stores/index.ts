@@ -5,6 +5,8 @@ import { termReducer, TermState } from "@www/states/common/term";
 import { loginReducer, LoginState } from "@www/states/common/login";
 import { QiitaItemsState, qiitaItemsReducer } from "@www/states/blogs/qiita/items";
 import { QiitaItemState, qiitaItemReducer } from "@www/states/blogs/qiita/item";
+import { HatenaEntriesState, hatenaEntriesReducer } from "@www/states/blogs/hatena/entries";
+import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/entry";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
@@ -14,6 +16,8 @@ export type AppState = {
   login: LoginState;
   qiitaItems: QiitaItemsState;
   qiitaItem: QiitaItemState;
+  hatenaEntries: HatenaEntriesState;
+  hatenaEntry: HatenaEntryState;
 };
 
 export const rootReducer = () =>
@@ -23,6 +27,8 @@ export const rootReducer = () =>
     login: loginReducer,
     qiitaItems: qiitaItemsReducer,
     qiitaItem: qiitaItemReducer,
+    hatenaEntries: hatenaEntriesReducer,
+    hatenaEntry: hatenaEntryReducer,
   });
 
 export const store = () =>

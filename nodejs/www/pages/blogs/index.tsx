@@ -54,6 +54,18 @@ const BlogsPageComponent = (props: Props) => {
               </li>
             </ul>
           </li>
+          <li>
+            <Link href="/blogs/hatena">
+              <a>Hatena バックアップ</a>
+            </Link>
+            <ul>
+              <li>
+                <a href="https://igara1119.hatenablog.com/" target="_blank" rel="noopener">
+                  Hatena Blog
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </WrapperComponent>
     </>
