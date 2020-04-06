@@ -21,6 +21,10 @@
   background: rgb(255, 255, 255);
 }
 
+.close_icon.hidden {
+  display: none;
+}
+
 .close_mark {
   width: 8vh;
   max-width: 80px;

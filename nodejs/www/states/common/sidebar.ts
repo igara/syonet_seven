@@ -4,10 +4,12 @@ import { sidebarActions } from "@www/actions/common/sidebar";
 
 export type SidebarState = {
   dispFlag: boolean;
+  chengedDispFlag: boolean;
 };
 
 const initialState: SidebarState = {
   dispFlag: false,
+  chengedDispFlag: false,
 };
 
 export const sidebarReducer = reducerWithInitialState(initialState)
@@ -15,37 +17,37 @@ export const sidebarReducer = reducerWithInitialState(initialState)
    * LinkIconを押下したときの処理
    */
   .case(footerActions.onClickLinkIcon, state => {
-    return { ...state, dispFlag: true };
+    return { ...state, dispFlag: true, chengedDispFlag: true };
   })
   /**
    * 閉じるを押下したときの処理
    */
   .case(sidebarActions.onClickClose, state => {
-    return { ...state, dispFlag: false };
+    return { ...state, dispFlag: false, chengedDispFlag: true };
   })
   /**
    * ホームを押下したときの処理
    */
   .case(sidebarActions.onClickHome, state => {
-    return { ...state, dispFlag: false };
+    return { ...state, dispFlag: false, chengedDispFlag: true };
   })
   /**
    * ログインを押下したときの処理
    */
   .case(sidebarActions.onClickLogin, state => {
-    return { ...state, dispFlag: false };
+    return { ...state, dispFlag: false, chengedDispFlag: true };
   })
   /**
    * ログアウトを押下したときの処理
    */
   .case(sidebarActions.onClickLogout, state => {
-    return { ...state, SidebarDispFlag: false };
+    return { ...state, dispFlag: false, chengedDispFlag: true };
   })
   /**
    * ツールを押下したときの処理
    */
   .case(sidebarActions.onClickTools, state => {
-    return { ...state, dispFlag: false };
+    return { ...state, dispFlag: false, chengedDispFlag: true };
   })
   /**
    * キャッシュクリアを押下した時
@@ -71,5 +73,5 @@ export const sidebarReducer = reducerWithInitialState(initialState)
         });
       });
     }
-    return { ...state, SidebarDispFlag: false };
+    return { ...state, dispFlag: false };
   });

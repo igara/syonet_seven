@@ -15,9 +15,16 @@ export const SidebarComponent = (props: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <div className={`${sidebarStyle.sidebar_wrap_div} ${states.sidebar.dispFlag ? "" : sidebarStyle.hidden}`}>
-      <div className={sidebarStyle.sidebar_overlay_div} />
-      <ul className={sidebarStyle.sidebar_link_wrap_ul}>
+    <div className={sidebarStyle.sidebar_wrap_div}>
+      <div
+        className={`${sidebarStyle.sidebar_overlay_div} ${states.sidebar.chengedDispFlag &&
+          (states.sidebar.dispFlag ? sidebarStyle.able : sidebarStyle.hidden)}`}
+      />
+
+      <ul
+        className={`${sidebarStyle.sidebar_link_wrap_ul} ${states.sidebar.chengedDispFlag &&
+          (states.sidebar.dispFlag ? sidebarStyle.able : sidebarStyle.hidden)}`}
+      >
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickClose(false))}>
           閉じる
         </li>
@@ -56,7 +63,13 @@ export const SidebarComponent = (props: Props) => {
             <a>ブログ</a>
           </Link>
         </li>
-        <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTerm(true))}>
+        <li
+          className={sidebarStyle.sidebar_link_list}
+          onClick={() => {
+            dispatch(sidebarActions.onClickTerm(true));
+            dispatch(sidebarActions.onClickTerm(true));
+          }}
+        >
           利用規約
         </li>
         <li className={sidebarStyle.sidebar_link_list}>
@@ -77,7 +90,10 @@ export const SidebarComponent = (props: Props) => {
           キャッシュクリア
         </li>
       </ul>
-      <button className={iconStyle.close.close_icon} onClick={() => dispatch(sidebarActions.onClickClose(false))}>
+      <button
+        className={`${iconStyle.close.close_icon} ${states.sidebar.dispFlag ? "" : iconStyle.close.hidden}`}
+        onClick={() => dispatch(sidebarActions.onClickClose(false))}
+      >
         <div className={iconStyle.close.close_mark} />
       </button>
     </div>

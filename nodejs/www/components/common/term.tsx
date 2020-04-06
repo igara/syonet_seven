@@ -12,8 +12,11 @@ export const TermComponent = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className={`${termStyle.term_wrap_div} ${states.term.dispFlag ? "" : termStyle.hidden}`}>
-      <div className={termStyle.term_overlay_div}>
+    <div className={termStyle.term_wrap_div}>
+      <div
+        className={`${termStyle.term_overlay_div} ${states.term.chengedDispFlag &&
+          (states.term.dispFlag ? termStyle.able : termStyle.hidden)}`}
+      >
         <div className={termStyle.term_content}>
           <Button OnClickHandler={() => dispatch(termActions.onClickClose(false))}>閉じる</Button>
           <div>利用規約</div>
