@@ -23,5 +23,5 @@ export const termReducer = reducerWithInitialState(initialState)
    * 閉じるを押下したときの処理
    */
   .case(termActions.onClickClose, state => {
-    return { ...state, dispFlag: false, chengedDispFlag: true };
+    return { ...state, dispFlag: false, chengedDispFlag: false };
   });
