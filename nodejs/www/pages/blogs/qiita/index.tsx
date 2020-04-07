@@ -8,7 +8,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
-import Link from "next/link";
+import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
 
@@ -49,9 +49,9 @@ const BlogsQiitaPageComponent = (props: Props) => {
   const itemsElement = state.qiitaItems.items.data.items.map(item => {
     return (
       <li key={item.sha}>
-        <Link href="/blogs/qiita/[name]" as={`/blogs/qiita/${item.name}`}>
-          <a>{item.name}</a>
-        </Link>
+        <LinkComponent href="/blogs/qiita/[name]" as={`/blogs/qiita/${item.name}`}>
+          {item.name}
+        </LinkComponent>
       </li>
     );
   });

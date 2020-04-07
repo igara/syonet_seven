@@ -1,6 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { footerActions } from "@www/actions/common/footer";
 import { sidebarActions } from "@www/actions/common/sidebar";
+import { linkActions } from "@www/actions/common/link";
 
 export type SidebarState = {
   dispFlag: boolean;
@@ -48,6 +49,9 @@ export const sidebarReducer = reducerWithInitialState(initialState)
    */
   .case(sidebarActions.onClickTools, state => {
     return { ...state, dispFlag: false, chengedDispFlag: true };
+  })
+  .case(linkActions.onClickLink, state => {
+    return { ...state, dispFlag: false, chengedDispFlag: false };
   })
   /**
    * キャッシュクリアを押下した時

@@ -8,7 +8,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
-import Link from "next/link";
+import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
 
@@ -49,9 +49,9 @@ const BlogsHatenaPageComponent = (props: Props) => {
   const itemsElement = state.hatenaEntries.entries.data.entries.map(entry => {
     return (
       <li key={entry.sha}>
-        <Link href="/blogs/hatena/[name]" as={`/blogs/hatena/${entry.name}`}>
-          <a>{entry.name}</a>
-        </Link>
+        <LinkComponent href="/blogs/hatena/[name]" as={`/blogs/hatena/${entry.name}`}>
+          {entry.name}
+        </LinkComponent>
       </li>
     );
   });

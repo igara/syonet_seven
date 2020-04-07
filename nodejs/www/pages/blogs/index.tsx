@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { checkLogin } from "@www/actions/common/login";
-import Link from "next/link";
+import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
 
@@ -43,9 +43,7 @@ const BlogsPageComponent = (props: Props) => {
       <WrapperComponent {...state}>
         <ul>
           <li>
-            <Link href="/blogs/qiita">
-              <a>Qiita バックアップ</a>
-            </Link>
+            <LinkComponent href="/blogs/qiita">Qiita バックアップ</LinkComponent>
             <ul>
               <li>
                 <a href="https://qiita.com/igara" target="_blank" rel="noopener">
@@ -55,9 +53,7 @@ const BlogsPageComponent = (props: Props) => {
             </ul>
           </li>
           <li>
-            <Link href="/blogs/hatena">
-              <a>Hatena バックアップ</a>
-            </Link>
+            <LinkComponent href="/blogs/hatena">ログイン</LinkComponent>
             <ul>
               <li>
                 <a href="https://igara1119.hatenablog.com/" target="_blank" rel="noopener">

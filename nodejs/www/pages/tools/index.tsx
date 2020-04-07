@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { checkLogin } from "@www/actions/common/login";
-import Link from "next/link";
+import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
 
@@ -48,16 +48,12 @@ const ToolsPageComponent = (props: Props) => {
             </a>
             <ul>
               <li>
-                <Link href="/tools/ssb">
-                  <a>チュートリアル</a>
-                </Link>
+                <LinkComponent href="/tools/ssb">チュートリアル</LinkComponent>
               </li>
             </ul>
           </li>
           <li>
-            <Link href="/tools/account">
-              <a>家計簿</a>
-            </Link>
+            <LinkComponent href="/tools/account">家計簿</LinkComponent>
           </li>
         </ul>
       </WrapperComponent>

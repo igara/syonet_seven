@@ -1,5 +1,6 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { sidebarActions } from "@www/actions/common/sidebar";
+import { linkActions } from "@www/actions/common/link";
 import { termActions } from "@www/actions/common/term";
 
 export type TermState = {
@@ -23,5 +24,8 @@ export const termReducer = reducerWithInitialState(initialState)
    * 閉じるを押下したときの処理
    */
   .case(termActions.onClickClose, state => {
+    return { ...state, dispFlag: false, chengedDispFlag: false };
+  })
+  .case(linkActions.onClickLink, state => {
     return { ...state, dispFlag: false, chengedDispFlag: false };
   });
