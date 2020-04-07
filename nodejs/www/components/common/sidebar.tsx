@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { sidebarStyle, iconStyle } from "@www/styles";
 import { sidebarActions } from "@www/actions/common/sidebar";
 import { useSelector, useDispatch } from "react-redux";
