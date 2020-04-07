@@ -4,6 +4,7 @@ import { sidebarActions } from "@www/actions/common/sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "@www/stores";
 import { db } from "@www/models/dexie/db";
+import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
 
@@ -29,9 +30,7 @@ export const SidebarComponent = (props: Props) => {
           閉じる
         </li>
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickHome(false))}>
-          <Link href="/" as="/">
-            <a>ホーム</a>
-          </Link>
+          <LinkComponent href="/">ホーム</LinkComponent>
         </li>
         {props.login.login.data.user ? (
           <li
@@ -48,20 +47,14 @@ export const SidebarComponent = (props: Props) => {
           </li>
         ) : (
           <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickLogin(false))}>
-            <Link href="/login">
-              <a>ログイン</a>
-            </Link>
+            <LinkComponent href="/login">ログイン</LinkComponent>
           </li>
         )}
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTools(false))}>
-          <Link href="/tools">
-            <a>ツール</a>
-          </Link>
+          <LinkComponent href="/tools">ツール</LinkComponent>
         </li>
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickTools(false))}>
-          <Link href="/blogs">
-            <a>ブログ</a>
-          </Link>
+          <LinkComponent href="/blogs">ブログ</LinkComponent>
         </li>
         <li
           className={sidebarStyle.sidebar_link_list}
