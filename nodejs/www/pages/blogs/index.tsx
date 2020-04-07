@@ -53,7 +53,7 @@ const BlogsPageComponent = (props: Props) => {
             </ul>
           </li>
           <li>
-            <LinkComponent href="/blogs/hatena">ログイン</LinkComponent>
+            <LinkComponent href="/blogs/hatena">Hatena Blog バックアップ</LinkComponent>
             <ul>
               <li>
                 <a href="https://igara1119.hatenablog.com/" target="_blank" rel="noopener">
