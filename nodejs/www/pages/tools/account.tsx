@@ -3,6 +3,7 @@ import { toolsSsbStyle } from "@www/styles";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
+import { spreadsheetList } from "@www/actions/tools/spreadsheet";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect } from "react";
@@ -24,6 +25,7 @@ const ToolsAccountPageComponent = (props: Props) => {
 
         if (token) {
           await dispatch<any>(checkLogin.action(token));
+          await dispatch<any>(spreadsheetList.action(token));
         }
 
         const storeState: AppState = store.getState();

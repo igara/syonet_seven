@@ -4,6 +4,8 @@ import * as User from "@www/models/mongoose/user";
 import passport from "passport";
 import * as googleapis from "@www/libs/googleapis";
 
+const spreadsheetFolderName = "家計簿_syonet";
+
 export const list = async (req: NextApiRequest, res: NextApiResponse) => {
   passport.authenticate("jwt", { session: false }, async (err, userId) => {
     try {
@@ -42,8 +44,28 @@ export const list = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const googleClient = googleapis.client(user.auth.accessToken);
       const drive = googleapis.drive(googleClient);
-      const files = await drive.files.get();
-      console.log(files);
+
+      let folderId;
+      const folderList = await drive.files.list({
+        q: `name = '${spreadsheetFolderName}'`
+      });
+      if (!folderList.data.files || folderList.data.files?.length === 0) {
+        const folder = await drive.files.create({
+          requestBody: {
+            name: spreadsheetFolderName,
+            mimeType: "application/vnd.google-apps.folder",
+          },
+          fields: "id",
+        });
+        folderId = folder.data.id;
+      } else {
+        folderId = folderList.data.files[0].id;
+      }
+
+      const files = await drive.files.list({ 
+        q: `'${folderId}' in parents`
+      });
+      console.log(files.data.files);
 
       res.status(200);
       return res.send({
