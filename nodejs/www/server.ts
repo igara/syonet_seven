@@ -51,7 +51,7 @@ app.prepare().then(() => {
   server.use((req, res, next) => {
     res.set("Access-Control-Allow-Origin", "*");
     res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Cache-Control", "public, max-age=3600");
+    res.set("Cache-Control", "public, no-cache");
 
     if (req.method === "OPTIONS") {
       res.append("Access-Control-Allow-Headers", "authorization");
