@@ -13,6 +13,7 @@ import * as close from "@www/styles/common/icon/close.css";
 import * as hamburger from "@www/styles/common/icon/hamburger.css";
 
 import * as toolsSsbStyle from "@www/styles/tools/ssb.css";
+import * as toolsChatStyle from "@www/styles/tools/chat.css";
 
 const iconStyle = {
   icon,
@@ -31,4 +32,5 @@ export {
   textStyle,
   selectStyle,
   toolsSsbStyle,
+  toolsChatStyle,
 };

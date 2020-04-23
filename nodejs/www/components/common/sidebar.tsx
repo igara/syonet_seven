@@ -73,7 +73,7 @@ export const SidebarComponent = (props: Props) => {
           className={sidebarStyle.sidebar_link_list}
           onClick={async () => {
             if (process.browser) {
-              await db.access_tokens.clear();
+              await db.delete();
               await dispatch(sidebarActions.onClickCacheClear(false));
               location.href = "/";
             }

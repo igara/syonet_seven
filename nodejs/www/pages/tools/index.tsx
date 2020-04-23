@@ -52,6 +52,9 @@ const ToolsPageComponent = (props: Props) => {
               </li>
             </ul>
           </li>
+          <li>
+            <LinkComponent href="/tools/chat">チャット</LinkComponent>
+          </li>
           {/* <li>
             <LinkComponent href="/tools/account">家計簿</LinkComponent>
           </li> */}

@@ -7,6 +7,7 @@ import { QiitaItemsState, qiitaItemsReducer } from "@www/states/blogs/qiita/item
 import { QiitaItemState, qiitaItemReducer } from "@www/states/blogs/qiita/item";
 import { HatenaEntriesState, hatenaEntriesReducer } from "@www/states/blogs/hatena/entries";
 import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/entry";
+import { ChatState, chatReducer } from "@www/states/chat";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
@@ -18,6 +19,7 @@ export type AppState = {
   qiitaItem: QiitaItemState;
   hatenaEntries: HatenaEntriesState;
   hatenaEntry: HatenaEntryState;
+  chat: ChatState;
 };
 
 export const rootReducer = () =>
@@ -29,6 +31,7 @@ export const rootReducer = () =>
     qiitaItem: qiitaItemReducer,
     hatenaEntries: hatenaEntriesReducer,
     hatenaEntry: hatenaEntryReducer,
+    chat: chatReducer,
   });
 
 export const store = () =>
