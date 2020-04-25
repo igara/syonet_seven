@@ -60,6 +60,7 @@ services:
       - -c=/etc/coturn/turnserver.conf
       - --log-file=stdout
       - --external-ip=$$(detect-external-ip)
+      - --relay-ip=$$(detect-external-ip)
     volumes:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
     network_mode: host
