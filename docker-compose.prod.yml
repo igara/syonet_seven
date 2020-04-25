@@ -67,6 +67,7 @@ services:
     ports:
       - "3478:3478"
       - "5349:5349"
+    restart: always
 
 networks:
   frontend:
