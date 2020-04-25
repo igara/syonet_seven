@@ -60,7 +60,7 @@ services:
     command:
       - -c=/etc/coturn/turnserver.conf
       - --log-file=stdout
-      - --external-ip=$$(detect-external-ip)
+      - --external-ip=0.0.0.0/$$(detect-external-ip)
       - --relay-ip=$$(detect-external-ip)
       - --listening-ip=$$(detect-external-ip)
     volumes:
