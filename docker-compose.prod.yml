@@ -64,7 +64,6 @@ services:
       - --relay-ip=$$(detect-external-ip)
     volumes:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
-    network_mode: host
     ports:
       - "3478:3478"
       - "3478:3478/udp"
