@@ -52,7 +52,7 @@
     "typescript-fsa-redux-thunk": "2.1.9",
     "universal-cookie": "4.0.3",
     "web-push": "3.4.0",
-    "ws": "7.2.3"
+    "ws": "7.2.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "7.9.0",
