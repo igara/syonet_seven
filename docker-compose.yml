@@ -61,6 +61,7 @@ services:
       - --log-file=stdout
       - --external-ip=$$(detect-external-ip)
       - --relay-ip=$$(detect-external-ip)
+      - --listening-ip=$$(detect-external-ip)
     volumes:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
     ports:
