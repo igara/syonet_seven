@@ -69,6 +69,9 @@ services:
       - "3478:3478/udp"
       - "5349:5349"
       - "5349:5349/udp"
+    networks:
+      - frontend
+      - backend
 
 networks:
   frontend:
