@@ -13,10 +13,10 @@ export const WrapperComponent = (props: Props) => {
   return (
     <>
       <HeaderComponent {...props} />
-      <SidebarComponent {...props} />
-      <TermComponent />
       <div className={contentStyle.content_wrap_div}>{props.children}</div>
       <FooterComponent />
+      <SidebarComponent {...props} />
+      <TermComponent />
     </>
   );
 };
