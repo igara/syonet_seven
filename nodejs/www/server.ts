@@ -18,6 +18,7 @@ import "@www/server/passport/jwt";
 import * as discord from "@www/server/discord";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
+import { chatSocketRoute } from "@www/server/ws/chat";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -29,6 +30,10 @@ app.prepare().then(() => {
   const server = express();
   const ssbWss = new WebSocket.Server({
     port: 9000,
+    host: "0.0.0.0",
+  });
+  const chatWss = new WebSocket.Server({
+    port: 9001,
     host: "0.0.0.0",
   });
 
@@ -74,6 +79,7 @@ app.prepare().then(() => {
   server.use("/auth/github", authGithub);
 
   ssbSocketRoute(ssbWss);
+  chatSocketRoute(chatWss);
   discord.connect();
 
   server.use("/games/ssb", express.static(gamesDir));
