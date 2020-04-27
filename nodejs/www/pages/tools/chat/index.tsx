@@ -71,7 +71,7 @@ const ToolsChatPageComponent = (props: Props) => {
       }
       setState(storeState);
     }
-  }, []);
+  }, [chatID, joinPassword]);
 
   return (
     <>
