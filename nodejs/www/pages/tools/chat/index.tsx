@@ -119,7 +119,7 @@ const ToolsChatPageComponent = (props: Props) => {
           </table>
           <ButtonComponent
             OnClickHandler={onClickJoinButtonCallback}
-            Abled={!Boolean(state.login.login.data.user?.displayName && chatID)}
+            Abled={!Boolean(chatID)}
           >
             参加
           </ButtonComponent>
@@ -164,7 +164,7 @@ const ToolsChatPageComponent = (props: Props) => {
                 }
               }
             }}
-            Abled={!Boolean(state.login.login.data.user?.displayName && chatName)}
+            Abled={!Boolean(chatName)}
           >
             作成
           </ButtonComponent>
