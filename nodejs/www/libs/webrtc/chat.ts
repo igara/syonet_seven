@@ -1,13 +1,11 @@
 let peerConnection: RTCPeerConnection | null = null;
 let negotiationneededCounter = 0;
 let ws: WebSocket;
+let chatID: string;
 
 const rtcConfig = {
   iceServers: [{ urls: `turn:syonet:3478`, credential: "chat", username: "syonet" }],
 };
-
-// シグナリングサーバへ接続する
-const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/`;
 
 // Videoの再生を開始する
 export const playVideo = async (element: HTMLVideoElement, stream: MediaStream) => {
@@ -19,10 +17,12 @@ export const playVideo = async (element: HTMLVideoElement, stream: MediaStream) 
   }
 };
 
-export const connectSignaling = () => {
+export const connectSignaling = (id: string) => {
+  chatID = id;
+  const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
   ws = new WebSocket(wsUrl);
   ws.onopen = () => {
-    // console.log("ws open()");
+    console.info("open chat");
   };
   ws.onerror = err => {
     console.error(err);
@@ -52,7 +52,9 @@ export const connectSignaling = () => {
       }
     }
   };
-
+  ws.onclose = () => {
+    console.info("close chat");
+  };
   return ws;
 };
 
@@ -67,7 +69,7 @@ const addIceCandidate = async (candidate: RTCIceCandidate) => {
 
 // ICE candidate生成時に送信する
 const sendIceCandidate = (candidate: RTCIceCandidate) => {
-  const message = JSON.stringify({ type: "candidate", ice: candidate });
+  const message = JSON.stringify({ type: "candidate", ice: candidate, chatID });
   ws.send(message);
 };
 
@@ -76,6 +78,15 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
   peer.ontrack = evt => {
     console.log(evt);
+    const remoteVideoArea = document.getElementById("remoteVideoArea");
+    if (!remoteVideoArea) return;
+
+    const videoElement = document.createElement("video");
+    videoElement.setAttribute("autoPlay", "true");
+    videoElement.setAttribute("controls", "true");
+    videoElement.setAttribute("style", "width: 30%;");
+    remoteVideoArea.appendChild(videoElement);
+    playVideo(videoElement, evt.streams[0]);
   };
 
   // ICE Candidateを収集したときのイベント
@@ -102,7 +113,7 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
   };
 
   // ICEのステータスが変更になったときの処理
-  peer.oniceconnectionstatechange = function() {
+  peer.oniceconnectionstatechange = () => {
     switch (peer.iceConnectionState) {
       case "closed":
       case "failed":
@@ -120,7 +131,7 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
 
 // 手動シグナリングのための処理を追加する
 const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
-  const message = JSON.stringify(sessionDescription);
+  const message = JSON.stringify({ ...sessionDescription, chatID });
   ws.send(message);
 };
 
@@ -185,9 +196,13 @@ const hangUp = () => {
       peerConnection.close();
       peerConnection = null;
       negotiationneededCounter = 0;
-      const message = JSON.stringify({ type: "close" });
+      const message = JSON.stringify({ type: "close", chatID });
       ws.send(message);
       return;
     }
   }
+};
+
+export const closeSignaling = () => {
+  ws.close();
 };

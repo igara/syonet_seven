@@ -18,7 +18,7 @@ import "@www/server/passport/jwt";
 import * as discord from "@www/server/discord";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
-import { chatSocketRoute } from "@www/server/ws/chat";
+import { chatSocketRoute, ChatWSS } from "@www/server/ws/chat";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -79,7 +79,7 @@ app.prepare().then(() => {
   server.use("/auth/github", authGithub);
 
   ssbSocketRoute(ssbWss);
-  chatSocketRoute(chatWss);
+  chatSocketRoute(chatWss as ChatWSS);
   discord.connect();
 
   server.use("/games/ssb", express.static(gamesDir));

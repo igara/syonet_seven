@@ -12,7 +12,9 @@ import { useRouter } from "next/router";
 // import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { getChat } from "@www/actions/tools/chat";
-import { playVideo, connectSignaling, connectWebRTC } from "@www/libs/webrtc/chat";
+import { playVideo, connectSignaling, connectWebRTC, closeSignaling } from "@www/libs/webrtc/chat";
+
+let initialized = false;
 
 type Props = AppState;
 
@@ -21,13 +23,12 @@ const ToolsChatIdPageComponent = (props: Props) => {
   const dispatch = useDispatch();
   const store = useStore();
   const router = useRouter();
-  const chatID = process.browser ? decodeURI(location.href.split("/").reverse()[0]) : router.query.id;
+  const chatID = process.browser ? decodeURI(location.href.split("/").reverse()[0]).toString() : router.query.id.toString();
 
   const selfVideoRef = useRef<HTMLVideoElement>(null);
   const [selfVideoFlag, setSelfVideoFlag] = useState(false);
   const [selfAudioFlag, setSelfAudioFlag] = useState(false);
   const [selfVideoStream, setSelfVideoStream] = useState<MediaStream|null>(null);
-  const [initialized, setInitialized] = useState(false);
 
   const trackStop = (videoStream: MediaStream) => {
     videoStream.getVideoTracks().forEach((track) => {
@@ -39,8 +40,8 @@ const ToolsChatIdPageComponent = (props: Props) => {
   };
 
   if (process.browser && !initialized) {
-    connectSignaling();
-    setInitialized(true);
+    connectSignaling(chatID);
+    initialized = true;
   }
 
   const changeSelfVideo = async(selfVideoElement: HTMLVideoElement | null, videoFlag: boolean, audioFlag: boolean) => {
@@ -72,6 +73,10 @@ const ToolsChatIdPageComponent = (props: Props) => {
           await db.access_tokens.clear();
         }
         setState(storeState);
+
+        return () => {
+          closeSignaling();
+        };
       })();
     }
   }, []);
@@ -138,6 +143,7 @@ const ToolsChatIdPageComponent = (props: Props) => {
           }} Abled={Boolean(!selfAudioFlag)}>マイクOff</ButtonComponent>
           <hr />
           <video ref={selfVideoRef} autoPlay={true} controls={true} className={toolsChatStyle.video} />
+          <div id="remoteVideoArea" />
         </div>
       </WrapperComponent>
     </>
