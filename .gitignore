@@ -1,5 +1,5 @@
 .idea
-ubuntu-xenial-16.04-cloudimg-console.log
+ubuntu-bionic-18.04-cloudimg-console.log
 .vagrant
 .env
 data/mongo/*

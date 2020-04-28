@@ -7,11 +7,17 @@ install_plugin('vagrant-vbguest')
 install_plugin('vagrant-hostsupdater')
 
 Vagrant.configure("2") do |config|
-	config.vm.box = "ubuntu/xenial64"
+	config.vm.box = "ubuntu/bionic64"
 	config.vbguest.auto_update = true
 
 	config.vm.provider "virtualbox" do |vb|
-		vb.memory = 1024
+    vb.gui = false
+    vb.memory = 2048
+    vb.cpus = 2
+    vb.customize [
+      "modifyvm", :id,
+      "--nicpromisc2", "allow-all"
+    ]
 	end
 
 	config.vm.network :private_network, ip: "192.168.33.50"
@@ -20,8 +26,9 @@ Vagrant.configure("2") do |config|
 	config.ssh.forward_agent = true
 	config.hostsupdater.remove_on_suspend = true
 	# sync project files
-	config.vm.synced_folder "./", "/vagrant", :mount_options => ["dmode=777", "fmode=777"]
-	# config.vm.provision :shell, :path => "./vagrant/provision.sh", :privileged => false
+	config.vm.synced_folder "./", "/vagrant", type: "rsync"
+
+	config.vm.provision :shell, :path => "./vagrant/provision.sh", :privileged => false
 	# 起動二回目以降は上記をコメント化し下記を適応してください
-	config.vm.provision :shell, :path => "./vagrant/start.sh", :privileged => false
+	# config.vm.provision :shell, :path => "./vagrant/start.sh", :privileged => false
 end
