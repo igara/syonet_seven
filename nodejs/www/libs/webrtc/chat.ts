@@ -2,6 +2,7 @@ let peerConnection: RTCPeerConnection | null = null;
 let negotiationneededCounter = 0;
 let ws: WebSocket;
 let chatID: string;
+let closeFlag = false;
 
 const rtcConfig = {
   iceServers: [{ urls: `turn:syonet:3478`, credential: "chat", username: "syonet" }],
@@ -53,6 +54,10 @@ export const connectSignaling = (id: string) => {
     }
   };
   ws.onclose = () => {
+    if (!closeFlag) {
+      const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
+      ws = new WebSocket(wsUrl);
+    }
     console.info("close chat");
   };
   return ws;
@@ -139,10 +144,10 @@ const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
 export const connectWebRTC = (selfVideoStream: MediaStream) => {
   if (!peerConnection) {
     const peer = new RTCPeerConnection(rtcConfig);
+    peerConnection = prepareNewConnection(true, peer);
     for (const track of selfVideoStream.getTracks()) {
       peer.addTrack(track, selfVideoStream);
     }
-    peerConnection = prepareNewConnection(true, peer);
   } else {
     console.warn("peer already exist.");
   }
@@ -204,5 +209,7 @@ const hangUp = () => {
 };
 
 export const closeSignaling = () => {
+  console.info("closing chat");
+  closeFlag = true;
   ws.close();
 };
