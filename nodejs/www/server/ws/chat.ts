@@ -16,12 +16,13 @@ export const chatSocketRoute = (wss: ChatWSS) => {
 
     ws.on("message", async (message: Buffer | string) => {
       wss.clients.forEach(client => {
-        if (wss.clients.length === 1 || ws === client) {
+        if (ws === client) {
           console.info("- skip sender -");
         } else {
           const json = JSON.parse(message.toString());
           if (client.chatID === json.chatID) {
-            client.send(message);
+            delete json.chatID;
+            client.send(JSON.stringify(json));
           }
         }
       });

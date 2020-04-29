@@ -12,9 +12,11 @@ import { useRouter } from "next/router";
 // import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { getChat } from "@www/actions/tools/chat";
-import { playVideo, connectSignaling, connectWebRTC, closeSignaling } from "@www/libs/webrtc/chat";
+import { playVideo, connectSignaling, connectWebRTC, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/chat";
 
 let initialized = false;
+let ws: WebSocket | null = null;
+let peerConnection: RTCPeerConnection | null = null;
 
 type Props = AppState;
 
@@ -40,15 +42,18 @@ const ToolsChatIdPageComponent = (props: Props) => {
   };
 
   if (process.browser && !initialized) {
-    connectSignaling(chatID);
+    ws = connectSignaling(chatID);
+    peerConnection = connectWebRTC();
     initialized = true;
   }
+  console.info(ws);
+  console.info(peerConnection);
 
   const changeSelfVideo = async(selfVideoElement: HTMLVideoElement | null, videoFlag: boolean, audioFlag: boolean) => {
     const userMedia = await navigator.mediaDevices.getUserMedia({ video: videoFlag, audio: audioFlag });
     setSelfVideoStream(userMedia);
-    connectWebRTC(userMedia);
     if (selfVideoElement && userMedia) playVideo(selfVideoElement, userMedia);
+    changeSelfVideoStream(userMedia);
   }
 
   useEffect(() => {

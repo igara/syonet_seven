@@ -1,11 +1,15 @@
-let peerConnection: RTCPeerConnection | null = null;
+let peerConnection: RTCPeerConnection;
 let negotiationneededCounter = 0;
 let ws: WebSocket;
 let chatID: string;
 let closeFlag = false;
 
 const rtcConfig = {
-  iceServers: [{ urls: `turn:syonet:3478`, credential: "chat", username: "syonet" }],
+  iceServers: [
+    // { urls: "stun:stun.l.google.com:19302" },
+    // { urls: "stun:stun.webrtc.ecl.ntt.com:3478" },
+    { urls: "turn:syonet.work:3478", credential: "chat", username: "syonet" },
+  ],
 };
 
 // Videoの再生を開始する
@@ -18,9 +22,15 @@ export const playVideo = async (element: HTMLVideoElement, stream: MediaStream) 
   }
 };
 
+const getWSUrl = (chatID: string) => {
+  if (process.env.WWW_DOMAIN === "syonet.work") return `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
+
+  return `ws://${process.env.WWW_DOMAIN}:9001/chat/${chatID}`;
+};
+
 export const connectSignaling = (id: string) => {
   chatID = id;
-  const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
+  const wsUrl = getWSUrl(chatID);
   ws = new WebSocket(wsUrl);
   ws.onopen = () => {
     console.info("open chat");
@@ -40,8 +50,8 @@ export const connectSignaling = (id: string) => {
         break;
       }
       case "candidate": {
-        const candidate = new RTCIceCandidate(message.ice);
-        await addIceCandidate(candidate);
+        // const candidate = new RTCIceCandidate(message.ice);
+        // await addIceCandidate(candidate);
         break;
       }
       case "close": {
@@ -64,13 +74,13 @@ export const connectSignaling = (id: string) => {
 };
 
 // ICE candaidate受信時にセットする
-const addIceCandidate = async (candidate: RTCIceCandidate) => {
-  if (peerConnection) {
-    await peerConnection.addIceCandidate(candidate);
-  } else {
-    console.error("PeerConnection not exist!");
-  }
-};
+// const addIceCandidate = async (candidate: RTCIceCandidate) => {
+//   if (peerConnection) {
+//     await peerConnection.addIceCandidate(candidate);
+//   } else {
+//     console.error("PeerConnection not exist!");
+//   }
+// };
 
 // ICE candidate生成時に送信する
 const sendIceCandidate = (candidate: RTCIceCandidate) => {
@@ -79,10 +89,10 @@ const sendIceCandidate = (candidate: RTCIceCandidate) => {
 };
 
 // WebRTCを利用する準備をする
-const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
+const prepareNewConnection = (isOffer: boolean, peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
-  peer.ontrack = evt => {
-    console.log(evt);
+  peerConnection.ontrack = evt => {
+    debugger;
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
 
@@ -94,21 +104,29 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
     playVideo(videoElement, evt.streams[0]);
   };
 
+  peerConnection.onconnectionstatechange = () => {
+    debugger;
+    if (peerConnection.connectionState === "connected") {
+      const tracks = peerConnection.getReceivers().map(r => r.track);
+      const stream = new MediaStream(tracks);
+      console.log(stream);
+    }
+  };
   // ICE Candidateを収集したときのイベント
-  peer.onicecandidate = evt => {
+  peerConnection.onicecandidate = evt => {
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
   };
 
   // Offer側でネゴシエーションが必要になったときの処理
-  peer.onnegotiationneeded = async () => {
+  peerConnection.onnegotiationneeded = async () => {
     try {
       if (isOffer) {
         if (negotiationneededCounter === 0) {
-          const offer = await peer.createOffer();
-          await peer.setLocalDescription(offer);
-          sendSdp(peer.localDescription);
+          const offer = await peerConnection.createOffer();
+          await peerConnection.setLocalDescription(offer);
+          sendSdp(peerConnection.localDescription);
           negotiationneededCounter++;
         }
       }
@@ -118,8 +136,8 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
   };
 
   // ICEのステータスが変更になったときの処理
-  peer.oniceconnectionstatechange = () => {
-    switch (peer.iceConnectionState) {
+  peerConnection.oniceconnectionstatechange = () => {
+    switch (peerConnection.iceConnectionState) {
       case "closed":
       case "failed":
         if (peerConnection) {
@@ -131,7 +149,7 @@ const prepareNewConnection = (isOffer: boolean, peer: RTCPeerConnection) => {
     }
   };
 
-  return peer;
+  return peerConnection;
 };
 
 // 手動シグナリングのための処理を追加する
@@ -141,12 +159,19 @@ const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
 };
 
 // Connectボタンが押されたらWebRTCのOffer処理を開始
-export const connectWebRTC = (selfVideoStream: MediaStream) => {
+export const connectWebRTC = () => {
   if (!peerConnection) {
-    const peer = new RTCPeerConnection(rtcConfig);
-    peerConnection = prepareNewConnection(true, peer);
+    peerConnection = prepareNewConnection(true, new RTCPeerConnection(rtcConfig));
+  } else {
+    console.warn("peer already exist.");
+  }
+  return peerConnection;
+};
+
+export const changeSelfVideoStream = (selfVideoStream: MediaStream) => {
+  if (peerConnection) {
     for (const track of selfVideoStream.getTracks()) {
-      peer.addTrack(track, selfVideoStream);
+      peerConnection.addTrack(track, selfVideoStream);
     }
   } else {
     console.warn("peer already exist.");
@@ -170,8 +195,7 @@ const makeAnswer = async () => {
 
 // Offer側のSDPをセットする処理
 const setOffer = async (sessionDescription: RTCSessionDescription) => {
-  const peer = new RTCPeerConnection(rtcConfig);
-  peerConnection = prepareNewConnection(false, peer);
+  peerConnection = prepareNewConnection(false, new RTCPeerConnection(rtcConfig));
 
   try {
     await peerConnection.setRemoteDescription(sessionDescription);
@@ -199,7 +223,6 @@ const hangUp = () => {
   if (peerConnection) {
     if (peerConnection.iceConnectionState !== "closed") {
       peerConnection.close();
-      peerConnection = null;
       negotiationneededCounter = 0;
       const message = JSON.stringify({ type: "close", chatID });
       ws.send(message);
