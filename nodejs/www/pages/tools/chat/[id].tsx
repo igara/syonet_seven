@@ -12,11 +12,7 @@ import { useRouter } from "next/router";
 // import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { getChat } from "@www/actions/tools/chat";
-import { playVideo, connectSignaling, connectWebRTC, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/chat";
-
-let initialized = false;
-let ws: WebSocket | null = null;
-let peerConnection: RTCPeerConnection | null = null;
+import { playVideo, connectSignaling, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/chat";
 
 type Props = AppState;
 
@@ -31,6 +27,7 @@ const ToolsChatIdPageComponent = (props: Props) => {
   const [selfVideoFlag, setSelfVideoFlag] = useState(false);
   const [selfAudioFlag, setSelfAudioFlag] = useState(false);
   const [selfVideoStream, setSelfVideoStream] = useState<MediaStream|null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   const trackStop = (videoStream: MediaStream) => {
     videoStream.getVideoTracks().forEach((track) => {
@@ -41,24 +38,22 @@ const ToolsChatIdPageComponent = (props: Props) => {
     });
   };
 
-  if (process.browser && !initialized) {
-    ws = connectSignaling(chatID);
-    peerConnection = connectWebRTC();
-    initialized = true;
-  }
-  console.info(ws);
-  console.info(peerConnection);
-
   const changeSelfVideo = async(selfVideoElement: HTMLVideoElement | null, videoFlag: boolean, audioFlag: boolean) => {
     const userMedia = await navigator.mediaDevices.getUserMedia({ video: videoFlag, audio: audioFlag });
     setSelfVideoStream(userMedia);
     if (selfVideoElement && userMedia) playVideo(selfVideoElement, userMedia);
-    changeSelfVideoStream(userMedia);
+    await changeSelfVideoStream(userMedia);
   }
 
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        if (!initialized) {
+          connectSignaling(chatID);
+          console.log("initialized");
+          setInitialized(true);
+        }
+
         const accessTokens = await db.access_tokens.toArray();
         const token = accessTokens.length > 0 ? accessTokens[0].token : "";
 
@@ -147,7 +142,7 @@ const ToolsChatIdPageComponent = (props: Props) => {
             }
           }} Abled={Boolean(!selfAudioFlag)}>マイクOff</ButtonComponent>
           <hr />
-          <video ref={selfVideoRef} autoPlay={true} controls={true} className={toolsChatStyle.video} />
+          <video ref={selfVideoRef} autoPlay={true} controls={true} playsInline={true} className={toolsChatStyle.video} />
           <div id="remoteVideoArea" />
         </div>
       </WrapperComponent>
