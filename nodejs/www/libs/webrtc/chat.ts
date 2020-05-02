@@ -1,9 +1,20 @@
 import { toolsChatStyle } from "@www/styles";
 
-let peerConnection: RTCPeerConnection;
+let peerConnections: {
+  [uuid: string]: RTCPeerConnection
+} = {};
+let selfVideoStream: {
+  now: MediaStream | null;
+  old: MediaStream | null;
+} = {
+  now: null,
+  old: null
+};
+let uuid: string;
 let ws: WebSocket;
 let chatID: string;
 let closeFlag = false;
+let trackSender: RTCRtpSender | null;
 
 const rtcConfig = {
   iceServers: [
@@ -22,21 +33,15 @@ const getWSUrl = (chatID: string) => {
   return `ws://${process.env.WWW_DOMAIN}:9001/chat/${chatID}`;
 };
 
-// ICE candaidate受信時にセットする
-const addIceCandidate = async (candidate: RTCIceCandidate) => {
-  if (peerConnection) {
-    await peerConnection.addIceCandidate(candidate);
-  } else {
-    console.error("PeerConnection not exist!");
-  }
-};
-
 export const connectChat = (id: string) => {
   chatID = id;
   const wsUrl = getWSUrl(chatID);
   ws = new WebSocket(wsUrl);
   ws.onopen = async() => {
-    await connectWebRTC();
+    ws.send(JSON.stringify({
+      type: "create",
+      chatID
+    }));
   };
   ws.onerror = err => {
     console.error(err);
@@ -44,34 +49,52 @@ export const connectChat = (id: string) => {
   ws.onmessage = async evt => {
     const message = JSON.parse(evt.data);
     // console.log(message);
-    switch (message.type) {
-      case "offer": {
-        const sessionDescription = new RTCSessionDescription(message);
-        await setOffer(sessionDescription);
+    const peerConnection = peerConnections[message.uuid];
+    if (message.type) switch (message.type) {
+      case "create": {
+        console.log("create");
+        uuid = message.uuid;
         break;
       }
-      case "answer": {
-        const sessionDescription = new RTCSessionDescription(message);
-        await setAnswer(sessionDescription);
+      case "sync": {
+        console.log("sync");
+        connectWebRTC(message.uuid);
+        // if (peerConnection) sync(peerConnection);
+        break;
+      }
+      case "delete": {
+        console.log("delete");
+        const videoId = `video-${message.mediaStreamId}`;
+        const videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
+        if (videoElement) {
+          videoElement.remove();
+        }
         break;
       }
       case "candidate": {
         const candidate = new RTCIceCandidate(message.ice);
-        await addIceCandidate(candidate);
+        if (peerConnection) {
+          await peerConnection.addIceCandidate(candidate);
+        }
         break;
       }
       case "close": {
-        hangUp();
+        hangUp(peerConnection);
         break;
       }
-      case "delete": {
-        const videoId = `video-${message.mediaStreamId}`;
-        const videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
-        console.log(videoElement);
-        console.log("delete");
-        if (videoElement) {
-          videoElement.remove();
-        }
+    }
+
+    if (message.sessionDescription) switch (message.sessionDescription.type) {
+      case "offer": {
+        console.log("offer");
+        if (!peerConnection) break;
+        const sessionDescription = new RTCSessionDescription(message.sessionDescription);
+        await setOffer(sessionDescription, peerConnection);
+        break;
+      }
+      case "answer": {
+        const sessionDescription = new RTCSessionDescription(message.sessionDescription);
+        await setAnswer(sessionDescription, peerConnection);
         break;
       }
       default: {
@@ -79,6 +102,7 @@ export const connectChat = (id: string) => {
       }
     }
   };
+
   ws.onclose = () => {
     if (!closeFlag) {
       const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
@@ -103,7 +127,6 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
 
-    console.log(evt);
     const stream = evt.streams[0];
     const videoId = `video-${stream.id}`;
     let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
@@ -118,20 +141,6 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     }
     playVideo(videoElement, stream);
   };
-
-  // peerConnection.onconnectionstatechange = evt => {
-  //   console.log("onconnectionstatechange");
-  //   console.log(evt);
-  //   const tracks = peerConnection.getReceivers().map((r) => {
-  //     // console.log(r);
-  //     return r.track;
-  //   });
-  //   const stream = new MediaStream(tracks);
-  //   console.log(stream);
-  //   if (peerConnection.connectionState === "connected") {
-
-  //   }
-  // };
 
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
@@ -158,7 +167,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
         break;
       case "failed":
         if (peerConnection) {
-          hangUp();
+          hangUp(peerConnection);
         }
         break;
       case "disconnected":
@@ -171,38 +180,66 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
 
 // 手動シグナリングのための処理を追加する
 const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
-  const message = JSON.stringify({ ...sessionDescription?.toJSON(), chatID });
+  const message = JSON.stringify({ 
+    sessionDescription: sessionDescription?.toJSON(),
+    chatID,
+    uuid
+  });
   ws.send(message);
 };
 
-// Connectボタンが押されたらWebRTCのOffer処理を開始
-const connectWebRTC = async () => {
+const connectWebRTC = async (targetUUID: string) => {
+  console.log("connectWebRTC");
+  let peerConnection = peerConnections[targetUUID];
   if (!peerConnection) {
     peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
     const offer = await peerConnection.createOffer();
     const sessionDescription = new RTCSessionDescription(offer);
     await peerConnection.setLocalDescription(sessionDescription);
     sendSdp(sessionDescription);
+    peerConnections[targetUUID] = peerConnection;
   } else {
     console.warn("peer already exist.");
   }
 };
 
-export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
-  if (oldSelfVideoStream) {
+const sync = (peerConnection: RTCPeerConnection) => {
+  console.log("sync");
+  if (selfVideoStream.old) {
     ws.send(JSON.stringify({
       type: "delete",
-      mediaStreamId: oldSelfVideoStream.id,
+      mediaStreamId: selfVideoStream.old.id,
       chatID
     }));
   }
-  for (const track of newSelfVideoStream.getTracks()) {
-    peerConnection.addTrack(track, newSelfVideoStream);
+
+  if (trackSender) peerConnection.removeTrack(trackSender);
+  trackSender = null;
+
+  if (selfVideoStream.now) {
+    for (const track of selfVideoStream.now.getTracks()) {
+      trackSender = peerConnection.addTrack(track, selfVideoStream.now);
+    }
   }
 };
 
+export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
+  selfVideoStream.old = oldSelfVideoStream;
+  selfVideoStream.now = newSelfVideoStream;
+
+  for (const key in peerConnections) {
+    const peerConnection = peerConnections[key];
+    sync(peerConnection);
+  }
+  ws.send(JSON.stringify({
+    type: "sync",
+    chatID,
+    uuid
+  }));
+};
+
 // Answer SDPを生成する
-const makeAnswer = async () => {
+const makeAnswer = async (peerConnection: RTCPeerConnection) => {
   if (!peerConnection) {
     console.error("peerConnection NOT exist!");
     return;
@@ -217,19 +254,17 @@ const makeAnswer = async () => {
 };
 
 // Offer側のSDPをセットする処理
-const setOffer = async (sessionDescription: RTCSessionDescription) => {
-  // peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
-
+const setOffer = async (sessionDescription: RTCSessionDescription, peerConnection: RTCPeerConnection) => {
   try {
     await peerConnection.setRemoteDescription(sessionDescription);
-    await makeAnswer();
+    await makeAnswer(peerConnection);
   } catch (err) {
     console.error(err);
   }
 };
 
 // Answer側のSDPをセットする場合
-const setAnswer = async (sessionDescription: RTCSessionDescription) => {
+const setAnswer = async (sessionDescription: RTCSessionDescription, peerConnection: RTCPeerConnection) => {
   if (!peerConnection) {
     console.error("peerConnection NOT exist!");
     return;
@@ -242,7 +277,7 @@ const setAnswer = async (sessionDescription: RTCSessionDescription) => {
 };
 
 // P2P通信を切断する
-const hangUp = () => {
+const hangUp = (peerConnection: RTCPeerConnection) => {
   console.info("hangUp");
   if (peerConnection) {
     if (peerConnection.iceConnectionState !== "closed") {

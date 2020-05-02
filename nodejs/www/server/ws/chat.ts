@@ -1,8 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 import WS from "ws";
 import { IncomingMessage } from "http";
 
 type ChatWS = {
   chatID: string;
+  type: string;
 } & WS;
 
 export type ChatWSS = {
@@ -16,11 +18,18 @@ export const chatSocketRoute = (wss: ChatWSS) => {
 
     ws.on("message", async (message: Buffer | string) => {
       wss.clients.forEach(client => {
+        const json = JSON.parse(message.toString());
         if (ws === client) {
-          console.info("- skip sender -");
+          if (json.type === "create") {
+            client.send(
+              JSON.stringify({
+                ...json,
+                uuid: uuidv4(),
+              }),
+            );
+          }
         } else {
-          const json = JSON.parse(message.toString());
-          if (client.chatID === json.chatID) {
+          if (client.chatID === json.chatID && json.type !== "create") {
             delete json.chatID;
             client.send(JSON.stringify(json));
           }
