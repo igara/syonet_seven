@@ -93,9 +93,16 @@ const ToolsChatPageComponent = (props: Props) => {
                   {state.login.login.data.user?.displayName ?
                     "" : 
                     <LinkComponent href="/login">
-                      ログインの実行をお願いします
+                      ログインしていません。
                     </LinkComponent>
                   }
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={2}>
+                  ログインしていなくてもチャットの利用可能です。
+                  <br />
+                  今後Googleと連携したようなものにする予定です。
                 </td>
               </tr>
             </tbody>

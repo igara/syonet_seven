@@ -1,11 +1,11 @@
+import { toolsChatStyle } from "@www/styles";
+
 let peerConnection: RTCPeerConnection;
-let negotiationneededCounter = 0;
 let ws: WebSocket;
 let chatID: string;
 let closeFlag = false;
 
 const rtcConfig = {
-  sdpSemantics: "unified-plan",
   iceServers: [
     { urls: "turn:syonet.work:3478", credential: "chat", username: "syonet" },
   ],
@@ -31,7 +31,7 @@ const addIceCandidate = async (candidate: RTCIceCandidate) => {
   }
 };
 
-export const connectSignaling = (id: string) => {
+export const connectChat = (id: string) => {
   chatID = id;
   const wsUrl = getWSUrl(chatID);
   ws = new WebSocket(wsUrl);
@@ -43,7 +43,7 @@ export const connectSignaling = (id: string) => {
   };
   ws.onmessage = async evt => {
     const message = JSON.parse(evt.data);
-    console.log(message);
+    // console.log(message);
     switch (message.type) {
       case "offer": {
         const sessionDescription = new RTCSessionDescription(message);
@@ -62,6 +62,16 @@ export const connectSignaling = (id: string) => {
       }
       case "close": {
         hangUp();
+        break;
+      }
+      case "delete": {
+        const videoId = `video-${message.mediaStreamId}`;
+        const videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
+        console.log(videoElement);
+        console.log("delete");
+        if (videoElement) {
+          videoElement.remove();
+        }
         break;
       }
       default: {
@@ -86,32 +96,45 @@ const sendIceCandidate = (candidate: RTCIceCandidate) => {
 };
 
 // WebRTCを利用する準備をする
-const prepareNewConnection = (isOffer: boolean, peerConnection: RTCPeerConnection) => {
+const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
   peerConnection.ontrack = evt => {
     console.log("ontrack");
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
 
-    const videoElement = document.createElement("video");
-    videoElement.setAttribute("controls", "true");
-    videoElement.setAttribute("autoplay", "true");
-    videoElement.setAttribute("playsinline", "true");
-    videoElement.setAttribute("style", "width: 30%;");
-    remoteVideoArea.appendChild(videoElement);
-    playVideo(videoElement, evt.streams[0]);
+    console.log(evt);
+    const stream = evt.streams[0];
+    const videoId = `video-${stream.id}`;
+    let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
+    if (!videoElement) {
+      videoElement = document.createElement("video");
+      videoElement.setAttribute("id", videoId);
+      videoElement.setAttribute("controls", "true");
+      videoElement.setAttribute("autoplay", "true");
+      videoElement.setAttribute("playsinline", "true");
+      videoElement.setAttribute("class", toolsChatStyle.video);
+      remoteVideoArea.appendChild(videoElement);
+    }
+    playVideo(videoElement, stream);
   };
 
-  peerConnection.onconnectionstatechange = () => {
-    if (peerConnection.connectionState === "connected") {
-      const tracks = peerConnection.getReceivers().map(r => r.track);
-      const stream = new MediaStream(tracks);
-      console.log(stream);
-    }
-  };
+  // peerConnection.onconnectionstatechange = evt => {
+  //   console.log("onconnectionstatechange");
+  //   console.log(evt);
+  //   const tracks = peerConnection.getReceivers().map((r) => {
+  //     // console.log(r);
+  //     return r.track;
+  //   });
+  //   const stream = new MediaStream(tracks);
+  //   console.log(stream);
+  //   if (peerConnection.connectionState === "connected") {
+
+  //   }
+  // };
+
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
-    console.log("onicecandidate");
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
@@ -119,16 +142,10 @@ const prepareNewConnection = (isOffer: boolean, peerConnection: RTCPeerConnectio
 
   // Offer側でネゴシエーションが必要になったときの処理
   peerConnection.onnegotiationneeded = async () => {
-    console.log("onnegotiationneeded");
     try {
-      if (isOffer) {
-        if (negotiationneededCounter === 0) {
-          const offer = await peerConnection.createOffer();
-          await peerConnection.setLocalDescription(offer);
-          sendSdp(peerConnection.localDescription);
-          negotiationneededCounter++;
-        }
-      }
+      const offer = await peerConnection.createOffer();
+      await peerConnection.setLocalDescription(offer);
+      sendSdp(peerConnection.localDescription);
     } catch (err) {
       console.error(err);
     }
@@ -136,9 +153,9 @@ const prepareNewConnection = (isOffer: boolean, peerConnection: RTCPeerConnectio
 
   // ICEのステータスが変更になったときの処理
   peerConnection.oniceconnectionstatechange = () => {
-    console.log("onnegotiationneeded");
     switch (peerConnection.iceConnectionState) {
       case "closed":
+        break;
       case "failed":
         if (peerConnection) {
           hangUp();
@@ -161,19 +178,26 @@ const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
 // Connectボタンが押されたらWebRTCのOffer処理を開始
 const connectWebRTC = async () => {
   if (!peerConnection) {
-    peerConnection = prepareNewConnection(true, new RTCPeerConnection(rtcConfig));
+    peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
+    const offer = await peerConnection.createOffer();
+    const sessionDescription = new RTCSessionDescription(offer);
+    await peerConnection.setLocalDescription(sessionDescription);
+    sendSdp(sessionDescription);
   } else {
     console.warn("peer already exist.");
   }
 };
 
-export const changeSelfVideoStream = async (selfVideoStream: MediaStream) => {
-  const offer = await peerConnection.createOffer();
-  const sessionDescription = new RTCSessionDescription(offer);
-  await peerConnection.setLocalDescription(sessionDescription);
-  sendSdp(sessionDescription);
-  for (const track of selfVideoStream.getTracks()) {
-    peerConnection.addTrack(track, selfVideoStream);
+export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
+  if (oldSelfVideoStream) {
+    ws.send(JSON.stringify({
+      type: "delete",
+      mediaStreamId: oldSelfVideoStream.id,
+      chatID
+    }));
+  }
+  for (const track of newSelfVideoStream.getTracks()) {
+    peerConnection.addTrack(track, newSelfVideoStream);
   }
 };
 
@@ -194,7 +218,7 @@ const makeAnswer = async () => {
 
 // Offer側のSDPをセットする処理
 const setOffer = async (sessionDescription: RTCSessionDescription) => {
-  peerConnection = prepareNewConnection(false, new RTCPeerConnection(rtcConfig));
+  // peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
 
   try {
     await peerConnection.setRemoteDescription(sessionDescription);
@@ -223,7 +247,6 @@ const hangUp = () => {
   if (peerConnection) {
     if (peerConnection.iceConnectionState !== "closed") {
       peerConnection.close();
-      negotiationneededCounter = 0;
       const message = JSON.stringify({ type: "close", chatID });
       ws.send(message);
       return;

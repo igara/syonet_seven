@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 // import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { getChat } from "@www/actions/tools/chat";
-import { playVideo, connectSignaling, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/chat";
+import { playVideo, connectChat, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/chat";
 
 type Props = AppState;
 
@@ -40,16 +40,24 @@ const ToolsChatIdPageComponent = (props: Props) => {
 
   const changeSelfVideo = async(selfVideoElement: HTMLVideoElement | null, videoFlag: boolean, audioFlag: boolean) => {
     const userMedia = await navigator.mediaDevices.getUserMedia({ video: videoFlag, audio: audioFlag });
-    setSelfVideoStream(userMedia);
     if (selfVideoElement && userMedia) playVideo(selfVideoElement, userMedia);
-    await changeSelfVideoStream(userMedia);
+    await changeSelfVideoStream(selfVideoStream, userMedia);
+    setSelfVideoStream(userMedia);
   }
 
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        const chat = await db.chats.where({ id: chatID }).first();
+        if (!chat) {
+          location.href = "/tools/chat";
+          return;
+        }
+
+        await dispatch(getChat({ id: chat?.id, password: chat?.password }));
+
         if (!initialized) {
-          connectSignaling(chatID);
+          connectChat(chatID);
           console.log("initialized");
           setInitialized(true);
         }
@@ -58,14 +66,6 @@ const ToolsChatIdPageComponent = (props: Props) => {
         const token = accessTokens.length > 0 ? accessTokens[0].token : "";
 
         await dispatch<any>(checkLogin.action(token));
-
-        const chat = await db.chats.where({ id: chatID }).first();
-        if (!chat) {
-          location.href = "/tools/chat";
-          return;
-        }
-
-        await dispatch(getChat({ id: chat?.id, password: chat?.password }));
 
         const storeState: AppState = store.getState();
 
@@ -88,7 +88,8 @@ const ToolsChatIdPageComponent = (props: Props) => {
       </Head>
       <WrapperComponent {...state}>
         <div className={toolsChatStyle.wrapper}>
-          <h2>Chat: {state.chat.chat.data.chat.name}</h2>
+          <h2>部屋の名前: {state.chat.chat.data.chat.name}</h2>
+          <h2>部屋ID: {state.chat.chat.data.chat._id}</h2>
           <hr />
           <ButtonComponent OnClickHandler={async() => {
             if (selfVideoStream) {
@@ -142,7 +143,7 @@ const ToolsChatIdPageComponent = (props: Props) => {
             }
           }} Abled={Boolean(!selfAudioFlag)}>マイクOff</ButtonComponent>
           <hr />
-          <video ref={selfVideoRef} autoPlay={true} controls={true} playsInline={true} className={toolsChatStyle.video} />
+          <video ref={selfVideoRef} autoPlay={true} muted={true} playsInline={true} className={toolsChatStyle.video} />
           <div id="remoteVideoArea" />
         </div>
       </WrapperComponent>
