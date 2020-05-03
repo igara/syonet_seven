@@ -13,7 +13,6 @@ let selfVideoStream: {
 let uuid: string;
 let ws: WebSocket;
 let chatID: string;
-let closeFlag = false;
 let trackSender: RTCRtpSender | null;
 
 const rtcConfig = {
@@ -52,14 +51,28 @@ export const connectChat = (id: string) => {
     const peerConnection = peerConnections[message.uuid];
     if (message.type) switch (message.type) {
       case "create": {
-        console.log("create");
         uuid = message.uuid;
+        setInterval(() => {
+          ws.send(JSON.stringify({
+            type: "sync",
+            chatID,
+            uuid
+          }));
+        }, 5000);
         break;
       }
       case "sync": {
-        console.log("sync");
         connectWebRTC(message.uuid);
-        // if (peerConnection) sync(peerConnection);
+        ws.send(JSON.stringify({
+          type: "streamUpdate",
+          chatID,
+          uuid
+        }));
+        break;
+      }
+      case "streamUpdate": {
+        console.log("streamUpdate");
+        if (peerConnection) streamUpdate(peerConnection);
         break;
       }
       case "delete": {
@@ -72,13 +85,13 @@ export const connectChat = (id: string) => {
         break;
       }
       case "candidate": {
+        if (!peerConnection) break;
         const candidate = new RTCIceCandidate(message.ice);
-        if (peerConnection) {
-          await peerConnection.addIceCandidate(candidate);
-        }
+        await peerConnection.addIceCandidate(candidate);
         break;
       }
       case "close": {
+        if (!peerConnection) break;
         hangUp(peerConnection);
         break;
       }
@@ -86,13 +99,13 @@ export const connectChat = (id: string) => {
 
     if (message.sessionDescription) switch (message.sessionDescription.type) {
       case "offer": {
-        console.log("offer");
         if (!peerConnection) break;
         const sessionDescription = new RTCSessionDescription(message.sessionDescription);
         await setOffer(sessionDescription, peerConnection);
         break;
       }
       case "answer": {
+        if (!peerConnection) break;
         const sessionDescription = new RTCSessionDescription(message.sessionDescription);
         await setAnswer(sessionDescription, peerConnection);
         break;
@@ -104,10 +117,6 @@ export const connectChat = (id: string) => {
   };
 
   ws.onclose = () => {
-    if (!closeFlag) {
-      const wsUrl = `wss://${process.env.WWW_DOMAIN}/chat/${chatID}`;
-      ws = new WebSocket(wsUrl);
-    }
     console.info("close chat");
   };
   return ws;
@@ -123,7 +132,6 @@ const sendIceCandidate = (candidate: RTCIceCandidate) => {
 const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
   peerConnection.ontrack = evt => {
-    console.log("ontrack");
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
 
@@ -189,53 +197,44 @@ const sendSdp = (sessionDescription: RTCSessionDescription | null) => {
 };
 
 const connectWebRTC = async (targetUUID: string) => {
-  console.log("connectWebRTC");
   let peerConnection = peerConnections[targetUUID];
   if (!peerConnection) {
     peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
     const offer = await peerConnection.createOffer();
     const sessionDescription = new RTCSessionDescription(offer);
-    await peerConnection.setLocalDescription(sessionDescription);
-    sendSdp(sessionDescription);
+    setOffer(sessionDescription, peerConnection);
     peerConnections[targetUUID] = peerConnection;
   } else {
     console.warn("peer already exist.");
   }
 };
 
-const sync = (peerConnection: RTCPeerConnection) => {
-  console.log("sync");
-  if (selfVideoStream.old) {
-    ws.send(JSON.stringify({
-      type: "delete",
-      mediaStreamId: selfVideoStream.old.id,
-      chatID
-    }));
-  }
-
-  if (trackSender) peerConnection.removeTrack(trackSender);
-  trackSender = null;
-
-  if (selfVideoStream.now) {
-    for (const track of selfVideoStream.now.getTracks()) {
-      trackSender = peerConnection.addTrack(track, selfVideoStream.now);
+const streamUpdate = (peerConnection: RTCPeerConnection) => {
+  try {
+    if (selfVideoStream.old) {
+      ws.send(JSON.stringify({
+        type: "delete",
+        mediaStreamId: selfVideoStream.old.id,
+        chatID
+      }));
     }
+
+    if (trackSender) peerConnection.removeTrack(trackSender);
+    trackSender = null;
+
+    if (selfVideoStream.now) {
+      for (const track of selfVideoStream.now.getTracks()) {
+        trackSender = peerConnection.addTrack(track, selfVideoStream.now);
+      }
+    }
+  }catch (error) {
+    console.error(error);
   }
 };
 
 export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
   selfVideoStream.old = oldSelfVideoStream;
   selfVideoStream.now = newSelfVideoStream;
-
-  for (const key in peerConnections) {
-    const peerConnection = peerConnections[key];
-    sync(peerConnection);
-  }
-  ws.send(JSON.stringify({
-    type: "sync",
-    chatID,
-    uuid
-  }));
 };
 
 // Answer SDPを生成する
@@ -291,6 +290,5 @@ const hangUp = (peerConnection: RTCPeerConnection) => {
 
 export const closeSignaling = () => {
   console.info("closing chat");
-  closeFlag = true;
   ws.close();
 };
