@@ -5,10 +5,10 @@ let peerConnections: {
 } = {};
 let selfVideoStream: {
   now: MediaStream | null;
-  old: MediaStream | null;
+  old: MediaStream[];
 } = {
   now: null,
-  old: null
+  old: []
 };
 let uuid: string;
 let ws: WebSocket;
@@ -211,10 +211,10 @@ const connectWebRTC = async (targetUUID: string) => {
 
 const streamUpdate = (peerConnection: RTCPeerConnection) => {
   try {
-    if (selfVideoStream.old) {
+    for (const oldVideoStream of selfVideoStream.old) {
       ws.send(JSON.stringify({
         type: "delete",
-        mediaStreamId: selfVideoStream.old.id,
+        mediaStreamId: oldVideoStream.id,
         chatID
       }));
     }
@@ -233,7 +233,7 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
 };
 
 export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
-  selfVideoStream.old = oldSelfVideoStream;
+  if (oldSelfVideoStream && !selfVideoStream.old.includes(oldSelfVideoStream)) selfVideoStream.old.push(oldSelfVideoStream);
   selfVideoStream.now = newSelfVideoStream;
 };
 
