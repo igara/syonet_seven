@@ -58,7 +58,7 @@ export const connectChat = (id: string) => {
             chatID,
             uuid
           }));
-        }, 5000);
+        }, 10000);
         break;
       }
       case "sync": {
@@ -227,7 +227,7 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
         trackSender = peerConnection.addTrack(track, selfVideoStream.now);
       }
     }
-  }catch (error) {
+  } catch (error) {
     console.error(error);
   }
 };
