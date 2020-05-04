@@ -10,7 +10,8 @@ RUN apk update && apk --no-cache add --virtual \
 	gcc \
 	g++ \
 	python \
-	avahi-dev
+	avahi-dev \
+	git
 
 RUN apk --update add tzdata && \
 	rm -rf /var/cache/apk/*
