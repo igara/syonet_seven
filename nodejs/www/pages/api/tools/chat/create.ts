@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { dbConnect, dbClose } from "@www/models/mongoose";
 import * as Chat from "@www/models/mongoose/chat";
+import { exec as execMCU } from "@www/chrome/chat";
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -26,6 +27,8 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await dbConnect();
     const chat = await Chat.createChat(name, password);
+
+    await execMCU(chat._id, password);
 
     res.status(200);
     return res.send({

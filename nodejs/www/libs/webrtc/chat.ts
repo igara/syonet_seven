@@ -36,10 +36,13 @@ export const connectChat = (id: string) => {
   chatID = id;
   const wsUrl = getWSUrl(chatID);
   ws = new WebSocket(wsUrl);
+  const userAgent = window.navigator.userAgent;
+
   ws.onopen = async() => {
     ws.send(JSON.stringify({
       type: "create",
-      chatID
+      chatID,
+      userAgent
     }));
   };
   ws.onerror = err => {
@@ -48,31 +51,34 @@ export const connectChat = (id: string) => {
   ws.onmessage = async evt => {
     const message = JSON.parse(evt.data);
     // console.log(message);
-    const peerConnection = peerConnections[message.uuid];
     if (message.type) switch (message.type) {
       case "create": {
+        console.log("create");
         uuid = message.uuid;
-        setInterval(() => {
+        if (window.navigator.userAgent !== "WebRTC MCU Chat") {
           ws.send(JSON.stringify({
-            type: "sync",
+            type: "mtf_offer",
             chatID,
-            uuid
+            uuid,
+            userAgent
           }));
-        }, 10000);
+        }
         break;
       }
-      case "sync": {
-        connectWebRTC(message.uuid);
+      case "mtf_offer": {
+        console.log("mtf_offer");
+        await connectWebRTC(message.uuid);
         ws.send(JSON.stringify({
-          type: "streamUpdate",
+          type: "client_offer",
           chatID,
-          uuid
+          uuid,
+          userAgent
         }));
         break;
       }
-      case "streamUpdate": {
-        console.log("streamUpdate");
-        if (peerConnection) streamUpdate(peerConnection);
+      case "client_offer": {
+        console.log("client_offer");
+        await connectWebRTC(message.uuid);
         break;
       }
       case "delete": {
@@ -85,12 +91,17 @@ export const connectChat = (id: string) => {
         break;
       }
       case "candidate": {
+        console.log("candidate");
+        const peerConnection = peerConnections[message.uuid];
+        console.log(peerConnection);
         if (!peerConnection) break;
+        console.log("candidate");
         const candidate = new RTCIceCandidate(message.ice);
         await peerConnection.addIceCandidate(candidate);
         break;
       }
       case "close": {
+        const peerConnection = peerConnections[message.uuid];
         if (!peerConnection) break;
         hangUp(peerConnection);
         break;
@@ -99,12 +110,24 @@ export const connectChat = (id: string) => {
 
     if (message.sessionDescription) switch (message.sessionDescription.type) {
       case "offer": {
+        console.log("offer");
+        const peerConnection = peerConnections[message.uuid];
+        console.log(message.uuid);
+        console.log(uuid);
+        console.log(peerConnections);
+        console.log(peerConnection);
         if (!peerConnection) break;
         const sessionDescription = new RTCSessionDescription(message.sessionDescription);
         await setOffer(sessionDescription, peerConnection);
         break;
       }
       case "answer": {
+        console.log("answer");
+        const peerConnection = peerConnections[message.uuid];
+        console.log(message.uuid);
+        console.log(uuid);
+        console.log(peerConnections);
+        console.log(peerConnection);
         if (!peerConnection) break;
         const sessionDescription = new RTCSessionDescription(message.sessionDescription);
         await setAnswer(sessionDescription, peerConnection);
@@ -202,7 +225,7 @@ const connectWebRTC = async (targetUUID: string) => {
     peerConnection = prepareNewConnection(new RTCPeerConnection(rtcConfig));
     const offer = await peerConnection.createOffer();
     const sessionDescription = new RTCSessionDescription(offer);
-    setOffer(sessionDescription, peerConnection);
+    await setOffer(sessionDescription, peerConnection);
     peerConnections[targetUUID] = peerConnection;
   } else {
     console.warn("peer already exist.");
@@ -210,6 +233,7 @@ const connectWebRTC = async (targetUUID: string) => {
 };
 
 const streamUpdate = (peerConnection: RTCPeerConnection) => {
+  console.log("streamUpdate");
   try {
     for (const oldVideoStream of selfVideoStream.old) {
       ws.send(JSON.stringify({
@@ -235,6 +259,13 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
 export const changeSelfVideoStream = async (oldSelfVideoStream: MediaStream | null, newSelfVideoStream: MediaStream) => {
   if (oldSelfVideoStream && !selfVideoStream.old.includes(oldSelfVideoStream)) selfVideoStream.old.push(oldSelfVideoStream);
   selfVideoStream.now = newSelfVideoStream;
+
+  console.log(peerConnections);
+  console.log(uuid);
+  for (const key in peerConnections) {
+    const peerConnection = peerConnections[key];
+    if (peerConnection) streamUpdate(peerConnection);
+  }
 };
 
 // Answer SDPを生成する

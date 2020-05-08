@@ -5,6 +5,7 @@ import { IncomingMessage } from "http";
 type ChatWS = {
   chatID: string;
   type: string;
+  userAgent: string;
 } & WS;
 
 export type ChatWSS = {
@@ -21,18 +22,25 @@ export const chatSocketRoute = (wss: ChatWSS) => {
         const json = JSON.parse(message.toString());
         if (ws === client) {
           if (json.type === "create") {
+            ws.userAgent = json.userAgent;
             client.send(
               JSON.stringify({
                 ...json,
                 uuid: uuidv4(),
               }),
             );
+            return;
           }
+          if (json.type === "client_offer" || json.type === "mtf_offer") return;
         } else {
-          if (client.chatID === json.chatID && json.type !== "create") {
-            delete json.chatID;
-            client.send(JSON.stringify(json));
+          if (client.chatID !== json.chatID || json.type === "create") return;
+          console.log(ws.userAgent);
+          if (json.userAgent === "WebRTC MCU Chat" && json.type === "connect_mcu") {
           }
+          if (json.userAgent !== "WebRTC MCU Chat" && json.type === "connect_client") {
+          }
+          delete json.chatID;
+          client.send(JSON.stringify(json));
         }
       });
     });
