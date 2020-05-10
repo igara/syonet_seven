@@ -52,7 +52,7 @@
     "typescript-fsa-redux-thunk": "2.1.9",
     "universal-cookie": "4.0.3",
     "uuid": "7.0.3",
-    "web-push": "3.4.0",
+    "web-push": "3.4.4",
     "ws": "7.2.3"
   },
   "devDependencies": {
