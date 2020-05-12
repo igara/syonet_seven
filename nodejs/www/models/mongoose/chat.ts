@@ -43,7 +43,11 @@ export const getChatList = async (): Promise<ChatDocument[]> => {
 ChatSchema.methods.getChatList = getChatList;
 
 export const getChat = async (id: string, password: string): Promise<ChatDocument> => {
-  const cipher = crypto.createCipher("aes192", password);
+  const key = crypto.scryptSync(password, process.env.TOKEN_SECRET, 32);
+  const iv = Array.from(crypto.randomFillSync(new Uint8Array(16)))
+    .map(n => process.env.TOKEN_SECRET[n % process.env.TOKEN_SECRET.length])
+    .join("");
+  const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
   cipher.update(process.env.TOKEN_SECRET, "utf8", "hex");
   const cipheredText = cipher.final("hex");
   const result = await Chat.findOne({ _id: id, password: cipheredText });
@@ -52,7 +56,11 @@ export const getChat = async (id: string, password: string): Promise<ChatDocumen
 ChatSchema.methods.getChat = getChat;
 
 export const createChat = async (name: string, password: string): Promise<ChatDocument> => {
-  const cipher = crypto.createCipher("aes192", password);
+  const key = crypto.scryptSync(password, process.env.TOKEN_SECRET, 32);
+  const iv = Array.from(crypto.randomFillSync(new Uint8Array(16)))
+    .map(n => process.env.TOKEN_SECRET[n % process.env.TOKEN_SECRET.length])
+    .join("");
+  const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
   cipher.update(process.env.TOKEN_SECRET, "utf8", "hex");
   const cipheredText = cipher.final("hex");
   const result = await Chat.create({ name, password: cipheredText });
