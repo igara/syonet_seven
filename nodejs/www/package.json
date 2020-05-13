@@ -90,7 +90,7 @@
     "eslint-config-prettier": "6.4.0",
     "eslint-plugin-jest": "22.21.0",
     "eslint-plugin-prettier": "3.1.1",
-    "eslint-plugin-react": "7.16.0",
+    "eslint-plugin-react": "7.20.0",
     "jest": "24.9.0",
     "jest-date-mock": "1.0.7",
     "jest-environment-jsdom": "24.9.0",
