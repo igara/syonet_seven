@@ -6,6 +6,8 @@ type ChatWS = {
   chatID: string;
   type: string;
   userAgent: string;
+  clientUUID: string;
+  mcuUUID: string;
 } & WS;
 
 export type ChatWSS = {
@@ -20,27 +22,83 @@ export const chatSocketRoute = (wss: ChatWSS) => {
     ws.on("message", async (message: Buffer | string) => {
       wss.clients.forEach(client => {
         const json = JSON.parse(message.toString());
+        console.log("json");
+
         if (ws === client) {
           if (json.type === "create") {
             ws.userAgent = json.userAgent;
-            client.send(
-              JSON.stringify({
-                ...json,
-                uuid: uuidv4(),
-              }),
-            );
+            const uuid = uuidv4();
+
+            if (ws.userAgent !== "WebRTC MCU Chat") {
+              ws.clientUUID = uuid;
+              client.send(
+                JSON.stringify({
+                  ...json,
+                  clientUUID: uuid,
+                }),
+              );
+            } else {
+              ws.mcuUUID = uuid;
+              client.send(
+                JSON.stringify({
+                  ...json,
+                  mcuUUID: uuid,
+                }),
+              );
+            }
+
             return;
           }
-          if (json.type === "client_offer" || json.type === "mtf_offer") return;
+
+          if (json.type === "mcu_local_answer" || json.type === "candidate" || json.type === "client_local_answer") {
+            client.send(JSON.stringify(json));
+            return;
+          }
         } else {
-          if (client.chatID !== json.chatID || json.type === "create") return;
-          console.log(ws.userAgent);
-          if (json.userAgent === "WebRTC MCU Chat" && json.type === "connect_mcu") {
+          if (client.chatID !== json.chatID) return;
+          if (json.type === "create") return;
+
+          if (json.type === "candidate" || json.type === "delete") {
+            client.send(JSON.stringify(json));
+            return;
           }
-          if (json.userAgent !== "WebRTC MCU Chat" && json.type === "connect_client") {
+          if (json.userAgent === "WebRTC MCU Chat") {
+            if (
+              (json.type === "create_client_peer_connection" ||
+                json.type === "mcu_remote_offer" ||
+                json.type === "client_local_offer" ||
+                json.type === "client_remote_answer" ||
+                json.type === "candidate") &&
+              client.userAgent !== "WebRTC MCU Chat"
+            ) {
+              client.send(JSON.stringify(json));
+              return;
+            }
           }
-          delete json.chatID;
-          client.send(JSON.stringify(json));
+
+          if (json.userAgent !== "WebRTC MCU Chat") {
+            if (
+              (json.type === "create_mcu_peer_connection" ||
+                json.type === "mcu_local_offer" ||
+                json.type === "mcu_remote_answer" ||
+                json.type === "client_remote_offer" ||
+                json.type === "candidate") &&
+              client.userAgent === "WebRTC MCU Chat"
+            ) {
+              client.send(
+                JSON.stringify({
+                  ...json,
+                  mcuUUID: client.mcuUUID,
+                }),
+              );
+              return;
+            }
+          }
+
+          if (json.sessionDescription && json.sessionDescription.type === "offer") {
+            client.send(JSON.stringify(json));
+            return;
+          }
         }
       });
     });
