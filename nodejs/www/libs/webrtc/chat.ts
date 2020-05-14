@@ -14,6 +14,7 @@ let ws: WebSocket;
 let chatID: string;
 let trackSender: RTCRtpSender | null;
 let userAgent: string;
+let clientUUID: string;
 
 const rtcConfig = {
   iceServers: [{ urls: "turn:syonet.work:3478", credential: "chat", username: "syonet" }],
@@ -61,11 +62,12 @@ export const connectChat = (id: string) => {
           console.log("create");
 
           if (!isMCU()) {
+            clientUUID = message.clientUUID;
             ws.send(
               JSON.stringify({
                 type: "create_mcu_peer_connection",
                 chatID,
-                clientUUID: message.clientUUID,
+                clientUUID: clientUUID,
                 userAgent,
               }),
             );
@@ -123,8 +125,6 @@ export const connectChat = (id: string) => {
         }
         case "mcu_remote_offer": {
           console.log("mcu_remote_offer");
-          console.log(message);
-          console.log(peerConnections);
           const peerConnection = peerConnections[message.mcuUUID];
           await setRemoteDescription(message.sessionDescription, peerConnection);
 
@@ -250,12 +250,10 @@ export const connectChat = (id: string) => {
           console.log("candidate");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
-          console.log(peerConnections);
-          console.log(uuid);
-          console.log(peerConnection);
           if (!peerConnection) break;
-          console.log("candidate");
           const candidate = new RTCIceCandidate(message.ice);
+          console.log(message);
+          console.log(candidate);
           await peerConnection.addIceCandidate(candidate);
           break;
         }
@@ -276,13 +274,12 @@ export const connectChat = (id: string) => {
 };
 
 // ICE candidate生成時に送信する
-const sendIceCandidate = (candidate: RTCIceCandidate, clientUUID?: any, mcuUUID?: any) => {
+const sendIceCandidate = (candidate: RTCIceCandidate) => {
   const message = JSON.stringify({
     type: "candidate",
     ice: candidate,
     chatID,
-    clientUUID,
-    mcuUUID,
+    userAgent,
   });
   ws.send(message);
 };
@@ -291,6 +288,7 @@ const sendIceCandidate = (candidate: RTCIceCandidate, clientUUID?: any, mcuUUID?
 const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
   peerConnection.ontrack = evt => {
+    console.log("ontrack");
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
 
@@ -311,6 +309,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
 
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
+    console.log("onicecandidate");
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
@@ -318,11 +317,14 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
 
   // Offer側でネゴシエーションが必要になったときの処理
   peerConnection.onnegotiationneeded = async () => {
-    if (peerConnection.signalingState != "stable") return;
+    console.log("onnegotiationneeded");
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
   };
 
   // ICEのステータスが変更になったときの処理
   peerConnection.oniceconnectionstatechange = () => {
+    console.log("oniceconnectionstatechange");
     switch (peerConnection.iceConnectionState) {
       case "closed":
         break;
@@ -352,19 +354,23 @@ const createPeerConnection = async (targetUUID: string) => {
 const streamUpdate = (peerConnection: RTCPeerConnection) => {
   console.log("streamUpdate");
   try {
-    // for (const oldVideoStream of selfVideoStream.old) {
-    //   ws.send(JSON.stringify({
-    //     type: "delete",
-    //     mediaStreamId: oldVideoStream.id,
-    //     chatID
-    //   }));
-    // }
+    for (const oldVideoStream of selfVideoStream.old) {
+      ws.send(
+        JSON.stringify({
+          type: "delete",
+          mediaStreamId: oldVideoStream.id,
+          chatID,
+        }),
+      );
+    }
 
     if (trackSender) peerConnection.removeTrack(trackSender);
     trackSender = null;
 
     if (selfVideoStream.now) {
+      console.log("now");
       for (const track of selfVideoStream.now.getTracks()) {
+        console.log("addtrack");
         trackSender = peerConnection.addTrack(track, selfVideoStream.now);
       }
     }
@@ -381,7 +387,16 @@ export const changeSelfVideoStream = async (
     selfVideoStream.old.push(oldSelfVideoStream);
   selfVideoStream.now = newSelfVideoStream;
 
-  console.log(peerConnections);
+  if (!isMCU()) {
+    ws.send(
+      JSON.stringify({
+        type: "create_mcu_peer_connection",
+        chatID,
+        clientUUID: clientUUID,
+        userAgent,
+      }),
+    );
+  }
 
   for (const key in peerConnections) {
     const peerConnection = peerConnections[key];
