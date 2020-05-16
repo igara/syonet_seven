@@ -55,7 +55,8 @@ export const connectChat = (id: string) => {
   };
   ws.onmessage = async evt => {
     const message = JSON.parse(evt.data);
-    // console.log(message);
+    console.log(peerConnections);
+    console.log(message);
     if (message.type)
       switch (message.type) {
         case "create": {
@@ -251,9 +252,8 @@ export const connectChat = (id: string) => {
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           if (!peerConnection) break;
+          if (message.userAgent === "WebRTC MCU Chat") break;
           const candidate = new RTCIceCandidate(message.ice);
-          console.log(message);
-          console.log(candidate);
           await peerConnection.addIceCandidate(candidate);
           break;
         }
@@ -291,6 +291,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     console.log("ontrack");
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
+    console.log(evt);
 
     const stream = evt.streams[0];
     const videoId = `video-${stream.id}`;
@@ -368,9 +369,7 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
     trackSender = null;
 
     if (selfVideoStream.now) {
-      console.log("now");
       for (const track of selfVideoStream.now.getTracks()) {
-        console.log("addtrack");
         trackSender = peerConnection.addTrack(track, selfVideoStream.now);
       }
     }

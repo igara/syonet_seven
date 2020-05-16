@@ -22,6 +22,8 @@ export const chatSocketRoute = (wss: ChatWSS) => {
     ws.on("message", async (message: Buffer | string) => {
       wss.clients.forEach(client => {
         const json = JSON.parse(message.toString());
+        console.log("json");
+        console.log(json);
 
         if (client.chatID !== json.chatID) return;
         if (ws === client) {
@@ -75,7 +77,8 @@ export const chatSocketRoute = (wss: ChatWSS) => {
                 json.type === "mcu_remote_offer" ||
                 json.type === "client_local_offer" ||
                 json.type === "client_remote_answer") &&
-              client.userAgent !== "WebRTC MCU Chat"
+              client.userAgent !== "WebRTC MCU Chat" &&
+              client.clientUUID === json.clientUUID
             ) {
               client.send(JSON.stringify(json));
               return;
@@ -83,12 +86,22 @@ export const chatSocketRoute = (wss: ChatWSS) => {
           }
 
           if (json.userAgent !== "WebRTC MCU Chat") {
+            if (json.type === "create_mcu_peer_connection" && client.userAgent === "WebRTC MCU Chat") {
+              client.send(
+                JSON.stringify({
+                  ...json,
+                  mcuUUID: client.mcuUUID,
+                }),
+              );
+              return;
+            }
+
             if (
-              (json.type === "create_mcu_peer_connection" ||
-                json.type === "mcu_local_offer" ||
+              (json.type === "mcu_local_offer" ||
                 json.type === "mcu_remote_answer" ||
                 json.type === "client_remote_offer") &&
-              client.userAgent === "WebRTC MCU Chat"
+              client.userAgent === "WebRTC MCU Chat" &&
+              client.mcuUUID === json.mcuUUID
             ) {
               client.send(
                 JSON.stringify({
