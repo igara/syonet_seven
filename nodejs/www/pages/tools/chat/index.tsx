@@ -2,7 +2,6 @@ import { WrapperComponent } from "@www/components/wrapper";
 import { toolsChatStyle } from "@www/styles";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import Router from "next/router";
 import { checkLogin } from "@www/actions/common/login";
 import { AppState } from "@www/stores";
 import Head from "next/head";
@@ -64,10 +63,7 @@ const ToolsChatPageComponent = (props: Props) => {
           id: stateChatID,
           password
         });
-        stateChatID && Router.push(
-          "/tools/chat/[id]",
-          `/tools/chat/${stateChatID}`
-        );
+        location.href = `/tools/chat/${chatID}`;
       }
       setState(storeState);
     }
@@ -163,11 +159,8 @@ const ToolsChatPageComponent = (props: Props) => {
                   await db.chats.put({
                     id: chatID,
                     password
-                  })
-                  Router.push(
-                    "/tools/chat/[id]",
-                    `/tools/chat/${chatID}`
-                  );
+                  });
+                  location.href = `/tools/chat/${chatID}`;
                 }
               }
             }}

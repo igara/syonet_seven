@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { dbConnect, dbClose } from "@www/models/mongoose";
 import * as Chat from "@www/models/mongoose/chat";
+import childProcess from "child_process";
+import { getMultiFormatDateTime } from "@www/libs/datetime";
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -26,6 +28,28 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await dbConnect();
     const chat = await Chat.createChat(name, password);
+
+    const expireTime = getMultiFormatDateTime({ Date: chat.createdAt, hours: 1, format: "T" });
+    const mcuProcess = childProcess.spawn(
+      "npx",
+      [
+        "ts-node",
+        "-r",
+        "tsconfig-paths/register",
+        "--project",
+        "server.tsconfig.json",
+        "chrome/chat.ts",
+        `chatID=${chat._id}`,
+        `password=${password}`,
+        `time=${expireTime}`,
+      ],
+      {
+        stdio: "inherit",
+        detached: true,
+        env: process.env,
+      },
+    );
+    console.log(mcuProcess);
 
     res.status(200);
     return res.send({
