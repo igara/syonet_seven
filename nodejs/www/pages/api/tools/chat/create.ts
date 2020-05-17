@@ -29,7 +29,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     const chat = await Chat.createChat(name, password);
 
-    const expireTime = getMultiFormatDateTime({ Date: chat.createdAt, minutes: 5, format: "T" });
+    const expireTime = getMultiFormatDateTime({ Date: chat.createdAt, minutes: 10, format: "T" });
     const mcuProcess = childProcess.spawn(
       "npx",
       [

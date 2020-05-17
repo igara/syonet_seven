@@ -31,6 +31,13 @@ export const chatSocketRoute = (wss: ChatWSS) => {
           return;
         }
         if (ws === client) {
+          if (json.type === "ping") {
+            client.send(
+              JSON.stringify({
+                echo: "OK",
+              }),
+            );
+          }
           if (json.type === "create") {
             ws.userAgent = json.userAgent;
             const uuid = uuidv4();

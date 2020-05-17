@@ -9,7 +9,7 @@ export const exec = async (chatID: string, password: string, time: number) => {
   const browser = await puppeteer.launch({
     headless: true,
     timeout: 0,
-    args: ["--no-sandbox", "--disable-gpu", "--disable-setuid-sandbox", "--remote-debugging-port=9222"],
+    args: ["--disable-gpu", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-first-run", "--no-sandbox"],
   });
 
   const userAgent = "WebRTC MCU Chat";

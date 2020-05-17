@@ -49,6 +49,15 @@ export const connectChat = (id: string) => {
         userAgent,
       }),
     );
+    setInterval(() => {
+      ws.send(
+        JSON.stringify({
+          type: "ping",
+          chatID,
+          userAgent,
+        }),
+      );
+    }, 5000);
   };
   ws.onerror = err => {
     console.error(err);
@@ -73,6 +82,7 @@ export const connectChat = (id: string) => {
               }),
             );
           }
+
           break;
         }
         case "create_mcu_peer_connection": {
@@ -309,8 +319,8 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     if (isMCU()) {
       console.log("ontarack mcu");
       for (const key in peerConnections) {
-        const peerConnection = peerConnections[key];
-        if (peerConnection) {
+        const peer = peerConnections[key];
+        if (peer) {
           remoteVideoArea.childNodes.forEach(element => {
             const video = element as HTMLMediaElement;
             const mediaStream = video.srcObject as MediaStream;
@@ -326,7 +336,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           });
           for (const track of stream.getTracks()) {
             try {
-              peerConnection.addTrack(track, stream);
+              peer.addTrack(track, stream);
             } catch (error) {
               console.warn(error);
             }
