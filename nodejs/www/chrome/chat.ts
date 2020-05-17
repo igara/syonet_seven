@@ -23,11 +23,11 @@ export const exec = async (chatID: string, password: string, time: number) => {
   await page.waitFor(1000);
   await page.waitFor("input[placeholder='部屋のパスワード']");
   await page.waitFor("input[placeholder='部屋ID']");
-  await page.waitFor(`//button[text()="参加"]`);
   await page.type("input[placeholder='部屋ID']", chatID);
   await page.type("input[placeholder='部屋のパスワード']", password);
   await (await page.$x(`//button[text()="参加"]`))[0].click();
   await page.waitFor(1000);
+  await page.goto(`${chatURL}/${chatID}`);
 
   let loopFlag = true;
   while (loopFlag) {
