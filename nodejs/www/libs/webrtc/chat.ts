@@ -252,7 +252,6 @@ export const connectChat = (id: string) => {
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           if (!peerConnection) break;
-          if (message.userAgent === "WebRTC MCU Chat") break;
           const candidate = new RTCIceCandidate(message.ice);
           await peerConnection.addIceCandidate(candidate);
           break;
@@ -306,6 +305,35 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
       remoteVideoArea.appendChild(videoElement);
     }
     playVideo(videoElement, stream);
+
+    if (isMCU()) {
+      console.log("ontarack mcu");
+      for (const key in peerConnections) {
+        const peerConnection = peerConnections[key];
+        if (peerConnection) {
+          remoteVideoArea.childNodes.forEach(element => {
+            const video = element as HTMLMediaElement;
+            const mediaStream = video.srcObject as MediaStream;
+            if (!mediaStream.active) {
+              ws.send(
+                JSON.stringify({
+                  type: "delete",
+                  mediaStreamId: video.id.replace(/^video-/, ""),
+                  chatID,
+                }),
+              );
+            }
+          });
+          for (const track of stream.getTracks()) {
+            try {
+              peerConnection.addTrack(track, stream);
+            } catch (error) {
+              console.warn(error);
+            }
+          }
+        }
+      }
+    }
   };
 
   // ICE Candidateを収集したときのイベント

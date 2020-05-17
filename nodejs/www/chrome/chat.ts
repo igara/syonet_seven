@@ -1,14 +1,15 @@
 import puppeteer from "puppeteer";
 import { config } from "dotenv";
 import { resolve } from "path";
+import { getMultiFormatDateTime } from "@www/libs/datetime";
 
 config({ path: resolve(__dirname, "../.env") });
 
 export const exec = async (chatID: string, password: string, time: number) => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     timeout: 0,
-    args: ["--no-sandbox", "--disable-gpu", "--disable-setuid-sandbox"],
+    args: ["--no-sandbox", "--disable-gpu", "--disable-setuid-sandbox", "--remote-debugging-port=9222"],
   });
 
   const userAgent = "WebRTC MCU Chat";
@@ -30,8 +31,8 @@ export const exec = async (chatID: string, password: string, time: number) => {
 
   let loopFlag = true;
   while (loopFlag) {
-    const nowDate = new Date();
-    if (time < nowDate.getTime()) {
+    const nowTime = Number(getMultiFormatDateTime({ format: "T" }));
+    if (time < nowTime) {
       loopFlag = false;
       await page.close();
       await browser.close();
