@@ -22,7 +22,7 @@ services:
       - frontend
       - backend
     extra_hosts:
-      - "syonet.work:133.130.112.60"
+      - "syonet.work:172.19.0.5"
     restart: always
 
   mongodb:
