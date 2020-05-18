@@ -2,6 +2,7 @@ version: "3"
 
 services:
   www:
+    shm_size: 256m
     build:
       context: ./nodejs/www
       dockerfile: www.Dockerfile

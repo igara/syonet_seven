@@ -469,14 +469,16 @@ export const changeSelfVideoStream = async (
   selfVideoStream.now = newSelfVideoStream;
 
   if (!isMCU()) {
-    ws.send(
-      JSON.stringify({
-        type: "create_mcu_peer_connection",
-        chatID,
-        clientUUID: clientUUID,
-        userAgent,
-      }),
-    );
+    setInterval(() => {
+      ws.send(
+        JSON.stringify({
+          type: "create_mcu_peer_connection",
+          chatID,
+          clientUUID: clientUUID,
+          userAgent,
+        }),
+      );
+    }, 5000);
   }
 
   for (const key in peerConnections) {
