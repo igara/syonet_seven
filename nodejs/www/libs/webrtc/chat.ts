@@ -1,5 +1,8 @@
 import { toolsChatStyle } from "@www/styles";
 
+interface CanvasElement extends HTMLCanvasElement {
+  captureStream(msec?: number): MediaStream;
+}
 let peerConnections: {
   [uuid: string]: RTCPeerConnection;
 } = {};
@@ -13,6 +16,7 @@ let selfVideoStream: {
 let ws: WebSocket;
 let chatID: string;
 let trackSender: RTCRtpSender | null;
+// let mcuRTCRtpSenders: RTCRtpSender[] = [];
 let userAgent: string;
 let clientUUID: string;
 
@@ -25,7 +29,7 @@ const isMCU = () => {
 };
 
 // Videoの再生を開始する
-export const playVideo = async (element: HTMLVideoElement, stream: MediaStream) => {
+export const playVideo = (element: HTMLVideoElement, stream: MediaStream) => {
   element.srcObject = stream;
 };
 
@@ -49,15 +53,15 @@ export const connectChat = (id: string) => {
         userAgent,
       }),
     );
-    setInterval(() => {
-      ws.send(
-        JSON.stringify({
-          type: "ping",
-          chatID,
-          userAgent,
-        }),
-      );
-    }, 5000);
+    // setInterval(() => {
+    //   ws.send(
+    //     JSON.stringify({
+    //       type: "ping",
+    //       chatID,
+    //       userAgent,
+    //     }),
+    //   );
+    // }, 5000);
   };
   ws.onerror = err => {
     console.error(err);
@@ -81,6 +85,49 @@ export const connectChat = (id: string) => {
                 userAgent,
               }),
             );
+          } else {
+            setInterval(() => {
+              const remoteVideoArea = document.getElementById("remoteVideoArea");
+              if (!remoteVideoArea) return;
+              const canvas = document.getElementById("mcuCanvas") as CanvasElement;
+              if (!canvas) return;
+              canvas.width = 320;
+              canvas.height = 320 * remoteVideoArea.childNodes.length;
+              const context = canvas.getContext("2d");
+              remoteVideoArea.childNodes.forEach((element, index) => {
+                const videoElement = element as HTMLVideoElement;
+
+                if (!context) return;
+
+                const d = 320 / videoElement.videoWidth;
+
+                context.drawImage(videoElement, 0, 320 * index, 320, videoElement.videoHeight * d);
+              });
+
+              // const captureStream = canvas.captureStream(30);
+
+              // for (const key in peerConnections) {
+              //   const peer = peerConnections[key];
+              //   if (!peer) break;
+
+              //   for (const track of captureStream.getTracks()) {
+              //     console.log("removetrack mcu");
+              //     mcuRTCRtpSenders.forEach(sender => {
+              //       try {
+              //         peer.removeTrack(sender);
+              //       } catch (error) {
+              //         // console.warn(error);
+              //       }
+              //     });
+              //     try {
+              //       console.log("addtrack mcu");
+              //       mcuRTCRtpSenders.push(peer.addTrack(track, captureStream));
+              //     } catch (error) {
+              //       // console.warn(error);
+              //     }
+              //   }
+              // }
+            }, 1000 / 30);
           }
 
           break;
@@ -302,53 +349,70 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     if (!remoteVideoArea) return;
     console.log(evt);
 
-    const stream = evt.streams[0];
-    const videoId = `video-${stream.id}`;
-    let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
-    if (!videoElement) {
-      videoElement = document.createElement("video");
-      videoElement.setAttribute("id", videoId);
-      videoElement.setAttribute("controls", "true");
-      videoElement.setAttribute("autoplay", "true");
-      videoElement.setAttribute("playsinline", "true");
-      videoElement.setAttribute("class", toolsChatStyle.video);
-      remoteVideoArea.appendChild(videoElement);
-    }
-    playVideo(videoElement, stream);
+    evt.streams.forEach(async stream => {
+      const videoId = `video-${stream.id}`;
+      let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
+      if (!videoElement) {
+        videoElement = document.createElement("video");
+        videoElement.setAttribute("id", videoId);
+        videoElement.controls = true;
+        videoElement.autoplay = true;
+        videoElement.muted = true;
+        videoElement.setAttribute("class", toolsChatStyle.video);
+        remoteVideoArea.appendChild(videoElement);
+      }
 
-    if (isMCU()) {
-      console.log("ontarack mcu");
-      for (const key in peerConnections) {
-        const peer = peerConnections[key];
-        if (peer) {
-          remoteVideoArea.childNodes.forEach(element => {
-            const video = element as HTMLMediaElement;
-            const mediaStream = video.srcObject as MediaStream;
-            if (!mediaStream.active) {
-              ws.send(
-                JSON.stringify({
-                  type: "delete",
-                  mediaStreamId: video.id.replace(/^video-/, ""),
-                  chatID,
-                }),
-              );
-            }
-          });
-          for (const track of stream.getTracks()) {
-            try {
-              peer.addTrack(track, stream);
-            } catch (error) {
-              console.warn(error);
-            }
-          }
+      if (isMCU()) {
+        playVideo(videoElement, stream);
+        console.log("ontarack mcu");
+
+        for (const key in peerConnections) {
+          const peer = peerConnections[key];
+          if (!peer) break;
+
+          // remoteVideoArea.childNodes.forEach(element => {
+          //   const video = element as HTMLMediaElement;
+          //   const mediaStream = video.srcObject as MediaStream;
+          //   if (!mediaStream.active) {
+          //     ws.send(
+          //       JSON.stringify({
+          //         type: "delete",
+          //         mediaStreamId: mediaStream.id.replace(/^video-/, ""),
+          //         chatID,
+          //       }),
+          //     );
+          //     return;
+          //   }
+
+          //   for (const track of mediaStream.getTracks()) {
+          //     console.log("removetrack mcu");
+          //     mcuRTCRtpSenders.forEach(sender => {
+          //       try {
+          //         peer.removeTrack(sender);
+          //       } catch (error) {
+          //         console.warn(error);
+          //       }
+          //     });
+          //     try {
+          //       console.log("addtrack mcu");
+          //       mcuRTCRtpSenders.push(peer.addTrack(track, mediaStream));
+          //     } catch (error) {
+          //       console.warn(error);
+          //     }
+          //   }
+          // });
         }
       }
-    }
+    });
   };
 
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
     console.log("onicecandidate");
+
+    (document.getElementById("mcuVideo") as HTMLVideoElement).srcObject = (document.getElementById(
+      "mcuCanvas",
+    ) as CanvasElement).captureStream();
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
@@ -401,6 +465,16 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
           chatID,
         }),
       );
+    }
+
+    const remoteVideoArea = document.getElementById("remoteVideoArea");
+    if (remoteVideoArea) {
+      remoteVideoArea.childNodes.forEach(element => {
+        const video = element as HTMLMediaElement;
+        const mediaStream = video.srcObject as MediaStream;
+        if (mediaStream.active) return;
+        video.remove();
+      });
     }
 
     if (trackSender) peerConnection.removeTrack(trackSender);

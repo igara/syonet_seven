@@ -27,6 +27,7 @@ const ToolsChatIdPageComponent = (props: Props) => {
   const [selfVideoFlag, setSelfVideoFlag] = useState(false);
   const [selfAudioFlag, setSelfAudioFlag] = useState(false);
   const [selfVideoStream, setSelfVideoStream] = useState<MediaStream|null>(null);
+
   const [initialized, setInitialized] = useState(false);
 
   const trackStop = (videoStream: MediaStream) => {
@@ -145,6 +146,8 @@ const ToolsChatIdPageComponent = (props: Props) => {
           <hr />
           <video ref={selfVideoRef} autoPlay={true} muted={true} playsInline={true} className={toolsChatStyle.video} />
           <div id="remoteVideoArea" />
+          <canvas id="mcuCanvas" />
+          <video id="mcuVideo" autoPlay={true} />
         </div>
       </WrapperComponent>
     </>
