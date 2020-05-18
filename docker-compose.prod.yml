@@ -21,6 +21,8 @@ services:
     networks:
       - frontend
       - backend
+    extra_hosts:
+      - "syonet.work:133.130.112.60"
     restart: always
 
   mongodb:
