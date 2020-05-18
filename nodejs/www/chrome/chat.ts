@@ -19,7 +19,10 @@ export const exec = async (chatID: string, password: string, time: number) => {
   await page.setUserAgent(userAgent);
 
   const chatURL = `${process.env.WWW_HOST}/tools/chat`;
-  await page.goto(chatURL);
+  await page.goto(chatURL, {
+    timeout: 0,
+    waitUntil: "networkidle0",
+  });
   await page.waitFor(1000);
   await page.waitFor("input[placeholder='部屋のパスワード']");
   await page.waitFor("input[placeholder='部屋ID']");
@@ -27,7 +30,10 @@ export const exec = async (chatID: string, password: string, time: number) => {
   await page.type("input[placeholder='部屋のパスワード']", password);
   await (await page.$x(`//button[text()="参加"]`))[0].click();
   await page.waitFor(1000);
-  await page.goto(`${chatURL}/${chatID}`);
+  await page.goto(`${chatURL}/${chatID}`, {
+    timeout: 0,
+    waitUntil: "networkidle0",
+  });
 
   let loopFlag = true;
   while (loopFlag) {
