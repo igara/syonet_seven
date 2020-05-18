@@ -146,8 +146,9 @@ const ToolsChatIdPageComponent = (props: Props) => {
           <hr />
           <video ref={selfVideoRef} autoPlay={true} muted={true} playsInline={true} className={toolsChatStyle.video} />
           <div id="remoteVideoArea" />
-          <canvas id="mcuCanvas" />
-          <video id="mcuVideo" autoPlay={true} />
+          <canvas id="mcuCanvas" className={toolsChatStyle.video}  />
+          <video id="mcuVideo" autoPlay={true} muted={true} controls={true}  className={toolsChatStyle.video} />
+          <video id="clientVideo" autoPlay={true} muted={true} controls={true} />
         </div>
       </WrapperComponent>
     </>

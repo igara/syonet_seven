@@ -16,7 +16,7 @@ let selfVideoStream: {
 let ws: WebSocket;
 let chatID: string;
 let trackSender: RTCRtpSender | null;
-// let mcuRTCRtpSenders: RTCRtpSender[] = [];
+let mcuRTCRtpSenders: RTCRtpSender[] = [];
 let userAgent: string;
 let clientUUID: string;
 
@@ -86,6 +86,12 @@ export const connectChat = (id: string) => {
               }),
             );
           } else {
+            const mcuCanvas = document.getElementById("mcuCanvas") as CanvasElement;
+            if (!mcuCanvas) return;
+            const mcuVideo = document.getElementById("mcuVideo") as HTMLVideoElement;
+            if (!mcuVideo) return;
+            mcuVideo.srcObject = mcuCanvas.captureStream();
+
             setInterval(() => {
               const remoteVideoArea = document.getElementById("remoteVideoArea");
               if (!remoteVideoArea) return;
@@ -103,30 +109,6 @@ export const connectChat = (id: string) => {
 
                 context.drawImage(videoElement, 0, 320 * index, 320, videoElement.videoHeight * d);
               });
-
-              // const captureStream = canvas.captureStream(30);
-
-              // for (const key in peerConnections) {
-              //   const peer = peerConnections[key];
-              //   if (!peer) break;
-
-              //   for (const track of captureStream.getTracks()) {
-              //     console.log("removetrack mcu");
-              //     mcuRTCRtpSenders.forEach(sender => {
-              //       try {
-              //         peer.removeTrack(sender);
-              //       } catch (error) {
-              //         // console.warn(error);
-              //       }
-              //     });
-              //     try {
-              //       console.log("addtrack mcu");
-              //       mcuRTCRtpSenders.push(peer.addTrack(track, captureStream));
-              //     } catch (error) {
-              //       // console.warn(error);
-              //     }
-              //   }
-              // }
             }, 1000 / 30);
           }
 
@@ -350,19 +332,18 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
     console.log(evt);
 
     evt.streams.forEach(async stream => {
-      const videoId = `video-${stream.id}`;
-      let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
-      if (!videoElement) {
-        videoElement = document.createElement("video");
-        videoElement.setAttribute("id", videoId);
-        videoElement.controls = true;
-        videoElement.autoplay = true;
-        videoElement.muted = true;
-        videoElement.setAttribute("class", toolsChatStyle.video);
-        remoteVideoArea.appendChild(videoElement);
-      }
-
       if (isMCU()) {
+        const videoId = `video-${stream.id}`;
+        let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
+        if (!videoElement) {
+          videoElement = document.createElement("video");
+          videoElement.setAttribute("id", videoId);
+          videoElement.controls = true;
+          videoElement.autoplay = true;
+          videoElement.muted = true;
+          videoElement.setAttribute("class", toolsChatStyle.video);
+          remoteVideoArea.appendChild(videoElement);
+        }
         playVideo(videoElement, stream);
         console.log("ontarack mcu");
 
@@ -370,38 +351,31 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           const peer = peerConnections[key];
           if (!peer) break;
 
-          // remoteVideoArea.childNodes.forEach(element => {
-          //   const video = element as HTMLMediaElement;
-          //   const mediaStream = video.srcObject as MediaStream;
-          //   if (!mediaStream.active) {
-          //     ws.send(
-          //       JSON.stringify({
-          //         type: "delete",
-          //         mediaStreamId: mediaStream.id.replace(/^video-/, ""),
-          //         chatID,
-          //       }),
-          //     );
-          //     return;
-          //   }
+          const mcuVideo = document.getElementById("mcuVideo") as HTMLMediaElement;
 
-          //   for (const track of mediaStream.getTracks()) {
-          //     console.log("removetrack mcu");
-          //     mcuRTCRtpSenders.forEach(sender => {
-          //       try {
-          //         peer.removeTrack(sender);
-          //       } catch (error) {
-          //         console.warn(error);
-          //       }
-          //     });
-          //     try {
-          //       console.log("addtrack mcu");
-          //       mcuRTCRtpSenders.push(peer.addTrack(track, mediaStream));
-          //     } catch (error) {
-          //       console.warn(error);
-          //     }
-          //   }
-          // });
+          const mediaStream = mcuVideo.srcObject as MediaStream;
+          if (!mediaStream) break;
+
+          for (const track of mediaStream.getTracks()) {
+            console.log("removetrack mcu");
+            mcuRTCRtpSenders.forEach(sender => {
+              try {
+                peer.removeTrack(sender);
+              } catch (error) {
+                console.warn(error);
+              }
+            });
+            try {
+              console.log("addtrack mcu");
+              mcuRTCRtpSenders.push(peer.addTrack(track, mediaStream));
+            } catch (error) {
+              console.warn(error);
+            }
+          }
         }
+      } else {
+        const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
+        playVideo(videoElement, stream);
       }
     });
   };
@@ -409,10 +383,6 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
     console.log("onicecandidate");
-
-    (document.getElementById("mcuVideo") as HTMLVideoElement).srcObject = (document.getElementById(
-      "mcuCanvas",
-    ) as CanvasElement).captureStream();
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
