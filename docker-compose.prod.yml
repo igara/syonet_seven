@@ -21,14 +21,10 @@ services:
     networks:
       - frontend
       - backend
-    extra_hosts:
-      - "syonet.work:172.19.0.5"
     restart: always
 
   mongodb:
     image: mongo:latest
-    ports:
-      - 27017:27017
     command: mongod
     volumes:
       - ./data/mongo:/data/db:cached
