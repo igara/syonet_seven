@@ -19,9 +19,6 @@ services:
       TZ: Asia/Tokyo
     links:
       - mongodb
-    networks:
-      - frontend
-      - backend
 
   mongodb:
     image: mongo:latest
@@ -30,9 +27,6 @@ services:
     command: mongod
     volumes:
       - ./data/mongo:/data/db:cached
-    networks:
-      - frontend
-      - backend
     environment:
       TZ: Asia/Tokyo
 
@@ -52,9 +46,6 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       WWW_DOMAIN: ${WWW_DOMAIN}
-    networks:
-      - frontend
-      - backend
 
   coturn:
     image: instrumentisto/coturn
@@ -69,12 +60,3 @@ services:
       - "3478:3478/udp"
       - "5349:5349"
       - "5349:5349/udp"
-    networks:
-      - frontend
-      - backend
-
-networks:
-  frontend:
-    driver: "bridge"
-  backend:
-    driver: "bridge"

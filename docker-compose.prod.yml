@@ -18,9 +18,6 @@ services:
       TZ: Asia/Tokyo
     links:
       - mongodb
-    networks:
-      - frontend
-      - backend
     restart: always
 
   mongodb:
@@ -28,9 +25,6 @@ services:
     command: mongod
     volumes:
       - ./data/mongo:/data/db:cached
-    networks:
-      - frontend
-      - backend
     environment:
       TZ: Asia/Tokyo
     restart: always
@@ -51,8 +45,9 @@ services:
       NODE_ENV: ${NODE_ENV}
       WWW_DOMAIN: ${WWW_DOMAIN}
     networks:
-      - frontend
-      - backend
+      default:
+        aliases:
+          - syonet.work
     restart: always
 
   coturn:
@@ -68,13 +63,4 @@ services:
       - "3478:3478/udp"
       - "5349:5349"
       - "5349:5349/udp"
-    networks:
-      - frontend
-      - backend
     restart: always
-
-networks:
-  frontend:
-    driver: "bridge"
-  backend:
-    driver: "bridge"
