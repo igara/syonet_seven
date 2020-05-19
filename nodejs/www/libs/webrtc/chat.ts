@@ -53,15 +53,15 @@ export const connectChat = (id: string) => {
         userAgent,
       }),
     );
-    // setInterval(() => {
-    //   ws.send(
-    //     JSON.stringify({
-    //       type: "ping",
-    //       chatID,
-    //       userAgent,
-    //     }),
-    //   );
-    // }, 5000);
+    setInterval(() => {
+      ws.send(
+        JSON.stringify({
+          type: "ping",
+          chatID,
+          userAgent,
+        }),
+      );
+    }, 5000);
   };
   ws.onerror = err => {
     console.error(err);
