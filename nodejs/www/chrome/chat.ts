@@ -29,8 +29,10 @@ export const exec = async (chatID: string, password: string, time: number) => {
   await (await page.$x(`//button[text()="参加"]`))[0].click();
   await page.waitFor(1000);
 
+  const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
   let loopFlag = true;
   while (loopFlag) {
+    await sleep(60000);
     const nowTime = Number(getMultiFormatDateTime({ format: "T" }));
     if (time < nowTime) {
       loopFlag = false;
