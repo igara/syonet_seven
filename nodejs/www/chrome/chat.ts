@@ -19,21 +19,15 @@ export const exec = async (chatID: string, password: string, time: number) => {
   await page.setUserAgent(userAgent);
 
   const chatURL = `${process.env.WWW_HOST}/tools/chat`;
-  await page.goto(chatURL, {
-    timeout: 0,
-    waitUntil: "networkidle0",
-  });
+  await page.goto(chatURL);
   await page.waitFor(1000);
   await page.waitFor("input[placeholder='部屋のパスワード']");
   await page.waitFor("input[placeholder='部屋ID']");
   await page.type("input[placeholder='部屋ID']", chatID);
   await page.type("input[placeholder='部屋のパスワード']", password);
+  await page.waitFor(1000);
   await (await page.$x(`//button[text()="参加"]`))[0].click();
   await page.waitFor(1000);
-  await page.goto(`${chatURL}/${chatID}`, {
-    timeout: 0,
-    waitUntil: "networkidle0",
-  });
 
   let loopFlag = true;
   while (loopFlag) {
@@ -45,6 +39,12 @@ export const exec = async (chatID: string, password: string, time: number) => {
     }
   }
 };
+
+process.on("SIGINT", function() {
+  console.log("\nGracefully shutting down from SIGINT (Ctrl-C)");
+  // some other closing procedures go here
+  process.exit(1);
+});
 
 const chatIDKeyValue = process.argv.join().match(/chatID=\S*/);
 const passwordKeyValue = process.argv.join().match(/password=\S*/);
@@ -61,5 +61,9 @@ if (
   const password = passwordKeyValue[0].replace("password=", "").replace(/,\S*/, "");
   const time = Number(timeKeyValue[0].replace("time=", ""));
 
-  exec(chatID, password, time);
+  try {
+    exec(chatID, password, time);
+  } catch (error) {
+    console.error(error);
+  }
 }
