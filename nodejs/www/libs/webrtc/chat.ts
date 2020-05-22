@@ -104,9 +104,7 @@ export const connectChat = (id: string) => {
                 const videoElement = element as HTMLVideoElement;
 
                 if (!context) return;
-
                 const d = 320 / videoElement.videoWidth;
-
                 context.drawImage(videoElement, 0, 320 * index, 320, videoElement.videoHeight * d);
               });
             }, 1000 / 30);
@@ -345,39 +343,54 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           remoteVideoArea.appendChild(videoElement);
         }
         playVideo(videoElement, stream);
-        console.log("ontarack mcu");
-
-        for (const key in peerConnections) {
-          const peer = peerConnections[key];
-          if (!peer) break;
-
-          const mcuVideo = document.getElementById("mcuVideo") as HTMLMediaElement;
-
-          const mediaStream = mcuVideo.srcObject as MediaStream;
-          if (!mediaStream) break;
-
-          for (const track of mediaStream.getTracks()) {
-            console.log("removetrack mcu");
-            mcuRTCRtpSenders.forEach(sender => {
-              try {
-                peer.removeTrack(sender);
-              } catch (error) {
-                console.warn(error);
-              }
-            });
-            try {
-              console.log("addtrack mcu");
-              mcuRTCRtpSenders.push(peer.addTrack(track, mediaStream));
-            } catch (error) {
-              console.warn(error);
-            }
-          }
-        }
       } else {
+        console.log("client ontrack");
+        console.log(stream);
         const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
         playVideo(videoElement, stream);
       }
     });
+
+    if (isMCU()) {
+      console.log("ontarack mcu");
+
+      const mcuVideo = document.getElementById("mcuVideo") as HTMLMediaElement;
+      const mediaStream = mcuVideo.srcObject as MediaStream;
+      if (!mediaStream) return;
+
+      const audioTracks: MediaStreamTrack[] = [];
+      remoteVideoArea.childNodes.forEach(element => {
+        const video = element as HTMLVideoElement;
+        const srcObject = video.srcObject as MediaStream;
+
+        audioTracks.push(...srcObject.getAudioTracks());
+      });
+
+      const stream = new MediaStream([...audioTracks, ...mediaStream.getVideoTracks()]);
+      console.log(stream);
+
+      for (const key in peerConnections) {
+        const peer = peerConnections[key];
+        if (!peer) break;
+
+        for (const track of stream.getTracks()) {
+          console.log("removetrack mcu");
+          mcuRTCRtpSenders.forEach(sender => {
+            try {
+              peer.removeTrack(sender);
+            } catch (error) {
+              console.warn(error);
+            }
+          });
+          try {
+            console.log("addtrack mcu");
+            mcuRTCRtpSenders.push(peer.addTrack(track, stream));
+          } catch (error) {
+            console.warn(error);
+          }
+        }
+      }
+    }
   };
 
   // ICE Candidateを収集したときのイベント
