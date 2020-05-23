@@ -61,19 +61,17 @@ export const connectChat = (id: string) => {
           userAgent,
         }),
       );
-    }, 5000);
+    }, 60000);
   };
   ws.onerror = err => {
     console.error(err);
   };
   ws.onmessage = async evt => {
     const message = JSON.parse(evt.data);
-    console.log(peerConnections);
-    console.log(message);
     if (message.type)
       switch (message.type) {
         case "create": {
-          console.log("create");
+          console.info("create");
 
           if (!isMCU()) {
             clientUUID = message.clientUUID;
@@ -90,30 +88,37 @@ export const connectChat = (id: string) => {
             if (!mcuCanvas) return;
             const mcuVideo = document.getElementById("mcuVideo") as HTMLVideoElement;
             if (!mcuVideo) return;
-            mcuVideo.srcObject = mcuCanvas.captureStream();
 
             setInterval(() => {
               const remoteVideoArea = document.getElementById("remoteVideoArea");
               if (!remoteVideoArea) return;
               const canvas = document.getElementById("mcuCanvas") as CanvasElement;
               if (!canvas) return;
+
               canvas.width = 320;
               canvas.height = 320 * remoteVideoArea.childNodes.length;
               const context = canvas.getContext("2d");
+              const audioTracks: MediaStreamTrack[] = [];
               remoteVideoArea.childNodes.forEach((element, index) => {
                 const videoElement = element as HTMLVideoElement;
 
                 if (!context) return;
                 const d = 320 / videoElement.videoWidth;
                 context.drawImage(videoElement, 0, 320 * index, 320, videoElement.videoHeight * d);
+
+                const srcObject = videoElement.srcObject as MediaStream;
+                audioTracks.push(...srcObject.getAudioTracks());
               });
+
+              const stream = new MediaStream([...audioTracks, ...mcuCanvas.captureStream().getVideoTracks()]);
+              mcuVideo.srcObject = stream;
             }, 1000 / 30);
           }
 
           break;
         }
         case "create_mcu_peer_connection": {
-          console.log("create_mcu_peer_connection");
+          console.info("create_mcu_peer_connection");
           await createPeerConnection(message.clientUUID);
 
           ws.send(
@@ -128,7 +133,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "create_client_peer_connection": {
-          console.log("create_client_peer_connection");
+          console.info("create_client_peer_connection");
           await createPeerConnection(message.mcuUUID);
 
           ws.send(
@@ -143,7 +148,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "mcu_local_offer": {
-          console.log("mcu_local_offer");
+          console.info("mcu_local_offer");
 
           const peerConnection = peerConnections[message.clientUUID];
           const offer = await peerConnection.createOffer();
@@ -162,7 +167,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "mcu_remote_offer": {
-          console.log("mcu_remote_offer");
+          console.info("mcu_remote_offer");
           const peerConnection = peerConnections[message.mcuUUID];
           await setRemoteDescription(message.sessionDescription, peerConnection);
 
@@ -178,7 +183,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "mcu_local_answer": {
-          console.log("mcu_local_answer");
+          console.info("mcu_local_answer");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           const answer = await peerConnection.createAnswer();
@@ -197,7 +202,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "mcu_remote_answer": {
-          console.log("mcu_remote_answer");
+          console.info("mcu_remote_answer");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           await setRemoteDescription(message.sessionDescription, peerConnection);
@@ -215,7 +220,7 @@ export const connectChat = (id: string) => {
         }
 
         case "client_local_offer": {
-          console.log("client_local_offer");
+          console.info("client_local_offer");
           const peerConnection = peerConnections[message.mcuUUID];
           const offer = await peerConnection.createOffer();
           await peerConnection.setLocalDescription(offer);
@@ -233,7 +238,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "client_remote_offer": {
-          console.log("client_remote_offer");
+          console.info("client_remote_offer");
           const peerConnection = peerConnections[message.clientUUID];
           await setRemoteDescription(message.sessionDescription, peerConnection);
 
@@ -249,7 +254,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "client_local_answer": {
-          console.log("client_local_answer");
+          console.info("client_local_answer");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           const answer = await peerConnection.createAnswer();
@@ -268,7 +273,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "client_remote_answer": {
-          console.log("client_remote_answer");
+          console.info("client_remote_answer");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           await setRemoteDescription(message.sessionDescription, peerConnection);
@@ -276,7 +281,7 @@ export const connectChat = (id: string) => {
         }
 
         case "delete": {
-          console.log("delete");
+          console.info("delete");
           const videoId = `video-${message.mediaStreamId}`;
           const videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
           if (videoElement) {
@@ -285,7 +290,7 @@ export const connectChat = (id: string) => {
           break;
         }
         case "candidate": {
-          console.log("candidate");
+          console.info("candidate");
           const uuid = isMCU() ? message.clientUUID : message.mcuUUID;
           const peerConnection = peerConnections[uuid];
           if (!peerConnection) break;
@@ -323,14 +328,14 @@ const sendIceCandidate = (candidate: RTCIceCandidate) => {
 // WebRTCを利用する準備をする
 const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
-  peerConnection.ontrack = evt => {
-    console.log("ontrack");
+  peerConnection.ontrack = async evt => {
+    console.info("ontrack");
     const remoteVideoArea = document.getElementById("remoteVideoArea");
     if (!remoteVideoArea) return;
-    console.log(evt);
 
-    evt.streams.forEach(async stream => {
-      if (isMCU()) {
+    if (isMCU()) {
+      console.info("ontarack mcu");
+      evt.streams.forEach(async stream => {
         const videoId = `video-${stream.id}`;
         let videoElement: HTMLVideoElement = document.getElementById(videoId) as HTMLVideoElement;
         if (!videoElement) {
@@ -343,38 +348,29 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           remoteVideoArea.appendChild(videoElement);
         }
         playVideo(videoElement, stream);
-      } else {
-        console.log("client ontrack");
-        console.log(stream);
-        const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
-        playVideo(videoElement, stream);
-      }
-    });
+      });
 
-    if (isMCU()) {
-      console.log("ontarack mcu");
-
-      const mcuVideo = document.getElementById("mcuVideo") as HTMLMediaElement;
+      const mcuVideo = document.getElementById("mcuVideo") as HTMLVideoElement;
+      if (!mcuVideo) return;
       const mediaStream = mcuVideo.srcObject as MediaStream;
       if (!mediaStream) return;
 
       const audioTracks: MediaStreamTrack[] = [];
       remoteVideoArea.childNodes.forEach(element => {
-        const video = element as HTMLVideoElement;
-        const srcObject = video.srcObject as MediaStream;
+        const videoElement = element as HTMLVideoElement;
 
+        const srcObject = videoElement.srcObject as MediaStream;
         audioTracks.push(...srcObject.getAudioTracks());
       });
 
       const stream = new MediaStream([...audioTracks, ...mediaStream.getVideoTracks()]);
-      console.log(stream);
 
       for (const key in peerConnections) {
         const peer = peerConnections[key];
         if (!peer) break;
 
         for (const track of stream.getTracks()) {
-          console.log("removetrack mcu");
+          console.info("removetrack mcu");
           mcuRTCRtpSenders.forEach(sender => {
             try {
               peer.removeTrack(sender);
@@ -383,19 +379,29 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
             }
           });
           try {
-            console.log("addtrack mcu");
+            console.info("addtrack mcu");
             mcuRTCRtpSenders.push(peer.addTrack(track, stream));
           } catch (error) {
             console.warn(error);
           }
         }
       }
+    } else {
+      console.info("client ontrack");
+      const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
+      const tracks: MediaStreamTrack[] = [];
+      evt.streams.forEach(s => {
+        tracks.push(...s.getTracks());
+      });
+
+      const stream = new MediaStream(tracks);
+      playVideo(videoElement, stream);
     }
   };
 
   // ICE Candidateを収集したときのイベント
   peerConnection.onicecandidate = evt => {
-    console.log("onicecandidate");
+    console.info("onicecandidate");
     if (evt.candidate) {
       sendIceCandidate(evt.candidate);
     }
@@ -403,14 +409,14 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
 
   // Offer側でネゴシエーションが必要になったときの処理
   peerConnection.onnegotiationneeded = async () => {
-    console.log("onnegotiationneeded");
+    console.info("onnegotiationneeded");
     const offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
   };
 
   // ICEのステータスが変更になったときの処理
   peerConnection.oniceconnectionstatechange = () => {
-    console.log("oniceconnectionstatechange");
+    console.info("oniceconnectionstatechange");
     switch (peerConnection.iceConnectionState) {
       case "closed":
         break;
@@ -438,7 +444,7 @@ const createPeerConnection = async (targetUUID: string) => {
 };
 
 const streamUpdate = (peerConnection: RTCPeerConnection) => {
-  console.log("streamUpdate");
+  console.info("streamUpdate");
   try {
     for (const oldVideoStream of selfVideoStream.old) {
       ws.send(
@@ -519,7 +525,6 @@ const setRemoteDescription = async (sessionDescription: RTCSessionDescription, p
     return;
   }
   try {
-    console.log(sessionDescription);
     await peerConnection.setRemoteDescription(sessionDescription);
   } catch (err) {
     console.error(err);
