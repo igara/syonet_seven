@@ -31,6 +31,9 @@ const isMCU = () => {
 // Videoの再生を開始する
 export const playVideo = (element: HTMLVideoElement, stream: MediaStream) => {
   element.srcObject = stream;
+  element.controls = true;
+  element.autoplay = true;
+  element.muted = true;
 };
 
 const getWSUrl = (chatID: string) => {
@@ -98,20 +101,21 @@ export const connectChat = (id: string) => {
               canvas.width = 320;
               canvas.height = 320 * remoteVideoArea.childNodes.length;
               const context = canvas.getContext("2d");
-              const audioTracks: MediaStreamTrack[] = [];
+              if (!context) return;
+
+              const captureStream = mcuCanvas.captureStream();
               remoteVideoArea.childNodes.forEach((element, index) => {
                 const videoElement = element as HTMLVideoElement;
 
-                if (!context) return;
                 const d = 320 / videoElement.videoWidth;
                 context.drawImage(videoElement, 0, 320 * index, 320, videoElement.videoHeight * d);
 
                 const srcObject = videoElement.srcObject as MediaStream;
-                audioTracks.push(...srcObject.getAudioTracks());
+                const audioTracks = srcObject.getAudioTracks();
+                if (audioTracks.length !== 0) captureStream.addTrack(srcObject.getAudioTracks()[0]);
               });
 
-              const stream = new MediaStream([...audioTracks, ...mcuCanvas.captureStream().getVideoTracks()]);
-              mcuVideo.srcObject = stream;
+              playVideo(mcuVideo, captureStream);
             }, 1000 / 30);
           }
 
@@ -355,21 +359,11 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
       const mediaStream = mcuVideo.srcObject as MediaStream;
       if (!mediaStream) return;
 
-      const audioTracks: MediaStreamTrack[] = [];
-      remoteVideoArea.childNodes.forEach(element => {
-        const videoElement = element as HTMLVideoElement;
-
-        const srcObject = videoElement.srcObject as MediaStream;
-        audioTracks.push(...srcObject.getAudioTracks());
-      });
-
-      const stream = new MediaStream([...audioTracks, ...mediaStream.getVideoTracks()]);
-
       for (const key in peerConnections) {
         const peer = peerConnections[key];
         if (!peer) break;
 
-        for (const track of stream.getTracks()) {
+        for (const track of mediaStream.getTracks()) {
           console.info("removetrack mcu");
           mcuRTCRtpSenders.forEach(sender => {
             try {
@@ -380,7 +374,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           });
           try {
             console.info("addtrack mcu");
-            mcuRTCRtpSenders.push(peer.addTrack(track, stream));
+            mcuRTCRtpSenders.push(peer.addTrack(track, mediaStream));
           } catch (error) {
             console.warn(error);
           }
@@ -388,14 +382,10 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
       }
     } else {
       console.info("client ontrack");
-      const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
-      const tracks: MediaStreamTrack[] = [];
-      evt.streams.forEach(s => {
-        tracks.push(...s.getTracks());
+      evt.streams.forEach(async stream => {
+        const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
+        playVideo(videoElement, stream);
       });
-
-      const stream = new MediaStream(tracks);
-      playVideo(videoElement, stream);
     }
   };
 
@@ -471,6 +461,7 @@ const streamUpdate = (peerConnection: RTCPeerConnection) => {
 
     if (selfVideoStream.now) {
       for (const track of selfVideoStream.now.getTracks()) {
+        console.log(track);
         trackSender = peerConnection.addTrack(track, selfVideoStream.now);
       }
     }
