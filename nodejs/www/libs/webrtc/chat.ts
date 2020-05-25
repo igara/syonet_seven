@@ -375,9 +375,6 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
       if (!mcuVideo) return;
       const mediaStream = mcuVideo.srcObject as MediaStream;
       if (!mediaStream) return;
-      console.warn("mediaStream");
-      console.info(mediaStream);
-      console.info(mediaStream.getTracks());
 
       for (const key in peerConnections) {
         const peer = peerConnections[key];
