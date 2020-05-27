@@ -57,7 +57,7 @@
     "ws": "7.2.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "7.9.0",
+    "@babel/plugin-proposal-optional-chaining": "7.10.1",
     "@types/compression": "1.0.1",
     "@types/connect-mongo": "0.0.44",
     "@types/cookie-parser": "1.4.2",
