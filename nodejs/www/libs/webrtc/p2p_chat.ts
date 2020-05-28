@@ -293,18 +293,6 @@ export const connectChat = (id: string) => {
   return ws;
 };
 
-// ICE candidate生成時に送信する
-const sendIceCandidate = (candidate: RTCIceCandidate) => {
-  const message = JSON.stringify({
-    type: "candidate",
-    ice: candidate,
-    chatID,
-    clientUUID,
-    selfClientUUID: clientUUID,
-  });
-  ws.send(message);
-};
-
 // WebRTCを利用する準備をする
 const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   // リモートのMediStreamTrackを受信した時
@@ -334,7 +322,14 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   peerConnection.onicecandidate = evt => {
     console.info("onicecandidate");
     if (evt.candidate) {
-      sendIceCandidate(evt.candidate);
+      ws.send(
+        JSON.stringify({
+          type: "candidate",
+          ice: evt.candidate,
+          chatID,
+          clientUUID,
+        }),
+      );
     }
   };
 

@@ -60,8 +60,7 @@ export const p2pChatSocketRoute = (wss: P2PChatWSS) => {
             (json.type === "another_peer_connection" ||
               json.type === "another_local_offer" ||
               json.type === "another_remote_answer" ||
-              json.type === "self_remote_offer" ||
-              json.type === "candidate") &&
+              json.type === "self_remote_offer") &&
             client.clientUUID !== json.selfClientUUID
           ) {
             client.send(JSON.stringify(json));
@@ -72,10 +71,14 @@ export const p2pChatSocketRoute = (wss: P2PChatWSS) => {
             (json.type === "self_peer_connection" ||
               json.type === "another_remote_offer" ||
               json.type === "self_local_offer" ||
-              json.type === "self_remote_answer" ||
-              json.type === "candidate") &&
+              json.type === "self_remote_answer") &&
             client.clientUUID === json.selfClientUUID
           ) {
+            client.send(JSON.stringify(json));
+            return;
+          }
+
+          if (json.type === "candidate" && client.clientUUID !== json.clientUUID) {
             client.send(JSON.stringify(json));
             return;
           }
