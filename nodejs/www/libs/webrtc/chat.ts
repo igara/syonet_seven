@@ -56,8 +56,13 @@ const updateMCUVideo = () => {
   const context = canvas.getContext("2d");
   if (!context) return;
 
-  const captureStream = mcuCanvas.captureStream(25);
-  const mediaStream = new MediaStream();
+  const captureStream = mcuCanvas.captureStream();
+  const audioContext = new AudioContext();
+  const biquadFilter = audioContext.createBiquadFilter();
+  biquadFilter.type = "highshelf";
+  biquadFilter.frequency.value = 1000;
+  biquadFilter.gain.value = -50;
+  const mixedOutput = audioContext.createMediaStreamDestination();
   remoteVideoArea.childNodes.forEach((element, index) => {
     const videoElement = element as HTMLVideoElement;
 
@@ -69,11 +74,15 @@ const updateMCUVideo = () => {
       return track.kind === "audio";
     });
 
-    if (audioTracks.length !== 0) mediaStream.addTrack(audioTracks[0]);
+    if (audioTracks.length !== 0) {
+      const microphone = audioContext.createMediaStreamSource(srcObject);
+      microphone.connect(biquadFilter);
+      biquadFilter.connect(mixedOutput);
+    }
   });
-  mediaStream.addTrack(captureStream.getTracks()[0]);
+  captureStream.addTrack(mixedOutput.stream.getTracks()[0]);
 
-  playVideo(mcuVideo, mediaStream);
+  playVideo(mcuVideo, captureStream);
 };
 
 export const connectChat = (id: string) => {
@@ -359,19 +368,13 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
           remoteVideoArea.appendChild(videoElement);
         }
         playVideo(videoElement, stream);
-        console.warn("playvideo end");
       });
       updateMCUVideo();
 
-      console.warn("end");
       const mcuVideo = document.getElementById("mcuVideo") as HTMLVideoElement;
       if (!mcuVideo) return;
-      console.warn("mcuVideo");
       const mediaStream = mcuVideo.srcObject as MediaStream;
       if (!mediaStream) return;
-      console.warn("mediaStream");
-      console.info(mediaStream);
-      console.info(mediaStream.getTracks());
 
       for (const key in peerConnections) {
         const peer = peerConnections[key];
@@ -390,7 +393,7 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
       console.info("client ontrack");
       evt.streams.forEach(async stream => {
         const videoElement = document.getElementById("clientVideo") as HTMLVideoElement;
-        playVideo(videoElement, stream);
+        videoElement.srcObject = stream;
       });
     }
   };
@@ -484,6 +487,14 @@ export const changeSelfVideoStream = async (
   selfVideoStream.now = newSelfVideoStream;
 
   if (!isMCU()) {
+    ws.send(
+      JSON.stringify({
+        type: "create_mcu_peer_connection",
+        chatID,
+        clientUUID: clientUUID,
+        userAgent,
+      }),
+    );
     setInterval(() => {
       ws.send(
         JSON.stringify({
@@ -493,7 +504,7 @@ export const changeSelfVideoStream = async (
           userAgent,
         }),
       );
-    }, 5000);
+    }, 10000);
   }
 
   for (const key in peerConnections) {

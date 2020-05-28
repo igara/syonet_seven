@@ -10,6 +10,7 @@ services:
       - 3000:3000
       - 9000:9000
       - 9001:9001
+      - 9002:9002
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached

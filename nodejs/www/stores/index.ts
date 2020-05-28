@@ -8,6 +8,7 @@ import { QiitaItemState, qiitaItemReducer } from "@www/states/blogs/qiita/item";
 import { HatenaEntriesState, hatenaEntriesReducer } from "@www/states/blogs/hatena/entries";
 import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/entry";
 import { ChatState, chatReducer } from "@www/states/chat";
+import { P2PChatState, p2pChatReducer } from "@www/states/p2p_chat";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
@@ -20,6 +21,7 @@ export type AppState = {
   hatenaEntries: HatenaEntriesState;
   hatenaEntry: HatenaEntryState;
   chat: ChatState;
+  p2pChat: P2PChatState;
 };
 
 export const rootReducer = () =>
@@ -32,6 +34,7 @@ export const rootReducer = () =>
     hatenaEntries: hatenaEntriesReducer,
     hatenaEntry: hatenaEntryReducer,
     chat: chatReducer,
+    p2pChat: p2pChatReducer,
   });
 
 export const store = () =>

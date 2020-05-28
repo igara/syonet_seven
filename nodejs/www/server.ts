@@ -19,6 +19,7 @@ import * as discord from "@www/server/discord";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
 import { chatSocketRoute, ChatWSS } from "@www/server/ws/chat";
+import { p2pChatSocketRoute, P2PChatWSS } from "@www/server/ws/p2p_chat";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -34,6 +35,10 @@ app.prepare().then(() => {
   });
   const chatWss = new WebSocket.Server({
     port: 9001,
+    host: "0.0.0.0",
+  });
+  const p2pChatWss = new WebSocket.Server({
+    port: 9002,
     host: "0.0.0.0",
   });
 
@@ -80,6 +85,8 @@ app.prepare().then(() => {
 
   ssbSocketRoute(ssbWss);
   chatSocketRoute(chatWss as ChatWSS);
+  p2pChatSocketRoute(p2pChatWss as P2PChatWSS);
+
   discord.connect();
 
   server.use("/games/ssb", express.static(gamesDir));
