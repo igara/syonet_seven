@@ -15,7 +15,7 @@ let selfVideoStream: {
 };
 let ws: WebSocket;
 let chatID: string;
-let trackSender: RTCRtpSender | null;
+// let trackSender: RTCRtpSender | null;
 let clientUUID: string;
 
 const rtcConfig = {
@@ -247,6 +247,7 @@ export const connectChat = (id: string) => {
           if (!peerConnection) break;
 
           await setRemoteDescription(message.sessionDescription, peerConnection);
+
           break;
         }
 
@@ -341,20 +342,20 @@ const prepareNewConnection = (peerConnection: RTCPeerConnection) => {
   };
 
   // ICEのステータスが変更になったときの処理
-  peerConnection.oniceconnectionstatechange = () => {
-    console.info("oniceconnectionstatechange");
-    switch (peerConnection.iceConnectionState) {
-      case "closed":
-        break;
-      case "failed":
-        if (peerConnection) {
-          hangUp(peerConnection);
-        }
-        break;
-      case "disconnected":
-        break;
-    }
-  };
+  // peerConnection.oniceconnectionstatechange = () => {
+  //   console.info("oniceconnectionstatechange");
+  //   switch (peerConnection.iceConnectionState) {
+  //     case "closed":
+  //       break;
+  //     case "failed":
+  //       if (peerConnection) {
+  //         hangUp(peerConnection);
+  //       }
+  //       break;
+  //     case "disconnected":
+  //       break;
+  //   }
+  // };
 
   return peerConnection;
 };
@@ -370,18 +371,18 @@ const createPeerConnection = async (targetUUID: string) => {
 
 const streamUpdate = (peerConnection: RTCPeerConnection) => {
   console.info("streamUpdate");
-  try {
-    if (trackSender) peerConnection.removeTrack(trackSender);
-  } catch (error) {
-    console.warn(error);
-  } finally {
-    trackSender = null;
-  }
+  // try {
+  //   if (trackSender) peerConnection.removeTrack(trackSender);
+  // } catch (error) {
+  //   console.warn(error);
+  // } finally {
+  //   trackSender = null;
+  // }
 
   if (selfVideoStream.now) {
     for (const track of selfVideoStream.now.getTracks()) {
       try {
-        trackSender = peerConnection.addTrack(track, selfVideoStream.now);
+        peerConnection.addTrack(track, selfVideoStream.now);
       } catch (error) {
         console.warn(error);
       }
@@ -398,43 +399,6 @@ export const changeSelfVideoStream = async (
   }
   selfVideoStream.now = newSelfVideoStream;
 
-  // ws.send(
-  //   JSON.stringify({
-  //     type: "another_peer_connection",
-  //     chatID,
-  //     clientUUID,
-  //     selfClientUUID: clientUUID,
-  //   }),
-  // );
-
-  setInterval(() => {
-    // ws.send(
-    //   JSON.stringify({
-    //     type: "another_peer_connection",
-    //     chatID,
-    //     clientUUID,
-    //     selfClientUUID: clientUUID,
-    //   }),
-    // );
-    // for (const oldVideoStream of selfVideoStream.old) {
-    //   ws.send(
-    //     JSON.stringify({
-    //       type: "delete",
-    //       mediaStreamId: oldVideoStream.id,
-    //       chatID,
-    //     }),
-    //   );
-    // }
-    // const remoteVideoArea = document.getElementById("remoteVideoArea");
-    // if (remoteVideoArea) {
-    //   remoteVideoArea.childNodes.forEach(element => {
-    //     const video = element as HTMLMediaElement;
-    //     const mediaStream = video.srcObject as MediaStream;
-    //     if (mediaStream.active) return;
-    //     video.remove();
-    //   });
-    // }
-  }, 5000);
   for (const key in peerConnections) {
     const peerConnection = peerConnections[key];
     if (peerConnection) streamUpdate(peerConnection);
