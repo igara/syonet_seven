@@ -62,6 +62,9 @@ const BlogsPageComponent = (props: Props) => {
               </li>
             </ul>
           </li>
+          <li>
+            <LinkComponent href="/blogs/jinsei">人生</LinkComponent>
+          </li>
         </ul>
       </WrapperComponent>
     </>
