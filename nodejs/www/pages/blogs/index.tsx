@@ -63,6 +63,16 @@ const BlogsPageComponent = (props: Props) => {
             </ul>
           </li>
           <li>
+            <LinkComponent href="/blogs/speakerdeck">Speaker Deck バックアップ</LinkComponent>
+            <ul>
+              <li>
+                <a href="https://speakerdeck.com/igara" target="_blank" rel="noopener">
+                  Speaker Deck
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
             <LinkComponent href="/blogs/jinsei">人生</LinkComponent>
           </li>
         </ul>
