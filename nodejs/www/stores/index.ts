@@ -7,6 +7,8 @@ import { QiitaItemsState, qiitaItemsReducer } from "@www/states/blogs/qiita/item
 import { QiitaItemState, qiitaItemReducer } from "@www/states/blogs/qiita/item";
 import { HatenaEntriesState, hatenaEntriesReducer } from "@www/states/blogs/hatena/entries";
 import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/entry";
+import { SpeakerdeckDesksState, speakerdeckDesksReducer } from "@www/states/blogs/speakerdeck/decks";
+import { SpeakerdeckImagesState, speakerdeckImagesReducer } from "@www/states/blogs/speakerdeck/images";
 import { JinseiState, jinseiReducer } from "@www/states/blogs/jinsei";
 import { ChatState, chatReducer } from "@www/states/chat";
 import { P2PChatState, p2pChatReducer } from "@www/states/p2p_chat";
@@ -21,6 +23,8 @@ export type AppState = {
   qiitaItem: QiitaItemState;
   hatenaEntries: HatenaEntriesState;
   hatenaEntry: HatenaEntryState;
+  speakerdeckDesks: SpeakerdeckDesksState;
+  speakerdeckImages: SpeakerdeckImagesState;
   jinsei: JinseiState;
   chat: ChatState;
   p2pChat: P2PChatState;
@@ -35,6 +39,8 @@ export const rootReducer = () =>
     qiitaItem: qiitaItemReducer,
     hatenaEntries: hatenaEntriesReducer,
     hatenaEntry: hatenaEntryReducer,
+    speakerdeckDesks: speakerdeckDesksReducer,
+    speakerdeckImages: speakerdeckImagesReducer,
     jinsei: jinseiReducer,
     chat: chatReducer,
     p2pChat: p2pChatReducer,
