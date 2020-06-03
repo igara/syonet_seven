@@ -60,6 +60,11 @@ const BlogsHatenaPageComponent = (props: Props) => {
     <>
       <Head>
         <title>Syonet - Hatena</title>
+        <meta content="Hatenaバックアップ" name="description"></meta>
+        <meta property="og:title" content="Syonet - Hatena" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/hatena/ogp.png`} />
+        <meta property="og:description" content="Hatenaバックアップ" />
       </Head>
       <WrapperComponent {...state}>
         <h1>Hatena バックアップ</h1>

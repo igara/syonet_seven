@@ -39,6 +39,11 @@ const ToolsPageComponent = (props: Props) => {
     <>
       <Head>
         <title>Syonet - Tools</title>
+        <meta content="Toolたち" name="description"></meta>
+        <meta property="og:title" content="Syonet - Tools" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/index/ogp.png`} />
+        <meta property="og:description" content="Toolたち" />
       </Head>
       <WrapperComponent {...state}>
         <ul>

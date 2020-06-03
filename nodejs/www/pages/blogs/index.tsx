@@ -39,6 +39,11 @@ const BlogsPageComponent = (props: Props) => {
     <>
       <Head>
         <title>Syonet - Blogs</title>
+        <meta content="ブログたち" name="description"></meta>
+        <meta property="og:title" content="Syonet - Blogs" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/index/ogp.png`} />
+        <meta property="og:description" content="ブログたち" />
       </Head>
       <WrapperComponent {...state}>
         <ul>

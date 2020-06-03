@@ -49,6 +49,11 @@ const IndexPageComponent = (props: Props) => {
     <>
       <Head>
         <title>Syonet</title>
+        <meta content="五十嵐翔の個人サイト" name="description"></meta>
+        <meta property="og:title" content="Syonet" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/index/ogp.png`} />
+        <meta property="og:description" content="五十嵐翔の個人サイト" />
       </Head>
       <WrapperComponent {...state}>
         なんとなくdiscordはじめてみました。ChatOps的な何かとかやってます。ご自由にご参加ください。

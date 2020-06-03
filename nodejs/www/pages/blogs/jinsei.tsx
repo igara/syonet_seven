@@ -45,6 +45,11 @@ const BlogsJinseiPageComponent = (props: Props) => {
     <>
       <Head>
         <title>Syonet - 人生 -</title>
+        <meta content="ブログ人生" name="description"></meta>
+        <meta property="og:title" content="Syonet - 人生 -" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/jinsei/ogp.png`} />
+        <meta property="og:description" content="ブログ人生" />
       </Head>
       <WrapperComponent {...state}>
         <div dangerouslySetInnerHTML={{ __html: state.jinsei.jinsei.data.jinsei }}></div>
