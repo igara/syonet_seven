@@ -28,8 +28,6 @@ let audioConsumers: {
 let socket: SocketIOClient.Socket;
 
 const getWSUrl = () => {
-  if (process.env.WWW_DOMAIN === "syonet.work") return `https://${process.env.WWW_DOMAIN}/sfu_chat`;
-
   return `http://${process.env.WWW_DOMAIN}:9003`;
 };
 
