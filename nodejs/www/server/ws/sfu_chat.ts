@@ -281,7 +281,7 @@ const startWorker = async () => {
 export const sfuChatSocketRoute = (webServer: http.Server) => {
   // --- default room ---
 
-  const io = socketIO(webServer);
+  const io = socketIO(webServer, { path: "/sfu_chat" });
 
   io.on("connection", (socket: SFUSocket) => {
     console.log("client connected. socket id=" + getId(socket) + "  , total clients=" + getClientCount());

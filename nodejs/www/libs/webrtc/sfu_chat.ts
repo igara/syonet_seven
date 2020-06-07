@@ -28,6 +28,8 @@ let audioConsumers: {
 let socket: SocketIOClient.Socket;
 
 const getWSUrl = () => {
+  if (process.env.WWW_DOMAIN === "syonet.work") return `https://${process.env.WWW_DOMAIN}`;
+
   return `http://${process.env.WWW_DOMAIN}:9003`;
 };
 
@@ -38,7 +40,7 @@ const connectSocket = () => {
   }
 
   return new Promise((resolve, reject) => {
-    socket = socketIOClient(getWSUrl());
+    socket = socketIOClient(getWSUrl(), { path: "/sfu_chat" });
 
     socket.on("connect", async () => {
       //console.log('socket.io connected()');
