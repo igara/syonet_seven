@@ -15,6 +15,7 @@ import * as hamburger from "@www/styles/common/icon/hamburger.css";
 import * as toolsSsbStyle from "@www/styles/tools/ssb.css";
 import * as toolsChatStyle from "@www/styles/tools/chat.css";
 import * as toolsP2PChatStyle from "@www/styles/tools/p2p_chat.css";
+import * as toolsSFUChatStyle from "@www/styles/tools/sfu_chat.css";
 
 const iconStyle = {
   icon,
@@ -35,4 +36,5 @@ export {
   toolsSsbStyle,
   toolsChatStyle,
   toolsP2PChatStyle,
+  toolsSFUChatStyle,
 };

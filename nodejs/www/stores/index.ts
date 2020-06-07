@@ -10,8 +10,9 @@ import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/e
 import { SpeakerdeckDesksState, speakerdeckDesksReducer } from "@www/states/blogs/speakerdeck/decks";
 import { SpeakerdeckImagesState, speakerdeckImagesReducer } from "@www/states/blogs/speakerdeck/images";
 import { JinseiState, jinseiReducer } from "@www/states/blogs/jinsei";
-import { ChatState, chatReducer } from "@www/states/chat";
-import { P2PChatState, p2pChatReducer } from "@www/states/p2p_chat";
+import { ChatState, chatReducer } from "@www/states/tools/chat";
+import { P2PChatState, p2pChatReducer } from "@www/states/tools/p2p_chat";
+import { SFUChatState, sfuChatReducer } from "@www/states/tools/sfu_chat";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
@@ -28,6 +29,7 @@ export type AppState = {
   jinsei: JinseiState;
   chat: ChatState;
   p2pChat: P2PChatState;
+  sfuChat: SFUChatState;
 };
 
 export const rootReducer = () =>
@@ -44,6 +46,7 @@ export const rootReducer = () =>
     jinsei: jinseiReducer,
     chat: chatReducer,
     p2pChat: p2pChatReducer,
+    sfuChat: sfuChatReducer,
   });
 
 export const store = () =>

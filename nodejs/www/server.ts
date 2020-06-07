@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -20,6 +21,7 @@ import * as discord from "@www/server/discord";
 import { ssbSocketRoute } from "@www/server/ws/ssb";
 import { chatSocketRoute, ChatWSS } from "@www/server/ws/chat";
 import { p2pChatSocketRoute, P2PChatWSS } from "@www/server/ws/p2p_chat";
+import { sfuChatSocketRoute } from "@www/server/ws/sfu_chat";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -39,6 +41,10 @@ app.prepare().then(() => {
   });
   const p2pChatWss = new WebSocket.Server({
     port: 9002,
+    host: "0.0.0.0",
+  });
+  const sfuChatWss = new http.Server(server).listen({
+    port: 9003,
     host: "0.0.0.0",
   });
 
@@ -86,6 +92,7 @@ app.prepare().then(() => {
   ssbSocketRoute(ssbWss);
   chatSocketRoute(chatWss as ChatWSS);
   p2pChatSocketRoute(p2pChatWss as P2PChatWSS);
+  sfuChatSocketRoute(sfuChatWss);
 
   discord.connect();
 
