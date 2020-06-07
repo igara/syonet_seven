@@ -1,18 +1,289 @@
 import http from "http";
-import mediasoup from "mediasoup";
+import * as mediasoup from "mediasoup";
 import socketIO from "socket.io";
 
-type SFCSocket = {
+type SFUSocket = {
   roomName: string;
 } & socketIO.Socket;
 
+// ========= room ===========
+
+class Room {
+  name: string;
+  producerTransports: {
+    [id: string]: mediasoup.types.WebRtcTransport;
+  };
+  videoProducers: {
+    [id: string]: mediasoup.types.Producer;
+  };
+  audioProducers: {
+    [id: string]: mediasoup.types.Producer;
+  };
+  consumerTransports: {
+    [id: string]: mediasoup.types.WebRtcTransport;
+  };
+  videoConsumerSets: {
+    [id: string]: { [id: string]: mediasoup.types.Consumer };
+  };
+  audioConsumerSets: {
+    [id: string]: { [id: string]: mediasoup.types.Consumer };
+  };
+  router: mediasoup.types.Router;
+
+  constructor(name: string, router: mediasoup.types.Router) {
+    this.name = name;
+    this.router = router;
+    this.producerTransports = {};
+    this.videoProducers = {};
+    this.audioProducers = {};
+
+    this.consumerTransports = {};
+    this.videoConsumerSets = {};
+    this.audioConsumerSets = {};
+  }
+
+  getProducerTrasnport(id: string) {
+    return this.producerTransports[id];
+  }
+
+  addProducerTrasport(id: string, transport: mediasoup.types.WebRtcTransport) {
+    this.producerTransports[id] = transport;
+    console.log("room=%s producerTransports count=%d", this.name, Object.keys(this.producerTransports).length);
+  }
+
+  removeProducerTransport(id: string) {
+    delete this.producerTransports[id];
+    console.log("room=%s producerTransports count=%d", this.name, Object.keys(this.producerTransports).length);
+  }
+
+  getProducer(id: string, kind: string) {
+    if (kind === "video") {
+      return this.videoProducers[id];
+    } else if (kind === "audio") {
+      return this.audioProducers[id];
+    } else {
+      console.warn("UNKNOWN producer kind=" + kind);
+    }
+  }
+
+  getRemoteIds(clientId: string, kind: string) {
+    let remoteIds = [];
+    if (kind === "video") {
+      for (const key in this.videoProducers) {
+        if (key !== clientId) {
+          remoteIds.push(key);
+        }
+      }
+    } else if (kind === "audio") {
+      for (const key in this.audioProducers) {
+        if (key !== clientId) {
+          remoteIds.push(key);
+        }
+      }
+    }
+    return remoteIds;
+  }
+
+  addProducer(id: string, producer: mediasoup.types.Producer, kind: string) {
+    if (kind === "video") {
+      this.videoProducers[id] = producer;
+      console.log("room=%s videoProducers count=%d", this.name, Object.keys(this.videoProducers).length);
+    } else if (kind === "audio") {
+      this.audioProducers[id] = producer;
+      console.log("room=%s videoProducers count=%d", this.name, Object.keys(this.audioProducers).length);
+    } else {
+      console.warn("UNKNOWN producer kind=" + kind);
+    }
+  }
+
+  removeProducer(id: string, kind: string) {
+    if (kind === "video") {
+      delete this.videoProducers[id];
+      console.log("videoProducers count=" + Object.keys(this.videoProducers).length);
+    } else if (kind === "audio") {
+      delete this.audioProducers[id];
+      console.log("audioProducers count=" + Object.keys(this.audioProducers).length);
+    } else {
+      console.warn("UNKNOWN producer kind=" + kind);
+    }
+  }
+
+  getConsumerTrasnport(id: string) {
+    return this.consumerTransports[id];
+  }
+
+  addConsumerTrasport(id: string, transport: mediasoup.types.WebRtcTransport) {
+    this.consumerTransports[id] = transport;
+    console.log("room=%s add consumerTransports count=%d", this.name, Object.keys(this.consumerTransports).length);
+  }
+
+  removeConsumerTransport(id: string) {
+    delete this.consumerTransports[id];
+    console.log("room=%s remove consumerTransports count=%d", this.name, Object.keys(this.consumerTransports).length);
+  }
+
+  getConsumerSet(localId: string, kind: string) {
+    if (kind === "video") {
+      return this.videoConsumerSets[localId];
+    } else if (kind === "audio") {
+      return this.audioConsumerSets[localId];
+    } else {
+      console.warn("WARN: getConsumerSet() UNKNWON kind=%s", kind);
+    }
+  }
+
+  addConsumerSet(localId: string, set: {}, kind: string) {
+    if (kind === "video") {
+      this.videoConsumerSets[localId] = set;
+    } else if (kind === "audio") {
+      this.audioConsumerSets[localId] = set;
+    } else {
+      console.warn("WARN: addConsumerSet() UNKNWON kind=%s", kind);
+    }
+  }
+
+  removeConsumerSetDeep(localId: string) {
+    const videoSet = this.getConsumerSet(localId, "video");
+    delete this.videoConsumerSets[localId];
+    if (videoSet) {
+      for (const key in videoSet) {
+        const consumer = videoSet[key];
+        consumer.close();
+        delete videoSet[key];
+      }
+
+      console.log("room=%s removeConsumerSetDeep video consumers count=%d", this.name, Object.keys(videoSet).length);
+    }
+
+    const audioSet = this.getConsumerSet(localId, "audio");
+    delete this.audioConsumerSets[localId];
+    if (audioSet) {
+      for (const key in audioSet) {
+        const consumer = audioSet[key];
+        consumer.close();
+        delete audioSet[key];
+      }
+
+      console.log("room=%s removeConsumerSetDeep audio consumers count=%d", this.name, Object.keys(audioSet).length);
+    }
+  }
+
+  getConsumer(localId: string, remoteId: string, kind: string) {
+    const set = this.getConsumerSet(localId, kind);
+    if (set) {
+      return set[remoteId];
+    } else {
+      return null;
+    }
+  }
+
+  addConsumer(localId: string, remoteId: string, consumer: mediasoup.types.Consumer, kind: string) {
+    const set = this.getConsumerSet(localId, kind);
+    if (set) {
+      set[remoteId] = consumer;
+      console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(set).length);
+    } else {
+      console.log("room=%s new set for kind=%s, localId=%s", this.name, kind, localId);
+      const newSet: { [id: string]: mediasoup.types.Consumer } = {};
+      newSet[remoteId] = consumer;
+      this.addConsumerSet(localId, newSet, kind);
+      console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(newSet).length);
+    }
+  }
+
+  removeConsumer(localId: string, remoteId: string, kind: string) {
+    const set = this.getConsumerSet(localId, kind);
+    if (set) {
+      delete set[remoteId];
+      console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(set).length);
+    } else {
+      console.log("NO set for room=%s kind=%s, localId=%s", this.name, kind, localId);
+    }
+  }
+
+  // --- static methtod ---
+  static staticInit() {
+    this.rooms = {};
+  }
+
+  static addRoom(room: Room, name: string) {
+    Room.rooms[name] = room;
+    console.log("static addRoom. name=%s", room.name);
+    //console.log('static addRoom. name=%s, rooms:%O', room.name, room);
+  }
+
+  static getRoom(name: string) {
+    return Room.rooms[name];
+  }
+
+  static removeRoom(name: string) {
+    delete Room.rooms[name];
+  }
+
+  static rooms: {
+    [name: string]: Room;
+  } = {};
+}
+
+let defaultRoom: Room;
+let worker: mediasoup.types.Worker;
+//let router = null;
+//let producerTransport = null;
+//let producer = null;
+//let consumerTransport = null;
+//let subscribeConsumer = null;
+
+const setupRoom = async (name: string) => {
+  const router = await worker.createRouter({
+    mediaCodecs: [
+      {
+        kind: "audio",
+        mimeType: "audio/opus",
+        clockRate: 48000,
+        channels: 2,
+      },
+      {
+        kind: "video",
+        mimeType: "video/VP8",
+        clockRate: 90000,
+        parameters: {
+          "x-google-start-bitrate": 1000,
+        },
+      },
+    ],
+  });
+  const room = new Room(name, router);
+
+  router.observer.on("close", () => {
+    console.log("-- router closed. room=%s", name);
+  });
+  router.observer.on("newtransport", () => {
+    console.log("-- router newtransport. room=%s", name);
+  });
+
+  Room.addRoom(room, name);
+  return room;
+};
+
+const startWorker = async () => {
+  worker = await mediasoup.createWorker();
+  //router = await worker.createRouter({ mediaCodecs });
+  //producerTransport = await router.createWebRtcTransport(mediasoupOptions.webRtcTransport);
+
+  defaultRoom = await setupRoom("_default_room");
+  console.log("-- mediasoup worker start. -- room:", defaultRoom.name);
+};
+
+(async () => {
+  await startWorker();
+})();
+
 export const sfuChatSocketRoute = (webServer: http.Server) => {
   // --- default room ---
-  let defaultRoom: Room;
 
   const io = socketIO(webServer);
 
-  io.on("connection", (socket: SFCSocket) => {
+  io.on("connection", (socket: SFUSocket) => {
     console.log("client connected. socket id=" + getId(socket) + "  , total clients=" + getClientCount());
 
     // --- send response to client ---
@@ -26,7 +297,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
       callback(error.toString(), null);
     };
 
-    const sendback = (socket: SFCSocket, message: any) => {
+    const sendback = (socket: SFUSocket, message: any) => {
       socket.emit("message", message);
     };
 
@@ -111,7 +382,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
     socket.on("connectProducerTransport", async (data, callback) => {
       const roomName = getRoomName();
       const transport = getProducerTrasnport(roomName, getId(socket));
-      await transport.connect({ dtlsParameters: data.dtlsParameters });
+      if (transport) await transport.connect({ dtlsParameters: data.dtlsParameters });
       sendResponse({}, callback);
     });
 
@@ -256,7 +527,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
     sendback(socket, { type: "welcome", id: newId });
   });
 
-  const getId = (socket: SFCSocket) => {
+  const getId = (socket: SFUSocket) => {
     return socket.id;
   };
 
@@ -270,39 +541,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
     return io.clients.length;
   };
 
-  const setupRoom = async (name: string) => {
-    const router = await worker.createRouter({
-      mediaCodecs: [
-        {
-          kind: "audio",
-          mimeType: "audio/opus",
-          clockRate: 48000,
-          channels: 2,
-        },
-        {
-          kind: "video",
-          mimeType: "video/VP8",
-          clockRate: 90000,
-          parameters: {
-            "x-google-start-bitrate": 1000,
-          },
-        },
-      ],
-    });
-    const room = new Room(name, router);
-
-    router.observer.on("close", () => {
-      console.log("-- router closed. room=%s", name);
-    });
-    router.observer.on("newtransport", () => {
-      console.log("-- router newtransport. room=%s", name);
-    });
-
-    Room.addRoom(room, name);
-    return room;
-  };
-
-  const cleanUpPeer = (roomname: string, socket: SFCSocket) => {
+  const cleanUpPeer = (roomname: string, socket: SFUSocket) => {
     const id = getId(socket);
     removeConsumerSetDeep(roomname, id);
 
@@ -330,247 +569,10 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
     }
   };
 
-  // ========= room ===========
-
-  class Room {
-    name: string;
-    producerTransports: {
-      [id: string]: mediasoup.types.WebRtcTransport;
-    };
-    videoProducers: {
-      [id: string]: mediasoup.types.Producer;
-    };
-    audioProducers: {
-      [id: string]: mediasoup.types.Producer;
-    };
-    consumerTransports: {
-      [id: string]: mediasoup.types.WebRtcTransport;
-    };
-    videoConsumerSets: {
-      [id: string]: { [id: string]: mediasoup.types.Consumer };
-    };
-    audioConsumerSets: {
-      [id: string]: { [id: string]: mediasoup.types.Consumer };
-    };
-    router: mediasoup.types.Router;
-
-    constructor(name: string, router: mediasoup.types.Router) {
-      this.name = name;
-      this.router = router;
-      this.producerTransports = {};
-      this.videoProducers = {};
-      this.audioProducers = {};
-
-      this.consumerTransports = {};
-      this.videoConsumerSets = {};
-      this.audioConsumerSets = {};
-    }
-
-    getProducerTrasnport(id: string) {
-      return this.producerTransports[id];
-    }
-
-    addProducerTrasport(id: string, transport: mediasoup.types.WebRtcTransport) {
-      this.producerTransports[id] = transport;
-      console.log("room=%s producerTransports count=%d", this.name, Object.keys(this.producerTransports).length);
-    }
-
-    removeProducerTransport(id: string) {
-      delete this.producerTransports[id];
-      console.log("room=%s producerTransports count=%d", this.name, Object.keys(this.producerTransports).length);
-    }
-
-    getProducer(id: string, kind: string) {
-      if (kind === "video") {
-        return this.videoProducers[id];
-      } else if (kind === "audio") {
-        return this.audioProducers[id];
-      } else {
-        console.warn("UNKNOWN producer kind=" + kind);
-      }
-    }
-
-    getRemoteIds(clientId: string, kind: string) {
-      let remoteIds = [];
-      if (kind === "video") {
-        for (const key in this.videoProducers) {
-          if (key !== clientId) {
-            remoteIds.push(key);
-          }
-        }
-      } else if (kind === "audio") {
-        for (const key in this.audioProducers) {
-          if (key !== clientId) {
-            remoteIds.push(key);
-          }
-        }
-      }
-      return remoteIds;
-    }
-
-    addProducer(id: string, producer: mediasoup.types.Producer, kind: string) {
-      if (kind === "video") {
-        this.videoProducers[id] = producer;
-        console.log("room=%s videoProducers count=%d", this.name, Object.keys(this.videoProducers).length);
-      } else if (kind === "audio") {
-        this.audioProducers[id] = producer;
-        console.log("room=%s videoProducers count=%d", this.name, Object.keys(this.audioProducers).length);
-      } else {
-        console.warn("UNKNOWN producer kind=" + kind);
-      }
-    }
-
-    removeProducer(id: string, kind: string) {
-      if (kind === "video") {
-        delete this.videoProducers[id];
-        console.log("videoProducers count=" + Object.keys(this.videoProducers).length);
-      } else if (kind === "audio") {
-        delete this.audioProducers[id];
-        console.log("audioProducers count=" + Object.keys(this.audioProducers).length);
-      } else {
-        console.warn("UNKNOWN producer kind=" + kind);
-      }
-    }
-
-    getConsumerTrasnport(id: string) {
-      return this.consumerTransports[id];
-    }
-
-    addConsumerTrasport(id: string, transport: mediasoup.types.WebRtcTransport) {
-      this.consumerTransports[id] = transport;
-      console.log("room=%s add consumerTransports count=%d", this.name, Object.keys(this.consumerTransports).length);
-    }
-
-    removeConsumerTransport(id: string) {
-      delete this.consumerTransports[id];
-      console.log("room=%s remove consumerTransports count=%d", this.name, Object.keys(this.consumerTransports).length);
-    }
-
-    getConsumerSet(localId: string, kind: string) {
-      if (kind === "video") {
-        return this.videoConsumerSets[localId];
-      } else if (kind === "audio") {
-        return this.audioConsumerSets[localId];
-      } else {
-        console.warn("WARN: getConsumerSet() UNKNWON kind=%s", kind);
-      }
-    }
-
-    addConsumerSet(localId: string, set: {}, kind: string) {
-      if (kind === "video") {
-        this.videoConsumerSets[localId] = set;
-      } else if (kind === "audio") {
-        this.audioConsumerSets[localId] = set;
-      } else {
-        console.warn("WARN: addConsumerSet() UNKNWON kind=%s", kind);
-      }
-    }
-
-    removeConsumerSetDeep(localId: string) {
-      const videoSet = this.getConsumerSet(localId, "video");
-      delete this.videoConsumerSets[localId];
-      if (videoSet) {
-        for (const key in videoSet) {
-          const consumer = videoSet[key];
-          consumer.close();
-          delete videoSet[key];
-        }
-
-        console.log("room=%s removeConsumerSetDeep video consumers count=%d", this.name, Object.keys(videoSet).length);
-      }
-
-      const audioSet = this.getConsumerSet(localId, "audio");
-      delete this.audioConsumerSets[localId];
-      if (audioSet) {
-        for (const key in audioSet) {
-          const consumer = audioSet[key];
-          consumer.close();
-          delete audioSet[key];
-        }
-
-        console.log("room=%s removeConsumerSetDeep audio consumers count=%d", this.name, Object.keys(audioSet).length);
-      }
-    }
-
-    getConsumer(localId: string, remoteId: string, kind: string) {
-      const set = this.getConsumerSet(localId, kind);
-      if (set) {
-        return set[remoteId];
-      } else {
-        return null;
-      }
-    }
-
-    addConsumer(localId: string, remoteId: string, consumer: mediasoup.types.Consumer, kind: string) {
-      const set = this.getConsumerSet(localId, kind);
-      if (set) {
-        set[remoteId] = consumer;
-        console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(set).length);
-      } else {
-        console.log("room=%s new set for kind=%s, localId=%s", this.name, kind, localId);
-        const newSet: { [id: string]: mediasoup.types.Consumer } = {};
-        newSet[remoteId] = consumer;
-        this.addConsumerSet(localId, newSet, kind);
-        console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(newSet).length);
-      }
-    }
-
-    removeConsumer(localId: string, remoteId: string, kind: string) {
-      const set = this.getConsumerSet(localId, kind);
-      if (set) {
-        delete set[remoteId];
-        console.log("room=%s consumers kind=%s count=%d", this.name, kind, Object.keys(set).length);
-      } else {
-        console.log("NO set for room=%s kind=%s, localId=%s", this.name, kind, localId);
-      }
-    }
-
-    // --- static methtod ---
-    static staticInit() {
-      this.rooms = {};
-    }
-
-    static addRoom(room: Room, name: string) {
-      Room.rooms[name] = room;
-      console.log("static addRoom. name=%s", room.name);
-      //console.log('static addRoom. name=%s, rooms:%O', room.name, room);
-    }
-
-    static getRoom(name: string) {
-      return Room.rooms[name];
-    }
-
-    static removeRoom(name: string) {
-      delete Room.rooms[name];
-    }
-
-    static rooms: {
-      [name: string]: Room;
-    };
-  }
-
   // -- static member --
   Room.rooms = {};
 
   // ========= mediasoup ===========
-
-  let worker: mediasoup.types.Worker;
-  //let router = null;
-  //let producerTransport = null;
-  //let producer = null;
-  //let consumerTransport = null;
-  //let subscribeConsumer = null;
-
-  const startWorker = async () => {
-    worker = await mediasoup.createWorker();
-    //router = await worker.createRouter({ mediaCodecs });
-    //producerTransport = await router.createWebRtcTransport(mediasoupOptions.webRtcTransport);
-
-    defaultRoom = await setupRoom("_default_room");
-    console.log("-- mediasoup worker start. -- room:", defaultRoom.name);
-  };
-
-  startWorker();
 
   //
   // Room {

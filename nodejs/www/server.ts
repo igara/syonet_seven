@@ -43,7 +43,10 @@ app.prepare().then(() => {
     port: 9002,
     host: "0.0.0.0",
   });
-  const sfuChatWss = new http.Server(server).listen(9003);
+  const sfuChatWss = new http.Server(server).listen({
+    port: 9003,
+    host: "0.0.0.0",
+  });
 
   const stream = fs.createWriteStream(`${__dirname}/log.txt`, { flags: "a" });
   server.use(logger("combined", { stream: stream }));

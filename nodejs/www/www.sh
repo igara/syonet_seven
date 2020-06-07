@@ -1,7 +1,10 @@
 #!/bin/sh
+
+if [ $NPM_INSTALL = "1" ]; then
 npm install -g npm
 npm run clean:all
 npm ci
+fi
 if [ $WWW_DOMAIN = "localhost" ]; then
 npm run dev
 elif [ $WWW_DOMAIN = "local.syonet.work" ]; then

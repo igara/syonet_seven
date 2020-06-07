@@ -18,6 +18,8 @@ services:
     environment:
       WWW_DOMAIN: ${WWW_DOMAIN}
       TZ: Asia/Tokyo
+      PYTHON: python3
+      # NPM_INSTALL: 1
     links:
       - mongodb
     restart: always
