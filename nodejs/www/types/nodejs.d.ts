@@ -8,6 +8,7 @@ declare module NodeJS {
     PORT: string;
     WWW_HOST: string;
     WWW_DOMAIN: string;
+    PUBLIC_IP: string;
     DB_HOST: string;
     GOOGLE_CLIENT_ID: string;
     GOOGLE_CLIENT_SECRET: string;

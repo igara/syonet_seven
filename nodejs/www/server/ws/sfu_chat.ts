@@ -771,7 +771,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
     }
 
     const transport = await router.createWebRtcTransport({
-      listenIps: [{ ip: "127.0.0.1", announcedIp: "" }],
+      listenIps: [{ ip: "127.0.0.1" }, { ip: "0.0.0.0", announcedIp: process.env.PUBLIC_IP }],
       enableUdp: true,
       enableTcp: true,
       preferUdp: true,
