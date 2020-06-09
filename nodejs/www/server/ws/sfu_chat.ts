@@ -485,8 +485,9 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
         console.error("producer NOT EXIST for remoteId=%s kind=%s", remoteId, kind);
         return;
       }
-      const { consumer, params } = await createConsumer(roomName, transport, producer, rtpCapabilities); // producer must exist before consume
-      if (!consumer || !params) return;
+      const consumerParam = await createConsumer(roomName, transport, producer, rtpCapabilities); // producer must exist before consume
+      if (!consumerParam || (!consumerParam.consumer || !consumerParam.params)) return;
+      const consumer = consumerParam.consumer;
 
       //subscribeConsumer = consumer;
       addConsumer(roomName, localId, remoteId, consumer, kind); // TODO: MUST comination of  local/remote id
@@ -504,7 +505,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
       });
 
       console.log("-- consumer ready ---");
-      sendResponse(params, callback);
+      sendResponse(consumerParam.params, callback);
     });
 
     socket.on("resumeAdd", async (data, callback) => {
@@ -811,50 +812,20 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
       })
     ) {
       console.error("can not consume");
-      return {
-        consumer: null,
-        params: {
-          producerId: null,
-          id: null,
-          kind: null,
-          rtpParameters: null,
-          type: null,
-          producerPaused: null,
-        },
-      };
+      return;
     }
 
-    let consumer = null;
     //consumer = await producerTransport.consume({ // NG: try use same trasport as producer (for loopback)
-    consumer = await transport
-      .consume({
-        // OK
-        producerId: producer.id,
-        rtpCapabilities,
-        paused: producer.kind === "video",
-      })
-      .catch(err => {
-        console.error("consume failed", err);
-        return;
-      });
+    const consumer = await transport.consume({
+      // OK
+      producerId: producer.id,
+      rtpCapabilities,
+      paused: producer.kind === "video",
+    });
 
     //if (consumer.type === 'simulcast') {
     //  await consumer.setPreferredLayers({ spatialLayer: 2, temporalLayer: 2 });
     //}
-
-    if (!consumer) {
-      return {
-        consumer: null,
-        params: {
-          producerId: null,
-          id: null,
-          kind: null,
-          rtpParameters: null,
-          type: null,
-          producerPaused: null,
-        },
-      };
-    }
 
     return {
       consumer: consumer,
