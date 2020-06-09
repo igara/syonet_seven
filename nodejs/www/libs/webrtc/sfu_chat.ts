@@ -1,9 +1,9 @@
 import * as mediasoupClient from "mediasoup-client";
 import socketIOClient from "socket.io-client";
 
-let localVideo: HTMLVideoElement;
-let remoteContainer: HTMLElement;
-let roomName: HTMLInputElement;
+let localVideoElement: HTMLVideoElement;
+let remoteContainerElement: HTMLElement;
+let roomNameElement: HTMLInputElement;
 let localStream: MediaStream;
 let clientId: string;
 let device: mediasoupClient.types.Device;
@@ -48,7 +48,7 @@ const connectSocket = () => {
       // --- prepare room ---
       const roomName = getRoomName();
       console.log("socket.io connected(). prepare room=%s", roomName);
-      await sendRequest("prepare_room", { roomId: roomName });
+      await sendRequest("prepare_room", { roomName });
     });
     socket.on("error", (err: any) => {
       console.error("socket.io ERROR:", err);
@@ -139,14 +139,14 @@ const stopLocalStream = (stream: MediaStream) => {
 };
 
 // return Promise
-const playVideo = (element: HTMLVideoElement, stream: MediaStream) => {
+const playVideo = async (element: HTMLVideoElement, stream: MediaStream) => {
   if (element.srcObject) {
     console.warn("element ALREADY playing, so ignore");
     return;
   }
   element.srcObject = stream;
   element.volume = 0;
-  return element.play();
+  return await element.play();
 };
 
 const pauseVideo = (element: HTMLVideoElement) => {
@@ -162,15 +162,21 @@ const addRemoteTrack = (id: string, track: MediaStreamTrack) => {
   }
 
   if (video.srcObject) {
-    const srcObject = video.srcObject as MediaStream;
-    srcObject.addTrack(track);
+    (video.srcObject as MediaStream).addTrack(track);
     return;
   }
 
   const newStream = new MediaStream();
   newStream.addTrack(track);
 
-  if (video && newStream) playVideo(video, newStream);
+  if (video && newStream)
+    playVideo(video, newStream)
+      .then(() => {
+        video.volume = 1.0;
+      })
+      .catch(err => {
+        console.error("media ERROR:", err);
+      });
 };
 
 const addRemoteVideo = (id: string) => {
@@ -181,7 +187,7 @@ const addRemoteVideo = (id: string) => {
   }
 
   let element = document.createElement("video") as HTMLVideoElement;
-  remoteContainer.appendChild(element);
+  remoteContainerElement.appendChild(element);
   element.id = "remote_" + id;
   element.width = 240;
   element.height = 180;
@@ -202,18 +208,18 @@ const removeRemoteVideo = (id: string) => {
   if (element) {
     element.pause();
     element.srcObject = null;
-    remoteContainer.removeChild(element);
+    remoteContainerElement.removeChild(element);
   } else {
     console.log("child element NOT FOUND");
   }
 };
 
 const removeAllRemoteVideo = () => {
-  while (remoteContainer.firstChild) {
-    const videoElement = remoteContainer.firstChild as HTMLVideoElement;
+  while (remoteContainerElement.firstChild) {
+    const videoElement = remoteContainerElement.firstChild as HTMLVideoElement;
     videoElement.pause();
     videoElement.srcObject = null;
-    remoteContainer.removeChild(videoElement);
+    remoteContainerElement.removeChild(videoElement);
   }
 };
 
@@ -242,7 +248,7 @@ export const startMedia = () => {
     .getUserMedia({ audio: useAudio, video: useVideo })
     .then(stream => {
       localStream = stream;
-      playVideo(localVideo, localStream);
+      playVideo(localVideoElement, localStream);
       updateButtons();
     })
     .catch(err => {
@@ -252,14 +258,14 @@ export const startMedia = () => {
 
 export const stopMedia = () => {
   if (localStream) {
-    pauseVideo(localVideo);
+    pauseVideo(localVideoElement);
     stopLocalStream(localStream);
   }
   updateButtons();
 };
 
 const getRoomName = () => {
-  const name = roomName.value;
+  const name = roomNameElement.value;
   if (name && name !== "") {
     return name;
   } else {
@@ -290,7 +296,7 @@ const getRoomFromUrl = () => {
 const setupRoomFromUrl = () => {
   let room = getRoomFromUrl();
   if (room && room !== "") {
-    roomName.value = room;
+    roomNameElement.value = room;
   }
 };
 
@@ -453,7 +459,7 @@ const consumeCurrentProducers = async (clientId: string) => {
 
 export const disconnect = () => {
   if (localStream) {
-    pauseVideo(localVideo);
+    pauseVideo(localVideoElement);
     stopLocalStream(localStream);
   }
   if (videoProducer) {
@@ -557,32 +563,32 @@ const consumeAdd = async (
     console.warn("producerID NOT MATCH");
   }
 
-  const consumer = await transport.consume({
+  const consumer = (await transport.consume({
     id,
     producerId,
     kind,
     rtpParameters,
-  });
+  })) as mediasoupClient.types.Consumer & { remoteId: string };
   //const stream = new MediaStream();
   //stream.addTrack(consumer.track);
 
   addRemoteTrack(remoteSocketId, consumer.track);
   addConsumer(remoteSocketId, consumer, kind);
-
+  consumer.remoteId = remoteSocketId;
   consumer.on("transportclose", () => {
-    console.log("--consumer transport closed. remoteId=" + remoteSocketId);
+    console.log("--consumer transport closed. remoteId=" + consumer.remoteId);
     //consumer.close();
     //removeConsumer(remoteId);
     //removeRemoteVideo(consumer.remoteId);
   });
   consumer.on("producerclose", () => {
-    console.log("--consumer producer closed. remoteId=" + remoteSocketId);
+    console.log("--consumer producer closed. remoteId=" + consumer.remoteId);
     consumer.close();
     removeConsumer(remoteSocketId, kind);
-    removeRemoteVideo(remoteSocketId);
+    removeRemoteVideo(consumer.remoteId);
   });
   consumer.on("trackended", () => {
-    console.log("--consumer trackended. remoteId=" + remoteSocketId);
+    console.log("--consumer trackended. remoteId=" + consumer.remoteId);
     //consumer.close();
     //removeConsumer(remoteId);
     //removeRemoteVideo(consumer.remoteId);
@@ -680,9 +686,9 @@ const disableElement = (id: string) => {
 };
 
 export const initializeChat = () => {
-  localVideo = document.getElementById("local_video") as HTMLVideoElement;
-  remoteContainer = document.getElementById("remote_container") as HTMLElement;
-  roomName = document.getElementById("room_name") as HTMLInputElement;
+  localVideoElement = document.getElementById("local_video") as HTMLVideoElement;
+  remoteContainerElement = document.getElementById("remote_container") as HTMLElement;
+  roomNameElement = document.getElementById("room_name") as HTMLInputElement;
   setupRoomFromUrl();
   updateButtons();
   console.log("=== ready ===");
