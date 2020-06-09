@@ -539,7 +539,7 @@ export const sfuChatSocketRoute = (webServer: http.Server) => {
   const getClientCount = () => {
     // WARN: undocumented method to get clients number
 
-    return io.clients.length;
+    return (io as any).eio.clientsCount;
   };
 
   const cleanUpPeer = (roomname: string, socket: SFUSocket) => {

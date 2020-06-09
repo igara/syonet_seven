@@ -323,7 +323,6 @@ export const connect = async () => {
   console.log("--- createProducerTransport --");
   const params: any = await sendRequest("createProducerTransport", {});
   console.log("transport params:", params);
-  console.log(device);
   producerTransport = device.createSendTransport(params);
   console.log("createSendTransport:", producerTransport);
 
