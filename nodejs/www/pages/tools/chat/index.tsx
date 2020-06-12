@@ -1,5 +1,5 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { toolsChatStyle } from "@www/styles";
+import toolsChatStyle from "@www/styles/tools/chat.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";

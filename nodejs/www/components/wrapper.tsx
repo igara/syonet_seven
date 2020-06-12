@@ -2,7 +2,7 @@ import { HeaderComponent } from "@www/components/common/header";
 import { SidebarComponent } from "@www/components/common/sidebar";
 import { FooterComponent } from "@www/components/common/footer";
 import { TermComponent } from "@www/components/common/term";
-import { contentStyle } from "@www/styles";
+import contentStyle from "@www/styles/common/content.module.css";
 import { AppState } from "@www/stores";
 
 export type Props = AppState & {

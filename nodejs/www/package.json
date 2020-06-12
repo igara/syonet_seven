@@ -20,7 +20,6 @@
     "codeclimate": "cat ./coverage/lcov.info | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js"
   },
   "dependencies": {
-    "@zeit/next-css": "1.0.1",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "cookie-parser": "1.4.4",

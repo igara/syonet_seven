@@ -1,10 +1,8 @@
-const withCSS = require("@zeit/next-css");
 const { TypedCssModulesPlugin } = require("typed-css-modules-webpack-plugin");
 const NextWorkboxPlugin = require("next-workbox-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
-module.exports = withCSS({
-  cssModules: true,
+module.exports = {
   webpack(config, { isServer, buildId }) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -74,4 +72,4 @@ module.exports = withCSS({
     }
     return config;
   },
-});
+};

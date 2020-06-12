@@ -1,4 +1,4 @@
-import { toolsP2PChatStyle } from "@www/styles";
+import toolsP2PChatStyle from "@www/styles/tools/p2p_chat.module.css";
 
 let peerConnections: {
   [uuid: string]: RTCPeerConnection

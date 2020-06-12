@@ -1,4 +1,4 @@
-import { selectStyle } from "@www/styles";
+import selectStyle from "@www/styles/common/input/select.module.css";
 
 type Props = {
   children: Array<React.ReactNode>;

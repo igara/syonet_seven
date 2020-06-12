@@ -1,4 +1,4 @@
-import { buttonStyle } from "@www/styles";
+import buttonStyle from "@www/styles/common/input/button.module.css";
 
 type Props = {
   Key: string;

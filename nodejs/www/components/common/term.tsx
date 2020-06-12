@@ -1,4 +1,4 @@
-import { termStyle } from "@www/styles";
+import termStyle from "@www/styles/common/term.module.css";
 import { ButtonComponent as Button } from "@www/components/common/input/button";
 import { termActions } from "@www/actions/common/term";
 import { useSelector, useDispatch } from "react-redux";

@@ -1,5 +1,5 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { toolsP2PChatStyle } from "@www/styles";
+import toolsP2PChatStyle from "@www/styles/tools/p2p_chat.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";

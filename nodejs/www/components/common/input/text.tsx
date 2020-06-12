@@ -1,4 +1,4 @@
-import { textStyle } from "@www/styles";
+import textStyle from "@www/styles/common/input/text.module.css";
 
 type Props = {
   OnChangeHandler?: Function;

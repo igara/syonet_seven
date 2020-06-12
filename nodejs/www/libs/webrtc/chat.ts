@@ -1,4 +1,4 @@
-import { toolsChatStyle } from "@www/styles";
+import toolsChatStyle from "@www/styles/tools/chat.module.css";
 
 interface CanvasElement extends HTMLCanvasElement {
   captureStream(msec?: number): MediaStream;

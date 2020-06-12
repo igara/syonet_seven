@@ -1,5 +1,5 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { toolsSsbStyle } from "@www/styles";
+import toolsSsbStyle from "@www/styles/tools/ssb.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";

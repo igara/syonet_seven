@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { AnyAction } from "typescript-fsa";
 import { Store } from "redux";
+import "@www/styles/global.css";
 
 type Props = AppProps &
   AppContext & {

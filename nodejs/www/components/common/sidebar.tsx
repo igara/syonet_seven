@@ -1,4 +1,5 @@
-import { sidebarStyle, iconStyle } from "@www/styles";
+import sidebarStyle from "@www/styles/common/sidebar.module.css";
+import closeIconStyle from "@www/styles/common/icon/close.module.css";
 import { sidebarActions } from "@www/actions/common/sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "@www/stores";
@@ -83,10 +84,10 @@ export const SidebarComponent = (props: Props) => {
         </li>
       </ul>
       <button
-        className={`${iconStyle.close.close_icon} ${states.sidebar.dispFlag ? "" : iconStyle.close.hidden}`}
+        className={`${closeIconStyle.close_icon} ${states.sidebar.dispFlag ? "" : closeIconStyle.hidden}`}
         onClick={() => dispatch(sidebarActions.onClickClose(false))}
       >
-        <div className={iconStyle.close.close_mark} />
+        <div className={closeIconStyle.close_mark} />
       </button>
     </div>
   );
