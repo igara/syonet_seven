@@ -2,7 +2,6 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-recess-order",
-    "stylelint-config-rational-order",
     "./node_modules/prettier-stylelint/config.js"
   ],
   "rules": {

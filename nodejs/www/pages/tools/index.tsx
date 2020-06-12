@@ -63,9 +63,6 @@ const ToolsPageComponent = (props: Props) => {
           <li>
             <LinkComponent href="/tools/p2p_chat">P2Pチャット</LinkComponent>
           </li>
-          <li>
-            <LinkComponent href="/tools/sfu_chat">SFUチャット</LinkComponent>
-          </li>
           {/* <li>
             <LinkComponent href="/tools/account">家計簿</LinkComponent>
           </li> */}
