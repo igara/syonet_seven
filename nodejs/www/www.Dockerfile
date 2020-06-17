@@ -3,7 +3,7 @@ FROM node:13-alpine
 ADD . /www
 WORKDIR /www
 RUN apk update && apk --no-cache add --virtual \
-  build-dependencies \
+	build-dependencies \
 	curl \
 	build-base \
 	make \
@@ -12,7 +12,6 @@ RUN apk update && apk --no-cache add --virtual \
 	python \
 	avahi-dev \
 	git \
-	chromium \
 	nss \
 	freetype \
 	freetype-dev \
