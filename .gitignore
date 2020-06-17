@@ -3,10 +3,12 @@ ubuntu-bionic-18.04-cloudimg-console.log
 .vagrant
 .env
 data/mongo/*
+data/mysql/*
 data/certbot/*
 data/openssl/*
 !data/.gitkeep
 !data/mongo/.gitkeep
+!data/mysql/.gitkeep
 !data/certbot/.gitkeep
 !data/openssl/.gitkeep
 .DS_Store

@@ -50,3 +50,28 @@ vagrant ssh
 ```
 
 こちらは local.syonet.work で入れる
+
+#### DB 接続
+
+ホストから繋げたいとき
+
+```
+brew install mutagen-io/mutagen/mutagen
+
+mutagen forward create --name syonet-seven-mysql tcp::3306 docker://syonet_seven_mysql_1:tcp::3306
+
+```
+
+migration
+
+```
+docker-compose exec www sh
+
+# Entryの定義をDBに反映
+npm run typeorm:migration:generate
+npm run typeorm:migration:run
+
+# migration export
+npm run mysqldef:migration:export
+npm run mysqldef:migration:import
+```

@@ -9,14 +9,16 @@ services:
     ports:
       - 3000:3000
       - 9000:9000
-      - 9001:9001
       - 9002:9002
-      - 9003:9003
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
     environment:
       WWW_DOMAIN: ${WWW_DOMAIN}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: Asia/Tokyo
       PYTHON: python3
       # NPM_INSTALL: 1
@@ -32,6 +34,19 @@ services:
     environment:
       TZ: Asia/Tokyo
     restart: always
+
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Tokyo
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   nginx:
     build:

@@ -9,10 +9,10 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { useRouter } from "next/router";
-// import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
-import { getP2PChat } from "@www/actions/tools/p2p_chat";
 import { playVideo, connectChat, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/p2p_chat";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { GET_CHAT_BY_ID_AND_PASSWORD, GetChatByIdAndPassword } from "@www/libs/apollo/gql/chat";
 
 type Props = AppState;
 
@@ -46,16 +46,28 @@ const ToolsP2PChatIdPageComponent = (props: Props) => {
     setSelfVideoStream(userMedia);
   }
 
+  const [chat, setChat] = useState<GetChatByIdAndPassword>();
+  const [loadGetChatByIdAndPassword] = useLazyQuery<GetChatByIdAndPassword>(GET_CHAT_BY_ID_AND_PASSWORD, {
+    onCompleted: (chatData) => {
+      setChat(chatData);
+    }
+  });
+
   useEffect(() => {
     if (process.browser) {
       (async () => {
-        const chat = await db.chats.where({ id: chatID }).first();
-        if (!chat) {
+        const chatIndexDBData = await db.chats.where({ id: chatID }).first();
+        if (!chatIndexDBData) {
           location.href = "/tools/p2p_chat";
           return;
         }
 
-        await dispatch(getP2PChat({ id: chat?.id, password: chat?.password }));
+        await loadGetChatByIdAndPassword({
+          variables: {
+            id: Number(chatIndexDBData?.id),
+            password: chatIndexDBData?.password
+          }
+        });
 
         if (!initialized) {
           connectChat(chatID);
@@ -89,8 +101,8 @@ const ToolsP2PChatIdPageComponent = (props: Props) => {
       </Head>
       <WrapperComponent {...state}>
         <div className={toolsP2PChatStyle.wrapper}>
-          <h2>部屋の名前: {state.p2pChat.chat.data.chat.name}</h2>
-          <h2>部屋ID: {state.p2pChat.chat.data.chat._id}</h2>
+          <h2>部屋の名前: {chat?.getChatByIdAndPassword.name}</h2>
+          <h2>部屋ID: {chat?.getChatByIdAndPassword.id}</h2>
           <hr />
           <ButtonComponent OnClickHandler={async() => {
             if (selfVideoStream) {

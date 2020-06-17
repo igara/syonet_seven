@@ -10,9 +10,8 @@ import { HatenaEntryState, hatenaEntryReducer } from "@www/states/blogs/hatena/e
 import { SpeakerdeckDesksState, speakerdeckDesksReducer } from "@www/states/blogs/speakerdeck/decks";
 import { SpeakerdeckImagesState, speakerdeckImagesReducer } from "@www/states/blogs/speakerdeck/images";
 import { JinseiState, jinseiReducer } from "@www/states/blogs/jinsei";
-import { ChatState, chatReducer } from "@www/states/tools/chat";
-import { P2PChatState, p2pChatReducer } from "@www/states/tools/p2p_chat";
 import { composeWithDevTools } from "redux-devtools-extension";
+
 import logger from "redux-logger";
 
 export type AppState = {
@@ -26,8 +25,6 @@ export type AppState = {
   speakerdeckDesks: SpeakerdeckDesksState;
   speakerdeckImages: SpeakerdeckImagesState;
   jinsei: JinseiState;
-  chat: ChatState;
-  p2pChat: P2PChatState;
 };
 
 export const rootReducer = () =>
@@ -42,18 +39,15 @@ export const rootReducer = () =>
     speakerdeckDesks: speakerdeckDesksReducer,
     speakerdeckImages: speakerdeckImagesReducer,
     jinsei: jinseiReducer,
-    chat: chatReducer,
-    p2pChat: p2pChatReducer,
   });
 
-export const store = () =>
-  createStore(
-    rootReducer(),
-    process.env.NODE_ENV !== "production"
-      ? compose(
-          applyMiddleware(thunk),
-          composeWithDevTools(applyMiddleware(logger)),
-        )
-      : compose(applyMiddleware(thunk)),
-  );
+export const store = createStore(
+  rootReducer(),
+  process.env.NODE_ENV !== "production"
+    ? compose(
+        applyMiddleware(thunk),
+        composeWithDevTools(applyMiddleware(logger)),
+      )
+    : compose(applyMiddleware(thunk)),
+);
 export default store;

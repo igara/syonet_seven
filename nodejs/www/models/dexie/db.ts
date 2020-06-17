@@ -5,7 +5,7 @@ interface AccessTokens {
 }
 
 interface Chats {
-  id: string;
+  id: number;
   password: string;
 }
 

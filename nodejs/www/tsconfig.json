@@ -21,7 +21,10 @@
       "@www/*": ["./*"]
     },
     "target": "esnext",
-    "typeRoots": ["types", "node_modules/@types"]
+    "typeRoots": ["types", "node_modules/@types"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
   "exclude": ["node_modules", "**/*.spec.ts"],
   "include": ["*.ts", "**/*.ts", "**/*.tsx"]

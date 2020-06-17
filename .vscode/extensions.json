@@ -7,6 +7,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "cpylua.language-postcss",
-    "stuartzhang.stylelint-stzhang"
+    "stuartzhang.stylelint-stzhang",
+    "apollographql.vscode-apollo"
   ]
 }
