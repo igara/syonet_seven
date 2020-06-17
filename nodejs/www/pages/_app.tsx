@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { AnyAction } from "typescript-fsa";
 import { Store } from "redux";
+import { ApolloProvider } from "react-apollo";
+import apolloClient from "@www/libs/apollo/client";
 import "@www/styles/global.css";
 
 type Props = AppProps &
@@ -24,11 +26,13 @@ class MyApp extends React.Component<Props> {
   render() {
     const { Component, pageProps, store } = this.props;
     return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
+      <ApolloProvider client={apolloClient}>
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </ApolloProvider>
     );
   }
 }
 
-export default withRedux(makeStore)(MyApp);
+export default withRedux(() => makeStore)(MyApp);

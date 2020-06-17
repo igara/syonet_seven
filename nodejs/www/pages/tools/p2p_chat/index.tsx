@@ -5,13 +5,14 @@ import { AppProps } from "next/app";
 import { checkLogin } from "@www/actions/common/login";
 import { AppState } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect, ChangeEvent, useCallback } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
-import { createP2PChat, getP2PChat } from "@www/actions/tools/p2p_chat";
 import { LinkComponent } from "@www/components/common/link";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { CREATE_CHAT, CreateChat, GetChatByIdAndPassword, GET_CHAT_BY_ID_AND_PASSWORD } from "@www/libs/apollo/gql/chat";
 
 type Props = AppState;
 
@@ -19,6 +20,28 @@ const ToolsP2PChatPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
   const dispatch = useDispatch();
   const store = useStore();
+
+  const [loadGetChatByIdAndPassword, { error }] = useLazyQuery<GetChatByIdAndPassword>(GET_CHAT_BY_ID_AND_PASSWORD, {
+    onCompleted: async (data) => {
+      await db.chats.put({
+        id: data.getChatByIdAndPassword.id,
+        password
+      });
+  
+      location.href = `/tools/p2p_chat/${data.getChatByIdAndPassword.id}`;
+    }
+  });
+
+  const [loadCreateChat] = useMutation<CreateChat>(CREATE_CHAT, {
+    onCompleted: async (data) => {
+      await db.chats.put({
+        id: data.createChat.id,
+        password
+      });
+  
+      location.href = `/tools/p2p_chat/${data.createChat.id}`;
+    }
+  });
 
   useEffect(() => {
     if (process.browser) {
@@ -39,8 +62,8 @@ const ToolsP2PChatPageComponent = (props: Props) => {
     }
   }, []);
 
-  const [chatID, setChatID] = useState("");
-  const changeChatID = (event: ChangeEvent<HTMLInputElement>) => setChatID(event.target.value);
+  const [chatID, setChatID] = useState(0);
+  const changeChatID = (event: ChangeEvent<HTMLInputElement>) => setChatID(Number(event.target.value));
   const [joinPassword, setJoinPassword] = useState("");
   const changeJoinPassword = (event: ChangeEvent<HTMLInputElement>) => setJoinPassword(event.target.value);
 
@@ -48,26 +71,6 @@ const ToolsP2PChatPageComponent = (props: Props) => {
   const changeChatName = (event: ChangeEvent<HTMLInputElement>) => setChatName(event.target.value);
   const [password, setPassword] = useState("");
   const changePassword = (event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value);
-
-  const onClickJoinButtonCallback = useCallback(async () => {
-    if (process.browser) {
-      try{
-        await dispatch(getP2PChat({ id: chatID, password: joinPassword }));
-      } catch (error) {
-        console.error(error);
-      }
-      const storeState: AppState = store.getState();
-      const stateChatID = storeState.p2pChat.chat.data.chat?._id;
-      if (stateChatID) {
-        await db.chats.put({
-          id: stateChatID,
-          password
-        });
-        location.href = `/tools/p2p_chat/${chatID}`;
-      }
-      setState(storeState);
-    }
-  }, [chatID, joinPassword]);
 
   return (
     <>
@@ -121,13 +124,20 @@ const ToolsP2PChatPageComponent = (props: Props) => {
             </tbody>
           </table>
           <ButtonComponent
-            OnClickHandler={onClickJoinButtonCallback}
+            OnClickHandler={() => {
+              loadGetChatByIdAndPassword({
+                variables: {
+                  id: chatID,
+                  password: joinPassword
+                }
+              })
+            }}
             Abled={!Boolean(chatID)}
           >
             参加
           </ButtonComponent>
           {
-            chatID && state.p2pChat.chat.error ?
+            chatID && error ?
             <span className={toolsP2PChatStyle.validation}>部屋の名前かパスワードが間違っております</span>
             :
             null
@@ -150,19 +160,13 @@ const ToolsP2PChatPageComponent = (props: Props) => {
             </tbody>
           </table>
           <ButtonComponent
-            OnClickHandler={async () => {
-              if (process.browser) {
-                await dispatch(createP2PChat({ name: chatName, password }));
-                const storeState: AppState = store.getState();
-                const chatID = storeState.p2pChat.chat.data.chat._id;
-                if (chatID) {
-                  await db.chats.put({
-                    id: chatID,
-                    password
-                  });
-                  location.href = `/tools/p2p_chat/${chatID}`;
+            OnClickHandler={() => {
+              loadCreateChat({
+                variables: {
+                  name: chatName,
+                  password
                 }
-              }
+              });
             }}
             Abled={!Boolean(chatName)}
           >

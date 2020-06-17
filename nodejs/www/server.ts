@@ -16,9 +16,10 @@ import authGoogle from "@www/server/passport/google";
 import authGithub from "@www/server/passport/github";
 import "@www/server/passport/jwt";
 import * as discord from "@www/server/discord";
+import { graphqlServer } from "@www/server/graphql";
+import * as typeorm from "typeorm";
 
 import { ssbSocketRoute } from "@www/server/ws/ssb";
-import { chatSocketRoute, ChatWSS } from "@www/server/ws/chat";
 import { p2pChatSocketRoute, P2PChatWSS } from "@www/server/ws/p2p_chat";
 
 const port = 3000;
@@ -27,14 +28,10 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const gamesDir = path.join(__dirname, "./public/games");
 
-app.prepare().then(() => {
+app.prepare().then(async () => {
   const server = express();
   const ssbWss = new WebSocket.Server({
     port: 9000,
-    host: "0.0.0.0",
-  });
-  const chatWss = new WebSocket.Server({
-    port: 9001,
     host: "0.0.0.0",
   });
   const p2pChatWss = new WebSocket.Server({
@@ -77,14 +74,20 @@ app.prepare().then(() => {
     useUnifiedTopology: true,
   });
 
+  if (process.env.MYSQL_DATABASE) {
+    const connection = await typeorm.createConnection(process.env.MYSQL_DATABASE);
+    typeorm.BaseEntity.useConnection(connection);
+  }
+
   server.use(passport.initialize());
   server.use(passport.session());
   server.use("/auth/facebook", authFacebook);
   server.use("/auth/google", authGoogle);
   server.use("/auth/github", authGithub);
 
+  await graphqlServer(server);
+
   ssbSocketRoute(ssbWss);
-  chatSocketRoute(chatWss as ChatWSS);
   p2pChatSocketRoute(p2pChatWss as P2PChatWSS);
 
   discord.connect();
