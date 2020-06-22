@@ -13,7 +13,7 @@
     "lint": "npm run stylelint && npm run eslint",
     "clean:all": "rm -rf node_modules .next dist",
     "clean:build": "rm -rf .next dist",
-    "sw:build": "npx webpack",
+    "sw:build": "NODE_OPTIONS=--max_old_space_size=2048 webpack",
     "test": "npm run testdata && jest --detectOpenHandles --forceExit",
     "coverage": "npm run testdata && jest --coverage --detectOpenHandles --forceExit",
     "testdata": "ts-node -r tsconfig-paths/register --project server.tsconfig.json libs/testdata.ts",
