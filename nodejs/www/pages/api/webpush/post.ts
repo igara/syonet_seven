@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import webpush from "web-push";
+import * as webpush from "web-push";
 import { dbConnect, dbClose } from "@www/models/mongoose";
 import * as Notification from "@www/models/mongoose/notification";
 
@@ -13,21 +13,8 @@ webpush.setVapidDetails(contact, vapidKeys.publicKey, vapidKeys.privateKey);
 
 const postWebpush = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    let notification;
     const body = JSON.parse(req.body);
-    if (
-      typeof body !== "undefined" &&
-      body !== null &&
-      typeof body.endpoint === "string" &&
-      typeof body.auth === "string" &&
-      typeof body.p256dh === "string"
-    ) {
-      notification = {
-        endpoint: body.endpoint,
-        auth: body.auth,
-        p256dh: body.p256dh,
-      };
-    } else {
+    if (!body || !body.endpoint || !body.auth || !body.p256dh) {
       res.status(500);
       return res.send({
         status: 500,
@@ -35,6 +22,12 @@ const postWebpush = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
     await dbConnect();
+
+    const notification = {
+      endpoint: body.endpoint,
+      auth: body.auth,
+      p256dh: body.p256dh,
+    };
 
     const findResult = await Notification.getNotification({
       ...notification,

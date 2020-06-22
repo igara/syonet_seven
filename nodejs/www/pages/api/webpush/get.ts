@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import webpush from "web-push";
+import * as webpush from "web-push";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
 const vapidKeys = {

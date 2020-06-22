@@ -3,7 +3,13 @@ declare const self: ServiceWorkerGlobalScope;
 
 // eslint-disable-next-line no-undef
 // if (typeof window !== "undefined" && window !== null) {
-self.addEventListener("install", () => {}, false);
+self.addEventListener(
+  "install",
+  event => {
+    event.waitUntil(self.skipWaiting());
+  },
+  false,
+);
 
 self.addEventListener(
   "activate",
@@ -42,4 +48,3 @@ self.addEventListener(
   },
   false,
 );
-// }

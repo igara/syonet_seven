@@ -1,4 +1,4 @@
-import { callWebpushKey } from "@www/libs/fetchs/webpush";
+import { callWebpushKey, callRegistWebpush } from "@www/libs/fetchs/webpush";
 
 /**
  * Base64 エンコードからバイナリ形式に変換する
@@ -77,7 +77,7 @@ const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
                       p256dh: arrayBufferToBase64(p256dh),
                     };
                     if (notification.endpoint && notification.auth && notification.p256dh) {
-                      // await callRegistWebpush(notification);
+                      await callRegistWebpush(notification);
                     }
                   }
 

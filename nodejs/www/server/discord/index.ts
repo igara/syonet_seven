@@ -1,7 +1,7 @@
 // discord.js モジュールのインポート
-import Discord from "discord.js";
+import * as Discord from "discord.js";
 import child_process from "child_process";
-import webpush from "web-push";
+import * as webpush from "web-push";
 import { dbConnect, dbClose } from "@www/models/mongoose";
 import * as Notification from "@www/models/mongoose/notification";
 
@@ -99,20 +99,20 @@ export const connect = () => {
                   title,
                   body,
                   icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-                  url: `https://${process.env.WWW_DOMAIN}`,
+                  url: process.env.WWW_HOST,
                 });
 
                 // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
                 webpush
                   .sendNotification(subscription, payload)
                   .then()
-                  .catch(console.error);
+                  .catch(e => console.error(`webpush error ${e}`));
               }),
             )
-              .then(console.log)
-              .catch(console.error);
+              .then(r => console.log(`promise all success ${r}`))
+              .catch(e => console.log(`promise all error ${e}`));
           })
-          .catch(console.error);
+          .catch(e => console.error(`message error ${e}`));
       } else {
         const sendText = `どうも。${author.username}さん。
 このコマンドの実行権限はございません。`;
