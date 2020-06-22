@@ -6,7 +6,9 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { LinkComponent } from "@www/components/common/link";
 
 type Props = AppState;
@@ -16,21 +18,23 @@ const BlogsPageComponent = (props: Props) => {
   const dispatch = useDispatch();
   const store = useStore();
 
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
+  });
+
   useEffect(() => {
     if (process.browser) {
       (async () => {
-        const accessTokens = await db.access_tokens.toArray();
-        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
+        await loadCheckAuth();
 
-        if (token) {
-          await dispatch<any>(checkLogin.action(token));
-        }
-
-        const storeState: AppState = store.getState();
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
-        setState(storeState);
+        setState(store.getState());
       })();
     }
   }, []);

@@ -1,10 +1,10 @@
 import express from "express";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
-import { dbConnect, dbClose } from "@www/models/mongoose";
-import * as User from "@www/models/mongoose/user";
+import { Auth } from "@www/models/typeorm/entities/auth";
+import { AuthFacebook } from "@www/models/typeorm/entities/auth_facebook";
+import { AccessToken } from "@www/models/typeorm/entities/access_token";
 import { generateAccessToken } from "@www/libs/token";
-import * as AccessToken from "@www/models/mongoose/access_token";
 
 const router = express.Router();
 
@@ -44,17 +44,50 @@ export const facebook = async (req: express.Request, res: express.Response) => {
   let query = "";
 
   try {
-    await dbConnect();
-    const user = await User.upsertByAuthUser(req.user);
-    if (user) {
-      const accessToken = generateAccessToken(user._id.toString());
-      await AccessToken.upsertAccessTokenByTokenAndUserId(accessToken, user._id);
-      query = `?token=${accessToken}`;
+    if (!req.user) throw new Error("not user");
+    const user = req.user as {
+      id: string;
+      provider: string;
+      displayName: string;
+      photos: Array<{
+        value: string;
+      }>;
+    };
+
+    const snsID = user.id.toString();
+    const username = user.displayName;
+    const imageURL = user.photos[0].value;
+
+    const findAuth = await AuthFacebook.findOne({ snsID });
+    if (findAuth) {
+      await AuthFacebook.update(
+        {
+          id: findAuth.id,
+        },
+        {
+          username,
+          imageURL,
+        },
+      );
+    } else {
+      const saveAuth = AuthFacebook.create({
+        snsID: user.id.toString(),
+        username: user.displayName,
+        imageURL: user.photos[0].value,
+      });
+      await saveAuth.save();
     }
+
+    const auth = (await Auth.findOne({ snsID })) as Auth;
+    const token = generateAccessToken(auth.id.toString());
+    const accessToken = AccessToken.create({
+      auth,
+      token,
+    });
+    await accessToken.save();
+    query = `?token=${token}`;
   } catch (error) {
     console.error(error);
-  } finally {
-    await dbClose();
   }
   return res.redirect(`/${query}`);
 };

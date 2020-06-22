@@ -60,6 +60,8 @@ brew install mutagen-io/mutagen/mutagen
 
 mutagen forward create --name syonet-seven-mysql tcp::3306 docker://syonet_seven_mysql_1:tcp::3306
 
+mutagen sync terminate syonet-seven-mysql
+
 ```
 
 migration

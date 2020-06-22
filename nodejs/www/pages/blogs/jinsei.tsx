@@ -1,7 +1,9 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { getJinsei } from "@www/actions/blogs/jinsei";
 import { AppState } from "@www/stores";
 import Head from "next/head";
@@ -17,21 +19,23 @@ const BlogsJinseiPageComponent = (props: Props) => {
   const store = useStore();
   const storeState: AppState = store.getState();
 
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
+  });
+
   useEffect(() => {
     (async () => {
       await dispatch<any>(getJinsei.action());
 
       if (process.browser) {
-        const accessTokens = await db.access_tokens.toArray();
-        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
-
-        if (token) {
-          await dispatch<any>(checkLogin.action(token));
-        }
-
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
+        await loadCheckAuth();
       }
       setState({
         ...storeState,

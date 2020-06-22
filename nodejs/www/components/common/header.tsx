@@ -13,8 +13,8 @@ export const HeaderComponent = (props: Props) => {
     <ul className={headerStyle.header_wrap_ul}>
       <li dangerouslySetInnerHTML={{ __html: syonetSvg }} />
       <li>
-        {props.login.login.data.user ? (
-          <img className={iconStyle.login_user_icon} src={props.login.login.data.user.image} />
+        {props.auth.id && props.auth.snsID ? (
+          <img className={iconStyle.login_user_icon} src={props.auth.imageURL} />
         ) : null}
       </li>
     </ul>

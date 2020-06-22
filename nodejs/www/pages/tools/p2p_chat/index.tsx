@@ -2,7 +2,8 @@ import { WrapperComponent } from "@www/components/wrapper";
 import toolsP2PChatStyle from "@www/styles/tools/p2p_chat.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect, ChangeEvent } from "react";
@@ -12,7 +13,12 @@ import { TextComponent } from "@www/components/common/input/text";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { LinkComponent } from "@www/components/common/link";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
-import { CREATE_CHAT, CreateChat, GetChatByIdAndPassword, GET_CHAT_BY_ID_AND_PASSWORD } from "@www/libs/apollo/gql/chat";
+import {
+  CREATE_CHAT,
+  CreateChat,
+  GetChatByIdAndPassword,
+  GET_CHAT_BY_ID_AND_PASSWORD,
+} from "@www/libs/apollo/gql/chat";
 
 type Props = AppState;
 
@@ -22,42 +28,43 @@ const ToolsP2PChatPageComponent = (props: Props) => {
   const store = useStore();
 
   const [loadGetChatByIdAndPassword, { error }] = useLazyQuery<GetChatByIdAndPassword>(GET_CHAT_BY_ID_AND_PASSWORD, {
-    onCompleted: async (data) => {
+    onCompleted: async data => {
       await db.chats.put({
         id: data.getChatByIdAndPassword.id,
-        password
+        password,
       });
-  
+
       location.href = `/tools/p2p_chat/${data.getChatByIdAndPassword.id}`;
-    }
+    },
   });
 
   const [loadCreateChat] = useMutation<CreateChat>(CREATE_CHAT, {
-    onCompleted: async (data) => {
+    onCompleted: async data => {
       await db.chats.put({
         id: data.createChat.id,
-        password
+        password,
       });
-  
+
       location.href = `/tools/p2p_chat/${data.createChat.id}`;
-    }
+    },
+  });
+
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
   });
 
   useEffect(() => {
     if (process.browser) {
       (async () => {
-        const accessTokens = await db.access_tokens.toArray();
-        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
-
-        if (token) {
-          await dispatch<any>(checkLogin.action(token));
-        }
-
-        const storeState: AppState = store.getState();
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
-        setState(storeState);
+        await loadCheckAuth();
+        setState(store.getState());
       })();
     }
   }, []);
@@ -85,16 +92,13 @@ const ToolsP2PChatPageComponent = (props: Props) => {
           <table>
             <tbody>
               <tr>
-                <td>
-                  {state.login.login.data.user?.displayName || "???"}
-                </td>
+                <td>{(state.auth.username && state.auth.type === "AuthGoogle") || "???"}</td>
                 <td className={toolsP2PChatStyle.validation}>
-                  {state.login.login.data.user?.displayName ?
-                    "" : 
-                    <LinkComponent href="/login">
-                      ログインしていません。
-                    </LinkComponent>
-                  }
+                  {state.auth.username && state.auth.type === "AuthGoogle" ? (
+                    ""
+                  ) : (
+                    <LinkComponent href="/login">ログインしていません。</LinkComponent>
+                  )}
                 </td>
               </tr>
               <tr>
@@ -128,20 +132,17 @@ const ToolsP2PChatPageComponent = (props: Props) => {
               loadGetChatByIdAndPassword({
                 variables: {
                   id: chatID,
-                  password: joinPassword
-                }
-              })
+                  password: joinPassword,
+                },
+              });
             }}
             Abled={!Boolean(chatID)}
           >
             参加
           </ButtonComponent>
-          {
-            chatID && error ?
+          {chatID && error ? (
             <span className={toolsP2PChatStyle.validation}>部屋の名前かパスワードが間違っております</span>
-            :
-            null
-          }
+          ) : null}
           <hr />
           <h3>部屋作成</h3>
           <table>
@@ -164,8 +165,8 @@ const ToolsP2PChatPageComponent = (props: Props) => {
               loadCreateChat({
                 variables: {
                   name: chatName,
-                  password
-                }
+                  password,
+                },
               });
             }}
             Abled={!Boolean(chatName)}

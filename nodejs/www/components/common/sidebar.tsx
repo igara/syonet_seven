@@ -32,7 +32,7 @@ export const SidebarComponent = (props: Props) => {
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickHome(false))}>
           <LinkComponent href="/">ホーム</LinkComponent>
         </li>
-        {props.login.login.data.user ? (
+        {props.auth.id && props.auth.snsID ? (
           <li
             className={sidebarStyle.sidebar_link_list}
             onClick={async () => {

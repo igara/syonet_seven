@@ -2,7 +2,7 @@ import { WrapperComponent } from "@www/components/wrapper";
 import toolsP2PChatStyle from "@www/styles/tools/p2p_chat.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
 import { AppState } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
@@ -13,6 +13,7 @@ import { ButtonComponent } from "@www/components/common/input/button";
 import { playVideo, connectChat, closeSignaling, changeSelfVideoStream } from "@www/libs/webrtc/p2p_chat";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { GET_CHAT_BY_ID_AND_PASSWORD, GetChatByIdAndPassword } from "@www/libs/apollo/gql/chat";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 
 type Props = AppState;
 
@@ -53,6 +54,17 @@ const ToolsP2PChatIdPageComponent = (props: Props) => {
     }
   });
 
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
+  });
+
   useEffect(() => {
     if (process.browser) {
       (async () => {
@@ -75,17 +87,9 @@ const ToolsP2PChatIdPageComponent = (props: Props) => {
           setInitialized(true);
         }
 
-        const accessTokens = await db.access_tokens.toArray();
-        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
+        await loadCheckAuth();
 
-        await dispatch<any>(checkLogin.action(token));
-
-        const storeState: AppState = store.getState();
-
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
-        setState(storeState);
+        setState(store.getState());
 
         return () => {
           closeSignaling();

@@ -1,7 +1,9 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { getEntries, setEntries } from "@www/actions/blogs/hatena/entries";
 import { AppState } from "@www/stores";
 import Head from "next/head";
@@ -16,7 +18,16 @@ const BlogsHatenaPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
   const dispatch = useDispatch();
   const store = useStore();
-  const storeState: AppState = store.getState();
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
+  });
 
   useEffect(() => {
     (async () => {
@@ -27,16 +38,7 @@ const BlogsHatenaPageComponent = (props: Props) => {
       }
 
       if (process.browser) {
-        const accessTokens = await db.access_tokens.toArray();
-        const token = accessTokens.length > 0 ? accessTokens[0].token : "";
-
-        if (token) {
-          await dispatch<any>(checkLogin.action(token));
-        }
-
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
+        await loadCheckAuth();
       }
 
       setState({

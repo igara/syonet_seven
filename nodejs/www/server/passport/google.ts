@@ -1,9 +1,9 @@
 import express from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import passport from "passport";
-import { dbConnect, dbClose } from "@www/models/mongoose";
-import * as User from "@www/models/mongoose/user";
-import * as AccessToken from "@www/models/mongoose/access_token";
+import { Auth } from "@www/models/typeorm/entities/auth";
+import { AuthGoogle } from "@www/models/typeorm/entities/auth_google";
+import { AccessToken } from "@www/models/typeorm/entities/access_token";
 import { generateAccessToken } from "@www/libs/token";
 
 const router = express.Router();
@@ -52,21 +52,54 @@ router.get(
 /**
  * 認証完了画面
  */
-export const google = async (req: any, res: express.Response) => {
+export const google = async (req: express.Request, res: express.Response) => {
   let query = "";
 
   try {
-    await dbConnect();
-    const user = await User.upsertByAuthUser(req.user);
-    if (user) {
-      const accessToken = generateAccessToken(user._id.toString());
-      await AccessToken.upsertAccessTokenByTokenAndUserId(accessToken, user._id);
-      query = `?token=${accessToken}`;
+    if (!req.user) throw new Error("not user");
+    const user = req.user as {
+      id: string;
+      provider: string;
+      displayName: string;
+      photos: Array<{
+        value: string;
+      }>;
+    };
+
+    const snsID = user.id.toString();
+    const username = user.displayName;
+    const imageURL = user.photos[0].value;
+
+    const findAuth = await AuthGoogle.findOne({ snsID });
+    if (findAuth) {
+      await AuthGoogle.update(
+        {
+          id: findAuth.id,
+        },
+        {
+          username,
+          imageURL,
+        },
+      );
+    } else {
+      const saveAuth = AuthGoogle.create({
+        snsID: user.id.toString(),
+        username: user.displayName,
+        imageURL: user.photos[0].value,
+      });
+      await saveAuth.save();
     }
+
+    const auth = (await Auth.findOne({ snsID })) as Auth;
+    const token = generateAccessToken(auth.id.toString());
+    const accessToken = AccessToken.create({
+      auth,
+      token,
+    });
+    await accessToken.save();
+    query = `?token=${token}`;
   } catch (error) {
     console.error(error);
-  } finally {
-    await dbClose();
   }
   return res.redirect(`/${query}`);
 };

@@ -2,7 +2,9 @@ import { WrapperComponent } from "@www/components/wrapper";
 import toolsSsbStyle from "@www/styles/tools/ssb.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
-import { checkLogin } from "@www/actions/common/login";
+import { authActions } from "@www/actions/common/auth";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { spreadsheetList } from "@www/actions/tools/spreadsheet";
 import { AppState } from "@www/stores";
 import Head from "next/head";
@@ -16,6 +18,16 @@ const ToolsAccountPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
   const dispatch = useDispatch();
   const store = useStore();
+  const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
+    onCompleted: async checkAuth => {
+      if (!checkAuth.checkAuth) {
+        await db.access_tokens.clear();
+      } else {
+        await dispatch(authActions.checkAuth(checkAuth.checkAuth));
+        setState(store.getState());
+      }
+    },
+  });
 
   useEffect(() => {
     if (process.browser) {
@@ -24,15 +36,11 @@ const ToolsAccountPageComponent = (props: Props) => {
         const token = accessTokens.length > 0 ? accessTokens[0].token : "";
 
         if (token) {
-          await dispatch<any>(checkLogin.action(token));
+          await loadCheckAuth();
           await dispatch<any>(spreadsheetList.action(token));
         }
 
-        const storeState: AppState = store.getState();
-        if (!storeState.login.login.data.user) {
-          await db.access_tokens.clear();
-        }
-        setState(storeState);
+        setState(store.getState());
       })();
     }
   }, []);

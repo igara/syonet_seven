@@ -17,8 +17,7 @@ import authGithub from "@www/server/passport/github";
 import "@www/server/passport/jwt";
 import * as discord from "@www/server/discord";
 import { graphqlServer } from "@www/server/graphql";
-import * as typeorm from "typeorm";
-
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { ssbSocketRoute } from "@www/server/ws/ssb";
 import { p2pChatSocketRoute, P2PChatWSS } from "@www/server/ws/p2p_chat";
 
@@ -74,10 +73,7 @@ app.prepare().then(async () => {
     useUnifiedTopology: true,
   });
 
-  if (process.env.MYSQL_DATABASE) {
-    const connection = await typeorm.createConnection(process.env.MYSQL_DATABASE);
-    typeorm.BaseEntity.useConnection(connection);
-  }
+  await connectTypeORM();
 
   server.use(passport.initialize());
   server.use(passport.session());
