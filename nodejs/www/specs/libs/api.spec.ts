@@ -1,3 +1,4 @@
+// @ts-ignore
 describe("call", () => {
   beforeEach(() => {
     jest.resetModules();

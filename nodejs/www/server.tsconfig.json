@@ -26,6 +26,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "exclude": ["node_modules"],
   "include": ["*.ts", "**/*.ts", "**/*.tsx"]
 }
