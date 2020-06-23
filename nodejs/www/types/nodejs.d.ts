@@ -1,14 +1,9 @@
 declare module NodeJS {
-  interface Global {
-    TEST: string;
-  }
   interface ProcessEnv {
-    TEST: string;
     NODE_ENV: string;
     PORT: string;
     WWW_HOST: string;
     WWW_DOMAIN: string;
-    DB_HOST: string;
     MYSQL_ROOT_PASSWORD: string;
     MYSQL_DATABASE: string;
     MYSQL_USER: string;
@@ -45,6 +40,3 @@ declare module NodeJS {
 }
 
 declare const process: NodeJS.Process;
-declare global {
-  const TEST: string;
-}

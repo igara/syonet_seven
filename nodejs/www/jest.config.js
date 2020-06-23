@@ -10,11 +10,10 @@ module.exports = {
     "^.+\\.ts$": "ts-jest",
   },
   globals: {
-    TEST: "test",
     "ts-jest": {
       tsConfig: "jest.tsconfig.json",
       diagnostics: false,
-    }
+    },
   },
   setupFiles: ["dotenv/config"],
   testMatch: ["**/specs/**/*.spec.ts"],
