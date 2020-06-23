@@ -2,8 +2,8 @@
 import * as Discord from "discord.js";
 import child_process from "child_process";
 import * as webpush from "web-push";
-import { dbConnect, dbClose } from "@www/models/mongoose";
-import * as Notification from "@www/models/mongoose/notification";
+import { WebPushUser } from "@www/models/typeorm/entities/webpush_user";
+import { WebPushMessage } from "@www/models/typeorm/entities/webpush_message";
 
 export const connect = () => {
   // Discord Clientのインスタンス作成
@@ -81,30 +81,36 @@ export const connect = () => {
             const title = weppushContent[0].replace("[", "").replace("]", "");
             const body = weppushContent[1].replace("[", "").replace("]", "");
 
-            await dbConnect();
-            const notifications = await Notification.getNotificationList();
-            await dbClose();
+            // プッシュ通知で送信したい任意のデータ
+            const payload = {
+              title,
+              body,
+              icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+              url: process.env.WWW_HOST || "",
+            };
+            const sendPayload = JSON.stringify(payload);
+            const webPushMessage = WebPushMessage.create({
+              title,
+              body,
+              icon: payload.icon,
+              url: payload.url,
+            });
+            await webPushMessage.save();
+
+            const webPushUsers = await WebPushUser.find();
             await Promise.all(
-              notifications.map(notification => {
+              webPushUsers.map(webPushUser => {
                 const subscription = {
-                  endpoint: notification.endpoint,
+                  endpoint: webPushUser.endpoint,
                   keys: {
-                    auth: notification.auth,
-                    p256dh: notification.p256dh,
+                    auth: webPushUser.auth,
+                    p256dh: webPushUser.p256dh,
                   },
                 };
 
-                // プッシュ通知で送信したい任意のデータ
-                const payload = JSON.stringify({
-                  title,
-                  body,
-                  icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-                  url: process.env.WWW_HOST,
-                });
-
                 // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
                 webpush
-                  .sendNotification(subscription, payload)
+                  .sendNotification(subscription, sendPayload)
                   .then()
                   .catch(e => console.error(`webpush error ${e}`));
               }),

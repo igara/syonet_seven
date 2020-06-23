@@ -22,7 +22,8 @@ module.exports = {
   },
   plugins: [new Dotenv()],
   resolve: {
-    extensions: [".ts"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".gql", ".graphql"],
+    modules: [path.resolve(__dirname), "node_modules"],
     alias: {
       "@www": path.resolve(__dirname, "./"),
     },

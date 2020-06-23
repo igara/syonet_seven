@@ -1,4 +1,5 @@
-import { callWebpushKey, callRegistWebpush } from "@www/libs/fetchs/webpush";
+import { client as apolloClient } from "@www/libs/apollo/client";
+import { GetWebPushKey, GET_WEBPUSH_KEY, CreateWebPushUser, CREATE_WEBPUSH_USER } from "@www/libs/apollo/gql/webpush";
 
 /**
  * Base64 エンコードからバイナリ形式に変換する
@@ -61,8 +62,11 @@ const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
                   if (typeof navigator.serviceWorker === "undefined") {
                     throw new Error("sw registration");
                   }
-                  const res = await callWebpushKey();
-                  const applicationServerKey = urlsafeBase64ToBinary(res.publicKey);
+                  const res = await apolloClient.query<GetWebPushKey>({
+                    query: GET_WEBPUSH_KEY,
+                  });
+
+                  const applicationServerKey = urlsafeBase64ToBinary(res.data.getWebPushKey.publicKey);
                   const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
                     applicationServerKey,
@@ -77,7 +81,14 @@ const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
                       p256dh: arrayBufferToBase64(p256dh),
                     };
                     if (notification.endpoint && notification.auth && notification.p256dh) {
-                      await callRegistWebpush(notification);
+                      await apolloClient.mutate<CreateWebPushUser>({
+                        mutation: CREATE_WEBPUSH_USER,
+                        variables: {
+                          endpoint: notification.endpoint,
+                          auth: notification.auth,
+                          p256dh: notification.p256dh,
+                        },
+                      });
                     }
                   }
 
