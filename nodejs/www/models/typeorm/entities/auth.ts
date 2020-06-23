@@ -45,4 +45,12 @@ export class Auth extends BaseEntity {
     nullable: false,
   })
   type: "AuthGoogle" | "AuthGithub" | "AuthFacebook";
+
+  @Field()
+  @Column({
+    type: "datetime",
+    name: "created_at",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  createdAt: Date;
 }

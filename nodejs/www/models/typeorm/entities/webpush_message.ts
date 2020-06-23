@@ -36,4 +36,12 @@ export class WebPushMessage extends BaseEntity {
     nullable: false,
   })
   url: string;
+
+  @Field()
+  @Column({
+    type: "datetime",
+    name: "created_at",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  createdAt: Date;
 }

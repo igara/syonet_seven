@@ -4,6 +4,7 @@ CREATE TABLE `auth` (
   `username` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL,
   `type` varchar(30) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_c9a7bc90e53c61cb4c76101e19` (`type`,`sns_id`),
   KEY `IDX_e95ea875418d2fd7541093cedc` (`type`)
@@ -12,6 +13,7 @@ CREATE TABLE `auth` (
 CREATE TABLE `access_token` (
   `id` int NOT NULL AUTO_INCREMENT,
   `token` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `auth_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_70ba8f6af34bc924fc9e12adb8` (`token`),
@@ -34,6 +36,7 @@ CREATE TABLE `web_push_message` (
   `body` varchar(255) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -42,6 +45,7 @@ CREATE TABLE `web_push_user` (
   `endpoint` varchar(255) NOT NULL,
   `auth` varchar(255) NOT NULL,
   `p256dh` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_f623721e56566c09b348df847e` (`endpoint`,`auth`,`p256dh`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -27,4 +27,12 @@ export class AccessToken extends BaseEntity {
     nullable: false,
   })
   token: string;
+
+  @Field()
+  @Column({
+    type: "datetime",
+    name: "created_at",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  createdAt: Date;
 }

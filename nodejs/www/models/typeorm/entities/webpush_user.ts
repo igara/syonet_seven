@@ -30,4 +30,12 @@ export class WebPushUser extends BaseEntity {
     nullable: false,
   })
   p256dh: string;
+
+  @Field()
+  @Column({
+    type: "datetime",
+    name: "created_at",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  createdAt: Date;
 }
