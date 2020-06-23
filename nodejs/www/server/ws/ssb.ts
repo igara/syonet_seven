@@ -1,7 +1,7 @@
 import WS from "ws";
 import webpush from "web-push";
-import { dbConnect, dbClose } from "@www/models/mongoose";
-import * as Notification from "@www/models/mongoose/notification";
+import { WebPushUser } from "@www/models/typeorm/entities/webpush_user";
+import { WebPushMessage } from "@www/models/typeorm/entities/webpush_message";
 import fetch from "isomorphic-fetch";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
@@ -85,32 +85,37 @@ export const ssbSocketRoute = (wss: WS.Server) => {
             });
             console.info(result);
 
-            await dbConnect();
-            const notifications = await Notification.getNotificationList();
-            await dbClose();
+            const title = "ssb";
+            const body = content;
+            const payload = {
+              title,
+              body,
+              icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+              url: `https://${process.env.WWW_DOMAIN}/games/ssb`,
+            };
+            const sendPayload = JSON.stringify(payload);
+            const webPushMessage = WebPushMessage.create({
+              title,
+              body,
+              icon: payload.icon,
+              url: payload.url,
+            });
+            await webPushMessage.save();
+            const webPushUsers = await WebPushUser.find();
+
             await Promise.all(
-              notifications.map(notification => {
+              webPushUsers.map(webPushUser => {
                 const subscription = {
-                  endpoint: notification.endpoint,
+                  endpoint: webPushUser.endpoint,
                   keys: {
-                    auth: notification.auth,
-                    p256dh: notification.p256dh,
+                    auth: webPushUser.auth,
+                    p256dh: webPushUser.p256dh,
                   },
                 };
 
-                const title = "ssb";
-                const body = content;
-                // プッシュ通知で送信したい任意のデータ
-                const payload = JSON.stringify({
-                  title,
-                  body,
-                  icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-                  url: `https://${process.env.WWW_DOMAIN}/games/ssb`,
-                });
-
                 // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
                 webpush
-                  .sendNotification(subscription, payload)
+                  .sendNotification(subscription, sendPayload)
                   .then()
                   .catch(console.error);
               }),
@@ -146,32 +151,37 @@ export const ssbSocketRoute = (wss: WS.Server) => {
             });
             console.info(result);
 
-            await dbConnect();
-            const notifications = await Notification.getNotificationList();
-            await dbClose();
+            const title = "ssb";
+            const body = content;
+            const payload = {
+              title,
+              body,
+              icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
+              url: `https://${process.env.WWW_DOMAIN}/games/ssb`,
+            };
+            const sendPayload = JSON.stringify(payload);
+            const webPushMessage = WebPushMessage.create({
+              title,
+              body,
+              icon: payload.icon,
+              url: payload.url,
+            });
+            await webPushMessage.save();
+            const webPushUsers = await WebPushUser.find();
+
             await Promise.all(
-              notifications.map(notification => {
+              webPushUsers.map(webPushUser => {
                 const subscription = {
-                  endpoint: notification.endpoint,
+                  endpoint: webPushUser.endpoint,
                   keys: {
-                    auth: notification.auth,
-                    p256dh: notification.p256dh,
+                    auth: webPushUser.auth,
+                    p256dh: webPushUser.p256dh,
                   },
                 };
 
-                const title = "ssb";
-                const body = content;
-                // プッシュ通知で送信したい任意のデータ
-                const payload = JSON.stringify({
-                  title,
-                  body,
-                  icon: "https://avatars3.githubusercontent.com/u/7006562?s=460&v=4",
-                  url: `https://${process.env.WWW_DOMAIN}/games/ssb`,
-                });
-
                 // 購読時に, クライアントサイドから取得したエンドポイント URI に対して POST リクエストを送信
                 webpush
-                  .sendNotification(subscription, payload)
+                  .sendNotification(subscription, sendPayload)
                   .then()
                   .catch(console.error);
               }),

@@ -24,18 +24,7 @@ services:
       PYTHON: python3
       # NPM_INSTALL: 1
     links:
-      - mongodb
       - mysql
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    command: mongod
-    volumes:
-      - ./data/mongo:/data/db:cached
-    environment:
-      TZ: Asia/Tokyo
 
   mysql:
     image: mysql:8

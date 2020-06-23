@@ -23,16 +23,7 @@ services:
       PYTHON: python3
       # NPM_INSTALL: 1
     links:
-      - mongodb
-    restart: always
-
-  mongodb:
-    image: mongo:latest
-    command: mongod
-    volumes:
-      - ./data/mongo:/data/db:cached
-    environment:
-      TZ: Asia/Tokyo
+      - mysql
     restart: always
 
   mysql:

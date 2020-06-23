@@ -6,7 +6,6 @@ import next from "next";
 import passport from "passport";
 import compression from "compression";
 import { config } from "dotenv";
-import mongoose from "mongoose";
 import * as WebSocket from "ws";
 import fs from "fs";
 import path from "path";
@@ -65,12 +64,6 @@ app.prepare().then(async () => {
       return res.send();
     }
     next();
-  });
-
-  mongoose.connect(`${process.env.DB_HOST}/syonet`, {
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
   });
 
   await connectTypeORM();
