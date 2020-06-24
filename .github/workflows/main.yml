@@ -24,9 +24,9 @@ jobs:
           sudo dpkg-reconfigure --frontend noninteractive tzdata
           sh env.sh local
           docker-compose build
+          (cd ./nodejs/www && npm ci)
           docker-compose up -d mysql
           docker-compose up -d www
-          (cd ./nodejs/www && npm ci)
       - name: test task
         env:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
