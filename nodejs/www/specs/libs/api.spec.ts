@@ -27,11 +27,12 @@ describe("call", () => {
       ),
     );
 
-    const { call } = require("@www/libs/api");
-    const result = await call(option);
-    expect(result.status).toBe(200);
-    expect(result.ok).toBe(true);
-    const json = await result.json();
-    expect(json.id).toBe(123);
+    import("@www/libs/api").then(async api => {
+      const result = await api.call(option);
+      expect(result.status).toBe(200);
+      expect(result.ok).toBe(true);
+      const json = await result.json();
+      expect(json.id).toBe(123);
+    });
   });
 });
