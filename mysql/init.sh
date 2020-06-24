@@ -1,0 +1,1 @@
+mysql -uroot -p$MYSQL_ROOT_PASSWORD -e"CREATE DATABASE IF NOT EXISTS testdb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
