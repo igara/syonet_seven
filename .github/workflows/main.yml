@@ -24,6 +24,7 @@ jobs:
           sudo dpkg-reconfigure --frontend noninteractive tzdata
           sh env.sh local
           docker-compose build
+          docker-compose up -d mysql
           (cd ./nodejs/www && npm ci)
       - name: test task
         env:
