@@ -1,5 +1,6 @@
 const tsconfig = require("./tsconfig.json");
 const moduleNameMapper = require("tsconfig-paths-jest")(tsconfig);
+const path = require("path");
 
 module.exports = {
   roots: ["./specs"],
@@ -11,7 +12,7 @@ module.exports = {
   },
   globals: {
     "ts-jest": {
-      tsConfig: "jest.tsconfig.json",
+      tsConfig: path.join(__dirname, "jest.tsconfig.json"),
       diagnostics: false,
     },
   },
