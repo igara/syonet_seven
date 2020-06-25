@@ -4,12 +4,6 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_DATABASE: testdb
-          MYSQL_ROOT_PASSWORD: xxxxxxxxxx
     steps:
       - uses: actions/checkout@v1
       - name: cache node modules
@@ -21,6 +15,11 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql version: '8.0'
+        mysql database: 'testdb'
+        mysql root password: 'xxxxxxxxxx'
       - uses: actions/setup-node@v1
         with:
           node-version: 12
