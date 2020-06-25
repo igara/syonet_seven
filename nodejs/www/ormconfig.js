@@ -21,7 +21,7 @@ module.exports = [
   {
     name: "test",
     type: "mysql",
-    host: "mysql",
+    host: "localhost",
     port: 3306,
     username: "root",
     password: process.env.MYSQL_ROOT_PASSWORD,

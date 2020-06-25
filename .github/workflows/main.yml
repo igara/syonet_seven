@@ -26,13 +26,12 @@ jobs:
           docker-compose build
           (cd ./nodejs/www && npm ci)
           docker-compose up -d mysql
-          docker-compose up -d www
       - name: test task
         env:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
         run: |
-          docker-compose exec -T www npm run coverage
-          docker-compose exec -T www npm run codeclimate
+          npm run coverage
+          npm run codeclimate
       - uses: actions/setup-ruby@v1
       - name: Send Webhook Notification
         if: always()
