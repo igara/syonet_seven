@@ -31,7 +31,6 @@ jobs:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
         run: |
           npm run coverage
-          npm run codeclimate
       - uses: actions/setup-ruby@v1
       - name: Send Webhook Notification
         if: always()
