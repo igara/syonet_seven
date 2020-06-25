@@ -16,10 +16,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - uses: mirromutth/mysql-action@v1.1
-      with:
-        mysql version: '8.0'
-        mysql database: 'testdb'
-        mysql root password: 'xxxxxxxxxx'
+        with:
+          mysql version: "8.0"
+          mysql database: "testdb"
+          mysql root password: "xxxxxxxxxx"
       - uses: actions/setup-node@v1
         with:
           node-version: 12
