@@ -25,9 +25,14 @@ jobs:
           sh env.sh local
           docker-compose build
           (cd ./nodejs/www && npm ci)
-          docker-compose up -d mysql
       - name: test task
+        env:
+          MYSQL_USER: xxxxxxxxxx
+          MYSQL_PASSWORD: xxxxxxxxxx
+          MYSQL_DATABASE: xxxxxxxxxx
+          MYSQL_ROOT_PASSWORD: xxxxxxxxxx
         run: |
+          docker-compose up -d mysql
           (cd ./nodejs/www && npm run coverage)
       - uses: actions/setup-ruby@v1
       - name: Send Webhook Notification
