@@ -35,6 +35,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: xxxxxxxxxx
         run: |
+          (cd ./nodejs/www && npm run testdb:create)
           (cd ./nodejs/www && npm run coverage)
       - uses: actions/setup-ruby@v1
       - name: Send Webhook Notification
