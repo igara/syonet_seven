@@ -66,7 +66,7 @@ app.prepare().then(async () => {
     next();
   });
 
-  await connectTypeORM(process.env.MYSQL_DATABASE);
+  await connectTypeORM("default");
 
   server.use(passport.initialize());
   server.use(passport.session());
