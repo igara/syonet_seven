@@ -66,7 +66,7 @@ app.prepare().then(async () => {
     next();
   });
 
-  await connectTypeORM("default");
+  await connectTypeORM();
 
   server.use(passport.initialize());
   server.use(passport.session());

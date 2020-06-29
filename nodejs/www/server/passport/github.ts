@@ -1,6 +1,7 @@
 import express from "express";
 import { Strategy as GithubStrategy } from "passport-github";
 import passport from "passport";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { Auth } from "@www/models/typeorm/entities/auth";
 import { AuthGitHub } from "@www/models/typeorm/entities/auth_github";
 import { AccessToken } from "@www/models/typeorm/entities/access_token";
@@ -46,6 +47,10 @@ router.get(
  */
 export const github = async (req: express.Request, res: express.Response) => {
   let query = "";
+  const connect = await connectTypeORM();
+  Auth.useConnection(connect);
+  AuthGitHub.useConnection(connect);
+  AccessToken.useConnection(connect);
 
   try {
     if (!req.user) throw new Error("not user");

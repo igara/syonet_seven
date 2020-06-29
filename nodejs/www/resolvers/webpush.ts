@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { Resolver, Arg, Mutation, Query, ObjectType, Field } from "type-graphql";
 import { WebPushUser } from "@www/models/typeorm/entities/webpush_user";
 import * as webpush from "web-push";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 
 const contact = process.env.WEBPUSH_CONTACT ? process.env.WEBPUSH_CONTACT : "";
 const vapidKeys = {
@@ -38,6 +39,9 @@ export class WebPushResolver {
     @Arg("auth") auth: string,
     @Arg("p256dh") p256dh: string,
   ): Promise<CreateWebPushUser> {
+    const connect = await connectTypeORM();
+    WebPushUser.useConnection(connect);
+
     const findWebPushUser = await WebPushUser.findOne({ endpoint, auth, p256dh });
     if (findWebPushUser) {
       return { message: "Registed" };

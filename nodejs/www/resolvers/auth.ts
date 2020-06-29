@@ -1,9 +1,10 @@
 import "reflect-metadata";
 import { Resolver, Query, Ctx } from "type-graphql";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { Auth } from "@www/models/typeorm/entities/auth";
 
 type Context = {
-  user: number;
+  user?: number;
 };
 
 @Resolver(Auth)
@@ -13,9 +14,14 @@ export class AuthResolver {
     if (!ctx.user) {
       return undefined;
     }
+
+    const connect = await connectTypeORM();
+    Auth.useConnection(connect);
+
     const auth = await Auth.findOne({
       id: Number(ctx.user),
     });
+
     if (!auth) {
       return undefined;
     }

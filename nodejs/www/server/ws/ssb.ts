@@ -1,5 +1,6 @@
 import WS from "ws";
 import webpush from "web-push";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { WebPushUser } from "@www/models/typeorm/entities/webpush_user";
 import { WebPushMessage } from "@www/models/typeorm/entities/webpush_message";
 import fetch from "isomorphic-fetch";
@@ -57,6 +58,10 @@ export const ssbSocketRoute = (wss: WS.Server) => {
 
   wss.on("connection", (ws: WS) => {
     ws.on("message", async (message: Buffer | string) => {
+      const connect = await connectTypeORM();
+      WebPushUser.useConnection(connect);
+      WebPushMessage.useConnection(connect);
+
       try {
         if (typeof message === "string") {
           return;

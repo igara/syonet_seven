@@ -1,6 +1,7 @@
 import express from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import passport from "passport";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { Auth } from "@www/models/typeorm/entities/auth";
 import { AuthGoogle } from "@www/models/typeorm/entities/auth_google";
 import { AccessToken } from "@www/models/typeorm/entities/access_token";
@@ -54,6 +55,10 @@ router.get(
  */
 export const google = async (req: express.Request, res: express.Response) => {
   let query = "";
+  const connect = await connectTypeORM();
+  Auth.useConnection(connect);
+  AuthGoogle.useConnection(connect);
+  AccessToken.useConnection(connect);
 
   try {
     if (!req.user) throw new Error("not user");

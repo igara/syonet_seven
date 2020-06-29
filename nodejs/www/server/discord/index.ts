@@ -2,6 +2,7 @@
 import * as Discord from "discord.js";
 import child_process from "child_process";
 import * as webpush from "web-push";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { WebPushUser } from "@www/models/typeorm/entities/webpush_user";
 import { WebPushMessage } from "@www/models/typeorm/entities/webpush_message";
 
@@ -89,6 +90,11 @@ export const connect = () => {
               url: process.env.WWW_HOST || "",
             };
             const sendPayload = JSON.stringify(payload);
+
+            const connect = await connectTypeORM();
+            WebPushMessage.useConnection(connect);
+            WebPushUser.useConnection(connect);
+
             const webPushMessage = WebPushMessage.create({
               title,
               body,

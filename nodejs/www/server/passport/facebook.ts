@@ -1,6 +1,7 @@
 import express from "express";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
+import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { Auth } from "@www/models/typeorm/entities/auth";
 import { AuthFacebook } from "@www/models/typeorm/entities/auth_facebook";
 import { AccessToken } from "@www/models/typeorm/entities/access_token";
@@ -42,6 +43,10 @@ router.get("/", passport.authenticate("facebook", { session: false }));
  */
 export const facebook = async (req: express.Request, res: express.Response) => {
   let query = "";
+  const connect = await connectTypeORM();
+  Auth.useConnection(connect);
+  AuthFacebook.useConnection(connect);
+  AccessToken.useConnection(connect);
 
   try {
     if (!req.user) throw new Error("not user");
