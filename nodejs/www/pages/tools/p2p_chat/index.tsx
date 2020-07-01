@@ -95,7 +95,7 @@ const ToolsP2PChatPageComponent = (props: Props) => {
                 <td>{(state.auth.username && state.auth.type === "AuthGoogle") || "???"}</td>
                 <td className={toolsP2PChatStyle.validation}>
                   {state.auth.username && state.auth.type === "AuthGoogle" ? (
-                    ""
+                    state.auth.username
                   ) : (
                     <LinkComponent href="/login">ログインしていません。</LinkComponent>
                   )}
