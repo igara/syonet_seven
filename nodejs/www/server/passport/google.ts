@@ -69,11 +69,13 @@ export const google = async (req: express.Request, res: express.Response) => {
       photos: Array<{
         value: string;
       }>;
+      accessToken: string;
     };
 
     const snsID = user.id.toString();
     const username = user.displayName;
     const imageURL = user.photos[0].value;
+    const accessToken = user.accessToken;
 
     const findAuth = await AuthGoogle.findOne({ snsID });
     if (findAuth) {
@@ -84,24 +86,26 @@ export const google = async (req: express.Request, res: express.Response) => {
         {
           username,
           imageURL,
+          accessToken,
         },
       );
     } else {
       const saveAuth = AuthGoogle.create({
-        snsID: user.id.toString(),
-        username: user.displayName,
-        imageURL: user.photos[0].value,
+        snsID,
+        username,
+        imageURL,
+        accessToken,
       });
       await saveAuth.save();
     }
 
     const auth = (await Auth.findOne({ snsID })) as Auth;
     const token = generateAccessToken(auth.id.toString());
-    const accessToken = AccessToken.create({
+    const saveAccessToken = AccessToken.create({
       auth,
       token,
     });
-    await accessToken.save();
+    await saveAccessToken.save();
     query = `?token=${token}`;
   } catch (error) {
     console.error(error);

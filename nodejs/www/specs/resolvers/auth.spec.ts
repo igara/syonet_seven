@@ -37,11 +37,13 @@ describe("AuthResolver", () => {
       snsID: "1111",
       username: "username",
       imageURL: "https://example.com",
+      accessToken: "accessToken",
     };
     const authFacebook = AuthFacebook.create({
       snsID: user.snsID,
       username: user.username,
       imageURL: user.imageURL,
+      accessToken: user.accessToken,
     });
     const saveAuthData = await authFacebook.save();
 

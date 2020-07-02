@@ -41,6 +41,14 @@ export class Auth extends BaseEntity {
 
   @Field()
   @Column({
+    length: 255,
+    nullable: false,
+    name: "access_token",
+  })
+  accessToken: string;
+
+  @Field()
+  @Column({
     length: 30,
     nullable: false,
   })

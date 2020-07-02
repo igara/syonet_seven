@@ -5,6 +5,7 @@ CREATE TABLE `auth` (
   `image_url` varchar(255) NOT NULL,
   `type` varchar(30) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `access_token` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_c9a7bc90e53c61cb4c76101e19` (`type`,`sns_id`),
   KEY `IDX_e95ea875418d2fd7541093cedc` (`type`)
