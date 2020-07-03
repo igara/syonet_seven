@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = {
   roots: ["./specs"],
   notify: true,
-  moduleFileExtensions: ["js", "ts", "tsx"],
+  moduleFileExtensions: ["js", "ts", "tsx", "json"],
   testEnvironment: "jest-environment-jsdom-global",
   transform: {
     "^.+\\.ts$": "ts-jest",

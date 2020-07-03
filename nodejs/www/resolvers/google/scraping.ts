@@ -1,11 +1,10 @@
 import "reflect-metadata";
-import { Resolver, Mutation, ObjectType, Field, Ctx, Arg } from "type-graphql";
+import { Resolver, Mutation, Query, ObjectType, Field, Ctx, Arg } from "type-graphql";
 import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { Auth } from "@www/models/typeorm/entities/auth";
 import * as googleapis from "@www/libs/googleapis";
 // @ts-ignore
 import Inliner from "inliner";
-import * as fs from "fs";
 import { getTimeStamp } from "@www/libs/datetime";
 
 type Context = {
@@ -15,14 +14,36 @@ type Context = {
 @ObjectType()
 class ExecScraping {
   @Field()
+  html: string;
+}
+
+@ObjectType()
+class SaveScrapingHTML {
+  @Field()
   driveID: string;
   html: string;
 }
 
 @Resolver()
 export class ScrapingResolver {
-  @Mutation(() => ExecScraping, { nullable: true })
-  async execScraping(@Ctx() ctx: Context, @Arg("url") url: string): Promise<ExecScraping | undefined> {
+  @Query(() => ExecScraping, { nullable: true })
+  async execScraping(@Arg("url") url: string): Promise<ExecScraping> {
+    const inliner = () => {
+      return new Promise<string>(
+        resolve =>
+          new Inliner(url, (_: any, html: string) => {
+            resolve(html);
+          }),
+      );
+    };
+
+    const html = await inliner();
+
+    return { html };
+  }
+
+  @Mutation(() => SaveScrapingHTML, { nullable: true })
+  async saveScrapingHTML(@Ctx() ctx: Context, @Arg("html") html: string): Promise<SaveScrapingHTML | undefined> {
     if (!ctx.user) {
       return undefined;
     }
@@ -48,24 +69,7 @@ export class ScrapingResolver {
       appFolderID,
     );
 
-    const inliner = () => {
-      return new Promise<string>(
-        resolve =>
-          new Inliner(url, (_: any, html: string) => {
-            resolve(html);
-          }),
-      );
-    };
-
-    const dirPath = "./dist/html";
     const htmlFileName = `${getTimeStamp()}.html`;
-    const htmlPath = `${dirPath}/${htmlFileName}`;
-
-    fs.mkdirSync(dirPath, { recursive: true });
-
-    const html = await inliner();
-    fs.writeFileSync(htmlPath, html);
-
     const htmlID = await googleapis.createHTMLFileByHTMLFileNameAndFolderID(
       drive,
       htmlFileName,
