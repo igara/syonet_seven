@@ -13,7 +13,7 @@
     "lint": "npm run stylelint && npm run eslint",
     "clean:all": "rm -rf node_modules .next dist",
     "clean:build": "rm -rf .next dist",
-    "sw:build": "NODE_OPTIONS='--max_old_space_size=2048 --gc_interval=100' webpack",
+    "sw:build": "NODE_OPTIONS=--max_old_space_size=2048 webpack",
     "test": "jest --detectOpenHandles --forceExit",
     "coverage": "jest --coverage --detectOpenHandles --forceExit",
     "testdb:create": "bin/mysqldef -h localhost -P 3306 -u root -p $MYSQL_ROOT_PASSWORD testdb < models/typeorm/migrations/schema.sql",
