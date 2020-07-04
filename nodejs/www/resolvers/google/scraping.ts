@@ -21,7 +21,12 @@ class ExecScraping {
 class SaveScrapingHTML {
   @Field()
   driveID: string;
+  @Field()
   html: string;
+  @Field()
+  url: string;
+  @Field()
+  title: string;
 }
 
 @Resolver()
@@ -43,7 +48,12 @@ export class ScrapingResolver {
   }
 
   @Mutation(() => SaveScrapingHTML, { nullable: true })
-  async saveScrapingHTML(@Ctx() ctx: Context, @Arg("html") html: string): Promise<SaveScrapingHTML | undefined> {
+  async saveScrapingHTML(
+    @Ctx() ctx: Context,
+    @Arg("html") html: string,
+    @Arg("url") url: string,
+    @Arg("title") title: string,
+  ): Promise<SaveScrapingHTML | undefined> {
     if (!ctx.user) {
       return undefined;
     }
@@ -68,15 +78,22 @@ export class ScrapingResolver {
       googleapis.folderName.scraping,
       appFolderID,
     );
+    await googleapis.createPermission(drive, scrapingFolderID);
+    const scrapingURLFolderID = await googleapis.createChildFolderByFolderNameAndFolderID(drive, url, scrapingFolderID);
+    const scrapingTitleFolderID = await googleapis.createChildFolderByFolderNameAndFolderID(
+      drive,
+      title,
+      scrapingURLFolderID,
+    );
 
     const htmlFileName = `${getTimeStamp()}.html`;
     const htmlID = await googleapis.createHTMLFileByHTMLFileNameAndFolderID(
       drive,
       htmlFileName,
-      scrapingFolderID,
+      scrapingTitleFolderID,
       html,
     );
 
-    return { driveID: htmlID, html };
+    return { driveID: htmlID, html, url, title };
   }
 }

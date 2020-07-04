@@ -31,6 +31,17 @@ export const sheets = (oauth2Client: GoogleAuthLibrary.OAuth2Client) => {
   });
 };
 
+export const createPermission = async (googleDrive: googleapis.drive_v3.Drive, driveID: string) => {
+  return await googleDrive.permissions.create({
+    requestBody: {
+      role: "reader",
+      type: "anyone",
+    },
+    fileId: driveID,
+    fields: "id",
+  });
+};
+
 export const getFolderIDByFolderName = async (googleDrive: googleapis.drive_v3.Drive, folderName: string) => {
   const folderList = await googleDrive.files.list({
     q: `name = '${folderName}'`,

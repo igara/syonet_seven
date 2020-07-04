@@ -40,9 +40,9 @@ const ToolsPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - Tools</title>
+        <title>Tools</title>
         <meta content="Toolたち" name="description"></meta>
-        <meta property="og:title" content="Syonet - Tools" />
+        <meta property="og:title" content="Tools" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/index/ogp.png`} />
         <meta property="og:description" content="Toolたち" />
@@ -61,6 +61,9 @@ const ToolsPageComponent = (props: Props) => {
           </li>
           <li>
             <LinkComponent href="/tools/p2p_chat">P2Pチャット</LinkComponent>
+          </li>
+          <li>
+            <LinkComponent href="/tools/scraping">Web魚拓のような</LinkComponent>
           </li>
         </ul>
       </WrapperComponent>

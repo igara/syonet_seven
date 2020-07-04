@@ -24,24 +24,28 @@ describe("ScrapingResolver: saveScrapingHTML", () => {
 
   test("not user", async () => {
     const html = "<html></html>";
+    const title = "title";
+    const url = "https://syonet.work";
 
     const { ScrapingResolver } = await import("@www/resolvers/google/scraping");
     const scrapingResolver = new ScrapingResolver();
 
     const ctx = {};
-    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html);
+    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html, url, title);
 
     expect(saveScrapingHTML).toBeUndefined();
   });
 
   test("not auth user", async () => {
     const html = "<html></html>";
+    const title = "title";
+    const url = "https://syonet.work";
 
     const { ScrapingResolver } = await import("@www/resolvers/google/scraping");
     const scrapingResolver = new ScrapingResolver();
 
     const ctx = { user: 1111 };
-    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html);
+    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html, url, title);
 
     expect(saveScrapingHTML).toBeUndefined();
   });
@@ -49,6 +53,9 @@ describe("ScrapingResolver: saveScrapingHTML", () => {
   test("save", async () => {
     const html = "<html></html>";
     const driveID = "abcdefg";
+    const title = "title";
+    const url = "https://syonet.work";
+
     jest.doMock(
       "@www/libs/googleapis",
       jest.fn().mockImplementationOnce(() => ({
@@ -59,6 +66,7 @@ describe("ScrapingResolver: saveScrapingHTML", () => {
         drive: jest.fn().mockImplementation(() => jest.fn()),
         getFolderIDByFolderName: jest.fn().mockImplementation(() => jest.fn()),
         createChildFolderByFolderNameAndFolderID: jest.fn().mockImplementation(() => jest.fn()),
+        createPermission: jest.fn().mockImplementation(() => jest.fn()),
         createHTMLFileByHTMLFileNameAndFolderID: jest.fn().mockImplementation(() => driveID),
       })),
     );
@@ -88,7 +96,7 @@ describe("ScrapingResolver: saveScrapingHTML", () => {
     const ctx = {
       user: saveAuthData.id,
     };
-    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html);
+    const saveScrapingHTML = await scrapingResolver.saveScrapingHTML(ctx, html, url, title);
 
     expect(saveScrapingHTML).not.toBeUndefined();
     if (!saveScrapingHTML) return;

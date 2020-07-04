@@ -40,8 +40,8 @@ app.prepare().then(async () => {
   const stream = fs.createWriteStream(`${__dirname}/log.txt`, { flags: "a" });
   server.use(logger("combined", { stream: stream }));
 
-  server.use(bodyParser.json());
-  server.use(bodyParser.urlencoded({ extended: false }));
+  server.use(bodyParser.json({ limit: "50mb" }));
+  server.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
   server.use(cookieParser());
 
   server.use(
