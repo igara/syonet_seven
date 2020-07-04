@@ -32,9 +32,10 @@ const ToolsScrapingPageComponent = (props: Props) => {
   const changeURL = (event: ChangeEvent<HTMLInputElement>) => setURL(event.target.value);
   const [html, setHTML] = useState("");
   const [title, setTitle] = useState("");
-  const [driveID, setDriveID] = useState("");
+  const [fileID, setFileID] = useState("");
+  const [directoryID, setDirectoryID] = useState("");
 
-  const [loadExecScraping] = useLazyQuery<ExecScraping>(EXEC_SCRAPING, {
+  const [loadExecScraping, resultExecScraping] = useLazyQuery<ExecScraping>(EXEC_SCRAPING, {
     onCompleted: async data => {
       setHTML(data.execScraping.html);
 
@@ -43,9 +44,10 @@ const ToolsScrapingPageComponent = (props: Props) => {
     },
   });
 
-  const [loadSaveScrapingHTML] = useMutation<SaveScrapingHTML>(SAVE_SCRAPING_HTML, {
+  const [loadSaveScrapingHTML, resultSaveScrapingHTML] = useMutation<SaveScrapingHTML>(SAVE_SCRAPING_HTML, {
     onCompleted: async data => {
-      setDriveID(data.saveScrapingHTML.driveID);
+      setFileID(data.saveScrapingHTML.fileID);
+      setDirectoryID(data.saveScrapingHTML.directoryID);
     },
   });
 
@@ -103,7 +105,7 @@ const ToolsScrapingPageComponent = (props: Props) => {
           <ButtonComponent
             OnClickHandler={() => {
               setHTML("");
-              setTitle("読み込み中...");
+              setTitle("");
               loadExecScraping({
                 variables: {
                   url,
@@ -121,7 +123,9 @@ const ToolsScrapingPageComponent = (props: Props) => {
             ClassName={toolsScrapingStyle.htmlText}
             ReadOnly={true}
           />
-          <div>タイトル: {title}</div>
+          <div>
+            タイトル: {title} {resultExecScraping.loading && "読み込み中..."}
+          </div>
 
           <ButtonComponent
             OnClickHandler={() => {
@@ -154,7 +158,8 @@ const ToolsScrapingPageComponent = (props: Props) => {
                 <td>
                   <ButtonComponent
                     OnClickHandler={() => {
-                      setDriveID("読み込み中...");
+                      setFileID("");
+                      setDirectoryID("");
                       loadSaveScrapingHTML({
                         variables: {
                           html,
@@ -170,17 +175,33 @@ const ToolsScrapingPageComponent = (props: Props) => {
                 </td>
               </tr>
               <tr>
-                <td>DriveID: </td>
+                <td>FileID: </td>
                 <td>
-                  {driveID && (
+                  {fileID && (
                     <a
-                      href={`https://drive.google.com/file/d/${driveID}/view`}
+                      href={`https://drive.google.com/file/d/${fileID}/view`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {driveID}
+                      {fileID}
                     </a>
                   )}
+                  {resultSaveScrapingHTML.loading && "読み込み中..."}
+                </td>
+              </tr>
+              <tr>
+                <td>DirectoryID: </td>
+                <td>
+                  {directoryID && (
+                    <a
+                      href={`https://drive.google.com/drive/folders/${directoryID}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {directoryID}
+                    </a>
+                  )}
+                  {resultSaveScrapingHTML.loading && "読み込み中..."}
                 </td>
               </tr>
             </tbody>

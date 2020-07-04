@@ -20,7 +20,9 @@ class ExecScraping {
 @ObjectType()
 class SaveScrapingHTML {
   @Field()
-  driveID: string;
+  fileID: string;
+  @Field()
+  directoryID: string;
   @Field()
   html: string;
   @Field()
@@ -87,13 +89,13 @@ export class ScrapingResolver {
     );
 
     const htmlFileName = `${getTimeStamp()}.html`;
-    const htmlID = await googleapis.createHTMLFileByHTMLFileNameAndFolderID(
+    const fileID = await googleapis.createHTMLFileByHTMLFileNameAndFolderID(
       drive,
       htmlFileName,
       scrapingTitleFolderID,
       html,
     );
 
-    return { driveID: htmlID, html, url, title };
+    return { fileID, directoryID: scrapingFolderID, html, url, title };
   }
 }

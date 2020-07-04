@@ -16,7 +16,8 @@ export const EXEC_SCRAPING = gql`
 
 export type SaveScrapingHTML = {
   saveScrapingHTML: {
-    driveID: string;
+    fileID: string;
+    directoryID: string;
     html: string;
     url: string;
     title: string;
@@ -26,7 +27,8 @@ export type SaveScrapingHTML = {
 export const SAVE_SCRAPING_HTML = gql`
   mutation SaveScrapingHTML($html: String!, $url: String!, $title: String!) {
     saveScrapingHTML(html: $html, url: $url, title: $title) {
-      driveID
+      fileID
+      directoryID
       html
       url
       title

@@ -100,6 +100,6 @@ describe("ScrapingResolver: saveScrapingHTML", () => {
 
     expect(saveScrapingHTML).not.toBeUndefined();
     if (!saveScrapingHTML) return;
-    expect(saveScrapingHTML.driveID).toBe(driveID);
+    expect(saveScrapingHTML.fileID).toBe(driveID);
   });
 });
