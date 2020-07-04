@@ -63,7 +63,7 @@ const ToolsPageComponent = (props: Props) => {
             <LinkComponent href="/tools/p2p_chat">P2Pチャット</LinkComponent>
           </li>
           <li>
-            <LinkComponent href="/tools/scraping">Web魚拓のような</LinkComponent>
+            <LinkComponent href="/tools/scraping">Web魚拓っぽい</LinkComponent>
           </li>
         </ul>
       </WrapperComponent>
