@@ -51,9 +51,9 @@ const BlogsQiitaItemPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - Qiita - {name}</title>
+        <title>{name}</title>
         <meta content="Qiitaバックアップ" name="description"></meta>
-        <meta property="og:title" content={`"Syonet - Qiita - ${name}"`} />
+        <meta property="og:title" content={`"${name}"`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/qiita/ogp.png`} />
         <meta property="og:description" content="Qiitaバックアップ" />

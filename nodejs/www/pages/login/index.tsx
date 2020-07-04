@@ -41,9 +41,9 @@ const LoginPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - Login</title>
+        <title>Login</title>
         <meta content="ログインページ" name="description"></meta>
-        <meta property="og:title" content="Syonet - Login" />
+        <meta property="og:title" content="Login" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/login/ogp.png`} />
         <meta property="og:description" content="ログインページ" />

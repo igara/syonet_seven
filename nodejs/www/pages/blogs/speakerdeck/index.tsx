@@ -61,9 +61,9 @@ const BlogsSpeakerdeckPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - Speaker Deck</title>
+        <title>Speaker Deck</title>
         <meta content="Speaker Deckバックアップ" name="description"></meta>
-        <meta property="og:title" content="Syonet - Speaker Deck" />
+        <meta property="og:title" content="Speaker Deck" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/speakerdeck/ogp.png`} />
         <meta property="og:description" content="Speaker Deckバックアップ" />

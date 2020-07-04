@@ -101,7 +101,7 @@ const ToolsP2PChatIdPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - P2P Chat</title>
+        <title>P2P Chat</title>
       </Head>
       <WrapperComponent {...state}>
         <div className={toolsP2PChatStyle.wrapper}>

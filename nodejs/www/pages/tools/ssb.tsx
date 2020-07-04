@@ -40,9 +40,9 @@ const ToolsSsbPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet - SUPER SUPER BROS.</title>
+        <title>SUPER SUPER BROS.</title>
         <meta content="パクリゲー" name="description"></meta>
-        <meta property="og:title" content="Syonet - SUPER SUPER BROS." />
+        <meta property="og:title" content="SUPER SUPER BROS." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/ssb/ogp.png`} />
         <meta property="og:description" content="パクリゲー" />
