@@ -59,6 +59,7 @@ const LoginPageComponent = (props: Props) => {
         <Button>
           <a href={`${host}/auth/github`}>GitHub</a>
         </Button>
+        <br />
         <Button
           OnClickHandler={() => {
             dispatch(termActions.onClickOpen());
