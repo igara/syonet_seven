@@ -1,6 +1,7 @@
 import sidebarStyle from "@www/styles/common/sidebar.module.css";
 import closeIconStyle from "@www/styles/common/icon/close.module.css";
 import { sidebarActions } from "@www/actions/common/sidebar";
+import { termActions } from "@www/actions/common/term";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "@www/stores";
 import { db } from "@www/models/dexie/db";
@@ -59,8 +60,7 @@ export const SidebarComponent = (props: Props) => {
         <li
           className={sidebarStyle.sidebar_link_list}
           onClick={() => {
-            dispatch(sidebarActions.onClickTerm(true));
-            dispatch(sidebarActions.onClickTerm(true));
+            dispatch(termActions.onClickOpen());
           }}
         >
           利用規約

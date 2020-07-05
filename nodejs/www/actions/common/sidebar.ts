@@ -8,10 +8,6 @@ export const sidebarActions = {
    */
   onClickClose: actionCreator<boolean>("ACTIONS_SIDEBAR_ONCLICK_CLOSE"),
   /**
-   * 利用規約を押下したときの処理
-   */
-  onClickTerm: actionCreator<boolean>("ACTIONS_SIDEBAR_ONCLICK_TERM"),
-  /**
    * ホームを押下したときの処理
    */
   onClickHome: actionCreator<boolean>("ACTIONS_SIDEBAR_ONCLICK_HOME"),

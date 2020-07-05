@@ -4,6 +4,7 @@ import { ButtonComponent as Button } from "@www/components/common/input/button";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
+import { termActions } from "@www/actions/common/term";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { AppState } from "@www/stores";
@@ -49,7 +50,6 @@ const LoginPageComponent = (props: Props) => {
         <meta property="og:description" content="ログインページ" />
       </Head>
       <WrapperComponent {...state}>
-        ログイン画面です
         <Button>
           <a href={`${host}/auth/google`}>Google</a>
         </Button>
@@ -58,6 +58,13 @@ const LoginPageComponent = (props: Props) => {
         </Button>
         <Button>
           <a href={`${host}/auth/github`}>GitHub</a>
+        </Button>
+        <Button
+          OnClickHandler={() => {
+            dispatch(termActions.onClickOpen());
+          }}
+        >
+          利用規約
         </Button>
       </WrapperComponent>
     </>
