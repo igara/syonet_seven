@@ -22,19 +22,19 @@ const vrmLoad = async (divElementRef: RefObject<HTMLDivElement>) => {
   const height = window.innerHeight / 2;
 
   // renderer
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
   divElementRef.current.appendChild(renderer.domElement);
 
   // camera
   const camera = new THREE.PerspectiveCamera(30.0, width / height, 0.1, 20.0);
-  camera.position.set(0.0, 1.0, 5.0);
+  camera.position.set(0.0, 1.5, 1.0);
 
   // camera controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.screenSpacePanning = true;
-  controls.target.set(0.0, 1.0, 0.0);
+  controls.target.set(0.0, 1.5, 0.0);
   controls.update();
 
   // scene
@@ -48,41 +48,79 @@ const vrmLoad = async (divElementRef: RefObject<HTMLDivElement>) => {
   // gltf and vrm
   const loader = new GLTFLoader();
   loader.crossOrigin = "anonymous";
-  loader.load(
-    // URL of the VRM you want to load
-    "/static/vrm/igarashi.vrm",
+  let currentVrm: VRM;
 
-    // called when the resource is loaded
-    gltf => {
-      // calling this function greatly improves the performance
-      VRMUtils.removeUnnecessaryJoints(gltf.scene);
+  const load = (url: string) =>
+    loader.load(
+      // URL of the VRM you want to load
+      url,
 
-      // generate VRM instance from gltf
-      VRM.from(gltf).then(vrm => {
-        console.log(vrm);
-        scene.add(vrm.scene);
+      // called when the resource is loaded
+      gltf => {
+        // calling this function greatly improves the performance
+        VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
-        if (vrm.humanoid) {
-          const boneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Hips);
-          if (boneNode) boneNode.rotation.y = Math.PI;
-        }
-      });
-    },
+        // generate VRM instance from gltf
+        VRM.from(gltf).then(vrm => {
+          if (currentVrm) {
+            scene.remove(currentVrm.scene);
+            currentVrm.dispose();
+          }
 
-    // called while loading is progressing
-    progress => console.log("Loading model...", 100.0 * (progress.loaded / progress.total), "%"),
+          currentVrm = vrm;
+          scene.add(vrm.scene);
 
-    // called when loading has errors
-    error => console.error(error),
-  );
+          if (vrm.humanoid) {
+            const hipBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Hips);
+            if (hipBoneNode) hipBoneNode.rotation.y = Math.PI;
 
-  const animate = () => {
-    window.requestAnimationFrame(animate);
+            const leftUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.LeftUpperArm);
+            if (leftUpperArmBoneNode) leftUpperArmBoneNode.rotation.z = 1;
 
-    renderer.render(scene, camera);
-  };
+            const rightUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.RightUpperArm);
+            if (rightUpperArmBoneNode) rightUpperArmBoneNode.rotation.z = -1;
 
-  animate();
+            const animate = () => {
+              window.requestAnimationFrame(animate);
+
+              renderer.render(scene, camera);
+            };
+
+            animate();
+          }
+        });
+      },
+
+      // called while loading is progressing
+      progress => console.log("Loading model...", 100.0 * (progress.loaded / progress.total), "%"),
+
+      // called when loading has errors
+      error => console.error(error),
+    );
+
+  load("/static/vrm/igarashi.vrm");
+
+  divElementRef.current.addEventListener("dragover", event => {
+    event.preventDefault();
+  });
+
+  divElementRef.current.addEventListener("drop", event => {
+    console.log(123);
+    event.preventDefault();
+
+    if (!event.dataTransfer) return;
+    console.log(123);
+    // read given file then convert it to blob url
+    const files = event.dataTransfer.files;
+    if (!files) return;
+    console.log(123);
+    const file = files[0];
+    if (!file) return;
+
+    const blob = new Blob([file], { type: "application/octet-stream" });
+    const url = URL.createObjectURL(blob);
+    load(url);
+  });
 };
 
 type Props = AppState;
@@ -131,7 +169,7 @@ const ToolsVRMPageComponent = (props: Props) => {
       <WrapperComponent {...state}>
         <h2>{title}</h2>
         <div>{description}</div>
-        <div ref={vrmElementRef} />
+        <div ref={vrmElementRef} style={{ background: "greenyellow" }} />
       </WrapperComponent>
     </>
   );

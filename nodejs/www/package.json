@@ -25,6 +25,8 @@
   "dependencies": {
     "@apollo/react-hooks": "3.1.5",
     "@pixiv/three-vrm": "0.3.5",
+    "@tensorflow-models/facemesh": "0.0.3",
+    "@tensorflow/tfjs": "2.0.1",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-client": "2.6.10",
     "apollo-link-context": "1.0.20",
