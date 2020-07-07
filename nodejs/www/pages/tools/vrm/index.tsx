@@ -4,7 +4,7 @@ import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { AppState } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
@@ -13,6 +13,7 @@ import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import * as THREE from "three";
 import { VRM, VRMUtils, VRMSchema } from "@pixiv/three-vrm";
 import * as facemesh from "@tensorflow-models/facemesh";
+import { SelectComponent } from "@www/components/common/input/select";
 
 const estimatePose = (annotations: any) => {
   const faces = annotations.silhouette;
@@ -176,6 +177,13 @@ const ToolsVRMPageComponent = (props: Props) => {
     },
   });
 
+  const vrmBackgroundColors = [
+    { name: "緑", value: "greenyellow" },
+    { name: "青", value: "blue" },
+    { name: "白", value: "white" },
+  ];
+  const [vrmBackgroundColor, setVRMBackgroundColor] = useState(vrmBackgroundColors[0].value);
+
   const vrmElementRef = useRef<HTMLDivElement>(null);
   const videoElementRef = useRef<HTMLVideoElement>(null);
 
@@ -222,8 +230,22 @@ const ToolsVRMPageComponent = (props: Props) => {
       <WrapperComponent {...state}>
         <h2>{title}</h2>
         <div>{description}</div>
-        <div ref={vrmElementRef} style={{ background: "greenyellow" }} className={vrmStyle.vrm} />
+        <div ref={vrmElementRef} style={{ background: vrmBackgroundColor }} className={vrmStyle.vrm} />
         <video ref={videoElementRef} controls={true} autoPlay={true} playsInline={true} className={vrmStyle.video} />
+        <div>
+          背景色変更
+          <SelectComponent
+            OnChangeHandler={(e: ChangeEvent<HTMLSelectElement>) => {
+              setVRMBackgroundColor(e.target.value);
+            }}
+          >
+            {vrmBackgroundColors.map(backgroundColor => (
+              <option key={backgroundColor.value} value={backgroundColor.value}>
+                {backgroundColor.name}
+              </option>
+            ))}
+          </SelectComponent>
+        </div>
       </WrapperComponent>
     </>
   );
