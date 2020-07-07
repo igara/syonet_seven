@@ -1,9 +1,10 @@
 import { WrapperComponent } from "@www/components/wrapper";
+import vrmStyle from "@www/styles/tools/vrm.module.css";
 import { NextPageContext } from "next";
 import { AppProps } from "next/app";
 import { AppState } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect, useRef, RefObject } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
@@ -11,21 +12,62 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import * as THREE from "three";
 import { VRM, VRMUtils, VRMSchema } from "@pixiv/three-vrm";
+import * as facemesh from "@tensorflow-models/facemesh";
 
-const vrmLoad = async (divElementRef: RefObject<HTMLDivElement>) => {
-  if (!divElementRef || !divElementRef.current) return;
+const estimatePose = (annotations: any) => {
+  const faces = annotations.silhouette;
+  const x1 = new THREE.Vector3().fromArray(faces[9]);
+  const x2 = new THREE.Vector3().fromArray(faces[27]);
+  const y1 = new THREE.Vector3().fromArray(faces[18]);
+  const y2 = new THREE.Vector3().fromArray(faces[0]);
+  const xaxis = x2.sub(x1).normalize();
+  const yaxis = y2.sub(y1).normalize();
+  const zaxis = new THREE.Vector3().crossVectors(xaxis, yaxis);
+  const mat = new THREE.Matrix4()
+    .makeBasis(xaxis, yaxis, zaxis)
+    .premultiply(new THREE.Matrix4().makeRotationZ(Math.PI));
+  return new THREE.Quaternion().setFromRotationMatrix(mat);
+};
 
+const execFacemesh = async (videoElement: HTMLVideoElement, clock: THREE.Clock, vrm: VRM, model: facemesh.FaceMesh) => {
+  if (!vrm || !vrm.humanoid || !vrm.blendShapeProxy) return;
+
+  vrm.update(clock.getDelta());
+  const faces = await model.estimateFaces(videoElement, false, false);
+
+  faces.forEach(face => {
+    if (!(face.scaledMesh instanceof Array)) return;
+    if (!vrm || !vrm.humanoid || !vrm.blendShapeProxy) return;
+
+    // @ts-ignore
+    const annotations = face.annotations;
+    const q = estimatePose(annotations);
+    const head = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Head);
+    if (!head) return;
+    if (!clock) return;
+
+    head.quaternion.slerp(q, 0.1);
+    const blink = Math.max(0.0, 1.0 - 10.0 * Math.abs((clock.getElapsedTime() % 4.0) - 2.0));
+    vrm.blendShapeProxy.setValue(VRMSchema.BlendShapePresetName.Blink, blink);
+    const lipsLowerInner = annotations.lipsLowerInner[5];
+    const lipsUpperInner = annotations.lipsUpperInner[5];
+    const expressionA = Math.max(0, Math.min(1, (lipsLowerInner[1] - lipsUpperInner[1]) / 10.0));
+    vrm.blendShapeProxy.setValue(VRMSchema.BlendShapePresetName.A, expressionA);
+  });
+};
+
+const vrmLoad = async (divElement: HTMLDivElement, videoElement: HTMLVideoElement) => {
   const { GLTFLoader } = await import("three/examples/jsm/loaders/GLTFLoader");
   const { OrbitControls } = await import("three/examples/jsm/controls/OrbitControls");
 
-  const width = window.innerWidth;
-  const height = window.innerHeight / 2;
+  const width = 320;
+  const height = 240;
 
   // renderer
   const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
-  divElementRef.current.appendChild(renderer.domElement);
+  divElement.appendChild(renderer.domElement);
 
   // camera
   const camera = new THREE.PerspectiveCamera(30.0, width / height, 0.1, 20.0);
@@ -48,72 +90,66 @@ const vrmLoad = async (divElementRef: RefObject<HTMLDivElement>) => {
   // gltf and vrm
   const loader = new GLTFLoader();
   loader.crossOrigin = "anonymous";
-  let currentVrm: VRM;
+  let currentVRM: VRM;
+  const model = await facemesh.load({ maxFaces: 1 });
 
   const load = (url: string) =>
     loader.load(
-      // URL of the VRM you want to load
       url,
-
-      // called when the resource is loaded
       gltf => {
-        // calling this function greatly improves the performance
         VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
-        // generate VRM instance from gltf
         VRM.from(gltf).then(vrm => {
-          if (currentVrm) {
-            scene.remove(currentVrm.scene);
-            currentVrm.dispose();
+          if (currentVRM) {
+            scene.remove(currentVRM.scene);
+            currentVRM.dispose();
           }
 
-          currentVrm = vrm;
+          currentVRM = vrm;
           scene.add(vrm.scene);
 
-          if (vrm.humanoid) {
-            const hipBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Hips);
-            if (hipBoneNode) hipBoneNode.rotation.y = Math.PI;
+          if (!vrm.humanoid) return;
+          const hipBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Hips);
+          if (hipBoneNode) hipBoneNode.rotation.y = Math.PI;
 
-            const leftUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.LeftUpperArm);
-            if (leftUpperArmBoneNode) leftUpperArmBoneNode.rotation.z = 1;
+          const leftUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.LeftUpperArm);
+          if (leftUpperArmBoneNode) leftUpperArmBoneNode.rotation.z = 1;
 
-            const rightUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.RightUpperArm);
-            if (rightUpperArmBoneNode) rightUpperArmBoneNode.rotation.z = -1;
+          const rightUpperArmBoneNode = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.RightUpperArm);
+          if (rightUpperArmBoneNode) rightUpperArmBoneNode.rotation.z = -1;
 
-            const animate = () => {
-              window.requestAnimationFrame(animate);
+          const clock = new THREE.Clock();
+          clock.start();
 
-              renderer.render(scene, camera);
-            };
+          const animate = async () => {
+            window.requestAnimationFrame(animate);
 
-            animate();
-          }
+            await execFacemesh(videoElement, clock, vrm, model);
+            renderer.render(scene, camera);
+          };
+
+          animate();
         });
       },
 
-      // called while loading is progressing
       progress => console.log("Loading model...", 100.0 * (progress.loaded / progress.total), "%"),
-
-      // called when loading has errors
       error => console.error(error),
     );
 
   load("/static/vrm/igarashi.vrm");
 
-  divElementRef.current.addEventListener("dragover", event => {
+  divElement.addEventListener("dragover", event => {
     event.preventDefault();
   });
 
-  divElementRef.current.addEventListener("drop", event => {
-    console.log(123);
+  divElement.addEventListener("drop", event => {
     event.preventDefault();
 
     if (!event.dataTransfer) return;
-    console.log(123);
-    // read given file then convert it to blob url
+
     const files = event.dataTransfer.files;
     if (!files) return;
-    console.log(123);
+
     const file = files[0];
     if (!file) return;
 
@@ -141,11 +177,28 @@ const ToolsVRMPageComponent = (props: Props) => {
   });
 
   const vrmElementRef = useRef<HTMLDivElement>(null);
+  const videoElementRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (process.browser) {
       (async () => {
-        await vrmLoad(vrmElementRef);
+        if (!videoElementRef.current) return;
+        if (!vrmElementRef.current) return;
+
+        const videoElement = videoElementRef.current;
+
+        const userMedia = await navigator.mediaDevices.getUserMedia({
+          video: { width: 320, height: 240 },
+          audio: false,
+        });
+        videoElement.srcObject = userMedia;
+
+        videoElement.onloadedmetadata = async () => {
+          await videoElement.play();
+        };
+
+        const vrmElement = vrmElementRef.current;
+        await vrmLoad(vrmElement, videoElement);
 
         await loadCheckAuth();
         setState(store.getState());
@@ -169,7 +222,8 @@ const ToolsVRMPageComponent = (props: Props) => {
       <WrapperComponent {...state}>
         <h2>{title}</h2>
         <div>{description}</div>
-        <div ref={vrmElementRef} style={{ background: "greenyellow" }} />
+        <div ref={vrmElementRef} style={{ background: "greenyellow" }} className={vrmStyle.vrm} />
+        <video ref={videoElementRef} controls={true} autoPlay={true} playsInline={true} className={vrmStyle.video} />
       </WrapperComponent>
     </>
   );
