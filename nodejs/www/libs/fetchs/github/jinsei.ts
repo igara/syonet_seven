@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 
 export const callJinsei = async (): Promise<string> => {
-  const result = await fetch("https://raw.githubusercontent.com/igara/jinsei/master/README.html", {
+  const result = await fetch("https://raw.githubusercontent.com/igara/igara/master/README.html", {
     method: "GET",
   });
 
