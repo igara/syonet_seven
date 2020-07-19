@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "NODE_OPTIONS='--expose-gc --max_old_space_size=256' next build",
+    "build": "NODE_OPTIONS='--max_old_space_size=256' next build",
     "start": "ts-node -r tsconfig-paths/register --project server.tsconfig.json server.ts",
     "dev": "NODE_ENV=development npm run sw:build && npm run start",
     "debug": "TS_NODE_PROJECT=server.tsconfig.json node --inspect-brk=0.0.0.0:9228 -r tsconfig-paths/register -r ts-node/register server.ts",
@@ -13,7 +13,7 @@
     "lint": "npm run stylelint && npm run eslint",
     "clean:all": "rm -rf node_modules .next dist",
     "clean:build": "rm -rf .next dist",
-    "sw:build": "NODE_OPTIONS='--expose-gc --max_old_space_size=256' webpack",
+    "sw:build": "NODE_OPTIONS='--max_old_space_size=256' webpack",
     "test": "jest --detectOpenHandles --forceExit",
     "coverage": "jest --coverage --detectOpenHandles --forceExit",
     "testdb:create": "bin/mysqldef -h localhost -P 3306 -u root -p $MYSQL_ROOT_PASSWORD testdb < models/typeorm/migrations/schema.sql",
