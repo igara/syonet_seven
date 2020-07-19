@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { NextPageContext } from "next";
 import Head from "next/head";
 import { WrapperComponent } from "@www/components/wrapper";
@@ -10,6 +9,12 @@ import { useDispatch, useStore } from "react-redux";
 import { useState, useEffect } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Syonetトップページ",
+  path: "static/ogp/index",
+};
 
 type Props = {
   token: string;
@@ -50,11 +55,11 @@ const IndexPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Syonet</title>
+        <title>{ogp.title}</title>
         <meta content="五十嵐翔の個人サイト" name="description"></meta>
-        <meta property="og:title" content="Syonet" />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/index/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="五十嵐翔の個人サイト" />
       </Head>
       <WrapperComponent {...state}>
@@ -74,6 +79,14 @@ const IndexPageComponent = (props: Props) => {
 IndexPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const token = context.query.token;
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state, token };
 };
 

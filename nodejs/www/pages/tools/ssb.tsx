@@ -10,6 +10,12 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "SUPER SUPER BROS.",
+  path: "static/ogp/tools/ssb",
+};
 
 type Props = AppState;
 
@@ -40,16 +46,16 @@ const ToolsSsbPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>SUPER SUPER BROS.</title>
+        <title>{ogp.title}</title>
         <meta content="パクリゲー" name="description"></meta>
-        <meta property="og:title" content="SUPER SUPER BROS." />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/ssb/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="パクリゲー" />
       </Head>
       <WrapperComponent {...state}>
         <div className={toolsSsbStyle.wrapper}>
-          <h2>SUPER SUPER BROS.</h2>
+          <h2>{ogp.title}</h2>
           <h3>ルール説明</h3>
           <ol>
             <li>
@@ -103,6 +109,14 @@ const ToolsSsbPageComponent = (props: Props) => {
 
 ToolsSsbPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

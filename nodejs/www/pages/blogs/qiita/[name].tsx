@@ -11,6 +11,11 @@ import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { useRouter } from "next/router";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  path: "static/ogp/blogs/qiita/name",
+};
 
 type Props = AppState;
 
@@ -20,7 +25,9 @@ const BlogsQiitaItemPageComponent = (props: Props) => {
   const store = useStore();
   const storeState: AppState = store.getState();
   const router = useRouter();
-  const name = process.browser ? decodeURI(location.href.split("/").reverse()[0]) : router.query.name;
+  const name = process.browser
+    ? decodeURI(location.href.split("/").reverse()[0]).toString()
+    : router.query.name.toString();
 
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
@@ -52,11 +59,11 @@ const BlogsQiitaItemPageComponent = (props: Props) => {
     <>
       <Head>
         <title>{name}</title>
-        <meta content="Qiitaバックアップ" name="description"></meta>
-        <meta property="og:title" content={`"${name}"`} />
+        <meta content="Qiita バックアップ" name="description"></meta>
+        <meta property="og:title" content={name} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/qiita/ogp.png`} />
-        <meta property="og:description" content="Qiitaバックアップ" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${name}.png`} />
+        <meta property="og:description" content="Qiita バックアップ" />
       </Head>
       <WrapperComponent {...state}>
         <h1>{name}</h1>
@@ -71,6 +78,28 @@ BlogsQiitaItemPageComponent.getInitialProps = async (context: NextPageContext & 
   const name = process.browser ? decodeURI(asPath.split("/").reverse()[0]) : context.query.name;
   await context.store.dispatch<any>(getItem.action(encodeURI(name.toString())));
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    const requestPromise = (await import("request-promise")).default;
+    const imgTags = state.qiitaItem.item.data.item.match(/(<img ([^>]+)>)/gi);
+    const imgTag = imgTags instanceof Array && imgTags.length > 0 ? imgTags[0].replace(/\n/, "") : "";
+    const imageUris = imgTag.match(/http.*"/gi);
+    const imageUri =
+      imageUris instanceof Array && imageUris.length > 0 ? encodeURI(imageUris[0].replace(/".*/, "")) : "";
+
+    const imageData = await requestPromise({
+      url: imageUri,
+      method: "GET",
+      encoding: null,
+    });
+
+    await createOGPImage({
+      path: ogp.path,
+      title: name.toString(),
+      image: imageData,
+    });
+  }
+
   return { ...state };
 };
 

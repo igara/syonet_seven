@@ -14,6 +14,12 @@ import * as THREE from "three";
 import { VRM, VRMUtils, VRMSchema } from "@pixiv/three-vrm";
 import * as facemesh from "@tensorflow-models/facemesh";
 import { SelectComponent } from "@www/components/common/input/select";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "VRM Reader",
+  path: "static/ogp/tools/vrm",
+};
 
 const estimatePose = (annotations: any) => {
   const faces = annotations.silhouette;
@@ -214,21 +220,20 @@ const ToolsVRMPageComponent = (props: Props) => {
     }
   }, []);
 
-  const title = "VRM Reader";
   const description = "VRMの読み込みをおこなう";
 
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{ogp.title}</title>
         <meta name="description" content={description}></meta>
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/vrm/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content={description} />
       </Head>
       <WrapperComponent {...state}>
-        <h2>{title}</h2>
+        <h2>{ogp.title}</h2>
         <div>{description}</div>
         <div ref={vrmElementRef} style={{ background: vrmBackgroundColor }} className={vrmStyle.vrm} />
         <video ref={videoElementRef} controls={true} autoPlay={true} playsInline={true} className={vrmStyle.video} />
@@ -253,6 +258,14 @@ const ToolsVRMPageComponent = (props: Props) => {
 
 ToolsVRMPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

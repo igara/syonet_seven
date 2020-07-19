@@ -11,6 +11,12 @@ import { AppState } from "@www/stores";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Login",
+  path: "static/ogp/login",
+};
 
 type Props = AppState;
 
@@ -42,11 +48,11 @@ const LoginPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>{ogp.title}</title>
         <meta content="ログインページ" name="description"></meta>
-        <meta property="og:title" content="Login" />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/login/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="ログインページ" />
       </Head>
       <WrapperComponent {...state}>
@@ -74,6 +80,14 @@ const LoginPageComponent = (props: Props) => {
 
 LoginPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

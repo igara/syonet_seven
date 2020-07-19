@@ -20,6 +20,12 @@ import {
   SAVE_SCRAPING_HTML,
   SaveScrapingHTML,
 } from "@www/libs/apollo/gql/google/scraping";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Web魚拓っぽい",
+  path: "static/ogp/tools/scraping",
+};
 
 type Props = AppState;
 
@@ -71,22 +77,21 @@ const ToolsScrapingPageComponent = (props: Props) => {
     }
   }, []);
 
-  const pageTitle = "Web魚拓っぽい";
   const description = "指定したサイトのURLからCSS、JavaScript、画像含めてひとつのHTMLに生成します";
 
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{ogp.title}</title>
         <meta content={description} name="description"></meta>
-        <meta property="og:title" content={pageTitle} />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/scraping/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content={description} />
       </Head>
       <WrapperComponent {...state}>
         <div className={toolsScrapingStyle.wrapper}>
-          <h2>{pageTitle}</h2>
+          <h2>{ogp.title}</h2>
           <div>{description}</div>
           <hr />
 
@@ -214,6 +219,14 @@ const ToolsScrapingPageComponent = (props: Props) => {
 
 ToolsScrapingPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

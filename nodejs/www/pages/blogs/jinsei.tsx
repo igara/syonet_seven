@@ -10,6 +10,12 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "人生",
+  path: "static/ogp/blogs/jinsei",
+};
 
 type Props = AppState;
 
@@ -48,11 +54,11 @@ const BlogsJinseiPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>人生</title>
+        <title>{ogp.title}</title>
         <meta content="ブログ人生" name="description"></meta>
-        <meta property="og:title" content="人生" />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/jinsei/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="ブログ人生" />
       </Head>
       <WrapperComponent {...state}>
@@ -65,6 +71,14 @@ const BlogsJinseiPageComponent = (props: Props) => {
 BlogsJinseiPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   await context.store.dispatch<any>(getJinsei.action());
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

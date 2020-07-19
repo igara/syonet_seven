@@ -11,6 +11,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { LinkComponent } from "@www/components/common/link";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Qiita バックアップ",
+  path: "static/ogp/blogs/qiita",
+};
 
 type Props = AppState;
 
@@ -62,15 +68,15 @@ const BlogsQiitaPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Qiita</title>
-        <meta content="Qiitaバックアップ" name="description"></meta>
-        <meta property="og:title" content="Qiita" />
+        <title>{ogp.title}</title>
+        <meta content="Qiita バックアップ" name="description"></meta>
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/qiita/ogp.png`} />
-        <meta property="og:description" content="Qiitaバックアップ" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:description" content="Qiita バックアップ" />
       </Head>
       <WrapperComponent {...state}>
-        <h1>Qiita バックアップ</h1>
+        <h1>{ogp.title}</h1>
         <ul>{itemsElement}</ul>
       </WrapperComponent>
     </>
@@ -80,6 +86,14 @@ const BlogsQiitaPageComponent = (props: Props) => {
 BlogsQiitaPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   await context.store.dispatch<any>(getItems.action());
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

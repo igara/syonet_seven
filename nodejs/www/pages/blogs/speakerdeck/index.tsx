@@ -11,6 +11,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { LinkComponent } from "@www/components/common/link";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Speaker Deck バックアップ",
+  path: "static/ogp/blogs/speakerdeck",
+};
 
 type Props = AppState;
 
@@ -61,15 +67,15 @@ const BlogsSpeakerdeckPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Speaker Deck</title>
-        <meta content="Speaker Deckバックアップ" name="description"></meta>
-        <meta property="og:title" content="Speaker Deck" />
+        <title>{ogp.title}</title>
+        <meta content="Speaker Deck バックアップ" name="description"></meta>
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/speakerdeck/ogp.png`} />
-        <meta property="og:description" content="Speaker Deckバックアップ" />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:description" content="Speaker Deck バックアップ" />
       </Head>
       <WrapperComponent {...state}>
-        <h1>Speaker Deck バックアップ</h1>
+        <h1>{ogp.title}</h1>
         <ul>{itemsElement}</ul>
       </WrapperComponent>
     </>
@@ -79,6 +85,14 @@ const BlogsSpeakerdeckPageComponent = (props: Props) => {
 BlogsSpeakerdeckPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   await context.store.dispatch<any>(getDecks.action());
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

@@ -10,6 +10,12 @@ import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { LinkComponent } from "@www/components/common/link";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Tools",
+  path: "static/ogp/tools",
+};
 
 type Props = AppState;
 
@@ -40,11 +46,11 @@ const ToolsPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Tools</title>
+        <title>{ogp.title}</title>
         <meta content="Toolたち" name="description"></meta>
-        <meta property="og:title" content="Tools" />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/tools/index/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="Toolたち" />
       </Head>
       <WrapperComponent {...state}>
@@ -76,6 +82,14 @@ const ToolsPageComponent = (props: Props) => {
 
 ToolsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

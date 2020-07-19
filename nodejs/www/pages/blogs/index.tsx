@@ -10,6 +10,12 @@ import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { LinkComponent } from "@www/components/common/link";
+import { createOGPImage } from "@www/libs/ogp_image";
+
+const ogp = {
+  title: "Blogs",
+  path: "static/ogp/blogs",
+};
 
 type Props = AppState;
 
@@ -42,11 +48,11 @@ const BlogsPageComponent = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Blogs</title>
+        <title>{ogp.title}</title>
         <meta content="ブログたち" name="description"></meta>
-        <meta property="og:title" content="Blogs" />
+        <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/static/pages/blogs/index/ogp.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="ブログたち" />
       </Head>
       <WrapperComponent {...state}>
@@ -92,6 +98,14 @@ const BlogsPageComponent = (props: Props) => {
 
 BlogsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
   const state: AppState = context.store.getState();
+
+  if (context.isServer) {
+    await createOGPImage({
+      path: ogp.path,
+      title: ogp.title,
+    });
+  }
+
   return { ...state };
 };
 

@@ -17,7 +17,11 @@ RUN apk update && apk --no-cache add --virtual \
 	freetype-dev \
 	harfbuzz \
 	ca-certificates \
-	ttf-freefont
+	ttf-freefont \
+	cairo-dev \
+	jpeg-dev \
+	pango-dev \
+	giflib-dev
 
 RUN apk --update add tzdata && \
 	rm -rf /var/cache/apk/*

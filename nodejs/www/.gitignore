@@ -30,3 +30,5 @@ notification.js
 sw_register.js
 dist
 models/typeorm/migrations/*.ts
+!static/ogp/.gitignore
+static/ogp
