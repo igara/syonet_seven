@@ -89,6 +89,8 @@ app.prepare().then(async () => {
     if (req.url.includes("/sw")) {
       const filePath = path.join(__dirname, "static", "workbox", "sw.js");
       return app.serveStatic(req, res, filePath);
+    } else if (req.url.startsWith("static/ogp/")) {
+      return app.serveStatic(req, res, path.join(__dirname, req.url));
     } else if (req.url.startsWith("static/workbox/")) {
       return app.serveStatic(req, res, path.join(__dirname, req.url));
     }
