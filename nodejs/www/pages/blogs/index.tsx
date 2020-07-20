@@ -54,6 +54,7 @@ const BlogsPageComponent = (props: Props) => {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="ブログたち" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <WrapperComponent {...state}>
         <ul>

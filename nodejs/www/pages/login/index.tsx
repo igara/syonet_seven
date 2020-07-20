@@ -54,6 +54,7 @@ const LoginPageComponent = (props: Props) => {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="ログインページ" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <WrapperComponent {...state}>
         <Button>
