@@ -18,7 +18,6 @@ import * as discord from "@www/server/discord";
 import { graphqlServer } from "@www/server/graphql";
 import { connect as connectTypeORM } from "@www/models/typeorm/connection";
 import { ssbSocketRoute } from "@www/server/ws/ssb";
-import { p2pChatSocketRoute, P2PChatWSS } from "@www/server/ws/p2p_chat";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -30,10 +29,6 @@ app.prepare().then(async () => {
   const server = express();
   const ssbWss = new WebSocket.Server({
     port: 9000,
-    host: "0.0.0.0",
-  });
-  const p2pChatWss = new WebSocket.Server({
-    port: 9002,
     host: "0.0.0.0",
   });
 
@@ -77,7 +72,6 @@ app.prepare().then(async () => {
   await graphqlServer(server);
 
   ssbSocketRoute(ssbWss);
-  p2pChatSocketRoute(p2pChatWss as P2PChatWSS);
 
   discord.connect();
 

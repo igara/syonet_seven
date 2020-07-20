@@ -9,7 +9,6 @@ services:
     ports:
       - 3000:3000
       - 9000:9000
-      - 9002:9002
     volumes:
       - ./nodejs/www:/www:cached
       - /var/run/docker.sock:/var/run/docker.sock:cached
@@ -56,25 +55,6 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       WWW_DOMAIN: ${WWW_DOMAIN}
-    networks:
-      default:
-        aliases:
-          - syonet.work
-    restart: always
-
-  coturn:
-    image: instrumentisto/coturn
-    command:
-      - -c=/etc/coturn/turnserver.conf
-      - --log-file=stdout
-      - --external-ip=0.0.0.0/$$(detect-external-ip)
-    volumes:
-      - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
-    ports:
-      - "3478:3478"
-      - "3478:3478/udp"
-      - "5349:5349"
-      - "5349:5349/udp"
     networks:
       default:
         aliases:
