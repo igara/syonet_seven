@@ -88,11 +88,14 @@ BlogsQiitaItemPageComponent.getInitialProps = async (context: NextPageContext & 
     const imageUri =
       imageUris instanceof Array && imageUris.length > 0 ? encodeURI(imageUris[0].replace(/".*/, "")) : "";
 
-    const imageData = await requestPromise({
-      url: imageUri,
-      method: "GET",
-      encoding: null,
-    });
+    let imageData;
+    if (imageUri) {
+      imageData = await requestPromise({
+        url: imageUri,
+        method: "GET",
+        encoding: null,
+      });
+    }
 
     await createOGPImage({
       path: ogp.path,

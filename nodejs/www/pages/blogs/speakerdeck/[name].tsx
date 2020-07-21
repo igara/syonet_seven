@@ -100,11 +100,14 @@ BlogsSpeakerdeckDeskPageComponent.getInitialProps = async (context: NextPageCont
     const requestPromise = (await import("request-promise")).default;
     const imageUri = encodeURI(state.speakerdeckImages.images.data.images[0]);
 
-    const imageData = await requestPromise({
-      url: imageUri,
-      method: "GET",
-      encoding: null,
-    });
+    let imageData;
+    if (imageUri) {
+      imageData = await requestPromise({
+        url: imageUri,
+        method: "GET",
+        encoding: null,
+      });
+    }
 
     await createOGPImage({
       path: ogp.path,
