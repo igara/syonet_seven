@@ -14,7 +14,7 @@ import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
   title: "人生",
-  path: "static/ogp/blogs/jinsei",
+  path: "ogp/blogs/jinsei",
 };
 
 type Props = AppState;
@@ -58,7 +58,7 @@ const BlogsJinseiPageComponent = (props: Props) => {
         <meta content="ブログ人生" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
         <meta property="og:description" content="ブログ人生" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

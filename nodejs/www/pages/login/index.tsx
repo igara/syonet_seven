@@ -15,7 +15,7 @@ import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
   title: "Login",
-  path: "static/ogp/login",
+  path: "ogp/login",
 };
 
 type Props = AppState;
@@ -52,7 +52,7 @@ const LoginPageComponent = (props: Props) => {
         <meta content="ログインページ" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
         <meta property="og:description" content="ログインページ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

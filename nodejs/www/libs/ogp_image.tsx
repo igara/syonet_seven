@@ -81,6 +81,6 @@ export const createOGPImage = async (ogpProps: OGPImageProps) => {
   wrapText(canvasContext, ogpProps.title, 10, 200, width, 500, fontSize);
   const currentBuffer = Buffer.from(canvas.toDataURL().split(",")[1], "base64");
 
-  fs.mkdirSync(ogpProps.path, { recursive: true });
-  fs.writeFileSync(`${ogpProps.path}/${ogpProps.title}.png`, currentBuffer);
+  fs.mkdirSync(`dist/${ogpProps.path}`, { recursive: true });
+  fs.writeFileSync(`dist/${ogpProps.path}/${encodeURI(ogpProps.title)}.png`, currentBuffer);
 };

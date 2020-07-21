@@ -15,7 +15,7 @@ import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
   title: "Speaker Deck バックアップ",
-  path: "static/ogp/blogs/speakerdeck",
+  path: "ogp/blogs/speakerdeck",
 };
 
 type Props = AppState;
@@ -71,7 +71,7 @@ const BlogsSpeakerdeckPageComponent = (props: Props) => {
         <meta content="Speaker Deck バックアップ" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
         <meta property="og:description" content="Speaker Deck バックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

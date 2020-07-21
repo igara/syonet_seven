@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
-  path: "static/ogp/blogs/speakerdeck/name",
+  path: "ogp/blogs/speakerdeck/name",
 };
 
 type Props = AppState;
@@ -78,7 +78,7 @@ const BlogsSpeakerdeckDeskPageComponent = (props: Props) => {
         <meta content="Speaker Deckバックアップ" name="description"></meta>
         <meta property="og:title" content={name} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${name}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(name)}.png`} />
         <meta property="og:description" content="Speaker Deckバックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

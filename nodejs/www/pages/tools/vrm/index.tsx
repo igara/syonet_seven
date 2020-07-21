@@ -18,7 +18,7 @@ import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
   title: "VRM Reader",
-  path: "static/ogp/tools/vrm",
+  path: "ogp/tools/vrm",
 };
 
 const estimatePose = (annotations: any) => {
@@ -229,7 +229,7 @@ const ToolsVRMPageComponent = (props: Props) => {
         <meta name="description" content={description}></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { createOGPImage } from "@www/libs/ogp_image";
 
 const ogp = {
-  path: "static/ogp/blogs/hatena/name",
+  path: "ogp/blogs/hatena/name",
 };
 
 type Props = AppState;
@@ -62,7 +62,7 @@ const BlogsHatenaEntryPageComponent = (props: Props) => {
         <meta content="Hatena バックアップ" name="description"></meta>
         <meta property="og:title" content={name} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${name}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(name)}.png`} />
         <meta property="og:description" content="Hatena バックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

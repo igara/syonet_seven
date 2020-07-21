@@ -85,12 +85,13 @@ app.prepare().then(async () => {
   server.all("/sw_register.js", (_req, res) => {
     return res.sendFile(path.join(__dirname, "dist", "sw_register.js"));
   });
+  server.all("/ogp/*", (req, res) => {
+    return res.sendFile(path.join(__dirname, "dist", req.url));
+  });
   server.all("*", (req, res) => {
     if (req.url.includes("/sw")) {
       const filePath = path.join(__dirname, "static", "workbox", "sw.js");
       return app.serveStatic(req, res, filePath);
-    } else if (req.url.startsWith("static/ogp/")) {
-      return app.serveStatic(req, res, path.join(__dirname, req.url));
     } else if (req.url.startsWith("static/workbox/")) {
       return app.serveStatic(req, res, path.join(__dirname, req.url));
     }
