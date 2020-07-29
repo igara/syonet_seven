@@ -5,8 +5,10 @@ ubuntu-bionic-18.04-cloudimg-console.log
 data/mysql/*
 data/certbot/*
 data/openssl/*
+data/elasticsearch/*
 !data/.gitkeep
 !data/mysql/.gitkeep
 !data/certbot/.gitkeep
 !data/openssl/.gitkeep
+!data/elasticsearch/.gitkeep
 .DS_Store

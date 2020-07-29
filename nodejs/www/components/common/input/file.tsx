@@ -14,7 +14,7 @@ export const FileComponent = (props: Props) => {
   return (
     <button className={buttonStyle.button}>
       <label htmlFor={`file_${props.Key}`}>
-        ＋写真を選択
+        ＋ファイルを選択
         {props.Multiple === true ? (
           <input
             type="file"

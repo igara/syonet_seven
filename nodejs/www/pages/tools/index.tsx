@@ -72,6 +72,9 @@ const ToolsPageComponent = (props: Props) => {
           <li>
             <LinkComponent href="/tools/vrm">VRM Reader</LinkComponent>
           </li>
+          <li>
+            <LinkComponent href="/tools/sound">音楽検索</LinkComponent>
+          </li>
         </ul>
       </WrapperComponent>
     </>
