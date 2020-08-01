@@ -7,8 +7,8 @@ export type CreateSound = {
 };
 
 export const CREATE_SOUND = gql`
-  mutation CreateSound($name: String!, $peaks: String!) {
-    createSound(name: $name, peaks: $peaks) {
+  mutation CreateSound($name: String!, $artist: String!, $peaks: String!) {
+    createSound(name: $name, artist: $artist, peaks: $peaks) {
       message
     }
   }
@@ -16,14 +16,16 @@ export const CREATE_SOUND = gql`
 
 export type SearchSound = {
   searchSound: {
-    message: string;
+    name: string;
+    artist: string;
   };
 };
 
 export const SEARCH_SOUND = gql`
   query SearchSound($peaks: String!) {
     searchSound(peaks: $peaks) {
-      message
+      name
+      artist
     }
   }
 `;

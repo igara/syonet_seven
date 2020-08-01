@@ -2,11 +2,12 @@ import { client } from "@www/models/elasticsearch/client";
 const index = "sounds";
 const type = "sound";
 
-export const create = async (name: string, peaks: string) => {
+export const create = async (name: string, artist: string, peaks: string) => {
   await client.index({
     index,
     body: {
       name,
+      artist,
       peaks,
     },
     type,

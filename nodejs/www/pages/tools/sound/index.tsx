@@ -30,9 +30,14 @@ const ToolsSoundPageComponent = (props: Props) => {
 
   const [name, setName] = useState("");
   const changeName = (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value);
+  const [artist, setArtist] = useState("");
+  const changeArtist = (event: ChangeEvent<HTMLInputElement>) => setArtist(event.target.value);
 
-  const [peaks, setPeaks] = useState("");
-  console.log(peaks);
+  const [searchName, setSearchName] = useState("");
+  const [searchArtist, setSearchArtist] = useState("");
+
+  const [peaks, setPeaks] = useState<number[]>([]);
+  const [regionPeaks, setRegionPeaks] = useState<number[]>([]);
 
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer>();
   const changeFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,18 +53,49 @@ const ToolsSoundPageComponent = (props: Props) => {
       fileReader.onload = async evt => {
         if (evt.target && evt.target.result) {
           const Wavesurfer = await import("wavesurfer.js");
+          // @ts-ignore
+          const timelinePlugin = await import("wavesurfer.js/dist/plugin/wavesurfer.timeline.js");
+          // @ts-ignore
+          const regionsPlugin = await import("wavesurfer.js/dist/plugin/wavesurfer.regions.js");
+          const region = regionsPlugin.default.create({
+            regions: [
+              {
+                start: 0,
+                end: 5,
+                color: "hsla(400, 100%, 30%, 0.1)",
+              },
+            ],
+          });
+
           const wave = Wavesurfer.default.create({
             container: "#waveform",
             waveColor: "violet",
             progressColor: "purple",
             scrollParent: true,
+            plugins: [
+              region,
+              timelinePlugin.default.create({
+                container: "#timeline",
+              }),
+            ],
           });
           wave.on("ready", async () => {
-            const newPeaks = ((wave.backend as any).mergedPeaks as number[])
-              .map(peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0)
-              .join(" ");
+            const newPeaks = ((wave.backend as any).mergedPeaks as number[]).map(
+              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+            );
             setPeaks(newPeaks);
+            const p = (wave.backend.getPeaks(1024, 0, 5) as number[]).map(
+              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+            );
+            setRegionPeaks(p);
           });
+          wave.on("region-update-end", async (e: any) => {
+            const p = (wave.backend.getPeaks(1024, Math.floor(e.start), Math.floor(e.end)) as number[]).map(
+              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+            );
+            setRegionPeaks(p);
+          });
+
           wave.load(evt.target.result.toString());
           setWavesurfer(wave);
         }
@@ -82,7 +118,8 @@ const ToolsSoundPageComponent = (props: Props) => {
   const [loadSearchSound] = useLazyQuery<SearchSound>(SEARCH_SOUND, {
     onCompleted: async searchSound => {
       if (searchSound.searchSound) {
-        console.log(searchSound);
+        setSearchName(searchSound.searchSound.name);
+        setSearchArtist(searchSound.searchSound.artist);
       }
     },
   });
@@ -133,6 +170,8 @@ const ToolsSoundPageComponent = (props: Props) => {
             }
           }}
         />
+        <div id="timeline" />
+
         <FileComponent Key={"sound"} Accept={"audio/*"} OnInputHandler={changeFile} />
         <hr />
         <h3>音源解析を元に検索</h3>
@@ -140,7 +179,7 @@ const ToolsSoundPageComponent = (props: Props) => {
           OnClickHandler={() =>
             loadSearchSound({
               variables: {
-                peaks,
+                peaks: regionPeaks.join(" "),
               },
             })
           }
@@ -148,19 +187,34 @@ const ToolsSoundPageComponent = (props: Props) => {
         >
           検索
         </ButtonComponent>
+        <br />
+        {searchName && searchArtist && (
+          <>
+            この音源は
+            <br />
+            曲名: {searchName}
+            <br />
+            アーティスト: {searchArtist}
+          </>
+        )}
+
         <hr />
         <h3>音源を元に名前をつけて登録</h3>
         <TextComponent DefalutValue="" Placeholder="曲名" OnChangeHandler={changeName} />
+        <br />
+        <TextComponent DefalutValue="" Placeholder="アーティスト" OnChangeHandler={changeArtist} />
+        <br />
         <ButtonComponent
           OnClickHandler={() =>
             loadCreateSound({
               variables: {
                 name,
-                peaks,
+                artist,
+                peaks: peaks.join(" "),
               },
             })
           }
-          Abled={!(peaks && name)}
+          Abled={!(peaks && name && artist)}
         >
           登録
         </ButtonComponent>

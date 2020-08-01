@@ -11,7 +11,9 @@ class CreateSound {
 @ObjectType()
 class SearchSound {
   @Field()
-  message: string;
+  name: string;
+  @Field()
+  artist: string;
 }
 
 @Resolver()
@@ -19,13 +21,27 @@ export class SoundResolver {
   @Query(() => SearchSound, { nullable: true })
   async searchSound(@Arg("peaks") peaks: string): Promise<SearchSound> {
     const result = await search(peaks);
+    if (result.body && result.body.hits && result.body.hits.hits && result.body.hits.hits.length > 0) {
+      const source = result.body.hits.hits[0]["_source"];
+      return {
+        name: source.name,
+        artist: source.artist,
+      };
+    }
 
-    return { message: JSON.stringify(result.body) };
+    return {
+      name: "",
+      artist: "",
+    };
   }
 
   @Mutation(() => CreateSound, { nullable: true })
-  async createSound(@Arg("name") name: string, @Arg("peaks") peaks: string): Promise<CreateSound> {
-    await create(name, peaks);
+  async createSound(
+    @Arg("name") name: string,
+    @Arg("artist") artist: string,
+    @Arg("peaks") peaks: string,
+  ): Promise<CreateSound> {
+    await create(name, artist, peaks);
     return { message: "OK" };
   }
 }
