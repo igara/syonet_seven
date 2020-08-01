@@ -81,17 +81,17 @@ const ToolsSoundPageComponent = (props: Props) => {
           });
           wave.on("ready", async () => {
             const newPeaks = ((wave.backend as any).mergedPeaks as number[]).map(
-              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+              peak => Math.floor(peak * Math.pow(10, 7)) / Math.pow(10, 7) || 0,
             );
             setPeaks(newPeaks);
-            const p = (wave.backend.getPeaks(1024, 0, 5) as number[]).map(
-              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+            const p = (wave.backend.getPeaks(2024, 0, 5) as number[]).map(
+              peak => Math.floor(peak * Math.pow(10, 7)) / Math.pow(10, 7) || 0,
             );
             setRegionPeaks(p);
           });
           wave.on("region-update-end", async (e: any) => {
-            const p = (wave.backend.getPeaks(1024, Math.floor(e.start), Math.floor(e.end)) as number[]).map(
-              peak => Math.floor(peak * Math.pow(10, 5)) / Math.pow(10, 5) || 0,
+            const p = (wave.backend.getPeaks(2024, Math.floor(e.start), Math.floor(e.end)) as number[]).map(
+              peak => Math.floor(peak * Math.pow(10, 7)) / Math.pow(10, 7) || 0,
             );
             setRegionPeaks(p);
           });
