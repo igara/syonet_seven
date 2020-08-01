@@ -183,7 +183,7 @@ const ToolsSoundPageComponent = (props: Props) => {
               },
             })
           }
-          Abled={!peaks}
+          Abled={!(peaks.length > 0)}
         >
           検索
         </ButtonComponent>
