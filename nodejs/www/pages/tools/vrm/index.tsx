@@ -192,6 +192,8 @@ const ToolsVRMPageComponent = (props: Props) => {
 
   const vrmElementRef = useRef<HTMLDivElement>(null);
   const videoElementRef = useRef<HTMLVideoElement>(null);
+  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
+  const [videoDeviceID, setVideoDeviceID] = useState("");
 
   useEffect(() => {
     if (process.browser) {
@@ -199,10 +201,15 @@ const ToolsVRMPageComponent = (props: Props) => {
         if (!videoElementRef.current) return;
         if (!vrmElementRef.current) return;
 
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videos = devices.filter(device => device.kind === "videoinput");
+
+        setVideoDevices(videos);
+
         const videoElement = videoElementRef.current;
 
         const userMedia = await navigator.mediaDevices.getUserMedia({
-          video: { width: 320, height: 240 },
+          video: { width: 320, height: 240, deviceId: videoDeviceID },
           audio: false,
         });
         videoElement.srcObject = userMedia;
@@ -238,6 +245,20 @@ const ToolsVRMPageComponent = (props: Props) => {
         <div>{description}</div>
         <div ref={vrmElementRef} style={{ background: vrmBackgroundColor }} className={vrmStyle.vrm} />
         <video ref={videoElementRef} controls={true} autoPlay={true} playsInline={true} className={vrmStyle.video} />
+        <div>
+          カメラ変更
+          <SelectComponent
+            OnChangeHandler={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              setVideoDeviceID(e.target.value);
+            }}
+          >
+            {videoDevices.map(videoDevice => (
+              <option key={videoDevice.deviceId} value={videoDevice.deviceId}>
+                {videoDevice.label}
+              </option>
+            ))}
+          </SelectComponent>
+        </div>
         <div>
           背景色変更
           <SelectComponent
