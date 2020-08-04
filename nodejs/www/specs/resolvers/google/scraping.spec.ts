@@ -1,19 +1,19 @@
-describe("ScrapingResolver: execScraping", () => {
-  beforeEach(() => {
-    jest.resetModules();
-    // @ts-ignore
-    process.env.NODE_ENV = "test";
-  });
+// describe("ScrapingResolver: execScraping", () => {
+//   beforeEach(() => {
+//     jest.resetModules();
+//     // @ts-ignore
+//     process.env.NODE_ENV = "test";
+//   });
 
-  test("execScraping", async () => {
-    const { ScrapingResolver } = await import("@www/resolvers/google/scraping");
-    const scrapingResolver = new ScrapingResolver();
+//   test("execScraping", async () => {
+//     const { ScrapingResolver } = await import("@www/resolvers/google/scraping");
+//     const scrapingResolver = new ScrapingResolver();
 
-    const execScraping = await scrapingResolver.execScraping("https://syonet.work");
+//     const execScraping = await scrapingResolver.execScraping("https://syonet.work");
 
-    expect(execScraping.html).not.toBeUndefined();
-  }, 10000);
-});
+//     expect(execScraping.html).not.toBeUndefined();
+//   }, 10000);
+// });
 
 describe("ScrapingResolver: saveScrapingHTML", () => {
   beforeEach(() => {
