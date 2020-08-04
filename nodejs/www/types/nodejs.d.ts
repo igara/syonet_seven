@@ -1,3 +1,5 @@
+export {};
+
 declare module NodeJS {
   interface ProcessEnv {
     NODE_ENV: string;
@@ -37,6 +39,13 @@ declare module NodeJS {
     IN_POM_PATH: string;
     OUT_POM_PATH: string;
   }
+
+  interface Global {
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
 }
 
 declare const process: NodeJS.Process;
+declare global {
+  const webkitSpeechRecognition: new () => SpeechRecognition;
+}
