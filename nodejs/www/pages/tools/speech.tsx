@@ -41,7 +41,7 @@ const ToolsSpeechPageComponent = (props: Props) => {
     { name: "白", value: "white" },
   ];
   const [backgroundColor, setBackgroundColor] = useState(backgroundColors[0].value);
-  const jpTextlementRef = useRef<HTMLDivElement>(null);
+  const jpTextElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (process.browser) {
@@ -55,8 +55,16 @@ const ToolsSpeechPageComponent = (props: Props) => {
         jpRecognition.lang = "ja-JP";
         jpRecognition.continuous = true;
         jpRecognition.onresult = event => {
-          if (jpTextlementRef.current)
-            jpTextlementRef.current.innerText = `${event.results[event.results.length - 1][0].transcript}`;
+          if (jpTextElementRef.current) {
+            const text = `${event.results[event.results.length - 1][0].transcript}\n`;
+            jpTextElementRef.current.innerText = text;
+
+            const logElement = document.getElementById("log");
+            if (logElement) logElement.innerText = logElement.innerText + text;
+          }
+        };
+        jpRecognition.onerror = () => {
+          jpRecognition.start();
         };
         jpRecognition.onend = () => {
           jpRecognition.start();
@@ -94,8 +102,11 @@ const ToolsSpeechPageComponent = (props: Props) => {
             </SelectComponent>
           </div>
           <div style={{ background: backgroundColor }} className={style.textarea}>
-            <div ref={jpTextlementRef} />
+            <div ref={jpTextElementRef} />
           </div>
+          ログ
+          <br />
+          <textarea id="log" />
         </div>
       </WrapperComponent>
     </>
