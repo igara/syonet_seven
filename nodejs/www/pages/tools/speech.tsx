@@ -47,6 +47,7 @@ const ToolsSpeechPageComponent = (props: Props) => {
   const jpTextElementRef = useRef<HTMLDivElement>(null);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
   const [log, setLog] = useState(logText);
+  const [fontSize, setFontSize] = useState("20");
 
   useEffect(() => {
     if (process.browser) {
@@ -105,7 +106,7 @@ ${text}`;
       </Head>
       <WrapperComponent {...state}>
         <div className={style.wrapper}>
-          <div style={{ background: backgroundColor }} className={style.textarea}>
+          <div style={{ background: backgroundColor, fontSize: `${fontSize}px` }} className={style.textarea}>
             <div ref={jpTextElementRef} />
           </div>
           <div>
@@ -122,6 +123,18 @@ ${text}`;
               ))}
             </SelectComponent>
           </div>
+          文字の大きさ
+          <br />
+          <input
+            type="range"
+            min={0}
+            max={100}
+            defaultValue={20}
+            onChange={e => {
+              setFontSize(e.target.value);
+            }}
+          />
+          　<br />
           ログ
           <br />
           <TextAreaComponent DefalutValue={log} Placeholder="" ReadOnly={true} />
