@@ -12,6 +12,7 @@ import { useDispatch, useStore } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 import { SelectComponent } from "@www/components/common/input/select";
+import { TextAreaComponent } from "@www/components/common/input/textarea";
 
 const ogp = {
   title: "Speech To Text",
@@ -19,6 +20,8 @@ const ogp = {
 };
 
 type Props = AppState;
+
+let logText = "";
 
 const ToolsSpeechPageComponent = (props: Props) => {
   const [state, setState] = useState(props);
@@ -42,6 +45,8 @@ const ToolsSpeechPageComponent = (props: Props) => {
   ];
   const [backgroundColor, setBackgroundColor] = useState(backgroundColors[0].value);
   const jpTextElementRef = useRef<HTMLDivElement>(null);
+  const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+  const [log, setLog] = useState(logText);
 
   useEffect(() => {
     if (process.browser) {
@@ -49,30 +54,43 @@ const ToolsSpeechPageComponent = (props: Props) => {
         await loadCheckAuth();
         setState(store.getState());
 
-        const speechRecognition = webkitSpeechRecognition || SpeechRecognition;
+        if (!recognition) {
+          const speechRecognition = webkitSpeechRecognition || SpeechRecognition;
 
-        const jpRecognition = new speechRecognition();
-        jpRecognition.lang = "ja-JP";
-        jpRecognition.continuous = true;
-        jpRecognition.onresult = event => {
-          if (jpTextElementRef.current) {
-            const text = `${event.results[event.results.length - 1][0].transcript}\n`;
-            jpTextElementRef.current.innerText = text;
+          const rec = new speechRecognition();
+          rec.lang = "ja-JP";
+          rec.continuous = true;
+          rec.interimResults = true;
+          rec.onresult = event => {
+            if (jpTextElementRef.current) {
+              const results = event.results;
+              for (let i = event.resultIndex; i < results.length; i++) {
+                if (results[i].isFinal) {
+                  const text = results[results.length - 1][0].transcript;
+                  jpTextElementRef.current.innerText = text;
 
-            const logElement = document.getElementById("log");
-            if (logElement) logElement.innerText = logElement.innerText + text;
-          }
-        };
-        jpRecognition.onerror = () => {
-          jpRecognition.start();
-        };
-        jpRecognition.onend = () => {
-          jpRecognition.start();
-        };
-        jpRecognition.start();
+                  logText = `${logText}
+${text}`;
+                  setLog(logText);
+                } else {
+                  const text = results[results.length - 1][0].transcript;
+                  jpTextElementRef.current.innerText = text;
+                }
+              }
+            }
+          };
+          rec.onerror = err => {
+            console.log(err);
+          };
+          rec.onend = () => {
+            rec.start();
+          };
+          rec.start();
+          setRecognition(rec);
+        }
       })();
     }
-  }, []);
+  }, [logText]);
 
   return (
     <>
@@ -87,6 +105,9 @@ const ToolsSpeechPageComponent = (props: Props) => {
       </Head>
       <WrapperComponent {...state}>
         <div className={style.wrapper}>
+          <div style={{ background: backgroundColor }} className={style.textarea}>
+            <div ref={jpTextElementRef} />
+          </div>
           <div>
             背景色変更
             <SelectComponent
@@ -101,12 +122,9 @@ const ToolsSpeechPageComponent = (props: Props) => {
               ))}
             </SelectComponent>
           </div>
-          <div style={{ background: backgroundColor }} className={style.textarea}>
-            <div ref={jpTextElementRef} />
-          </div>
           ログ
           <br />
-          <textarea id="log" />
+          <TextAreaComponent DefalutValue={log} Placeholder="" ReadOnly={true} />
         </div>
       </WrapperComponent>
     </>

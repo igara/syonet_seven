@@ -4,7 +4,7 @@ type Props = {
   OnChangeHandler?: Function;
   DefalutValue: string;
   Placeholder: string;
-  ClassName: string;
+  ClassName?: string;
   ReadOnly?: boolean;
 };
 
