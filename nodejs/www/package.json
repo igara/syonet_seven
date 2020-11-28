@@ -74,7 +74,7 @@
     "typescript-fsa-redux-thunk": "2.1.9",
     "uuid": "7.0.3",
     "wavesurfer.js": "4.0.1",
-    "web-push": "3.4.0",
+    "web-push": "3.4.4",
     "ws": "7.2.3"
   },
   "devDependencies": {
