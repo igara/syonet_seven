@@ -2,6 +2,9 @@ version: 1
 update_configs:
   - package_manager: "javascript"
     directory: "/nodejs/www"
-    update_schedule: "live"
+    update_schedule: "daily"
     default_reviewers:
       - "igara"
+    allowed_updates:
+      - match:
+          update_type: "security"
