@@ -1,14 +1,12 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import toolsSsbStyle from "@www/styles/tools/ssb.module.css";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
-import { AppState } from "@www/stores";
+import { wrapper } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 
@@ -17,19 +15,14 @@ const ogp = {
   path: "ogp/tools/ssb",
 };
 
-type Props = AppState;
-
-const ToolsSsbPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsSsbPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -38,7 +31,6 @@ const ToolsSsbPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-        setState(store.getState());
       })();
     }
   }, []);
@@ -54,7 +46,7 @@ const ToolsSsbPageComponent = (props: Props) => {
         <meta property="og:description" content="パクリゲー" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <div className={toolsSsbStyle.wrapper}>
           <h2>{ogp.title}</h2>
           <h3>ルール説明</h3>
@@ -108,17 +100,15 @@ const ToolsSsbPageComponent = (props: Props) => {
   );
 };
 
-ToolsSsbPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsSsbPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

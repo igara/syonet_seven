@@ -1,14 +1,12 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import style from "@www/styles/tools/speech.module.css";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
-import { AppState } from "@www/stores";
+import { wrapper } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 import { SelectComponent } from "@www/components/common/input/select";
@@ -19,21 +17,16 @@ const ogp = {
   path: "ogp/tools/speech",
 };
 
-type Props = AppState;
-
 let logText = "";
 
-const ToolsSpeechPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsSpeechPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -53,7 +46,6 @@ const ToolsSpeechPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-        setState(store.getState());
 
         if (!recognition) {
           const speechRecognition = webkitSpeechRecognition || SpeechRecognition;
@@ -104,7 +96,7 @@ ${text}`;
         <meta property="og:description" content="音声を元にテキスト化する" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <div className={style.wrapper}>
           <div style={{ background: backgroundColor, fontSize: `${fontSize}px` }} className={style.textarea}>
             <div ref={jpTextElementRef} />
@@ -144,17 +136,15 @@ ${text}`;
   );
 };
 
-ToolsSpeechPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsSpeechPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

@@ -1,11 +1,6 @@
-import Document, { Head, Main, NextScript, DocumentContext } from "next/document";
+import NextDocument, { Html, Head, Main, NextScript } from "next/document";
 
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
-  }
-
+export default class MyDocument extends NextDocument {
   render() {
     const ga = `
     window.dataLayer = window.dataLayer || [];
@@ -18,7 +13,7 @@ export default class MyDocument extends Document {
 `;
 
     return (
-      <html>
+      <Html>
         <Head>
           <link rel="shortcut icon" href="/static/favicon.ico" />
           <script async src="/notification.js"></script>
@@ -33,7 +28,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

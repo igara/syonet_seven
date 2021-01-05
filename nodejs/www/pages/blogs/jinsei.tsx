@@ -1,14 +1,13 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { getJinsei } from "@www/actions/blogs/jinsei";
-import { AppState } from "@www/stores";
+import { callJinsei } from "@www/libs/fetchs/github/jinsei";
+import { wrapper, AppState } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 
@@ -17,13 +16,13 @@ const ogp = {
   path: "ogp/blogs/jinsei",
 };
 
-type Props = AppState;
+type Props = {
+  jinsei?: string;
+};
 
 const BlogsJinseiPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+  const state = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const store = useStore();
-  const storeState: AppState = store.getState();
 
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
@@ -31,7 +30,6 @@ const BlogsJinseiPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -43,11 +41,6 @@ const BlogsJinseiPageComponent = (props: Props) => {
       if (process.browser) {
         await loadCheckAuth();
       }
-      setState({
-        ...storeState,
-        ...state,
-        qiitaItem: state.qiitaItem,
-      });
     })();
   }, []);
 
@@ -62,25 +55,26 @@ const BlogsJinseiPageComponent = (props: Props) => {
         <meta property="og:description" content="ブログ人生" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
-        <div dangerouslySetInnerHTML={{ __html: state.jinsei.jinsei.data.jinsei }}></div>
+      <WrapperComponent>
+        <div dangerouslySetInnerHTML={{ __html: props.jinsei ? props.jinsei : state.jinsei.jinsei.data.jinsei }}></div>
       </WrapperComponent>
     </>
   );
 };
 
-BlogsJinseiPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  await context.store.dispatch<any>(getJinsei.action());
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default BlogsJinseiPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  const jinsei = await callJinsei();
+
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {
+      jinsei,
+    },
+  };
+});

@@ -1,14 +1,12 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
-import { getItems, setItems } from "@www/actions/blogs/qiita/items";
-import { AppState } from "@www/stores";
+import { getItems } from "@www/actions/blogs/qiita/items";
+import { AppState, wrapper } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { LinkComponent } from "@www/components/common/link";
 import { createOGPImage } from "@www/libs/ogp_image";
@@ -18,12 +16,9 @@ const ogp = {
   path: "ogp/blogs/qiita",
 };
 
-type Props = AppState;
-
-const BlogsQiitaPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const BlogsQiitaPageComponent = () => {
+  const state = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const store = useStore();
 
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
@@ -31,7 +26,6 @@ const BlogsQiitaPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -40,18 +34,11 @@ const BlogsQiitaPageComponent = (props: Props) => {
     (async () => {
       if (state.qiitaItems.items.data.items.length === 0) {
         await dispatch<any>(getItems.action());
-      } else {
-        await dispatch<any>(setItems.action(state.qiitaItems.items.data.items));
       }
 
       if (process.browser) {
         await loadCheckAuth();
       }
-
-      setState({
-        ...store.getState(),
-        qiitaItems: state.qiitaItems,
-      });
     })();
   }, []);
 
@@ -76,7 +63,7 @@ const BlogsQiitaPageComponent = (props: Props) => {
         <meta property="og:description" content="Qiita バックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <h1>{ogp.title}</h1>
         <ul>{itemsElement}</ul>
       </WrapperComponent>
@@ -84,18 +71,17 @@ const BlogsQiitaPageComponent = (props: Props) => {
   );
 };
 
-BlogsQiitaPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  await context.store.dispatch<any>(getItems.action());
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default BlogsQiitaPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async context => {
+  await context.store.dispatch<any>(getItems.action());
+
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

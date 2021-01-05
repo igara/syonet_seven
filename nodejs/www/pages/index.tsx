@@ -1,12 +1,10 @@
-import { NextPageContext } from "next";
 import Head from "next/head";
+import { wrapper } from "@www/stores";
 import { WrapperComponent } from "@www/components/wrapper";
-import { AppState } from "@www/stores";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { db } from "@www/models/dexie/db";
-import { useDispatch, useStore } from "react-redux";
-import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { createOGPImage } from "@www/libs/ogp_image";
@@ -18,19 +16,16 @@ const ogp = {
 
 type Props = {
   token: string;
-} & AppState;
+};
 
 const IndexPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -46,8 +41,6 @@ const IndexPageComponent = (props: Props) => {
         }
 
         await loadCheckAuth();
-
-        setState(store.getState());
       })();
     }
   }, []);
@@ -63,7 +56,7 @@ const IndexPageComponent = (props: Props) => {
         <meta property="og:description" content="五十嵐翔の個人サイト" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         なんとなくdiscordはじめてみました。ChatOps的な何かとかやってます。ご自由にご参加ください。
         <iframe
           src="https://discordapp.com/widget?id=426647501643317252&theme=light&username=anonimas"
@@ -77,18 +70,19 @@ const IndexPageComponent = (props: Props) => {
   );
 };
 
-IndexPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const token = context.query.token;
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state, token };
-};
-
 export default IndexPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async context => {
+  const token = context.query.token;
+
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {
+      token: token || null,
+    },
+  };
+});

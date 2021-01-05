@@ -1,10 +1,8 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
-import { AppState } from "@www/stores";
+import { wrapper } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -17,19 +15,14 @@ const ogp = {
   path: "ogp/tools",
 };
 
-type Props = AppState;
-
-const ToolsPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -38,7 +31,6 @@ const ToolsPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-        setState(store.getState());
       })();
     }
   }, []);
@@ -54,7 +46,7 @@ const ToolsPageComponent = (props: Props) => {
         <meta property="og:description" content="Toolたち" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <ul>
           <li>
             <a href="/games/ssb" target="_blank" rel="noopener">
@@ -84,17 +76,15 @@ const ToolsPageComponent = (props: Props) => {
   );
 };
 
-ToolsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

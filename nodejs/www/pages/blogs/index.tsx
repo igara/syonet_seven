@@ -1,10 +1,8 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
-import { AppState } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { wrapper } from "@www/stores";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -17,12 +15,8 @@ const ogp = {
   path: "ogp/blogs",
 };
 
-type Props = AppState;
-
-const BlogsPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const BlogsPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
 
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
@@ -30,7 +24,6 @@ const BlogsPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -39,8 +32,6 @@ const BlogsPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-
-        setState(store.getState());
       })();
     }
   }, []);
@@ -56,7 +47,7 @@ const BlogsPageComponent = (props: Props) => {
         <meta property="og:description" content="ブログたち" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <ul>
           <li>
             <LinkComponent href="/blogs/qiita">Qiita バックアップ</LinkComponent>
@@ -97,17 +88,15 @@ const BlogsPageComponent = (props: Props) => {
   );
 };
 
-BlogsPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default BlogsPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

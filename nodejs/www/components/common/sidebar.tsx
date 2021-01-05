@@ -7,12 +7,10 @@ import { AppState } from "@www/stores";
 import { db } from "@www/models/dexie/db";
 import { LinkComponent } from "@www/components/common/link";
 
-type Props = AppState;
-
 /**
  * サイドバーを表示するコンポーネント
  */
-export const SidebarComponent = (props: Props) => {
+export const SidebarComponent = () => {
   const states = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
 
@@ -33,7 +31,7 @@ export const SidebarComponent = (props: Props) => {
         <li className={sidebarStyle.sidebar_link_list} onClick={() => dispatch(sidebarActions.onClickHome(false))}>
           <LinkComponent href="/">ホーム</LinkComponent>
         </li>
-        {props.auth.id && props.auth.snsID ? (
+        {states.auth.id && states.auth.snsID ? (
           <li
             className={sidebarStyle.sidebar_link_list}
             onClick={async () => {

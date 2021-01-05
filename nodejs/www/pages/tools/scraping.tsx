@@ -1,13 +1,11 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import toolsScrapingStyle from "@www/styles/tools/scraping.module.css";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
-import { AppState } from "@www/stores";
+import { AppState, wrapper } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect, ChangeEvent } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { TextComponent } from "@www/components/common/input/text";
 import { TextAreaComponent } from "@www/components/common/input/textarea";
@@ -27,12 +25,9 @@ const ogp = {
   path: "ogp/tools/scraping",
 };
 
-type Props = AppState;
-
-const ToolsScrapingPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsScrapingPageComponent = () => {
+  const state = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const store = useStore();
 
   const [url, setURL] = useState("");
   const changeURL = (event: ChangeEvent<HTMLInputElement>) => setURL(event.target.value);
@@ -63,7 +58,6 @@ const ToolsScrapingPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -72,7 +66,6 @@ const ToolsScrapingPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-        setState(store.getState());
       })();
     }
   }, []);
@@ -90,7 +83,7 @@ const ToolsScrapingPageComponent = (props: Props) => {
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <div className={toolsScrapingStyle.wrapper}>
           <h2>{ogp.title}</h2>
           <div>{description}</div>
@@ -218,17 +211,15 @@ const ToolsScrapingPageComponent = (props: Props) => {
   );
 };
 
-ToolsScrapingPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsScrapingPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

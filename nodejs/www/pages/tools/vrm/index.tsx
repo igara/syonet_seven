@@ -1,11 +1,9 @@
 import { WrapperComponent } from "@www/components/wrapper";
 import vrmStyle from "@www/styles/tools/vrm.module.css";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
-import { AppState } from "@www/stores";
+import { wrapper } from "@www/stores";
 import Head from "next/head";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -166,19 +164,14 @@ const vrmLoad = async (divElement: HTMLDivElement, videoElement: HTMLVideoElemen
   });
 };
 
-type Props = AppState;
-
-const ToolsVRMPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsVRMPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -222,7 +215,6 @@ const ToolsVRMPageComponent = (props: Props) => {
         await vrmLoad(vrmElement, videoElement);
 
         await loadCheckAuth();
-        setState(store.getState());
       })();
     }
   }, []);
@@ -240,7 +232,7 @@ const ToolsVRMPageComponent = (props: Props) => {
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <h2>{ogp.title}</h2>
         <div>{description}</div>
         <div ref={vrmElementRef} style={{ background: vrmBackgroundColor }} className={vrmStyle.vrm} />
@@ -278,17 +270,15 @@ const ToolsVRMPageComponent = (props: Props) => {
   );
 };
 
-ToolsVRMPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsVRMPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

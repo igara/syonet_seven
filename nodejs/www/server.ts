@@ -98,8 +98,7 @@ app.prepare().then(async () => {
     return handle(req, res);
   });
 
-  server.listen(port, err => {
-    if (err) throw err;
+  server.listen(port, () => {
     console.info(`> Ready on http://localhost:${port}`);
   });
 });

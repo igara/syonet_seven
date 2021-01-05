@@ -11,6 +11,7 @@ import { SpeakerdeckDesksState, speakerdeckDesksReducer } from "@www/states/blog
 import { SpeakerdeckImagesState, speakerdeckImagesReducer } from "@www/states/blogs/speakerdeck/images";
 import { JinseiState, jinseiReducer } from "@www/states/blogs/jinsei";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
 
 import logger from "redux-logger";
 
@@ -41,13 +42,15 @@ export const rootReducer = () =>
     jinsei: jinseiReducer,
   });
 
-export const store = createStore(
-  rootReducer(),
-  process.env.NODE_ENV !== "production"
-    ? compose(
-        applyMiddleware(thunk),
-        composeWithDevTools(applyMiddleware(logger)),
-      )
-    : compose(applyMiddleware(thunk)),
-);
-export default store;
+export const store: MakeStore<AppState> = () =>
+  createStore(
+    rootReducer(),
+    process.env.NODE_ENV !== "production"
+      ? compose(
+          applyMiddleware(thunk),
+          composeWithDevTools(applyMiddleware(logger)),
+        )
+      : compose(applyMiddleware(thunk)),
+  );
+
+export const wrapper = createWrapper<AppState>(store);

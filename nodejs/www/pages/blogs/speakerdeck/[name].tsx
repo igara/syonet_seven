@@ -1,14 +1,12 @@
 import { WrapperComponent } from "@www/components/wrapper";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { getImages } from "@www/actions/blogs/speakerdeck/images";
-import { AppState } from "@www/stores";
+import { AppState, wrapper } from "@www/stores";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
@@ -18,18 +16,14 @@ const ogp = {
   path: "ogp/blogs/speakerdeck/name",
 };
 
-type Props = AppState;
-
-const BlogsSpeakerdeckDeskPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const BlogsSpeakerdeckDeskPageComponent = () => {
+  const state = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const store = useStore();
-  const storeState: AppState = store.getState();
   const router = useRouter();
-  const name = process.browser
+  let name = process.browser
     ? decodeURI(location.href.split("/").reverse()[0]).toString()
-    : router.query.name.toString();
-  const [deckElementState, setDeckElementState] = useState(<div />);
+    : router.query.name;
+  name = name ? name.toString() : "";
   const SlideShow = dynamic(() => import("react-slideshow-ui"), { ssr: false });
 
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
@@ -38,36 +32,21 @@ const BlogsSpeakerdeckDeskPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
 
   useEffect(() => {
     (async () => {
-      await dispatch<any>(getImages.action(name.toString()));
+
 
       if (process.browser) {
         await loadCheckAuth();
       }
-      setState({
-        ...storeState,
-        ...state,
-        speakerdeckImages: state.speakerdeckImages,
-      });
 
-      state.speakerdeckImages.images.data.images.length === 0
-        ? setDeckElementState(<div />)
-        : setDeckElementState(
-            <SlideShow
-              style={{}}
-              images={state.speakerdeckImages.images.data.images}
-              withTimestamp={true}
-              pageWillUpdate={(index, image) => {
-                console.log(`Page Update! index: ${index}, image: ${image}`);
-              }}
-            />,
-          );
+      if (state.speakerdeckImages.images.data.images.length === 0) {
+        await dispatch<any>(getImages.action(name?.toString()));
+      }
     })();
   }, []);
 
@@ -82,41 +61,48 @@ const BlogsSpeakerdeckDeskPageComponent = (props: Props) => {
         <meta property="og:description" content="Speaker Deckバックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <h1>{name}</h1>
-        {deckElementState}
+        <SlideShow
+          style={{}}
+          images={state.speakerdeckImages.images.data.images}
+          withTimestamp={true}
+          pageWillUpdate={(index, image) => {
+            console.log(`Page Update! index: ${index}, image: ${image}`);
+          }}
+        />
       </WrapperComponent>
     </>
   );
 };
 
-BlogsSpeakerdeckDeskPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const asPath = context.asPath || "";
-  const name = process.browser ? decodeURI(asPath.split("/").reverse()[0]) : context.query.name;
-  await context.store.dispatch<any>(getImages.action(encodeURI(name.toString())));
+export default BlogsSpeakerdeckDeskPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async context => {
+  let name = context.query.name;
+  name = name ? name.toString() : "";
+  await context.store.dispatch<any>(getImages.action(encodeURI(name)));
   const state: AppState = context.store.getState();
 
-  if (context.isServer) {
-    const requestPromise = (await import("request-promise")).default;
-    const imageUri = encodeURI(state.speakerdeckImages.images.data.images[0]);
+  const requestPromise = (await import("request-promise")).default;
+  const imageUri = encodeURI(state.speakerdeckImages.images.data.images[0]);
 
-    let imageData;
-    if (imageUri) {
-      imageData = await requestPromise({
-        url: imageUri,
-        method: "GET",
-        encoding: null,
-      });
-    }
-
-    await createOGPImage({
-      path: ogp.path,
-      title: name.toString(),
-      image: imageData,
+  let imageData;
+  if (imageUri) {
+    imageData = await requestPromise({
+      url: imageUri,
+      method: "GET",
+      encoding: null,
     });
   }
 
-  return { ...state };
-};
+  await createOGPImage({
+    path: ogp.path,
+    title: name,
+    image: imageData,
+  });
 
-export default BlogsSpeakerdeckDeskPageComponent;
+  return {
+    props: {},
+  };
+});

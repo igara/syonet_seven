@@ -1,14 +1,11 @@
 import { WrapperComponent } from "@www/components/wrapper";
-// import style from "@www/styles/tools/sound.module.css";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
-import { AppState } from "@www/stores";
+import { wrapper } from "@www/stores";
 import Head from "next/head";
 import { TextComponent } from "@www/components/common/input/text";
 import { FileComponent } from "@www/components/common/input/file";
 import { ButtonComponent } from "@www/components/common/input/button";
 import { useState, useEffect, ChangeEvent } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -21,12 +18,8 @@ const ogp = {
   path: "ogp/tools/sound",
 };
 
-type Props = AppState;
-
-const ToolsSoundPageComponent = (props: Props) => {
-  const [state, setState] = useState(props);
+const ToolsSoundPageComponent = () => {
   const dispatch = useDispatch();
-  const store = useStore();
 
   const [name, setName] = useState("");
   const changeName = (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value);
@@ -110,7 +103,6 @@ const ToolsSoundPageComponent = (props: Props) => {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -134,8 +126,6 @@ const ToolsSoundPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-
-        setState(store.getState());
       })();
     }
   }, []);
@@ -153,7 +143,7 @@ const ToolsSoundPageComponent = (props: Props) => {
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <h2>{ogp.title}</h2>
         <div>{description}</div>
 
@@ -223,17 +213,15 @@ const ToolsSoundPageComponent = (props: Props) => {
   );
 };
 
-ToolsSoundPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default ToolsSoundPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});

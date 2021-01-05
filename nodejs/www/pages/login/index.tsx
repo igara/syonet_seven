@@ -1,15 +1,13 @@
 import Head from "next/head";
+import { wrapper } from "@www/stores";
 import { WrapperComponent } from "@www/components/wrapper";
 import { ButtonComponent as Button } from "@www/components/common/input/button";
-import { NextPageContext } from "next";
-import { AppProps } from "next/app";
 import { authActions } from "@www/actions/common/auth";
 import { termActions } from "@www/actions/common/term";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
-import { AppState } from "@www/stores";
-import { useState, useEffect } from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 
@@ -18,20 +16,15 @@ const ogp = {
   path: "ogp/login",
 };
 
-type Props = AppState;
-
-const LoginPageComponent = (props: Props) => {
+const LoginPageComponent = () => {
   const host = process.env.WWW_HOST;
-  const [state, setState] = useState(props);
   const dispatch = useDispatch();
-  const store = useStore();
   const [loadCheckAuth] = useLazyQuery<CheckAuth>(CHECK_AUTH, {
     onCompleted: async checkAuth => {
       if (!checkAuth.checkAuth) {
         await db.access_tokens.clear();
       } else {
         await dispatch(authActions.checkAuth(checkAuth.checkAuth));
-        setState(store.getState());
       }
     },
   });
@@ -40,7 +33,6 @@ const LoginPageComponent = (props: Props) => {
     if (process.browser) {
       (async () => {
         await loadCheckAuth();
-        setState(store.getState());
       })();
     }
   }, []);
@@ -56,7 +48,7 @@ const LoginPageComponent = (props: Props) => {
         <meta property="og:description" content="ログインページ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <WrapperComponent {...state}>
+      <WrapperComponent>
         <Button>
           <a href={`${host}/auth/google`}>Google</a>
         </Button>
@@ -79,17 +71,15 @@ const LoginPageComponent = (props: Props) => {
   );
 };
 
-LoginPageComponent.getInitialProps = async (context: NextPageContext & AppProps) => {
-  const state: AppState = context.store.getState();
-
-  if (context.isServer) {
-    await createOGPImage({
-      path: ogp.path,
-      title: ogp.title,
-    });
-  }
-
-  return { ...state };
-};
-
 export default LoginPageComponent;
+
+export const getServerSideProps = wrapper.getServerSideProps(async () => {
+  await createOGPImage({
+    path: ogp.path,
+    title: ogp.title,
+  });
+
+  return {
+    props: {},
+  };
+});
