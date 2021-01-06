@@ -28,13 +28,15 @@ RUN apk --update add tzdata && \
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-ENV NODE_ENV=development
-ENV CHOKIDAR_USEPOLLING=true
+
 RUN if [ $NPM_INSTALL = "1" ]; then \
 npm install -g npm && \
 npm run clean:all && \
-npm ci && \
-npm run sw:build ; \
+npm ci ; \
 fi
+
+ENV NODE_ENV=production
+RUN npm run sw:build
+RUN npm run build
 
 CMD ["npm", "run", "start"]

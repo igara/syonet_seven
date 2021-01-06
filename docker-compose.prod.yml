@@ -5,7 +5,7 @@ services:
     shm_size: 256m
     build:
       context: ./nodejs/www
-      dockerfile: www.Dockerfile
+      dockerfile: www.prod.Dockerfile
     ports:
       - 3000:3000
       - 9000:9000

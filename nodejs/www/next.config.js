@@ -3,6 +3,13 @@ const NextWorkboxPlugin = require("next-workbox-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
+  webpackDevMiddleware: config => {
+    config.watchOptions = {
+      poll: 800,
+      aggregateTimeout: 300,
+    };
+    return config;
+  },
   webpack(config, { isServer, buildId }) {
     config.module.rules.push({
       test: /\.svg$/,
