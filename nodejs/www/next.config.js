@@ -1,6 +1,5 @@
 const { TypedCssModulesPlugin } = require("typed-css-modules-webpack-plugin");
 const NextWorkboxPlugin = require("next-workbox-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   webpackDevMiddleware: config => {
@@ -20,7 +19,6 @@ module.exports = {
         globPattern: "styles/**/*.css",
       }),
     );
-    config.plugins.push(new Dotenv());
 
     const workboxOptions = {
       clientsClaim: true,
