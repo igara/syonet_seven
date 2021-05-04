@@ -23,7 +23,6 @@ const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const gamesDir = path.join(__dirname, "./public/games");
 
 app.prepare().then(async () => {
   const server = express();
@@ -75,9 +74,11 @@ app.prepare().then(async () => {
 
   discord.connect();
 
-  server.use("/games/ssb", express.static(gamesDir));
   server.all("/games/ssb", (_req, res) => {
-    return res.sendFile(path.join(gamesDir, "ssb/index.html"));
+    return res.redirect("/games/ssb/index.html");
+  });
+  server.all("/games/ssb/*", (req, res) => {
+    return res.sendFile(path.join(__dirname, "public", req.url));
   });
   server.all("/notification.js", (_req, res) => {
     return res.sendFile(path.join(__dirname, "dist", "notification.js"));
