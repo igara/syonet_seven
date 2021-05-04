@@ -1,5 +1,5 @@
 .content_wrap_div {
   height: 80%;
-  overflow: scroll;
+  overflow-y: scroll;
   background: #fff;
 }
