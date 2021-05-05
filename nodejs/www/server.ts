@@ -6,18 +6,18 @@ import next from "next";
 import passport from "passport";
 import compression from "compression";
 import { config } from "dotenv";
-import * as WebSocket from "ws";
+// import * as WebSocket from "ws";
 import fs from "fs";
 import path from "path";
-config({ path: path.resolve(__dirname, ".env") });
+config({ path: path.resolve(__dirname, "../../.env") });
 import authFacebook from "@www/server/passport/facebook";
 import authGoogle from "@www/server/passport/google";
 import authGithub from "@www/server/passport/github";
 import "@www/server/passport/jwt";
-import * as discord from "@www/server/discord";
+// import * as discord from "@www/server/discord";
 import { graphqlServer } from "@www/server/graphql";
 import { connect as connectTypeORM } from "@www/models/typeorm/connection";
-import { ssbSocketRoute } from "@www/server/ws/ssb";
+// import { ssbSocketRoute } from "@www/server/ws/ssb";
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -26,10 +26,10 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
-  const ssbWss = new WebSocket.Server({
-    port: 9000,
-    host: "0.0.0.0",
-  });
+  // const ssbWss = new WebSocket.Server({
+  //   port: 9000,
+  //   host: "0.0.0.0",
+  // });
 
   const stream = fs.createWriteStream(`${__dirname}/log.txt`, { flags: "a" });
   server.use(logger("combined", { stream: stream }));
@@ -70,9 +70,9 @@ app.prepare().then(async () => {
 
   await graphqlServer(server);
 
-  ssbSocketRoute(ssbWss);
+  // ssbSocketRoute(ssbWss);
 
-  discord.connect();
+  // discord.connect();
 
   server.all("/games/ssb", (_req, res) => {
     return res.redirect("/games/ssb/index.html");

@@ -12,7 +12,6 @@ export const connect = () => {
   const TOKEN = process.env.DISCORD_BOT_TOKEN;
   const CHANNEL_ID = process.env.DISCORD_BOT_CHANNEL_ID;
   const ADMIN_USER_ID = JSON.parse(process.env.DISCORD_ADMIN_USER_ID || "");
-  const REMOTE_DEPLOY_COMMAND = process.env.REMOTE_DEPLOY_COMMAND || "";
   const DISCORD_WEBHOCK = process.env.DISCORD_WEBHOCK;
 
   const contact = process.env.WEBPUSH_CONTACT || "";
@@ -37,9 +36,7 @@ export const connect = () => {
       return;
     }
     if (message.content === "@bot help") {
-      const sendText = `デプロイ: @bot deploy latest
-通知: @bot webpush [通知タイトル] [通知メッセージ]
-`;
+      const sendText = `通知: @bot webpush [通知タイトル] [通知メッセージ]`;
       message
         .reply(sendText)
         .then(() => {
@@ -47,28 +44,7 @@ export const connect = () => {
         })
         .catch(console.error);
     }
-    // メッセージの文字列による条件分岐
-    if (message.content === "@bot deploy latest") {
-      const author = message.author;
-      if (ADMIN_USER_ID.includes(+author.id)) {
-        const sendText = `今からsyonet.workを最新化します。`;
-        message
-          .reply(sendText)
-          .then(() => {
-            console.log(`Sent message: ${sendText}`);
-            const result = child_process.execSync(REMOTE_DEPLOY_COMMAND);
-            console.log(result);
-          })
-          .catch(console.error);
-      } else {
-        const sendText = `どうも。${author.username}さん。
-このコマンドの実行権限はございません。`;
-        message
-          .reply(sendText)
-          .then(() => console.log(`Sent message: ${sendText}`))
-          .catch(console.error);
-      }
-    }
+
     if (/^@bot webpush \[\S+\] \[\S+\]/.test(message.content)) {
       const author = message.author;
       if (ADMIN_USER_ID.includes(+author.id)) {

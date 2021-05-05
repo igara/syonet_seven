@@ -8,67 +8,23 @@
 
 ### 初回起動時
 
-#### 普通に docker で起動する時
+#### ローカルに必要な環境を構築
 
 ```
 cd syonet_seven
 # 環境設定
 sh env.sh local
-# オレオレ証明書
-brew install mkcert
-mkcert -install
-(cd data/openssl && mkcert localhost 127.0.0.1)
+# DB起動
 docker-compose up -d
+# Webサーバー起動
+cd nodejs/www && npm run start
 ```
-
-#### ホスト的な意味で VM を交わす時
-
-```
-cd syonet_seven
-# 環境設定
-sh env.sh local-vm
-# vagrantfileにコメント記載している箇所を修正
-vagrant up --provision
-```
-
-vagrant の OS に SSH する
-
-```
-cd syonet_seven
-vagrant ssh
-(cd /vagrant && docker-compose up --build -d)
-
-# 静的ファイルのビルドを行う
-(cd /vagrant && docker-compose exec www yarn build)
-
-# 起動確認はこちら
-(cd /vagrant && docker-compose logs -f)
-# wwwがupになって入ればOK
-(cd /vagrant && docker-compose ps)
-# コンテナの中に入る
-(cd /vagrant/ && docker-compose exec www sh)
-```
-
-こちらは local.syonet.work で入れる
 
 #### DB 接続
-
-ホストから繋げたいとき
-
-```
-brew install mutagen-io/mutagen/mutagen
-
-mutagen forward create --name syonet-seven-mysql tcp::3306 docker://syonet_seven_mysql_1:tcp::3306
-
-mutagen sync terminate syonet-seven-mysql
-
-```
 
 migration
 
 ```
-docker-compose exec www sh
-
 # Entryの定義をDBに反映
 npm run typeorm:migration:generate
 npm run typeorm:migration:run
