@@ -13,6 +13,7 @@ import { VRM, VRMUtils, VRMSchema } from "@pixiv/three-vrm";
 import * as facemesh from "@tensorflow-models/facemesh";
 import { SelectComponent } from "@www/components/common/input/select";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   title: "VRM Reader",
@@ -141,7 +142,7 @@ const vrmLoad = async (divElement: HTMLDivElement, videoElement: HTMLVideoElemen
       error => console.error(error),
     );
 
-  load("/static/vrm/igarashi.vrm");
+  load("/vrm/igarashi.vrm");
 
   divElement.addEventListener("dragover", event => {
     event.preventDefault();
@@ -191,6 +192,8 @@ const ToolsVRMPageComponent = () => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
+
         if (!videoElementRef.current) return;
         if (!vrmElementRef.current) return;
 
@@ -228,7 +231,7 @@ const ToolsVRMPageComponent = () => {
         <meta name="description" content={description}></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

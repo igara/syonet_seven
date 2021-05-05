@@ -5,6 +5,7 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { db } from "@www/models/dexie/db";
 import { authActions } from "@www/actions/common/auth";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const NotFoundPageComponent = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const NotFoundPageComponent = () => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
         await loadCheckAuth();
       })();
     }

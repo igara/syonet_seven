@@ -36,7 +36,6 @@ npm ci ; \
 fi
 
 ENV NODE_ENV=production
-RUN npm run sw:build
 RUN npm run build
 
 CMD ["npm", "run", "start"]

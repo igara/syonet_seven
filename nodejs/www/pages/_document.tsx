@@ -15,9 +15,7 @@ export default class MyDocument extends NextDocument {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
-          <script async src="/notification.js"></script>
-          <script async src="/sw_register.js"></script>
+          <link rel="shortcut icon" href="/favicon.ico" />
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_MANAGER_ID}`}

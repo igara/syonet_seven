@@ -11,6 +11,7 @@ import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
 import { SelectComponent } from "@www/components/common/input/select";
 import { TextAreaComponent } from "@www/components/common/input/textarea";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   title: "Speech To Text",
@@ -45,6 +46,7 @@ const ToolsSpeechPageComponent = () => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
         await loadCheckAuth();
 
         if (!recognition) {
@@ -92,7 +94,7 @@ ${text}`;
         <meta content="音声を元にテキスト化する" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="音声を元にテキスト化する" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

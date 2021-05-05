@@ -55,7 +55,7 @@ export const createOGPImage = async (ogpProps: OGPImageProps) => {
   const height = 630;
   const fontSize = 100;
 
-  Canvas.registerFont("static//NotoSansJP-Regular.otf", { family: "NotoSansJP" });
+  Canvas.registerFont("public/fonts/NotoSansJP-Regular.otf", { family: "NotoSansJP" });
   const canvas = new Canvas.Canvas(width, height);
   const canvasContext = canvas.getContext("2d");
 
@@ -81,6 +81,6 @@ export const createOGPImage = async (ogpProps: OGPImageProps) => {
   wrapText(canvasContext, ogpProps.title, 10, 200, width, 500, fontSize);
   const currentBuffer = Buffer.from(canvas.toDataURL().split(",")[1], "base64");
 
-  fs.mkdirSync(`dist/${ogpProps.path}`, { recursive: true });
-  fs.writeFileSync(`dist/${ogpProps.path}/${encodeURI(ogpProps.title)}.png`, currentBuffer);
+  fs.mkdirSync(`public/${ogpProps.path}`, { recursive: true });
+  fs.writeFileSync(`public/${ogpProps.path}/${ogpProps.title}.png`, currentBuffer);
 };

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   title: "Syonetトップページ",
@@ -33,6 +34,8 @@ const IndexPageComponent = (props: Props) => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
+
         if (props.token) {
           await db.access_tokens.clear();
           await db.access_tokens.put({
@@ -52,7 +55,7 @@ const IndexPageComponent = (props: Props) => {
         <meta content="五十嵐翔の個人サイト" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="五十嵐翔の個人サイト" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

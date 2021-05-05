@@ -11,6 +11,7 @@ import { db } from "@www/models/dexie/db";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   path: "ogp/blogs/speakerdeck/name",
@@ -38,14 +39,13 @@ const BlogsSpeakerdeckDeskPageComponent = () => {
 
   useEffect(() => {
     (async () => {
-
-
-      if (process.browser) {
-        await loadCheckAuth();
-      }
-
       if (state.speakerdeckImages.images.data.images.length === 0) {
         await dispatch<any>(getImages.action(name?.toString()));
+      }
+
+      if (process.browser) {
+        await requestWebpush();
+        await loadCheckAuth();
       }
     })();
   }, []);
@@ -57,7 +57,7 @@ const BlogsSpeakerdeckDeskPageComponent = () => {
         <meta content="Speaker Deckバックアップ" name="description"></meta>
         <meta property="og:title" content={name} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(name)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${name}.png`} />
         <meta property="og:description" content="Speaker Deckバックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

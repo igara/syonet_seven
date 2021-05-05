@@ -12,6 +12,7 @@ import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { CHECK_AUTH, CheckAuth } from "@www/libs/apollo/gql/auth";
 import { CREATE_SOUND, CreateSound, SEARCH_SOUND, SearchSound } from "@www/libs/apollo/gql/sound";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   title: "音楽検索",
@@ -125,6 +126,7 @@ const ToolsSoundPageComponent = () => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
         await loadCheckAuth();
       })();
     }
@@ -139,7 +141,7 @@ const ToolsSoundPageComponent = () => {
         <meta name="description" content={description}></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

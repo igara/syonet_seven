@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   title: "SUPER SUPER BROS.",
@@ -30,6 +31,7 @@ const ToolsSsbPageComponent = () => {
   useEffect(() => {
     if (process.browser) {
       (async () => {
+        await requestWebpush();
         await loadCheckAuth();
       })();
     }
@@ -42,7 +44,7 @@ const ToolsSsbPageComponent = () => {
         <meta content="パクリゲー" name="description"></meta>
         <meta property="og:title" content={ogp.title} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(ogp.title)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${ogp.title}.png`} />
         <meta property="og:description" content="パクリゲー" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

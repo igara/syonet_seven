@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { db } from "@www/models/dexie/db";
 import { useRouter } from "next/router";
 import { createOGPImage } from "@www/libs/ogp_image";
+import { requestWebpush } from "@www/libs/apollo/gql/webpush";
 
 const ogp = {
   path: "ogp/blogs/qiita/name",
@@ -40,6 +41,7 @@ const BlogsQiitaItemPageComponent = () => {
       await dispatch<any>(getItem.action(name?.toString()));
 
       if (process.browser) {
+        await requestWebpush();
         await loadCheckAuth();
       }
     })();
@@ -52,7 +54,7 @@ const BlogsQiitaItemPageComponent = () => {
         <meta content="Qiita バックアップ" name="description"></meta>
         <meta property="og:title" content={name} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${encodeURI(name)}.png`} />
+        <meta property="og:image" content={`${process.env.WWW_HOST}/${ogp.path}/${name}.png`} />
         <meta property="og:description" content="Qiita バックアップ" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

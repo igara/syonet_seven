@@ -38,7 +38,7 @@ export const SidebarComponent = () => {
               if (process.browser) {
                 await db.access_tokens.clear();
                 await dispatch(sidebarActions.onClickLogout(false));
-                location.href = "/";
+                location.reload();
               }
             }}
           >
@@ -74,7 +74,7 @@ export const SidebarComponent = () => {
             if (process.browser) {
               await db.delete();
               await dispatch(sidebarActions.onClickCacheClear(false));
-              location.href = "/";
+              location.reload();
             }
           }}
         >

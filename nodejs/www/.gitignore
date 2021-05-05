@@ -25,10 +25,9 @@ yarn-debug.log*
 yarn-error.log*
 log.txt
 
-static/workbox
-notification.js
-sw_register.js
-dist
+public/workbox-*
+public/sw.js*
+public/worker*
+public/ogp
 models/typeorm/migrations/*.ts
-!static/ogp/.gitignore
-static/ogp
+worker/index.js

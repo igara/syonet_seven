@@ -33,8 +33,7 @@ ENV CHOKIDAR_USEPOLLING=true
 RUN if [ $NPM_INSTALL = "1" ]; then \
 npm install -g npm && \
 npm run clean:all && \
-npm ci && \
-npm run sw:build ; \
+npm ci ; \
 fi
 
 CMD ["npm", "run", "start"]

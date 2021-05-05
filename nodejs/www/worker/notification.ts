@@ -1,8 +1,6 @@
 export default null;
 declare const self: ServiceWorkerGlobalScope;
 
-// eslint-disable-next-line no-undef
-// if (typeof window !== "undefined" && window !== null) {
 self.addEventListener(
   "install",
   event => {
