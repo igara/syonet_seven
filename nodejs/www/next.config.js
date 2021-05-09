@@ -33,14 +33,6 @@ module.exports = withPWA({
       }),
     );
 
-    // if (!isServer) {
-    //   config.resolve.fallback = {
-    //     fs: "empty",
-    //     net: "empty",
-    //     tls: "empty",
-    //   };
-    // }
-
     return config;
   },
 });

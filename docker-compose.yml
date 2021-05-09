@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  serverless-build:
+    image: amazon/aws-sam-cli-build-image-nodejs14.x
+    tty: true
+    command: /bin/sh -c "while :; do sleep 10; done"
+    volumes:
+      - ./:/syonet_seven
+    working_dir: /syonet_seven/nodejs/www
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
   mysql:
     image: mysql:8
     ports:
