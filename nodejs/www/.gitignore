@@ -32,4 +32,4 @@ models/typeorm/migrations/*.ts
 worker/index.js
 .serverless
 .serverless_nextjs
-.css.d.ts
+*.module.css.d.ts
