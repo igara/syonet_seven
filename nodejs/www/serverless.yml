@@ -1,0 +1,9 @@
+syonet:
+  component: "./node_modules/@sls-next/serverless-component"
+  inputs:
+    domain: "syonet.work"
+    memory:
+      defaultLambda: 512
+    runtime:
+      defaultLambda: "nodejs14.x"
+    bucketRegion: "us-east-1"

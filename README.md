@@ -13,7 +13,7 @@
 ```
 cd syonet_seven
 # 環境設定
-sh env.sh local
+sh env.sh development
 # DB起動
 docker-compose up -d
 # Webサーバー起動
@@ -32,4 +32,21 @@ npm run typeorm:migration:run
 # migration export
 npm run mysqldef:migration:export
 npm run mysqldef:migration:import
+```
+
+#### Serverless デプロイ
+
+```
+# aws認証
+aws configure
+
+# デプロイ
+docker-compose up -d
+docker-compose exec serverless-build bash
+cd /syonet_seven/nodejs/www
+npm install
+npx serverless
+
+# 削除
+npx serverless remove
 ```

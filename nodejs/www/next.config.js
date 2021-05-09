@@ -1,5 +1,7 @@
 const { TypedCssModulesPlugin } = require("typed-css-modules-webpack-plugin");
 const withPWA = require("next-pwa");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 module.exports = withPWA({
   future: {

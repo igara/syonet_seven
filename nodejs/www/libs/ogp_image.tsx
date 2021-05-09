@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as Canvas from "canvas";
+// import * as fs from "fs";
+// import * as Canvas from "canvas";
 
 type OGPImageProps = {
   title: string;
@@ -7,8 +7,9 @@ type OGPImageProps = {
   image?: string;
 };
 
-const wrapText = (
-  context: Canvas.CanvasRenderingContext2D,
+export const wrapText = (
+  // context: Canvas.CanvasRenderingContext2D,
+  context: any,
   text: string,
   x: number,
   y: number,
@@ -51,36 +52,36 @@ const wrapText = (
 };
 
 export const createOGPImage = async (ogpProps: OGPImageProps) => {
-  const width = 1200;
-  const height = 630;
-  const fontSize = 100;
+  // const width = 1200;
+  // const height = 630;
+  // const fontSize = 100;
 
-  Canvas.registerFont("public/fonts/NotoSansJP-Regular.otf", { family: "NotoSansJP" });
-  const canvas = new Canvas.Canvas(width, height);
-  const canvasContext = canvas.getContext("2d");
+  // Canvas.registerFont("public/fonts/NotoSansJP-Regular.otf", { family: "NotoSansJP" });
+  // const canvas = new Canvas.Canvas(width, height);
+  // const canvasContext = canvas.getContext("2d");
 
-  const Image = Canvas.Image;
+  // const Image = Canvas.Image;
   if (ogpProps.image) {
-    const ogpPropsImage = new Image();
-    ogpPropsImage.src = ogpProps.image;
-    const ratio = width / ogpPropsImage.width;
-    canvasContext.drawImage(ogpPropsImage, 0, 0, width, ogpPropsImage.height * ratio);
+    // const ogpPropsImage = new Image();
+    // ogpPropsImage.src = ogpProps.image;
+    // const ratio = width / ogpPropsImage.width;
+    // canvasContext.drawImage(ogpPropsImage, 0, 0, width, ogpPropsImage.height * ratio);
   } else {
-    canvasContext.fillStyle = "white";
-    canvasContext.fillRect(0, 0, width, height);
+    // canvasContext.fillStyle = "white";
+    // canvasContext.fillRect(0, 0, width, height);
   }
-  const ogpImageFile = fs.readFileSync(`images/ogp.png`);
-  const ogpImage = new Image();
-  ogpImage.src = ogpImageFile;
-  canvasContext.drawImage(ogpImage, 0, 0, width, height);
+  // const ogpImageFile = fs.readFileSync(`images/ogp.png`);
+  // const ogpImage = new Image();
+  // ogpImage.src = ogpImageFile;
+  // canvasContext.drawImage(ogpImage, 0, 0, width, height);
 
-  canvasContext.font = `${fontSize}px "NotoSansJP"`;
-  canvasContext.lineWidth = 10;
-  canvasContext.strokeStyle = "white";
-  canvasContext.fillStyle = "black";
-  wrapText(canvasContext, ogpProps.title, 10, 200, width, 500, fontSize);
-  const currentBuffer = Buffer.from(canvas.toDataURL().split(",")[1], "base64");
+  // canvasContext.font = `${fontSize}px "NotoSansJP"`;
+  // canvasContext.lineWidth = 10;
+  // canvasContext.strokeStyle = "white";
+  // canvasContext.fillStyle = "black";
+  // wrapText(canvasContext, ogpProps.title, 10, 200, width, 500, fontSize);
+  // const currentBuffer = Buffer.from(canvas.toDataURL().split(",")[1], "base64");
 
-  fs.mkdirSync(`public/${ogpProps.path}`, { recursive: true });
-  fs.writeFileSync(`public/${ogpProps.path}/${ogpProps.title}.png`, currentBuffer);
+  // fs.mkdirSync(`public/${ogpProps.path}`, { recursive: true });
+  // fs.writeFileSync(`public/${ogpProps.path}/${ogpProps.title}.png`, currentBuffer);
 };

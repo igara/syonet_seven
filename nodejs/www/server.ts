@@ -9,7 +9,7 @@ import { config } from "dotenv";
 // import * as WebSocket from "ws";
 import fs from "fs";
 import path from "path";
-config({ path: path.resolve(__dirname, "../../.env") });
+config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 import authFacebook from "@www/server/passport/facebook";
 import authGoogle from "@www/server/passport/google";
 import authGithub from "@www/server/passport/github";

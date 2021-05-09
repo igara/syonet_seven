@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "start": "ts-node -r tsconfig-paths/register --project server.tsconfig.json server.ts",
+    "build": "cross-env NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register --project server.tsconfig.json server.ts",
     "debug": "TS_NODE_PROJECT=server.tsconfig.json node --inspect-brk=0.0.0.0:9228 -r tsconfig-paths/register -r ts-node/register server.ts",
     "stylelint": "stylelint styles/**/*.css",
     "eslint": "eslint . --ext .ts --ext .tsx",
@@ -20,6 +20,10 @@
   },
   "dependencies": {
     "@apollo/react-hooks": "3.1.5",
+    "@babel/core": "7.14.0",
+    "@babel/plugin-proposal-class-properties": "7.10.1",
+    "@babel/plugin-proposal-decorators": "7.10.3",
+    "@babel/plugin-proposal-optional-chaining": "7.9.0",
     "@elastic/elasticsearch": "7.8.0",
     "@pixiv/three-vrm": "0.3.5",
     "@tensorflow-models/facemesh": "0.0.3",
@@ -29,6 +33,8 @@
     "apollo-link-context": "1.0.20",
     "apollo-link-http": "1.5.17",
     "apollo-server-express": "2.14.4",
+    "babel-plugin-module-resolver": "3.2.0",
+    "babel-plugin-transform-typescript-metadata": "0.3.0",
     "body-parser": "1.19.0",
     "canvas": "2.6.1",
     "compression": "1.7.4",
@@ -62,6 +68,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "reflect-metadata": "0.1.13",
+    "request": "2.88.2",
     "request-promise": "4.2.5",
     "three": "0.118.3",
     "type-graphql": "0.17.6",
@@ -75,9 +82,8 @@
     "ws": "7.2.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "7.10.1",
-    "@babel/plugin-proposal-decorators": "7.10.3",
-    "@babel/plugin-proposal-optional-chaining": "7.9.0",
+    "@serverless/core": "1.1.2",
+    "@sls-next/serverless-component": "1.19.1-alpha.4",
     "@types/compression": "1.0.1",
     "@types/cookie-parser": "1.4.2",
     "@types/dexie": "1.3.1",
@@ -104,8 +110,8 @@
     "@types/ws": "7.2.3",
     "@typescript-eslint/eslint-plugin": "2.4.0",
     "@typescript-eslint/parser": "2.4.0",
-    "babel-plugin-module-resolver": "3.2.0",
-    "babel-plugin-transform-typescript-metadata": "0.3.0",
+    "babel-loader": "8.2.2",
+    "cross-env": "^7.0.3",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.4.0",
     "eslint-plugin-jest": "22.21.0",
@@ -119,6 +125,7 @@
     "prettier-stylelint": "0.4.2",
     "redux-devtools-extension": "2.13.8",
     "redux-logger": "3.0.6",
+    "serverless": "2.40.0",
     "stylelint": "13.6.0",
     "stylelint-config-recess-order": "2.0.4",
     "stylelint-config-standard": "20.0.0",
@@ -128,6 +135,7 @@
     "tsconfig-paths": "3.9.0",
     "tsconfig-paths-jest": "0.0.1",
     "typed-css-modules-webpack-plugin": "0.1.2",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "webpack": "5.36.2"
   }
 }
