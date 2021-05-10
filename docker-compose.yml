@@ -8,9 +8,8 @@ services:
     volumes:
       - ./:/syonet_seven
     working_dir: /syonet_seven/nodejs/www
-    environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    env_file:
+      - .env.production
   mysql:
     image: mysql:8
     ports:

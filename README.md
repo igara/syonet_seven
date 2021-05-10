@@ -45,8 +45,8 @@ docker-compose up -d
 docker-compose exec serverless-build bash
 cd /syonet_seven/nodejs/www
 npm install
-npx serverless
+npm run serverless
 
 # 削除
-npx serverless remove
+npm run serverless remove
 ```

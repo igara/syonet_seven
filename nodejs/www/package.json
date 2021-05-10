@@ -5,6 +5,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register --project server.tsconfig.json server.ts",
+    "serverless": "cross-env NODE_ENV=production serverless",
     "debug": "TS_NODE_PROJECT=server.tsconfig.json node --inspect-brk=0.0.0.0:9228 -r tsconfig-paths/register -r ts-node/register server.ts",
     "stylelint": "stylelint styles/**/*.css",
     "eslint": "eslint . --ext .ts --ext .tsx",
@@ -83,7 +84,7 @@
   },
   "devDependencies": {
     "@serverless/core": "1.1.2",
-    "@sls-next/serverless-component": "1.19.1-alpha.4",
+    "@sls-next/serverless-component": "1.19.0",
     "@types/compression": "1.0.1",
     "@types/cookie-parser": "1.4.2",
     "@types/dexie": "1.3.1",
