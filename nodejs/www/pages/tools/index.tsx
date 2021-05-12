@@ -51,7 +51,7 @@ const ToolsPageComponent = () => {
       <WrapperComponent>
         <ul>
           <li>
-            <a href="/games/ssb" target="_blank" rel="noopener">
+            <a href="/games/ssb/index.html" target="_blank" rel="noopener">
               SUPER SUPER BROS.
             </a>
             <ul>
