@@ -33,3 +33,4 @@ worker/index.js
 .serverless
 .serverless_nextjs
 *.module.css.d.ts
+dist

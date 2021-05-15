@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production next build",
-    "start": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register --project server.tsconfig.json server.ts",
+    "build": "cross-env NODE_ENV=production next build && webpack -c webpack.lambda.config.js",
+    "start": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register --project server.tsconfig.json app-dev-server.ts",
     "serverless": "cross-env NODE_ENV=production serverless",
-    "debug": "TS_NODE_PROJECT=server.tsconfig.json node --inspect-brk=0.0.0.0:9228 -r tsconfig-paths/register -r ts-node/register server.ts",
+    "debug": "TS_NODE_PROJECT=server.tsconfig.json node --inspect-brk=0.0.0.0:9228 -r tsconfig-paths/register -r ts-node/register app-dev-server.ts",
     "stylelint": "stylelint styles/**/*.css",
     "eslint": "eslint . --ext .ts --ext .tsx",
     "lint": "npm run stylelint && npm run eslint",
@@ -29,6 +29,7 @@
     "@pixiv/three-vrm": "0.3.5",
     "@tensorflow-models/facemesh": "0.0.3",
     "@tensorflow/tfjs": "1.7.4",
+    "@vendia/serverless-express": "4.3.7",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-client": "2.6.10",
     "apollo-link-context": "1.0.20",
@@ -84,7 +85,7 @@
   },
   "devDependencies": {
     "@serverless/core": "1.1.2",
-    "@sls-next/serverless-component": "1.19.0",
+    "@sls-next/serverless-component": "1.19.1-alpha.5",
     "@types/compression": "1.0.1",
     "@types/cookie-parser": "1.4.2",
     "@types/dexie": "1.3.1",
@@ -132,11 +133,13 @@
     "stylelint-config-standard": "20.0.0",
     "svg-inline-loader": "0.8.0",
     "ts-jest": "26.1.1",
+    "ts-loader": "9.1.2",
     "ts-node": "8.10.2",
     "tsconfig-paths": "3.9.0",
     "tsconfig-paths-jest": "0.0.1",
     "typed-css-modules-webpack-plugin": "0.1.2",
     "typescript": "3.8.3",
-    "webpack": "5.36.2"
+    "webpack": "5.36.2",
+    "webpack-cli": "4.7.0"
   }
 }
