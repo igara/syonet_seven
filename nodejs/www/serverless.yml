@@ -3,7 +3,7 @@ syonet:
   inputs:
     domain: "syonet.work"
     memory:
-      defaultLambda: 512
+      defaultLambda: 128
     runtime:
       defaultLambda: "nodejs14.x"
     bucketRegion: "us-east-1"
