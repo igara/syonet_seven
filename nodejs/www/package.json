@@ -80,7 +80,7 @@
     "uuid": "7.0.3",
     "wavesurfer.js": "4.0.1",
     "web-push": "3.4.0",
-    "ws": "7.2.3"
+    "ws": "7.4.6"
   },
   "devDependencies": {
     "@serverless/core": "1.1.2",
