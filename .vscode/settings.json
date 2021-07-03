@@ -1,5 +1,6 @@
 {
   "eslint.enable": true,
+  "eslint.workingDirectories": ["./nodejs/nest", "./nodejs/next"],
   "prettier.stylelintIntegration": true,
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
