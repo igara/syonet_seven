@@ -70,7 +70,7 @@
     "reflect-metadata": "0.1.13",
     "request": "2.88.2",
     "request-promise": "4.2.5",
-    "three": "0.118.3",
+    "three": "0.125.0",
     "type-graphql": "0.17.6",
     "typeorm": "0.2.25",
     "typescript-fsa": "3.0.0",
