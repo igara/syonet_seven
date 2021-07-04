@@ -16,8 +16,19 @@ cd syonet_seven
 sh env.sh development
 # DB起動
 docker-compose up -d
-# Webサーバー起動
-cd nodejs/www && npm run start
+```
+
+### API サーバー起動
+
+```
+cd syonet_seven/nodejs/express
+npm install
+```
+
+#### develop
+
+```
+npm run start
 ```
 
 #### DB 接続
@@ -37,13 +48,56 @@ npm run mysqldef:migration:import
 #### Serverless デプロイ
 
 ```
+cp serverless.example.yml serverless.yml
+```
+
+serverless.yml に下記の対応のを記載する
+
+- certificateArn: AWS Certificate Manager よりワイルドカードなドメインの Certificate ARN を作成
+- hostsZoneId: AWS Route53 で管理しているホストゾーン ID
+
+```
+# aws認証
+aws configure
+
+# カスタムドメイン作成
+npm run create:domain
+
+# デプロイ
+npm run deploy
+
+# 削除
+npm run close
+
+
+# memo コンテナ起動
+docker-compose up -d
+docker-compose exec serverless-build bash
+```
+
+### Web サーバー起動
+
+```
+cd syonet_seven/nodejs/next
+npm install
+```
+
+#### develop
+
+```
+npm run start
+```
+
+#### Serverless デプロイ
+
+```
 # aws認証
 aws configure
 
 # デプロイ
 docker-compose up -d
 docker-compose exec serverless-build bash
-cd /syonet_seven/nodejs/www
+cd /syonet_seven/nodejs/next
 npm install
 npm run serverless
 

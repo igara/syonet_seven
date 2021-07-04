@@ -7,7 +7,7 @@ services:
     command: /bin/sh -c "while :; do sleep 10; done"
     volumes:
       - ./:/syonet_seven
-    working_dir: /syonet_seven/nodejs/www
+    working_dir: /syonet_seven/nodejs
     env_file:
       - .env.production
   mysql:
