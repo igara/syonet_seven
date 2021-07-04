@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sls offline",
+    "start": "sls offline --httpPort 3001",
     "create:domain": "sls create_domain --stage prod",
     "deploy": "sls deploy --stage prod",
     "close": "sls remove --stage prod"
