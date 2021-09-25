@@ -1,0 +1,48 @@
+.close_icon {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 8vh;
+  max-width: 80px;
+  height: 8vh;
+  max-height: 80px;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  background: rgb(0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  outline: 0;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.close_icon:hover {
+  background: rgb(255, 255, 255);
+}
+
+.close_icon.hidden {
+  display: none;
+}
+
+.close_mark {
+  width: 8vh;
+  max-width: 80px;
+  height: 10px;
+  background-color: rgb(255, 255, 255);
+  transform: rotate(45deg);
+  transition: background-color 1s;
+}
+
+.close_mark::after {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  transform: rotate(90deg);
+  content: "";
+}
+
+.close_icon:hover > .close_mark {
+  background: rgb(0, 0, 0);
+}

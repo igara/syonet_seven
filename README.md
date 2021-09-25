@@ -13,7 +13,7 @@
 ```
 cd syonet_seven
 # 環境設定
-sh env.sh development
+sh env.sh dev
 # DB起動
 docker-compose up -d
 ```
@@ -21,9 +21,20 @@ docker-compose up -d
 ### API サーバー起動
 
 ```
-cd syonet_seven/nodejs/express
+cd syonet_seven/nodejs/api
 npm install
 ```
+
+```
+cp serverless.example.yml serverless.yml
+```
+
+serverless.yml に下記の対応のを記載する
+
+- certificateArn: AWS Certificate Manager よりワイルドカードなドメインの Certificate ARN を作成
+- hostsZoneId: AWS Route53 で管理しているホストゾーン ID
+- Resource RDS: Amazon Aurora Serverless として作成した ARN
+- Resource Secrets Manager: Amazon Aurora Serverless として作成した RDS のリソースに対してのセキュリティの ARN
 
 #### develop
 
@@ -37,8 +48,8 @@ migration
 
 ```
 # Entryの定義をDBに反映
-npm run typeorm:migration:generate
-npm run typeorm:migration:run
+npm run typeorm:migration:generate:development
+npm run typeorm:migration:run:development
 
 # migration export
 npm run mysqldef:migration:export
@@ -48,20 +59,15 @@ npm run mysqldef:migration:import
 #### Serverless デプロイ
 
 ```
-cp serverless.example.yml serverless.yml
-```
-
-serverless.yml に下記の対応のを記載する
-
-- certificateArn: AWS Certificate Manager よりワイルドカードなドメインの Certificate ARN を作成
-- hostsZoneId: AWS Route53 で管理しているホストゾーン ID
-
-```
 # aws認証
 aws configure
 
 # カスタムドメイン作成
 npm run create:domain
+
+# DBマイグレーション
+# npm run production typeorm:migration:run:production
+管理画面作成して実施しようか検討中
 
 # デプロイ
 npm run deploy
@@ -78,7 +84,7 @@ docker-compose exec serverless-build bash
 ### Web サーバー起動
 
 ```
-cd syonet_seven/nodejs/next
+cd syonet_seven/nodejs/www
 npm install
 ```
 
@@ -97,10 +103,47 @@ aws configure
 # デプロイ
 docker-compose up -d
 docker-compose exec serverless-build bash
-cd /syonet_seven/nodejs/next
+cd /syonet_seven/nodejs/www
 npm install
-npm run serverless
+npm run deploy
 
 # 削除
-npm run serverless remove
+npm run close
+```
+
+### SUPER SUPER BROS サーバー起動
+
+client: https://github.com/igara/ssb
+
+```
+cd syonet_seven/nodejs/webpack/ssb
+npm install
+npx sls dynamodb install
+```
+
+```
+cp serverless.example.yml serverless.yml
+```
+
+#### develop
+
+```
+npm run dynamodb
+npm run start
+```
+
+#### Serverless デプロイ
+
+```
+# aws認証
+aws configure
+
+# カスタムドメイン作成
+npm run create:domain
+
+# デプロイ
+npm run deploy
+
+# 削除
+npm run close
 ```

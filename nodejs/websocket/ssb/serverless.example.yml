@@ -1,0 +1,93 @@
+service: syonet-ssb
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 128
+  region: us-east-1
+  profile: default
+  stage: ${opt:stage, 'development'}
+  logRetentionInDays: 7
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource:
+        - "*"
+
+functions:
+  express:
+    handler: src/lambda.expressHandler
+    timeout: 900
+    events:
+      - http: ANY /
+      - http: "ANY {proxy+}"
+  connect:
+    handler: src/lambda.connectHandler
+    timeout: 30
+    events:
+      - websocket:
+          route: $default
+  disconnect:
+    handler: src/lambda.disconnectHandler
+    timeout: 30
+    events:
+      - websocket:
+          route: $disconnect
+
+plugins:
+  - serverless-offline
+  - serverless-domain-manager
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-dotenv-plugin
+
+custom:
+  customDomain:
+    domainName: ssb.syonet.work
+    certificateName: "*.syonet.work"
+    hostsZoneId: XXXXXXXXXXXXXXXXXXXXX
+    certificateArn: arn:aws:acm:us-east-1:XXXXXXXXXXX:certificate/xxxxxx-xxxxxx-xxxxxx
+    createRoute53Record: true
+    stage: ${self:provider.stage}
+    endpointType: edge
+    basePath: ""
+  dotenv:
+    path: ../../../.env.${self:provider.stage}
+  webpack:
+    webpackConfig: "webpack.serverless.config.js"
+    includeModules:
+      packagePath: package.json
+  serverless-offline:
+    useChildProcesses: true
+    allowCache: true
+    websocketPort: 9000
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 5000
+      inMemory: true
+      migrate: true
+      seed: true
+    seed:
+      development:
+        sources:
+          - table: ssbs
+# resources:
+#   Resources:
+#     SSBsTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ssbs
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 1
+#           WriteCapacityUnits: 1

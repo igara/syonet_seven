@@ -13,14 +13,28 @@
       "args": ["--runInBand", "--watch", "--config", "./jest.config.js"]
     },
     {
+      "name": "API Lambda",
       "type": "node",
-      "request": "attach",
-      "protocol": "inspector",
-      "name": "Server Debug",
-      "localRoot": "${workspaceRoot}/nodejs/www/",
-      "remoteRoot": "/www/",
+      "request": "launch",
+      "runtimeArgs": ["--inspect", "--debug-port=9229"],
+      "cwd": "${workspaceRoot}/nodejs/api",
+      "program": "${workspaceFolder}/nodejs/api/node_modules/serverless/bin/serverless",
+      "args": ["offline", "--httpPort", "3001"],
       "port": 9229,
-      "address": "127.0.0.1"
+      "console": "integratedTerminal",
+      "env": { "NODE_ENV": "development" }
+    },
+    {
+      "name": "SSB Lambda",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--inspect", "--debug-port=9230"],
+      "cwd": "${workspaceRoot}/nodejs/websocket/ssb",
+      "program": "${workspaceFolder}/nodejs/websocket/ssb/node_modules/serverless/bin/serverless",
+      "args": ["offline", "--httpPort", "3002"],
+      "port": 9230,
+      "console": "integratedTerminal",
+      "env": { "NODE_ENV": "development" }
     }
   ]
 }

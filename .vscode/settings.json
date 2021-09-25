@@ -1,6 +1,10 @@
 {
   "eslint.enable": true,
-  "eslint.workingDirectories": ["./nodejs/nest", "./nodejs/next"],
+  "eslint.workingDirectories": [
+    "./nodejs/api",
+    "./nodejs/www",
+    "./nodejs/websocket/ssb"
+  ],
   "prettier.stylelintIntegration": true,
   "javascript.validate.enable": false,
   "javascript.format.enable": false,

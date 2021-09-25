@@ -1,0 +1,21 @@
+.header_wrap_ul {
+  display: flex;
+  height: 10%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+  background: #ebffe7;
+}
+
+.header_wrap_ul li:first-child {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: auto;
+}
+
+.header_wrap_ul li:first-child > svg {
+  width: 245px;
+}

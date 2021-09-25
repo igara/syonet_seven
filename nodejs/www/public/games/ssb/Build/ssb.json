@@ -1,0 +1,19 @@
+{
+"companyName": "syonet.work",
+"productName": "ssb",
+"productVersion": "1.0",
+"dataUrl": "ssb.data.unityweb",
+"wasmCodeUrl": "ssb.wasm.code.unityweb",
+"wasmFrameworkUrl": "ssb.wasm.framework.unityweb",
+"asmCodeUrl": "ssb.asm.code.unityweb",
+"asmMemoryUrl": "ssb.asm.memory.unityweb",
+"asmFrameworkUrl": "ssb.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.11f1"
+}

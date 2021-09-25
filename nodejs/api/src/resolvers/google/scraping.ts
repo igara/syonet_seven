@@ -1,0 +1,112 @@
+import "reflect-metadata";
+import {
+  Resolver,
+  Mutation,
+  Query,
+  ObjectType,
+  Field,
+  Ctx,
+  Arg,
+} from "type-graphql";
+import { Auth } from "@api/models/typeorm/entities/auth";
+import * as googleapis from "@api/libs/googleapis";
+// @ts-ignore
+import Inliner from "inliner";
+import { getTimeStamp } from "@api/libs/datetime";
+
+type Context = {
+  user?: number;
+};
+
+@ObjectType()
+class ExecScraping {
+  @Field()
+  html: string;
+}
+
+@ObjectType()
+class SaveScrapingHTML {
+  @Field()
+  fileID: string;
+  @Field()
+  directoryID: string;
+  @Field()
+  html: string;
+  @Field()
+  url: string;
+  @Field()
+  title: string;
+}
+
+@Resolver()
+export class ScrapingResolver {
+  @Query(() => ExecScraping, { nullable: true })
+  async execScraping(@Arg("url") url: string): Promise<ExecScraping> {
+    const inliner = () => {
+      return new Promise<string>(
+        (resolve) =>
+          new Inliner(url, (_: any, html: string) => {
+            resolve(html);
+          })
+      );
+    };
+
+    const html = await inliner();
+
+    return { html };
+  }
+
+  @Mutation(() => SaveScrapingHTML, { nullable: true })
+  async saveScrapingHTML(
+    @Ctx() ctx: Context,
+    @Arg("html") html: string,
+    @Arg("url") url: string,
+    @Arg("title") title: string
+  ): Promise<SaveScrapingHTML | undefined> {
+    if (!ctx.user) {
+      return undefined;
+    }
+
+    const auth = await Auth.findOne({
+      id: Number(ctx.user),
+    });
+
+    if (!auth) {
+      return undefined;
+    }
+
+    const googleClient = googleapis.client(auth.accessToken);
+    const drive = googleapis.drive(googleClient);
+
+    const appFolderID = (await googleapis.getFolderIDByFolderName(
+      drive,
+      googleapis.folderName.app
+    )) as string;
+    const scrapingFolderID = await googleapis.createChildFolderByFolderNameAndFolderID(
+      drive,
+      googleapis.folderName.scraping,
+      appFolderID
+    );
+    await googleapis.createPermission(drive, scrapingFolderID);
+    const scrapingURLFolderID = await googleapis.createChildFolderByFolderNameAndFolderID(
+      drive,
+      url,
+      scrapingFolderID
+    );
+    const scrapingTitleFolderID = await googleapis.createChildFolderByFolderNameAndFolderID(
+      drive,
+      title,
+      scrapingURLFolderID
+    );
+
+    const htmlFileName = `${getTimeStamp()}.html`;
+    const fileID = await googleapis.createHTMLFileByHTMLFileNameAndFolderID(
+      drive,
+      htmlFileName,
+      scrapingTitleFolderID,
+      html
+    );
+
+    return { fileID, directoryID: scrapingFolderID, html, url, title };
+  }
+}
